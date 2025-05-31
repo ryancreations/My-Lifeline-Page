@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Lifeline | Bestie</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <style>/ .panic-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #ff5c
+  <style>
     body {
       font-family: 'Quicksand', sans-serif;
       background-color: #fff8f0;
@@ -67,6 +63,26 @@
       margin: auto;
       display: block;
     }
+
+    /* Secret Panic Button */
+    .panic-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff5c5c;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+    .panic-button:hover {
+      background-color: #e04848;
+    }
   </style>
 </head>
 <body>
@@ -97,7 +113,7 @@
       <p>Remember why you set this boundary. It’s not because you don’t love him—it’s because you love him enough to give him space.</p>
       <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe, so that love doesn't feel like pressure.</strong></p>
       <p>⏳ Countdown:</p>
-      <iframe src="https://www.tickcounter.com/widget/countdown/7408365/you-may-text-andre-in" allowfullscreen></iframe>
+      <iframe src="https://www.tickcounter.com/widget/countdown/7408365/you-may-text-andre-in?theme=Light" title="You May Text Andre In" loading="lazy"></iframe>
     </div>
 
     <div class="section">
@@ -128,6 +144,9 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
   </main>
 
+  <!-- Panic Button -->
+  <button class="panic-button" title="Panic Button" onclick="window.open('https://988lifeline.org', '_blank')">🆘</button>
+
   <script>
     const quotes = [
       "You’ve survived 100% of your worst days so far. That’s badass.",
@@ -142,3 +161,4 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
   </script>
 </body>
 </html>
+
