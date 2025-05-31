@@ -1,3 +1,4 @@
+<!DOCTYPE html>Add commentMore actions
 <!DOCTYPE html>More actions
 <html lang="en">
 <head>
@@ -137,6 +138,7 @@
       <h2>If you feel like texting Andre before the timer is up</h2>
       <p>Remember why you set this boundary. It’s not because you don’t love him—it’s because you love him enough to give him space.</p>
       <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe, so that love doesn't feel like pressure.</strong></p>
+      
 
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
@@ -196,14 +198,20 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
 <!-- YouTube Mix embed for background music -->
 <div class="bg-music">
   <iframe width="0" height="0" 
-    src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
+    src=src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
     title="YouTube Mix Playlist" 
     frameborder="0" 
     allow="autoplay; encrypted-media" 
     allowfullscreen>
   </iframe>
 </div>
-
+ 
+  <!-- YouTube embed for background music -->
+  <div class="bg-music">
+    <iframe width="0" height="0" 
+      src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
+      title="Life Is a Highway" frameborder="0" allow="autoplay"></iframe>
+  </div>
 
   <script>
     // Daily quote
@@ -239,8 +247,10 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
       const seconds = Math.floor((distance / 1000) % 60);
 
+      countdownDisplay.textContent = ${hours.toString().padStart(2, "0")}:${minutes
       countdownDisplay.textContent = `${hours.toString().padStart(2, "0")}:${minutes
         .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")};
         .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
 
@@ -272,6 +282,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const seconds = Math.floor((hours * 3600) % 60);
 
       document.getElementById("calcResult").textContent = 
+        ${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds;
         `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
     }
   </script>
