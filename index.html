@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Lifeline | Bestie</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       font-family: 'Quicksand', sans-serif;
@@ -55,13 +55,11 @@
       color: #555;
       margin-top: 10px;
     }
-    iframe {
-      border: none;
-      width: 100%;
-      max-width: 600px;
-      height: 200px;
-      margin: auto;
-      display: block;
+    #countdown {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #0077aa;
     }
   </style>
 </head>
@@ -92,14 +90,13 @@
       <h2>If you feel like texting Andre before the timer is up</h2>
       <p>Remember why you set this boundary. It’s not because you don’t love him—it’s because you love him enough to give him space.</p>
       <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe, so that love doesn't feel like pressure.</strong></p>
-     <p>…</p>
-      <p>…</p>
+      
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
       <p>⏳ Time left to text Andre:</p>
       <div id="countdown">00:00:00</div>
-      
-  </section>
+    </div>
+
     <div class="section">
       <h2>Message for Andre (Only send after timer ends)</h2>
       <div class="message">
@@ -108,10 +105,6 @@ Hey Andre,
 I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just going to leave you alone. Not because I stopped caring, but because I care for your mental health, and I think this is what’s best sadly, for your sake...
 
 —Ryan
-         <label for="timer-input">Set Your Countdown End Time:</label>
-      <input type="datetime-local" id="timer-input">
-      <p>⏳ Time left to text Andre:</p>
-      <div id="countdown">--:--:--</div>
       </div>
     </div>
 
@@ -133,6 +126,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
   </main>
 
   <script>
+    // Daily quote
     const quotes = [
       "You’ve survived 100% of your worst days so far. That’s badass.",
       "Your feelings are valid. Your struggle is real. And so is your strength.",
@@ -143,6 +137,47 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     ];
     const today = new Date().getDate();
     document.getElementById('daily-quote').textContent = quotes[today % quotes.length];
+
+    // Countdown timer
+    const countdownDisplay = document.getElementById("countdown");
+    const timerInput = document.getElementById("timer-input");
+
+    function updateCountdown() {
+      const targetTime = localStorage.getItem("andreCountdown");
+      if (!targetTime) return;
+
+      const now = new Date().getTime();
+      const endTime = new Date(targetTime).getTime();
+      const distance = endTime - now;
+
+      if (distance <= 0) {
+        countdownDisplay.textContent = "✅ You may text Andre now.";
+        return;
+      }
+
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      countdownDisplay.textContent = `${hours.toString().padStart(2, "0")}:${minutes
+        .toString()
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    }
+
+    timerInput.addEventListener("change", () => {
+      const selectedTime = timerInput.value;
+      localStorage.setItem("andreCountdown", selectedTime);
+      updateCountdown();
+    });
+
+    // Load saved countdown
+    const savedTime = localStorage.getItem("andreCountdown");
+    if (savedTime) {
+      timerInput.value = savedTime;
+      updateCountdown();
+    }
+
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
