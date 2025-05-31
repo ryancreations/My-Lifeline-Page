@@ -178,11 +178,16 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
   </main>
 
-  <!-- YouTube embed for background music -->
-  <div class="bg-music">
-    <iframe width="0" height="0" src="https://www.youtube.com/embed/6Zbi0XmGtMw?autoplay=1&mute=1&loop=1&playlist=6Zbi0XmGtMw"
-      title="Life Is a Highway" frameborder="0" allow="autoplay"></iframe>
-  </div>
+<!-- YouTube Mix embed for background music -->
+<div class="bg-music">
+  <iframe width="0" height="0" 
+    src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
+    title="YouTube Mix Playlist" 
+    frameborder="0" 
+    allow="autoplay; encrypted-media" 
+    allowfullscreen>
+  </iframe>
+</div>
 
   <script>
     // Daily quote
@@ -218,9 +223,9 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
       const seconds = Math.floor((distance / 1000) % 60);
 
-      countdownDisplay.textContent = `${hours.toString().padStart(2, "0")}:${minutes
+      countdownDisplay.textContent = ${hours.toString().padStart(2, "0")}:${minutes
         .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")};
     }
 
     timerInput.addEventListener("change", () => {
@@ -251,7 +256,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const seconds = Math.floor((hours * 3600) % 60);
 
       document.getElementById("calcResult").textContent = 
-        `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
+        ${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds;
     }
   </script>
 </body>
