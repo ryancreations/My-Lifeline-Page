@@ -6,9 +6,7 @@
   <title>My Lifeline | Bestie</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
       background-color: #fff8f0;
@@ -82,21 +80,18 @@
       font-weight: bold;
       color: #0077aa;
     }
-    audio {
+    .bg-music {
       position: fixed;
-      bottom: 10px;
-      left: 10px;
-      width: calc(100% - 20px);
-      max-width: 600px;
-      z-index: 1000;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      z-index: -1;
     }
     @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .section {
-        padding: 15px;
-      }
+      body { padding: 10px; }
+      .section { padding: 15px; }
     }
   </style>
 </head>
@@ -183,11 +178,11 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
   </main>
 
-  <!-- Background music (2000s Country) -->
-  <audio controls autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+  <!-- YouTube embed for background music -->
+  <div class="bg-music">
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/6Zbi0XmGtMw?autoplay=1&mute=1&loop=1&playlist=6Zbi0XmGtMw"
+      title="Life Is a Highway" frameborder="0" allow="autoplay"></iframe>
+  </div>
 
   <script>
     // Daily quote
