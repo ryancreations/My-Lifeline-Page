@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>More actions
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,6 +6,9 @@
   <title>My Lifeline | Bestie</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    * {
+      box-sizing: border-box;
+    }
     * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
@@ -80,8 +83,14 @@
       font-weight: bold;
       color: #0077aa;
     }
+    audio {
     .bg-music {
       position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: calc(100% - 20px);
+      max-width: 600px;
+      z-index: 1000;
       bottom: 0;
       left: 0;
       width: 0;
@@ -90,6 +99,12 @@
       z-index: -1;
     }
     @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .section {
+        padding: 15px;
+      }
       body { padding: 10px; }
       .section { padding: 15px; }
     }
@@ -122,7 +137,7 @@
       <h2>If you feel like texting Andre before the timer is up</h2>
       <p>Remember why you set this boundary. It’s not because you don’t love him—it’s because you love him enough to give him space.</p>
       <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe, so that love doesn't feel like pressure.</strong></p>
-      
+
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
       <p>⏳ Time left to text Andre:</p>
@@ -178,16 +193,16 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
   </main>
 
-<!-- YouTube Mix embed for background music -->
-<div class="bg-music">
-  <iframe width="0" height="0" 
-    src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
-    title="YouTube Mix Playlist" 
-    frameborder="0" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-  </iframe>
-</div>
+  <!-- Background music (2000s Country) -->
+  <audio controls autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <!-- YouTube embed for background music -->
+  <div class="bg-music">
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/6Zbi0XmGtMw?autoplay=1&mute=1&loop=1&playlist=6Zbi0XmGtMw"
+      title="Life Is a Highway" frameborder="0" allow="autoplay"></iframe>
+  </div>
 
   <script>
     // Daily quote
@@ -223,9 +238,9 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
       const seconds = Math.floor((distance / 1000) % 60);
 
-      countdownDisplay.textContent = ${hours.toString().padStart(2, "0")}:${minutes
+      countdownDisplay.textContent = `${hours.toString().padStart(2, "0")}:${minutes
         .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")};
+        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
 
     timerInput.addEventListener("change", () => {
@@ -256,7 +271,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const seconds = Math.floor((hours * 3600) % 60);
 
       document.getElementById("calcResult").textContent = 
-        ${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds;
+        `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
     }
   </script>
 </body>
