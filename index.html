@@ -61,6 +61,24 @@
       margin-top: 10px;
       color: #0077aa;
     }
+    .calculator {
+      margin-top: 15px;
+      padding: 10px;
+      background: #e0f7ff;
+      border: 2px dashed #87ceeb;
+      border-radius: 10px;
+    }
+    .calculator input {
+      padding: 8px;
+      border: 1px solid #87ceeb;
+      border-radius: 5px;
+      width: 80px;
+    }
+    .calculator-result {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #0077aa;
+    }
   </style>
 </head>
 <body>
@@ -94,7 +112,16 @@
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
       <p>⏳ Time left to text Andre:</p>
-      <div id="countdown">00:00:00:00</div>
+      <div id="countdown">00:00:00</div>
+
+      <!-- Hour to time calculator -->
+      <div class="calculator">
+        <h3>Convert Hours to Days, Hours, Minutes & Seconds</h3>
+        <label for="hoursInput">Enter hours:</label>
+        <input type="number" id="hoursInput" placeholder="e.g. 50">
+        <button onclick="convertHours()">Convert</button>
+        <div class="calculator-result" id="calcResult"></div>
+      </div>
     </div>
 
     <div class="section">
@@ -115,6 +142,19 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
         <li><a href="https://www.tiktok.com" target="_blank">🎵 Scroll through TikTok</a></li>
         <li><a href="https://quickdraw.withgoogle.com/" target="_blank">🎨 Try Google’s Quick, Draw!</a></li>
         <li><a href="https://play2048.co/" target="_blank">🧠 Play 2048</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Streaming Services You Love</h2>
+      <ul>
+        <li><a href="https://www.netflix.com" target="_blank">🍿 Netflix</a></li>
+        <li><a href="https://www.hulu.com" target="_blank">📺 Hulu</a></li>
+        <li><a href="https://www.peacocktv.com" target="_blank">🦚 Peacock</a></li>
+        <li><a href="https://www.paramountplus.com" target="_blank">🌟 Paramount+</a></li>
+        <li><a href="https://www.primevideo.com" target="_blank">📦 Prime Video</a></li>
+        <li><a href="https://www.tubitv.com" target="_blank">🆓 Tubi</a></li>
+        <li><a href="https://www.pluto.tv" target="_blank">🪐 Pluto TV</a></li>
       </ul>
     </div>
 
@@ -170,7 +210,6 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       updateCountdown();
     });
 
-    // Load saved countdown
     const savedTime = localStorage.getItem("andreCountdown");
     if (savedTime) {
       timerInput.value = savedTime;
@@ -178,6 +217,23 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     }
 
     setInterval(updateCountdown, 1000);
+
+    // Hours converter
+    function convertHours() {
+      const hours = parseFloat(document.getElementById("hoursInput").value);
+      if (isNaN(hours) || hours < 0) {
+        document.getElementById("calcResult").textContent = "Please enter a valid number of hours.";
+        return;
+      }
+
+      const days = Math.floor(hours / 24);
+      const remainingHours = Math.floor(hours % 24);
+      const minutes = Math.floor((hours * 60) % 60);
+      const seconds = Math.floor((hours * 3600) % 60);
+
+      document.getElementById("calcResult").textContent = 
+        `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
   </script>
 </body>
 </html>
