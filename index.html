@@ -125,6 +125,13 @@
   </header>
 
   <main>
+  <div id="music-player" style="margin-top: 20px;">
+  <span id="song-title" style="font-weight: bold; margin-right: 10px; color: white;"></span>
+  <button id="toggleButton" style="background-color: #007BFF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+    Pause Music
+  </button>
+  <audio id="bgMusic" autoplay loop hidden></audio>
+</div>
     <div class="section">
       <h2>Daily Bestie Quote</h2>
       <p class="quote" id="daily-quote">"You are not your illness."</p>
@@ -216,15 +223,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
   </main>
-
-  <div id="music-player" style="margin-top: 20px;">
-  <span id="song-title" style="font-weight: bold; margin-right: 10px; color: white;"></span>
-  <button id="toggleButton" style="background-color: #007BFF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
-    Pause Music
-  </button>
-  <audio id="bgMusic" autoplay loop hidden></audio>
-</div>
-
+  
   <script>
   // 🎵 Your editable playlist
   const playlist = [
