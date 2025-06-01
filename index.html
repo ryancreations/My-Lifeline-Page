@@ -6,6 +6,19 @@
   <title>My Lifeline | Bestie</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    <script>
+  const playlist = [
+    { title: "Smells Like Teen Spirit – Nirvana", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Black Hole Sun – Soundgarden", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Loser – Beck", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { title: "Wonderwall – Oasis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+    { title: "Today – Smashing Pumpkins", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+  ];
+
+  const randomIndex = Math.floor(Math.random() * playlist.length);
+  const selectedTrack = playlist[randomIndex];
+</script>
+
     * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
@@ -98,6 +111,10 @@
     }
     .bg-music audio {
       display: none;
+    }
+      .music-controls {
+      text-align: center;
+      margin: 20px;
     }
     .self-care-buttons button {
       margin: 5px;
@@ -213,11 +230,16 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
   </main>
 
   <div class="bg-music">
-    <audio autoplay loop>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
-  </div>
+  <audio id="bgMusic" loop>
+    <source id="bgMusicSource" src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+
+<div class="music-controls">
+  <button id="musicToggle">▶️ Play Music</button>
+  <p id="nowPlaying" style="margin-top: 10px; font-size: 0.9em; color: #555;"></p>
+</div>
 
   <script>
     const quotes = [
@@ -288,5 +310,31 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       document.getElementById("careMessage").textContent = message;
     }
   </script>
+  // Set the background track
+window.addEventListener('DOMContentLoaded', () => {
+  const audio = document.getElementById("bgMusic");
+  const source = document.getElementById("bgMusicSource");
+  const toggleButton = document.getElementById("musicToggle");
+  const nowPlaying = document.getElementById("nowPlaying");
+
+  source.src = selectedTrack.url;
+  audio.load();
+
+  nowPlaying.textContent = `Now Playing: ${selectedTrack.title}`;
+
+  let isPlaying = false;
+
+  toggleButton.addEventListener("click", () => {
+    if (isPlaying) {
+      audio.pause();
+      toggleButton.textContent = "▶️ Play Music";
+    } else {
+      audio.play().catch(e => console.log("Autoplay blocked:", e));
+      toggleButton.textContent = "⏸️ Pause Music";
+    }
+    isPlaying = !isPlaying;
+  });
+});
+
 </body>
 </html>
