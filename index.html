@@ -133,6 +133,14 @@
       background-color: #0097a7;
     }
   </style>
+   #breathingCircle {
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #87ceeb;
+  animation: breathe 8s infinite;
+}
 </head>
 <body>
   <header>
@@ -145,7 +153,7 @@
   <main>
  <div class="section">
   <h2> 🤙Music🎶Player📱</h2>
-  <h2> 🎸All Out 2000's🎸<h2>
+  <h2> 🎸All Out 2000's🎸</h2>
   <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0"  encrypted-media" allowfullscreen></iframe>
 
     <div class="section">
@@ -271,8 +279,28 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
   </main>
-  
+  <div id="countdown"></div>
   <script>
+   const countdownDisplay = document.getElementById("countdown");
+  const targetDate = new Date("2025-06-09T12:00:00"); // example date
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      countdownDisplay.textContent = "You can text Andre now 💌";
+    } else {
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+    }
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown(); 
     const musicPlayer = document.getElementById("musicPlayer");
 const toggleBtn = document.getElementById("musicToggle");
 
@@ -328,14 +356,6 @@ window.onload = displayWins;
   document.getElementById("moodResult").textContent = "Mood saved 💾";
 }
 
-    #breathingCircle {
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #87ceeb;
-  animation: breathe 8s infinite;
-}
 @keyframes breathe {
   0% { transform: scale(1); opacity: 0.7; }
   50% { transform: scale(1.5); opacity: 1; }
@@ -350,55 +370,6 @@ window.onload = displayWins;
   "You don’t have to have it all figured out to move forward. 🚶"
 ];
 document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
-
-     const countdownDisplay = document.getElementById("countdown");
-  const timerInput = document.getElementById("timer-input");
-
-  // Load saved date from localStorage (if set previously)
-  if (localStorage.getItem("andreCountdown")) {
-    timerInput.value = localStorage.getItem("andreCountdown");
-  }
-
-  timerInput.addEventListener("change", () => {
-    const endTime = timerInput.value;
-    localStorage.setItem("andreCountdown", endTime);
-  });
-
-  function updateCountdown() {
-    const savedTime = localStorage.getItem("andreCountdown");
-    if (!savedTime) {
-      countdownDisplay.textContent = "⏳ No time set.";
-      return;
-    }
-
-    const endTime = new Date(savedTime).getTime();
-    const now = new Date().getTime();
-    const distance = endTime - now;
-
-    if (distance <= 0) {
-      countdownDisplay.textContent = "✅ You may text Andre now.";
-      return;
-    }
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-  }
-
-  // Update countdown every second
-  setInterval(updateCountdown, 1000);
-  
-  }
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((distance / (1000 * 60)) % 60);
-  const seconds = Math.floor((distance / 1000) % 60);
-  document.getElementById("countdown").textContent =
-    `${days}d ${hours.toString().padStart(2, "0")}h:${minutes.toString().padStart(2, "0")}m:${seconds.toString().padStart(2, "0")}s`;
-}
 
     const audioUpload = document.getElementById('audioUpload');
 const uploadedAudio = document.getElementById('uploadedAudio');
