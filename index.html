@@ -6,9 +6,7 @@
   <title>My Lifeline | Bestie</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
       background-color: #fff8f0;
@@ -82,18 +80,36 @@
       font-weight: bold;
       color: #0077aa;
     }
-    .bg-music {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      z-index: -1;
+    .checkin {
+      margin-top: 15px;
     }
-    @media (max-width: 600px) {
-      body { padding: 10px; }
-      .section { padding: 15px; }
+    .checkin textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .checkin-result {
+      margin-top: 10px;
+      background-color: #e0fff4;
+      border-left: 4px solid #3cb371;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .bg-music audio {
+      display: none;
+    }
+    .self-care-buttons button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      background-color: #00bcd4;
+      color: white;
+      cursor: pointer;
+    }
+    .self-care-buttons button:hover {
+      background-color: #0097a7;
     }
   </style>
 </head>
@@ -110,6 +126,14 @@
     </div>
 
     <div class="section">
+      <h2>Mood Check-In</h2>
+      <p>How are you feeling right now?</p>
+      <textarea id="moodInput" rows="3" placeholder="Type it out..."></textarea><br>
+      <button onclick="checkMood()">Check In</button>
+      <div class="checkin-result" id="moodResult"></div>
+    </div>
+
+    <div class="section">
       <h2>If you're thinking about harming yourself</h2>
       <p>Please pause and breathe. You matter. You’re not alone.</p>
       <ul>
@@ -123,7 +147,6 @@
     <div class="section">
       <h2>If you feel like texting Andre before the timer is up</h2>
       <p>Remember why you set this boundary. You love him enough to give him space.</p>
-      <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe.</strong></p>
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
       <p>⏳ Time left to text Andre:</p>
@@ -131,8 +154,7 @@
 
       <div class="calculator">
         <h3>Convert Hours to Days, Hours, Minutes & Seconds</h3>
-        <label for="hoursInput">Enter Hours:</label>
-        <input type="number" id="hoursInput" placeholder="Ex: 420">
+        <input type="number" id="hoursInput" placeholder="e.g. 50">
         <button onclick="convertHours()">Convert</button>
         <div class="calculator-result" id="calcResult"></div>
       </div>
@@ -147,6 +169,18 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
 
 —Ryan
       </div>
+    </div>
+
+    <div class="section">
+      <h2>What do I need right now?</h2>
+      <div class="self-care-buttons">
+        <button onclick="showCareMessage('You may need rest. Try lying down or closing your eyes for 10 minutes.')">🛌 Rest</button>
+        <button onclick="showCareMessage('Let’s move a little. Stretch or take a walk around.')">🚶 Move</button>
+        <button onclick="showCareMessage('Maybe you need comfort. Hug a pillow or wrap up in a blanket.')">🧸 Comfort</button>
+        <button onclick="showCareMessage('You might just need a good cry. It’s okay.')">💧 Cry</button>
+        <button onclick="showCareMessage('Let it out—write your feelings or vent to me.')">📝 Journal</button>
+      </div>
+      <div class="checkin-result" id="careMessage"></div>
     </div>
 
     <div class="section">
@@ -178,18 +212,14 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
   </main>
 
-  <!-- Hidden YouTube Music Player -->
   <div class="bg-music">
-    <iframe
-      src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=1&loop=1&playlist=vSJRnWu5Bu0"
-      frameborder="0"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
+    <audio autoplay loop>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
   </div>
 
   <script>
-    // Daily quote
     const quotes = [
       "You’ve survived 100% of your worst days so far. That’s badass.",
       "Your feelings are valid. Your struggle is real. And so is your strength.",
@@ -201,60 +231,61 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     const today = new Date().getDate();
     document.getElementById('daily-quote').textContent = quotes[today % quotes.length];
 
-    // Countdown timer
-    const countdownDisplay = document.getElementById("countdown");
-    const timerInput = document.getElementById("timer-input");
-
     function updateCountdown() {
       const targetTime = localStorage.getItem("andreCountdown");
       if (!targetTime) return;
-
       const now = new Date().getTime();
       const endTime = new Date(targetTime).getTime();
       const distance = endTime - now;
-
       if (distance <= 0) {
-        countdownDisplay.textContent = "✅ You may text Andre now.";
+        document.getElementById("countdown").textContent = "✅ You may text Andre now.";
         return;
       }
-
       const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
       const seconds = Math.floor((distance / 1000) % 60);
-
-      countdownDisplay.textContent =
+      document.getElementById("countdown").textContent =
         `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
-
-    timerInput.addEventListener("change", () => {
-      const selectedTime = timerInput.value;
-      localStorage.setItem("andreCountdown", selectedTime);
+    document.getElementById("timer-input").addEventListener("change", () => {
+      localStorage.setItem("andreCountdown", document.getElementById("timer-input").value);
       updateCountdown();
     });
-
-    const savedTime = localStorage.getItem("andreCountdown");
-    if (savedTime) {
-      timerInput.value = savedTime;
+    if (localStorage.getItem("andreCountdown")) {
+      document.getElementById("timer-input").value = localStorage.getItem("andreCountdown");
       updateCountdown();
     }
-
     setInterval(updateCountdown, 1000);
 
-    // Hours converter
     function convertHours() {
       const hours = parseFloat(document.getElementById("hoursInput").value);
       if (isNaN(hours) || hours < 0) {
         document.getElementById("calcResult").textContent = "Please enter a valid number of hours.";
         return;
       }
-
       const days = Math.floor(hours / 24);
       const remainingHours = Math.floor(hours % 24);
       const minutes = Math.floor((hours * 60) % 60);
       const seconds = Math.floor((hours * 3600) % 60);
-
       document.getElementById("calcResult").textContent =
         `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
+
+    function checkMood() {
+      const mood = document.getElementById("moodInput").value.toLowerCase();
+      let response = "Thanks for checking in. You’re doing something kind for yourself right now.";
+      if (mood.includes("sad") || mood.includes("lonely")) {
+        response += " Try watching something comforting or texting a friend.";
+      } else if (mood.includes("anxious") || mood.includes("overwhelmed")) {
+        response += " Breathe in for 4, hold for 4, out for 4.";
+      } else if (mood.includes("angry")) {
+        response += " Try writing it out or punching a pillow.";
+      }
+      document.getElementById("moodResult").textContent = response;
+    }
+
+    function showCareMessage(message) {
+      document.getElementById("careMessage").textContent = message;
     }
   </script>
 </body>
