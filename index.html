@@ -125,12 +125,14 @@
   </header>
 
   <main>
-  <div id="music-player" style="margin-top: 20px;">
+<div id="music-player" style="margin-top: 20px;">
   <span id="song-title" style="font-weight: bold; margin-right: 10px; color: white;"></span>
-  <button id="toggleButton" style="background-color: #007BFF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">
-    Pause Music
-  </button>
+  <button id="toggleButton" style="background-color: #007BFF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Pause</button>
+  <button id="prevButton" style="margin-left: 5px;">⏮️</button>
+  <button id="nextButton" style="margin-left: 5px;">⏭️</button>
+  <button id="shuffleButton" style="margin-left: 5px;">🔀 Shuffle: Off</button>
   <audio id="bgMusic" autoplay loop hidden></audio>
+</div>
 </div>
     <div class="section">
       <h2>Daily Bestie Quote</h2>
@@ -225,7 +227,6 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
   </main>
   
   <script>
-  // 🎵 Your editable playlist
   const playlist = [
     {
       title: "Smells Like Teen Spirit – Nirvana",
@@ -244,35 +245,63 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
     }
   ];
- title: "Everyday (feat. Rod Stewart, Miguel & Mark Ronson",
-      url: "https://archive.org/details/at-long-last-asap-cd-rip/17+Everyday+(feat.+Rod+Stewart%2C+Miguel+%26+Mark+Ronson).flac"
-    },
-  const randomIndex = Math.floor(Math.random() * playlist.length);
-  const selectedTrack = playlist[randomIndex];
+
+  let currentIndex = Math.floor(Math.random() * playlist.length);
+  let isShuffle = false;
+
+  const bgMusic = document.getElementById("bgMusic");
+  const toggleButton = document.getElementById("toggleButton");
+  const songTitle = document.getElementById("song-title");
+  const prevButton = document.getElementById("prevButton");
+  const nextButton = document.getElementById("nextButton");
+  const shuffleButton = document.getElementById("shuffleButton");
+
+  function loadSong(index) {
+    const track = playlist[index];
+    bgMusic.src = track.url;
+    songTitle.textContent = track.title;
+    bgMusic.play().catch(() => {
+      toggleButton.innerText = "Play";
+    });
+  }
+
+  function nextSong() {
+    if (isShuffle) {
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * playlist.length);
+      } while (newIndex === currentIndex && playlist.length > 1);
+      currentIndex = newIndex;
+    } else {
+      currentIndex = (currentIndex + 1) % playlist.length;
+    }
+    loadSong(currentIndex);
+  }
+
+  function prevSong() {
+    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    loadSong(currentIndex);
+  }
 
   window.addEventListener("DOMContentLoaded", () => {
-    const bgMusic = document.getElementById("bgMusic");
-    const toggleButton = document.getElementById("toggleButton");
-    const songTitle = document.getElementById("song-title");
+    loadSong(currentIndex);
 
-    // Load song
-    bgMusic.src = selectedTrack.url;
-    songTitle.textContent = selectedTrack.title;
-
-    // Try to autoplay
-    bgMusic.play().catch(() => {
-      toggleButton.innerText = "Play Music";
-    });
-
-    // Toggle play/pause
     toggleButton.addEventListener("click", () => {
       if (bgMusic.paused) {
         bgMusic.play();
-        toggleButton.innerText = "Pause Music";
+        toggleButton.innerText = "Pause";
       } else {
         bgMusic.pause();
-        toggleButton.innerText = "Play Music";
+        toggleButton.innerText = "Play";
       }
+    });
+
+    nextButton.addEventListener("click", nextSong);
+    prevButton.addEventListener("click", prevSong);
+
+    shuffleButton.addEventListener("click", () => {
+      isShuffle = !isShuffle;
+      shuffleButton.innerText = isShuffle ? "🔀 Shuffle: On" : "🔀 Shuffle: Off";
     });
   });
 </script>
