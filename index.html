@@ -6,18 +6,6 @@
   <title>My Lifeline | Bestie</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    <script>
-  const playlist = [
-    { title: "Smells Like Teen Spirit – Nirvana", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-    { title: "Black Hole Sun – Soundgarden", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-    { title: "Loser – Beck", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-    { title: "Wonderwall – Oasis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-    { title: "Today – Smashing Pumpkins", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
-  ];
-
-  const randomIndex = Math.floor(Math.random() * playlist.length);
-  const selectedTrack = playlist[randomIndex];
-</script>
 
     * { box-sizing: border-box; }
     body {
@@ -242,6 +230,17 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
 </div>
 
   <script>
+      const playlist = [
+    { title: "Smells Like Teen Spirit – Nirvana", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Black Hole Sun – Soundgarden", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Loser – Beck", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { title: "Wonderwall – Oasis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+    { title: "Today – Smashing Pumpkins", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+  ];
+
+  const randomIndex = Math.floor(Math.random() * playlist.length);
+  const selectedTrack = playlist[randomIndex];
+    
     const quotes = [
       "You’ve survived 100% of your worst days so far. That’s badass.",
       "Your feelings are valid. Your struggle is real. And so is your strength.",
