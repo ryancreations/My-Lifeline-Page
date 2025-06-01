@@ -125,22 +125,18 @@
   </header>
 
   <main>
-<div id="music-player" style="margin-top: 20px;">
-  <span id="song-title" style="font-weight: bold; margin-right: 10px; color: white;"></span>
-  <button id="toggleButton" style="background-color: #007BFF; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Pause</button>
-  <button id="prevButton" style="margin-left: 5px;">⏮</button>
-  <button id="nextButton" style="margin-left: 5px;">⏭</button>
-  <button id="shuffleButton" style="margin-left: 5px;">Shuffle: Off</button>
-  <audio id="bgMusic" autoplay loop hidden></audio>
+ <div class="section">
+  <h2> 🤙Music🎶Player📱</h2>
+  <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0"  encrypted-media" allowfullscreen></iframe>
 </div>
 </div>
     <div class="section">
-      <h2>Daily Bestie Quote</h2>
-      <p class="quote" id="daily-quote">"You are not your illness."</p>
+      <h2>Daily Bestie❤️ Quote</h2>
+      <p class="quote" id="daily-quote">"You are not your illness💌."</p>
     </div>
 
     <div class="section">
-      <h2>Mood Check-In</h2>
+      <h2>Mood Check-In📋</h2>
       <p>How are you feeling right now?</p>
       <textarea id="moodInput" rows="3" placeholder="Type it out..."></textarea><br>
       <button onclick="checkMood()">Check In</button>
@@ -148,12 +144,12 @@
     </div>
      
     <div class="section">
-  <h2>🎬 Dukes Of Hazzard!! Player!</h2>
+  <h2>🎬 Dukes Of Hazzard!! VideoPlayer!</h2>
   <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0"  encrypted-media" allowfullscreen></iframe>
 </div>
 
     <div class="section">
-      <h2>If you're thinking about harming yourself</h2>
+      <h2>If you're thinking about harming yourself🔪🩸</h2>
       <p>Please pause and breathe. You matter. You’re not alone.</p>
       <ul>
         <li><a href="https://988lifeline.org/" target="_blank">Call or Chat with 988 Lifeline</a></li>
@@ -164,7 +160,7 @@
     </div>
 
     <div class="section">
-      <h2>If you feel like texting Andre before the timer is up</h2>
+      <h2>If you feel like texting Andre before the timer is up💬🫤</h2>
       <p>Remember why you set this boundary. You love him enough to give him space.</p>
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
@@ -179,11 +175,11 @@
       </div>
     </div>
  <div class="section">
-  <h2>🎬 Dukes Of Hazzard!! Player!</h2>
+  <h2>🎬 Dukes Of Hazzard S7!! VideoPlayer!</h2>
   <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0"  encrypted-media" allowfullscreen></iframe>
 </div>
     <div class="section">
-      <h2>Message for Andre (Only send after timer ends)</h2>
+      <h2>Message for Andre (Only send after timer ends)🚫📱💬⏲️</h2>
       <div class="message">
 Hey Andre,
 
@@ -216,7 +212,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
 
     <div class="section">
-      <h2>Streaming Services You Love</h2>
+      <h2>📺Streaming Services You Love</h2>
       <ul>
         <li><a href="https://www.netflix.com" target="_blank">🍿 Netflix</a></li>
         <li><a href="https://www.hulu.com" target="_blank">📺 Hulu</a></li>
@@ -236,12 +232,51 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
 </div>
 
     <div class="section">
-      <h2>Remember Why You're Here</h2>
+      <h2>Remember Why You're Here!</h2>
       <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
   </main>
   
   <script>
+     const countdownDisplay = document.getElementById("countdown");
+  const timerInput = document.getElementById("timer-input");
+
+  // Load saved date from localStorage (if set previously)
+  if (localStorage.getItem("andreCountdown")) {
+    timerInput.value = localStorage.getItem("andreCountdown");
+  }
+
+  timerInput.addEventListener("change", () => {
+    const endTime = timerInput.value;
+    localStorage.setItem("andreCountdown", endTime);
+  });
+
+  function updateCountdown() {
+    const savedTime = localStorage.getItem("andreCountdown");
+    if (!savedTime) {
+      countdownDisplay.textContent = "⏳ No time set.";
+      return;
+    }
+
+    const endTime = new Date(savedTime).getTime();
+    const now = new Date().getTime();
+    const distance = endTime - now;
+
+    if (distance <= 0) {
+      countdownDisplay.textContent = "✅ You may text Andre now.";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+
+  // Update countdown every second
+  setInterval(updateCountdown, 1000);
   
   }
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
