@@ -221,12 +221,92 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
     </div>
 
     <div class="section">
+  <h2>📁 Upload Your Song</h2>
+  <input type="file" id="audioUpload" accept="audio/*">
+  <br>
+  <audio id="uploadedAudio" controls></audio>
+</div>
+
+    <div class="section">
+  <h2>🎬 YouTube Player</h2>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID?autoplay=0&loop=1&playlist=VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+<div class="section">
+  <h2>🎧 Enhanced Audio Player</h2>
+  <audio id="audioPlayer" controls>
+    <source src="your-audio-file.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <br>
+  <label for="volumeControl">Volume:</label>
+  <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+  <br>
+  <button id="repeatToggle">🔁 Repeat Off</button>
+  <br>
+  <progress id="progressBar" value="0" max="100"></progress>
+</div>
+
+    <div class="section">
       <h2>Remember Why You're Here</h2>
       <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
   </main>
   
   <script>
+    function updateCountdown() {
+  const targetTime = localStorage.getItem("andreCountdown");
+  if (!targetTime) return;
+  const now = new Date().getTime();
+  const endTime = new Date(targetTime).getTime();
+  const distance = endTime - now;
+  if (distance <= 0) {
+    document.getElementById("countdown").textContent = "✅ You may text Andre now.";
+    return;
+  }
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((distance / (1000 * 60)) % 60);
+  const seconds = Math.floor((distance / 1000) % 60);
+  document.getElementById("countdown").textContent =
+    `${days}d ${hours.toString().padStart(2, "0")}h:${minutes.toString().padStart(2, "0")}m:${seconds.toString().padStart(2, "0")}s`;
+}
+
+    const audioUpload = document.getElementById('audioUpload');
+const uploadedAudio = document.getElementById('uploadedAudio');
+
+audioUpload.addEventListener('change', () => {
+  const files = audioUpload.files;
+  if (files.length > 0) {
+    const fileURL = URL.createObjectURL(files[0]);
+    uploadedAudio.src = fileURL;
+    uploadedAudio.play();
+  }
+});
+
+    const audio = document.getElementById('audioPlayer');
+const volumeControl = document.getElementById('volumeControl');
+const repeatToggle = document.getElementById('repeatToggle');
+const progressBar = document.getElementById('progressBar');
+
+// Volume control
+volumeControl.addEventListener('input', () => {
+  audio.volume = volumeControl.value;
+});
+
+// Repeat toggle
+let isRepeat = false;
+repeatToggle.addEventListener('click', () => {
+  isRepeat = !isRepeat;
+  audio.loop = isRepeat;
+  repeatToggle.textContent = isRepeat ? '🔁 Repeat On' : '🔁 Repeat Off';
+});
+
+// Progress bar update
+audio.addEventListener('timeupdate', () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  progressBar.value = progress;
+});
+
   const playlist = [
     {
       title: "Smells Like Teen Spirit – Nirvana",
