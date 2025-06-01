@@ -1,5 +1,4 @@
-<!DOCTYPE html>Add commentMore actions
-<!DOCTYPE html>More actions
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -10,7 +9,6 @@
     * {
       box-sizing: border-box;
     }
-    * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
       background-color: #fff8f0;
@@ -84,14 +82,8 @@
       font-weight: bold;
       color: #0077aa;
     }
-    audio {
     .bg-music {
       position: fixed;
-      bottom: 10px;
-      left: 10px;
-      width: calc(100% - 20px);
-      max-width: 600px;
-      z-index: 1000;
       bottom: 0;
       left: 0;
       width: 0;
@@ -100,12 +92,6 @@
       z-index: -1;
     }
     @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .section {
-        padding: 15px;
-      }
       body { padding: 10px; }
       .section { padding: 15px; }
     }
@@ -125,7 +111,7 @@
 
     <div class="section">
       <h2>If you're thinking about harming yourself</h2>
-      <p>Please pause and breathe. You matter. You’re not alone. It’s okay to feel overwhelmed, but you don’t have to go through it by yourself.</p>
+      <p>Please pause and breathe. You matter. You’re not alone.</p>
       <ul>
         <li><a href="https://988lifeline.org/" target="_blank">Call or Chat with 988 Lifeline</a></li>
         <li><a href="https://www.youtube.com/watch?v=ZXsQAXx_ao0" target="_blank">Watch a motivational video</a></li>
@@ -136,10 +122,8 @@
 
     <div class="section">
       <h2>If you feel like texting Andre before the timer is up</h2>
-      <p>Remember why you set this boundary. It’s not because you don’t love him—it’s because you love him enough to give him space.</p>
-      <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe, so that love doesn't feel like pressure.</strong></p>
-      
-
+      <p>Remember why you set this boundary. You love him enough to give him space.</p>
+      <p><strong>Loving from a distance doesn't mean I stopped caring. It means I'm giving him the room to breathe.</strong></p>
       <label for="timer-input">Set Your Countdown End Time:</label>
       <input type="datetime-local" id="timer-input">
       <p>⏳ Time left to text Andre:</p>
@@ -147,7 +131,7 @@
 
       <div class="calculator">
         <h3>Convert Hours to Days, Hours, Minutes & Seconds</h3>
-        <label for="hoursInput">Enter hours:</label>
+        <label for="hoursInput">Enter Hours:</label>
         <input type="number" id="hoursInput" placeholder="e.g. 50">
         <button onclick="convertHours()">Convert</button>
         <div class="calculator-result" id="calcResult"></div>
@@ -190,27 +174,18 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
 
     <div class="section">
       <h2>Remember Why You're Here</h2>
-      <p>This page is for you. It's your reset button. Come here when things are heavy, and remind yourself that you're doing your best—and that’s enough.</p>
-      <p>You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
+      <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
   </main>
 
-<!-- YouTube Mix embed for background music -->
-<div class="bg-music">
-  <iframe width="0" height="0" 
-    src=src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
-    title="YouTube Mix Playlist" 
-    frameborder="0" 
-    allow="autoplay; encrypted-media" 
-    allowfullscreen>
-  </iframe>
-</div>
- 
-  <!-- YouTube embed for background music -->
+  <!-- Hidden YouTube Music Player -->
   <div class="bg-music">
-    <iframe width="0" height="0" 
-      src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=0&loop=1&playlist=RDvSJRnWu5Bu0"
-      title="Life Is a Highway" frameborder="0" allow="autoplay"></iframe>
+    <iframe
+      src="https://www.youtube.com/embed/vSJRnWu5Bu0?autoplay=1&mute=1&loop=1&playlist=vSJRnWu5Bu0"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
   </div>
 
   <script>
@@ -247,11 +222,8 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const minutes = Math.floor((distance / (1000 * 60)) % 60);
       const seconds = Math.floor((distance / 1000) % 60);
 
-      countdownDisplay.textContent = ${hours.toString().padStart(2, "0")}:${minutes
-      countdownDisplay.textContent = `${hours.toString().padStart(2, "0")}:${minutes
-        .toString()
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")};
-        .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+      countdownDisplay.textContent =
+        `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     }
 
     timerInput.addEventListener("change", () => {
@@ -281,8 +253,7 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
       const minutes = Math.floor((hours * 60) % 60);
       const seconds = Math.floor((hours * 3600) % 60);
 
-      document.getElementById("calcResult").textContent = 
-        ${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds;
+      document.getElementById("calcResult").textContent =
         `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
     }
   </script>
