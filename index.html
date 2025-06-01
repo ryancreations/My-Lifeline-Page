@@ -235,109 +235,38 @@ I just felt, I had to say one last goodbye. I’ve made up my mind—I’m just 
 </div>
 
   <script>
-      const playlist = [
+  // Random playlist logic
+  const playlist = [
     { title: "Smells Like Teen Spirit – Nirvana", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-    { title: "Black Hole Sun – Soundgarden", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-    { title: "Loser – Beck", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-    { title: "Wonderwall – Oasis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-    { title: "Today – Smashing Pumpkins", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" }
+    { title: "Wonderwall – Oasis", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Black Hole Sun – Soundgarden", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { title: "Come As You Are – Nirvana", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
   ];
-
   const randomIndex = Math.floor(Math.random() * playlist.length);
   const selectedTrack = playlist[randomIndex];
-    
-    const quotes = [
-      "You’ve survived 100% of your worst days so far. That’s badass.",
-      "Your feelings are valid. Your struggle is real. And so is your strength.",
-      "Healing is not linear. You’re still moving forward.",
-      "You matter. The world is better because you’re in it.",
-      "This pain will pass. But you? You’ll still be standing.",
-      "You don’t have to fix everything today. Just take the next breath."
-    ];
-    const today = new Date().getDate();
-    document.getElementById('daily-quote').textContent = quotes[today % quotes.length];
 
-    function updateCountdown() {
-      const targetTime = localStorage.getItem("andreCountdown");
-      if (!targetTime) return;
-      const now = new Date().getTime();
-      const endTime = new Date(targetTime).getTime();
-      const distance = endTime - now;
-      if (distance <= 0) {
-        document.getElementById("countdown").textContent = "✅ You may text Andre now.";
-        return;
-      }
-      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((distance / (1000 * 60)) % 60);
-      const seconds = Math.floor((distance / 1000) % 60);
-      document.getElementById("countdown").textContent =
-        `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-    }
-    document.getElementById("timer-input").addEventListener("change", () => {
-      localStorage.setItem("andreCountdown", document.getElementById("timer-input").value);
-      updateCountdown();
+  // Wait for the page to load
+  window.addEventListener("DOMContentLoaded", () => {
+    const bgMusic = document.getElementById("bgMusic");
+    const toggleButton = document.getElementById("toggleButton");
+
+    // Set the music source and start playing
+    bgMusic.src = selectedTrack.url;
+    bgMusic.play().catch(() => {
+      toggleButton.innerText = "Play Music";
     });
-    if (localStorage.getItem("andreCountdown")) {
-      document.getElementById("timer-input").value = localStorage.getItem("andreCountdown");
-      updateCountdown();
-    }
-    setInterval(updateCountdown, 1000);
 
-    function convertHours() {
-      const hours = parseFloat(document.getElementById("hoursInput").value);
-      if (isNaN(hours) || hours < 0) {
-        document.getElementById("calcResult").textContent = "Please enter a valid number of hours.";
-        return;
+    // Toggle music play/pause
+    toggleButton.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        toggleButton.innerText = "Pause Music";
+      } else {
+        bgMusic.pause();
+        toggleButton.innerText = "Play Music";
       }
-      const days = Math.floor(hours / 24);
-      const remainingHours = Math.floor(hours % 24);
-      const minutes = Math.floor((hours * 60) % 60);
-      const seconds = Math.floor((hours * 3600) % 60);
-      document.getElementById("calcResult").textContent =
-        `${hours} hours = ${days} days, ${remainingHours} hours, ${minutes} minutes, ${seconds} seconds`;
-    }
-
-    function checkMood() {
-      const mood = document.getElementById("moodInput").value.toLowerCase();
-      let response = "Thanks for checking in. You’re doing something kind for yourself right now.";
-      if (mood.includes("sad") || mood.includes("lonely")) {
-        response += " Try watching something comforting or texting a friend.";
-      } else if (mood.includes("anxious") || mood.includes("overwhelmed")) {
-        response += " Breathe in for 4, hold for 4, out for 4.";
-      } else if (mood.includes("angry")) {
-        response += " Try writing it out or punching a pillow.";
-      }
-      document.getElementById("moodResult").textContent = response;
-    }
-
-    function showCareMessage(message) {
-      document.getElementById("careMessage").textContent = message;
-    }
-  </script>// Set the background track
-window.addEventListener('DOMContentLoaded', () => {
-  const audio = document.getElementById("bgMusic");
-  const source = document.getElementById("bgMusicSource");
-  const toggleButton = document.getElementById("musicToggle");
-  const nowPlaying = document.getElementById("nowPlaying");
-
-  source.src = selectedTrack.url;
-  audio.load();
-
-  nowPlaying.textContent = `Now Playing: ${selectedTrack.title}`;
-
-  let isPlaying = false;
-
-  toggleButton.addEventListener("click", () => {
-    if (isPlaying) {
-      audio.pause();
-      toggleButton.textContent = "▶️ Play Music";
-    } else {
-      audio.play().catch(e => console.log("Autoplay blocked:", e));
-      toggleButton.textContent = "⏸️ Pause Music";
-    }
-    isPlaying = !isPlaying;
+    });
   });
-});
-
+</script>
 </body>
 </html>
