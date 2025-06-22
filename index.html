@@ -6,6 +6,20 @@
   <title>My Lifeline Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
+    @keyframes breathe {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.5); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+    const hugs = [
+  "You're doing better than you think. 💖",
+  "One breath at a time. That’s enough. 🌿",
+  "You are so loved, even on the days you forget. 💙",
+  "It’s okay to be a masterpiece and a work in progress. 🎨",
+  "You don’t have to have it all figured out to move forward. 🚶"
+];
+document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
 
     * { box-sizing: border-box; }
    body {
@@ -155,11 +169,11 @@
   <h2> 🤙Music🎶Player📱</h2>
   <h2> 🎸All Out 2000's🎸</h2>
   <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0"  encrypted-media" allowfullscreen></iframe>
-   
+ </div>
    <div class="section">
   <h2>🎵 Best Of Alternative Rock</h2>
       <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0"  encrypted-media" allowfullscreen></iframe>
-
+   </div>
   <div class="section">
       <h2>Daily Bestie❤️ Quote</h2>
       <p class="quote" id="daily-quote">"You are not your illness💌."</p>
@@ -214,7 +228,7 @@
        <div class="section">
       <h2>Rap Music</h2>
   <iframe width="560" height="315" src="https://www.youtube.com/embed/J7IMwop3RHs?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" title="Rob $tone - Chill Bill ft. J.Davis &amp; Spooks (Dir. Alex Vibe)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+       </div>
     <div class="section">
       <h2>Distractions When You Need Them</h2>
       <ul>
@@ -228,7 +242,7 @@
       <div class="section">
         <h2>Depression Playlist</h2>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" title="Sik World &quot;7 Years&quot;(Lyrical Version)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        
+      </div>
     <div class="section">
       <h2>📺Streaming Services You Love</h2>
       <ul>
@@ -257,7 +271,7 @@
     <div class="section">
   <h2>🎯 Lofi Playlist</h2>
   <iframe width="560" height="315" src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" title="【Ｓｍｏｋｅ Ａｎｄ Ｃｈｉｌｌ】💨💨 𝟒:𝟐𝟎 𝐯𝐢𝐛𝐞𝐬 - Lofi Hip Hop Mix ~ SpongeBob Lofi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+    </div>
     <div class="section">
   <h2>📁 Upload Your Song</h2>
   <input type="file" id="audioUpload" accept="audio/*">
@@ -278,8 +292,8 @@
     </button>
   </a>
 </div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      <script>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
+    <script>
    const countdownDisplay = document.getElementById("countdown");
   const targetDate = new Date("2025-06-09T12:00:00"); // example date
 
@@ -354,21 +368,6 @@ window.onload = displayWins;
   localStorage.setItem("moodHistory", JSON.stringify(history));
   document.getElementById("moodResult").textContent = "Mood saved 💾";
 }
-
-@keyframes breathe {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.5); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
-}
-
-    const hugs = [
-  "You're doing better than you think. 💖",
-  "One breath at a time. That’s enough. 🌿",
-  "You are so loved, even on the days you forget. 💙",
-  "It’s okay to be a masterpiece and a work in progress. 🎨",
-  "You don’t have to have it all figured out to move forward. 🚶"
-];
-document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
 
     const audioUpload = document.getElementById('audioUpload');
 const uploadedAudio = document.getElementById('uploadedAudio');
