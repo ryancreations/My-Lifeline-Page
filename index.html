@@ -195,6 +195,8 @@ document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.r
     <textarea id= "PoemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8" style="width:100%; border-radius: 8px; border: 1px solid #ccc; padding: 10px;"></textarea>
     <br><br>
     <button onclick="document.getElementById('poemBox').value = ''" style="padding: 10px 20px; border: npne; background-color: #00bcd4; color: white; border-radious: 6px; cursor: pointer;">ClearBox</button>
+   </div>
+   
     <div class="section">
   <h2>🎬 Dukes Of Hazzard!! VideoPlayer!</h2>
   <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0"  encrypted-media" allowfullscreen></iframe>
@@ -305,14 +307,14 @@ document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.r
       }
       
    const countdownDisplay = document.getElementById("countdown");
-  const targetDate = new Date("2025-06-09T12:00:00"); // example date
+  const targetDate = new Date("2025-06-024T12:00:00"); // example date
 
   function updateCountdown() {
     const now = new Date();
     const diff = targetDate - now;
 
     if (diff <= 0) {
-      countdownDisplay.textContent = "You can text Andre now 💌";
+      countdownDisplay.textContent = "I promise, eveything will be okay, just take one day at a time!!";
     } else {
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
