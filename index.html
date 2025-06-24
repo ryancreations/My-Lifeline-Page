@@ -160,7 +160,8 @@ document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.r
     <h1>My Lifeline Page</h1>
     <p>Your Safe Space When Things Get Hard!</p>
      <p>Created By, Your's Truly: Ryan Roland</p>
-  </header>
+ <p id="currentDate">Today's date: (loading...)</p>
+   </header>
 
   <p id="randomHugMessage"></p>
 
@@ -286,7 +287,7 @@ document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.r
       <h2>Remember Why You're Here!</h2>
       <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
-  <div id="countdown"></div>
+    
  <div class="section">
   <h2>Search the web freely💻</h2>
   <a href="https://ubgus.net/apps/google" target="_blank">
@@ -360,26 +361,15 @@ function displayWins() {
 }
 window.onload = displayWins;
 
-    window.addEventListener("load", () => {
-  const moodHistory = JSON.parse(localStorage.getItem("moodHistory")) || [];
-  const moodList = document.getElementById("moodHistoryList");
-  moodHistory.slice(0, 5).forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = entry;
-    moodList.appendChild(li);
-  });
+
+// Show the current date
+window.addEventListener("load", () => {
+  const dateElement = document.getElementById("currentDate");
+  const now = new Date();
+  const formatted = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  dateElement.textContent = `Today's date: ${formatted}`;
 });
 
-    function checkMood() {
-  const mood = document.getElementById("moodInput").value.trim();
-  if (!mood) return;
-  const date = new Date().toLocaleString();
-  const entry = `${date}: ${mood}`;
-  let history = JSON.parse(localStorage.getItem("moodHistory")) || [];
-  history.unshift(entry);
-  localStorage.setItem("moodHistory", JSON.stringify(history));
-  document.getElementById("moodResult").textContent = "Mood saved 💾";
-}
 
     const audioUpload = document.getElementById('audioUpload');
 const uploadedAudio = document.getElementById('uploadedAudio');
