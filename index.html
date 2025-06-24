@@ -1,13 +1,3 @@
-# Since the user asked for a fixed and complete HTML document that includes everything from the original version,
-# with all formatting and scripts corrected, this operation will involve checking all HTML structure, ensuring no
-# broken tags, and integrating all content (like videos, playlists, breathing animation, date, etc.) cleanly.
-
-# The process will involve building the HTML content as a multiline string and correcting errors in tags and script placement.
-
-# Prepare the output HTML file.
-html_output_path = "/mnt/data/fixed_lifeline_page.html"
-
-html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,19 +6,37 @@ html_content = """
   <title>My Lifeline Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; }
-    body {
-      background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
-      font-family: 'Quicksand', sans-serif;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
     @keyframes breathe {
-      0% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.5); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.7; }
-    }
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.5); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+    const hugs = [
+  "You're doing better than you think. 💖",
+  "One breath at a time. That’s enough. 🌿",
+  "You are so loved, even on the days you forget. 💙",
+  "It’s okay to be a masterpiece and a work in progress. 🎨",
+  "You don’t have to have it all figured out to move forward. 🚶"
+];
+document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
+
+    * { box-sizing: border-box; }
+   body {
+  background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
+  font-family: 'Quicksand', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+  #breathingCircle {
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #87ceeb;
+  animation: breathe 12s infinite;
+}
     header {
       background-color: #87ceeb;
       color: white;
@@ -40,14 +48,15 @@ html_content = """
       max-width: 900px;
       margin: auto;
     }
-    .section {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      border: 2px solid #87ceeb;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      background-color: #f0fbff;
-    }
+   .section {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 2px solid #87ceeb;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #f0fbff;
+}
+
     .section h2 {
       color: #00bcd4;
     }
@@ -58,13 +67,13 @@ html_content = """
     a:hover {
       text-decoration: underline;
     }
-    #breathingCircle {
-      margin: 0 auto;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background-color: #87ceeb;
-      animation: breathe 12s infinite;
+    .message {
+      white-space: pre-wrap;
+      background-color: #fff;
+      border-left: 4px solid #87ceeb;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
     }
     .quote {
       font-style: italic;
@@ -78,21 +87,70 @@ html_content = """
       margin-top: 10px;
       color: #0077aa;
     }
-    textarea {
+    .calculator {
+      margin-top: 15px;
+      padding: 10px;
+      background: #e0f7ff;
+      border: 2px dashed #87ceeb;
+      border-radius: 10px;
+    }
+    .calculator input {
+      padding: 8px;
+      border: 1px solid #87ceeb;
+      border-radius: 5px;
+      width: 80px;
+    }
+    .calculator-result {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #0077aa;
+    }
+    .checkin {
+      margin-top: 15px;
+    }
+    .checkin textarea {
       width: 100%;
       padding: 10px;
       border-radius: 8px;
       border: 1px solid #ccc;
     }
-    button {
-      padding: 10px 20px;
+    .checkin-result {
+      margin-top: 10px;
+      background-color: #e0fff4;
+      border-left: 4px solid #3cb371;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    .bg-music audio {
+      display: none;
+    }
+    #musicToggle {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #87ceeb;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#musicToggle:hover {
+  background-color: #5ab0d4;
+}
+
+      .music-controls {
+      text-align: center;
+      margin: 20px;
+    }
+    .self-care-buttons button {
+      margin: 5px;
+      padding: 10px 15px;
       border: none;
       border-radius: 6px;
       background-color: #00bcd4;
       color: white;
       cursor: pointer;
     }
-    button:hover {
+    .self-care-buttons button:hover {
       background-color: #0097a7;
     }
   </style>
@@ -101,84 +159,351 @@ html_content = """
   <header>
     <h1>My Lifeline Page</h1>
     <p>Your Safe Space When Things Get Hard!</p>
-    <p>Created By: Ryan Roland</p>
-    <p id="currentDate">Today's date: (loading...)</p>
+     <p>Created By, Your's Truly: Ryan Roland</p>
   </header>
+ <p id="currentDate">Today's date: (loading...)</p>
+   </header>
+
+  <p id="randomHugMessage"></p>
 
   <main>
-    <div class="section">
-      <h2>Random Hug Message 🤗</h2>
-      <p id="randomHugMessage"></p>
+ <div class="section">
+  <h2> 🤙Music🎶Player📱</h2>
+  <h2> 🎸All Out 2000's🎸</h2>
+  <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0"  encrypted-media" allowfullscreen></iframe>
+ </div>
+   <div class="section">
+  <h2>🎵 Best Of Alternative Rock</h2>
+      <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0"  encrypted-media" allowfullscreen></iframe>
+   </div>
+  <div class="section">
+      <h2>Daily Bestie❤️ Quote</h2>
+      <p class="quote" id="daily-quote">"You are not your illness💌."</p>
     </div>
 
     <div class="section">
-      <h2>🫁 Breathe With Me</h2>
-      <div id="breathingCircle"></div>
+  <h2>🫁 Breathe With Me</h2>
+  <div id="breathingCircle"></div>
+    <h2>🫁 BREATHE IN</h2>
+      <h2>HOLD<h2>
+       <h2>Breathe 🧠 Out!
+    <p>🫁 BREATHE IN<p>
+       <h2>HOLD<h2>
+        <p>BREATH🧠 OUT<p>
+</div>
+<div class="section">
+  <h2  Write it out and Erase it!</h2>
+    <p>Let your feelings out, This will not save - its just for you, right now, in this moment.</p>
+    <textarea id= "PoemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8" style="width:100%; border-radius: 8px; border: 1px solid #ccc; padding: 10px;"></textarea>
+    <br><br>
+    <button onclick="document.getElementById('poemBox').value = ''" style="padding: 10px 20px; border: npne; background-color: #00bcd4; color: white; border-radious: 6px; cursor: pointer;">ClearBox</button>
+   </div>
+
+    <div class="section">
+  <h2>🎬 Dukes Of Hazzard!! VideoPlayer!</h2>
+  <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0"  encrypted-media" allowfullscreen></iframe>
+</div>
+
+    <div class="section">
+      <h2>If you're thinking about harming yourself🔪🩸</h2>
+      <p>Please pause and breathe. You matter. You’re not alone.</p>
+      <ul>
+        <li><a href="https://www.daymarkrecovery.org/index.php" Target="_Blank">Daymark 🩸🔪🩸Crisis Support</a></li>
+        </h2> Daymark 🩸🔪🩸Crisis Support PhoneLine: (866) 275-9552</h2>
+        <li><a href="https://www.youtube.com/watch?v=nUqdqqjTuXE" target="_blank">Watch📺 "Gone In Sixty Seconds"</a></li>
+        <li><a href="https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0" target="_blank">💤Listen to calming music🎵</a></li>
+        <li><a href="https://chatgpt.com/c/6837d16e-e854-800b-bf2d-c9ac61c89441" target="_blank">Talk to Bestie (me) 💙</a></li>
+         <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">🧡❤️💙Fluid Simulation!</a></li>
+        <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Simulation Clicker💡!</a></li>
+      </ul>
+    </div>
+
+    </div>
+ <div class="section">
+  <h2>🎬 Dukes Of Hazzard S7!! VideoPlayer!</h2>
+  <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0"  encrypted-media" allowfullscreen></iframe>
+</div>
+    </div>
+
+       <div class="section">
+      <h2>Rap Music</h2>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" title="Sleepy Hallow - 2055 (Official Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+       </div>
+    <div class="section">
+      <h2>Distractions When You Need Them</h2>
+      <ul>
+        <li><a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank">🐍 Play Google Snake</a></li>
+        <li><a href="https://www.tiktok.com" target="_blank">🎵 Scroll through TikTok</a></li>
+        <li><a href="https://quickdraw.withgoogle.com/" target="_blank">🎨 Try Google’s Quick, Draw!</a></li>
+        <li><a href="https://play2048.co/" target="_blank">🧠 Play 2048</a></li>
+      </ul>
+    </div>
+
+      <div class="section">
+        <h2>Depression Playlist</h2>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" title="Sik World &quot;7 Years&quot;(Lyrical Version)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    <div class="section">
+      <h2>📺Streaming Services You Love📺</h2>
+      <ul>
+        <li><a href="https://www.netflix.com" target="_blank">🍿 Netflix</a></li>
+        <li><a href="https://www.hulu.com" target="_blank">📺 Hulu</a></li>
+        <li><a href="https://www.peacocktv.com" target="_blank">🦚 Peacock</a></li>
+        <li><a href="https://www.paramountplus.com" target="_blank">🌟 Paramount+</a></li>
+        <li><a href="https://www.primevideo.com" target="_blank">📦 Prime Video</a></li>
+        <li><a href="https://www.tubitv.com" target="_blank">🆓 Tubi</a></li>
+        <li><a href="https://www.pluto.tv" target="_blank">🪐 Pluto TV</a></li>
+        <p>YouTubers you like😍<p>
+        <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">🐒 FamLaurenRP Youtube</a></li>
+        <li><a href="https://www.youtube.com/@FamExtra" target="_blank">FamExtra Youtube</a></li>
+        <li><a href="https://www.youtube.com/@Elanip" target="_blank">🐎 Elanip Youtube</a></li>
+        <li><a href="https://www.youtube.com/@elanipmore" target="_blank">Elanip Extra Youtube</a></li>
+        <li><a href="https://www.youtube.com/@Treyten." target="_blank">🎮Treyten Youtube</a></li>
+        <li><a href="https://www.youtube.com/@TreytenExtra" target="_blank">Treyten ❤️‍🔥Extra Youtube</a></li>
+        <li><a href="https://www.youtube.com/@FamExtra" target="_blank">🐶 KallMeKris Youtube</a></li>
+        <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris2 Youtube</a></li>
+        <li><a href="https://www.youtube.com/@maxamilirp" target="_blank">Maxamili RP Youtube</a></li>
+        <li><a href="https://www.youtube.com/@JustFrenchieYT" target="_blank">🕹Frenchie Youtube</a></li>
+        <li><a href="https://www.youtube.com/@jakerp" target="_blank">📺JakeRP Youtube</a></li>
+        <li><a href="https://www.youtube.com/" target="_blank">Youtube Home</a></li>
+      </ul>
     </div>
 
     <div class="section">
-      <h2>Write it out and Erase it!</h2>
-      <p>Let your feelings out. This will not save - it's just for you, right now, in this moment.</p>
-      <textarea id="poemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8"></textarea>
-      <br><br>
-      <button onclick="document.getElementById('poemBox').value = ''">Clear Box</button>
+  <h2>🎵Lofi Playlist</h2>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" title="【Ｓｍｏｋｅ Ａｎｄ Ｃｈｉｌｌ】💨💨 𝟒:𝟐𝟎 𝐯𝐢𝐛𝐞𝐬 - Lofi Hip Hop Mix ~ SpongeBob Lofi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
-
     <div class="section">
-      <h2>Daily Bestie ❤️ Quote</h2>
-      <p class="quote" id="daily-quote">"You are not your illness 💌."</p>
-    </div>
+  <h2>📁 Upload Your Song</h2>
+  <input type="file" id="audioUpload" accept="audio/*">
+  <br>
+  <audio id="uploadedAudio" controls></audio>
+</div>
 
+<div class="section">
+  <h2>Dennis the Menace😈🙏🏼😂<h2>
+<iframe width="427" height="240" src="https://www.youtube.com/embed/HZsWMGLrw1E" title="Dennis the Menace" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
     <div class="section">
-      <h2>Countdown Timer</h2>
-      <p id="countdown">Loading countdown...</p>
+      <h2>Remember Why You're Here!</h2>
+      <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
     </div>
-  </main>
-
-  <script>
-    // Show current date
-    const dateElement = document.getElementById("currentDate");
-    const now = new Date();
-    const formatted = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    dateElement.textContent = `Today's date: ${formatted}`;
-
-    // Countdown Timer
-    const countdownDisplay = document.getElementById("countdown");
-    const targetDate = new Date("2025-06-24T12:00:00");
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        countdownDisplay.textContent = "I promise, everything will be okay. Just take one day at a time.";
-      } else {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+  <div id="countdown"></div>
+    
+ <div class="section">
+  <h2>Search the web freely💻</h2>
+  <a href="https://ubgus.net/apps/google" target="_blank">
+    <button style="padding: 12px 20px; font-size: 16px; background-color: #00bcd4; color: white; border: none; border-radius: 8px; cursor: pointer;">
+      Launch UBGUS 🥳
+    </button>
+  </a>
+</div>
+<div class="section">
+  <h2>Just relax, Enjoy this Lofi Car Drive<h2>
+    <p>Just light Up and Enjoy The Ride!!</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
+   </div>
+     <script>
+      function showCareMessge(message) 
+      { const careBox = document.getElementById("careMessage");
+      careBox.textContent = message;
       }
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
 
-    // Random Hug Message
-    const hugs = [
-      "You're doing better than you think. 💖",
-      "One breath at a time. That’s enough. 🌿",
-      "You are so loved, even on the days you forget. 💙",
-      "It’s okay to be a masterpiece and a work in progress. 🎨",
-      "You don’t have to have it all figured out to move forward. 🚶"
-    ];
-    document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
-  </script>
+   const countdownDisplay = document.getElementById("countdown");
+  const targetDate = new Date("2025-06-024T12:00:00"); // example date
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      countdownDisplay.textContent = "I promise, eveything will be okay, just take one day at a time!!";
+    } else {
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+    }
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown(); 
+    const musicPlayer = document.getElementById("musicPlayer");
+const toggleBtn = document.getElementById("musicToggle");
+
+toggleBtn.addEventListener("click", () => {
+  if (musicPlayer.paused) {
+    musicPlayer.play();
+    toggleBtn.textContent = "⏸️ Pause";
+  } else {
+    musicPlayer.pause();
+    toggleBtn.textContent = "▶️ Play";
+  }
+});
+
+    function addWin() {
+  const win = document.getElementById("winInput").value.trim();
+  if (!win) return;
+  const wins = JSON.parse(localStorage.getItem("wins")) || [];
+  wins.unshift(win);
+  localStorage.setItem("wins", JSON.stringify(wins));
+  displayWins();
+  document.getElementById("winInput").value = '';
+}
+function displayWins() {
+  const list = document.getElementById("winsList");
+  list.innerHTML = '';
+  const wins = JSON.parse(localStorage.getItem("wins")) || [];
+  wins.slice(0, 5).forEach(win => {
+    const li = document.createElement("li");
+    li.textContent = win;
+    list.appendChild(li);
+  });
+}
+window.onload = displayWins;
+
+    window.addEventListener("load", () => {
+  const moodHistory = JSON.parse(localStorage.getItem("moodHistory")) || [];
+  const moodList = document.getElementById("moodHistoryList");
+  moodHistory.slice(0, 5).forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = entry;
+    moodList.appendChild(li);
+  });
+
+// Show the current date
+window.addEventListener("load", () => {
+  const dateElement = document.getElementById("currentDate");
+  const now = new Date();
+  const formatted = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  dateElement.textContent = `Today's date: ${formatted}`;
+});
+
+    function checkMood() {
+  const mood = document.getElementById("moodInput").value.trim();
+  if (!mood) return;
+  const date = new Date().toLocaleString();
+  const entry = `${date}: ${mood}`;
+  let history = JSON.parse(localStorage.getItem("moodHistory")) || [];
+  history.unshift(entry);
+  localStorage.setItem("moodHistory", JSON.stringify(history));
+  document.getElementById("moodResult").textContent = "Mood saved 💾";
+}
+
+    const audioUpload = document.getElementById('audioUpload');
+const uploadedAudio = document.getElementById('uploadedAudio');
+
+audioUpload.addEventListener('change', () => {
+  const files = audioUpload.files;
+  if (files.length > 0) {
+    const fileURL = URL.createObjectURL(files[0]);
+    uploadedAudio.src = fileURL;
+    uploadedAudio.play();
+  }
+});
+
+    const audio = document.getElementById('audioPlayer');
+const volumeControl = document.getElementById('volumeControl');
+const repeatToggle = document.getElementById('repeatToggle');
+const progressBar = document.getElementById('progressBar');
+
+// Volume control
+volumeControl.addEventListener('input', () => {
+  audio.volume = volumeControl.value;
+});
+
+// Repeat toggle
+let isRepeat = false;
+repeatToggle.addEventListener('click', () => {
+  isRepeat = !isRepeat;
+  audio.loop = isRepeat;
+  repeatToggle.textContent = isRepeat ? '🔁 Repeat On' : '🔁 Repeat Off';
+});
+
+// Progress bar update
+audio.addEventListener('timeupdate', () => {
+  const progress = (audio.currentTime / audio.duration) * 100;
+  progressBar.value = progress;
+});
+
+  const playlist = [
+    {
+      title: "Smells Like Teen Spirit – Nirvana",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    },
+    {
+      title: "Wonderwall – Oasis",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+    },
+    {
+      title: "Black Hole Sun – Soundgarden",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    },
+    {
+      title: "Come As You Are – Nirvana",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+    }
+  ];
+
+  let currentIndex = Math.floor(Math.random() * playlist.length);
+  let isShuffle = false;
+
+  const bgMusic = document.getElementById("bgMusic");
+  const toggleButton = document.getElementById("toggleButton");
+  const songTitle = document.getElementById("song-title");
+  const prevButton = document.getElementById("prevButton");
+  const nextButton = document.getElementById("nextButton");
+  const shuffleButton = document.getElementById("shuffleButton");
+
+  function loadSong(index) {
+    const track = playlist[index];
+    bgMusic.src = track.url;
+    songTitle.textContent = track.title;
+    bgMusic.play().catch(() => {
+      toggleButton.innerText = "Play";
+    });
+  }
+
+  function nextSong() {
+    if (isShuffle) {
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * playlist.length);
+      } while (newIndex === currentIndex && playlist.length > 1);
+      currentIndex = newIndex;
+    } else {
+      currentIndex = (currentIndex + 1) % playlist.length;
+    }
+    loadSong(currentIndex);
+  }
+
+  function prevSong() {
+    currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    loadSong(currentIndex);
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    loadSong(currentIndex);
+
+    toggleButton.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        toggleButton.innerText = "Pause";
+      } else {
+        bgMusic.pause();
+        toggleButton.innerText = "Play";
+      }
+    });
+
+    nextButton.addEventListener("click", nextSong);
+    prevButton.addEventListener("click", prevSong);
+
+    shuffleButton.addEventListener("click", () => {
+      isShuffle = !isShuffle;
+      shuffleButton.innerText = isShuffle ? "🔀 Shuffle: On" : "🔀 Shuffle: Off";
+    });
+  });
+</script>
 </body>
 </html>
-"""
-
-# Save the output to a file
-with open(html_output_path, "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-html_output_path
