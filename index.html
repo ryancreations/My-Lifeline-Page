@@ -176,7 +176,7 @@ Panic Button
       <h2>Daily Bestie❤️ Quote</h2>
       <p class="quote" id="daily-quote">"You are not your illness💌."</p>
     </div>
-
+  
     <div class="section">
   <h2> Breathe With Me</h2>
   <div id="breathingCircle"></div>
@@ -242,7 +242,7 @@ You’re still here. That matters.
       </ul>
     </div>
 
-<div>
+<div class="section">
   <h3>How are you feeling?</h3>
   <button onclick="localStorage.setItem('mood','😡 Angry')">😡</button>
   <button onclick="localStorage.setItem('mood','😢 Sad')">😢</button>
@@ -251,7 +251,8 @@ You’re still here. That matters.
   <button onclick="localStorage.setItem('mood','😌 Calm')">😌</button>
 </div>
 
-  
+  <div id="savedMood"></div>
+
       <div class="section">
         <h2>Depression Playlist</h2>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" title="Sik World &quot;7 Years&quot;(Lyrical Version)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -323,7 +324,10 @@ You’re still here. That matters.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
    </div>
      <script>
-       setInterval(()=>{
+       document.getElementById("savedMood").innerText = 
+"Last mood: " + (localStorage.getItem("mood") || "None saved yet");
+       
+       setInterval((5)=>{
   const el = document.getElementById("floatAff");
   el.style.top = Math.random()*80 + "vh";
   el.style.left = Math.random()*80 + "vw";
