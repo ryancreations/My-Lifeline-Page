@@ -313,6 +313,11 @@ You’re still here. That matters.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
    </div>
      <script>
+       setInterval(()=>{
+  const el = document.getElementById("floatAff");
+  el.style.top = Math.random()*80 + "vh";
+  el.style.left = Math.random()*80 + "vw";
+}, 5000);
            const hugs = [
   "You're doing better than you think. 💖",
   "One breath at a time. That’s enough. 🌿",
