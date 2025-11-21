@@ -162,6 +162,9 @@
 Panic Button
 </button>
 </div>
+  <h2 id="intro"></h2>
+
+
   <main>
  <div class="section">
   <h2> 🤙Music🎶Player📱</h2>
@@ -331,7 +334,15 @@ You’re still here. That matters.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
    </div>
      <script>
-      
+let text="Hey. You made it back. I’m glad you didn’t give up.";
+let i=0;
+function type(){
+ if(i<text.length){
+  document.getElementById("intro").innerText += text.charAt(i++);
+  setTimeout(type,80);
+ }
+}
+type();
 
        document.getElementById("savedMood").innerText = 
 "Last mood: " + (localStorage.getItem("mood") || "None saved yet");
