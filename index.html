@@ -164,7 +164,8 @@ Panic Button
 </div>
   <h2 id="intro"></h2>
 <div class="section">
-<button onclick="task()">Give me something to do</button>
+<div class="section"><button onclick="hideAll()">I need 5</button></div>
+
 </div>
   <main>
  <div class="section">
@@ -345,6 +346,7 @@ You’re still here. That matters.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi 🚬 Lofi Hip Hop &amp; Chillhop Mix ~ Relaxed Vibes for Smoking" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
    </div>
      <script>
+       function hideAll(){document.body.style.display='none'; setTimeout(()=>document.body.style.display='block',300000);}
        const tasks=["Drink water","Take 3 breaths","Stretch arms","Stand outside 1 min","Put on music"];
 function task(){ alert(tasks[Math.floor(Math.random()*tasks.length)]); }
 
