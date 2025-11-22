@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mental Tools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+
+<body style="background-color: #f0f8ff; font-family: 'Quicksand', sans-serif; margin: 0; padding: 20px; text-align: center;">
+
+  <!-- 🔹 NAVIGATION -->
+  <div style="margin-bottom: 20px;">
+    <a href="index.html"><button>🏠 Home</button></a>
+    <a href="music.html"><button>🎶 Music</button></a>
+    <a href="videos.html"><button>📺 Videos</button></a>
+    <a href="mental.html"><button>🧠 Mental Tools</button></a>
+    <a href="emergency.html"><button>❗ Emergency</button></a>
+  </div>
+
+  <h1>🧠 Mental Health Tools</h1>
+  <p>Use these tools to calm down, reflect, or regain control.</p>
+
+  <!-- ⭐ Add mental health tools here -->
+
+  <div class="section">
+    <h2>5 Senses Grounding</h2>
+    <button onclick="startGrounding()">Start</button>
+    <p id="groundText"></p>
+  </div>
+
+<script>
+function startGrounding(){
+  const steps = [
+    "🌍 Name 5 things you can see.",
+    "🖐 Name 4 things you can feel.",
+    "👂 Name 3 things you can hear.",
+    "👃 Name 2 things you can smell.",
+    "👅 Name 1 thing you can taste."
+  ];
+  let i = 0;
+  const textEl = document.getElementById("groundText");
+  textEl.textContent = steps[i];
+  const interval = setInterval(()=>{
+    i++;
+    if(i >= steps.length){
+      textEl.textContent = "You're safe now.";
+      clearInterval(interval);
+    } else {
+      textEl.textContent = steps[i];
+    }
+  }, 5000);
+}
+</script>
+
+</body>
+</html>
