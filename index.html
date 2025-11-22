@@ -198,6 +198,10 @@ Panic Button
        <h2>HOLD</h2>
         <p>BREATH🧠 OUT</p>
 </div>
+  <div class="section">
+    <input id="copeInput" placeholder="How did I cope?"><button onclick="let a=JSON.parse(localStorage.getItem('copes')||'[]'); a.unshift(copeInput.value); localStorage.setItem('copes',JSON.stringify(a)); alert('Saved')">Save</button>
+  </div>
+
  <div class="section">
   <button onclick="alert('Name 5 things you can see, 4 things you can touch, 3 things you can hear, 2 things you can smell, 1 thing you can taste.')">Ground Me</button>
 </div>
@@ -248,9 +252,6 @@ Panic Button
 You’re still here. That matters.
 </div>
 
-<div class="section">
-  <a href="https://www.omart.com/online-coloring" target="_blank"><button>Open Coloring</button></a>
-</div>
 
        <div class="section">
       <h2>Rap Music</h2>
