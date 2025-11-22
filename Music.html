@@ -1,170 +1,94 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Lifeline Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music Player 🎶</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
-    @keyframes breathe {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.5); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
-}
-
-    * { box-sizing: border-box; }
-   body {
-  background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
-  font-family: 'Quicksand', sans-serif;
-  color: #333;
-  margin: 0;
-  padding: 0;
-}
-  #breathingCircle {
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #87ceeb;
-  animation: breathe 12s infinite;
-}
-    header {
-      background-color: #87ceeb;
-      color: white;
+    body {
+      background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
       padding: 20px;
+      color: #333;
       text-align: center;
     }
-    main {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-   .section {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border: 2px solid #87ceeb;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #f0fbff;
-}
 
-    .section h2 {
-      color: #00bcd4;
-    }
-    a {
-      color: #00bcd4;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    .message {
-      white-space: pre-wrap;
-      background-color: #fff;
-      border-left: 4px solid #87ceeb;
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 8px;
-    }
-    .quote {
-      font-style: italic;
-      font-size: 1.1em;
-      color: #555;
-      margin-top: 10px;
-    }
-    #countdown {
-      font-size: 1.5em;
-      font-weight: bold;
-      margin-top: 10px;
-      color: #0077aa;
-    }
-    .calculator {
-      margin-top: 15px;
-      padding: 10px;
-      background: #e0f7ff;
-      border: 2px dashed #87ceeb;
+    .section {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      border: 2px solid #87ceeb;
       border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #f0fbff;
     }
-    .calculator input {
-      padding: 8px;
-      border: 1px solid #87ceeb;
-      border-radius: 5px;
-      width: 80px;
-    }
-    .calculator-result {
-      margin-top: 10px;
-      font-weight: bold;
-      color: #0077aa;
-    }
-    .checkin {
-      margin-top: 15px;
-    }
-    .checkin textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    .checkin-result {
-      margin-top: 10px;
-      background-color: #e0fff4;
-      border-left: 4px solid #3cb371;
-      padding: 10px;
-      border-radius: 6px;
-    }
-    .bg-music audio {
-      display: none;
-    }
-    #musicToggle {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #87ceeb;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-#musicToggle:hover {
-  background-color: #5ab0d4;
-}
 
-      .music-controls {
-      text-align: center;
-      margin: 20px;
+    h2 {
+      color: #00bcd4;
     }
-    .self-care-buttons button {
-      margin: 5px;
-      padding: 10px 15px;
+
+    iframe {
+      width: 90%;
+      max-width: 700px;
+      height: 315px;
+      border-radius: 10px;
       border: none;
-      border-radius: 6px;
-      background-color: #00bcd4;
-      color: white;
-      cursor: pointer;
-    }
-    .self-care-buttons button:hover {
-      background-color: #0097a7;
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>My Lifeline Page</h1>
-    <p>Your Safe Space When Things Get Hard!</p>
-     <p>Created By, Your's Truly: Ryan Roland</p>
- <p id="currentDate">Today's patience: (loading😂...)</p>
-  </header>
 
-   </header>
-<main>
-   </div>
+  <h1>🎶 Music Player Page 🎧</h1>
+  <p>Pick a vibe and let the music do its thing.</p>
 
-<div class="section">
-  <h2> 🤙Music🎶Player📱</h2>
-  <h2> 🎸All Out 2000's🎸</h2>
-  <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0"  encrypted-media" allowfullscreen></iframe>
- </div>
-   <div class="section">
-  <h2>🎵 Best Of Alternative Rock</h2>
-      <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0"  encrypted-media" allowfullscreen></iframe>
-   </div>
+  <div class="section">
+    <h2>🎸 All Out 2000's 🎸</h2>
+    <iframe src="https://archive.org/details/nirvana-all-apologies" allowfullscreen></iframe>
+  </div>
 
+  <div class="section">
+    <h2>🔥 Best Of Alternative Rock</h2>
+    <iframe src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" allowfullscreen></iframe>
+  </div>
+
+  <div class="section">
+    <h2>🎤 Rap Music</h2>
+    <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe>
+  </div>
+
+  <div class="section">
+    <h2>💔 Depression Playlist</h2>
+    <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe>
+  </div>
+
+  <div class="section">
+    <h2>🤘 Alternative Playlist</h2>
+    <iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe>
+  </div>
+
+  <div class="section">
+    <h2>🌙 Lofi Mix</h2>
+    <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe>
+  </div>
+
+  <div class="section">
+    <h2>📁 Upload Your Own Song</h2>
+    <input type="file" id="audioUpload" accept="audio/*">
+    <br><br>
+    <audio id="uploadedAudio" controls></audio>
+  </div>
+
+  <script>
+    document.getElementById("audioUpload").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      const audio = document.getElementById("uploadedAudio");
+      audio.src = URL.createObjectURL(file);
+      audio.play();
+    });
+  </script>
+
+</body>
+</html>
