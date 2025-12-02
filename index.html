@@ -1,60 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panic & Grounding Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Lifeline Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        .contact-list {
+            list-style: none;
+            padding: 0;
+        }
+        .contact-list li {
+            background: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact-list a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .resource-card {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .resource-card a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        .notes {
+            background: #fff3e0;
+            border: 1px dashed #ff9800;
+            padding: 15px;
+            min-height: 100px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #f0f8ff;
+            font-size: 0.9em;
+            color: #666;
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            header h1 { font-size: 2em; }
+        }
+    </style>
 </head>
+<body>
+    <div class="container">
+        <header>
+            <h1>My Lifeline</h1>
+            <p>Your quick guide to support and positivity.</p>
+        </header>
 
-<body style="background-color: #f0f8ff; font-family: 'Quicksand', sans-serif; margin: 0; padding: 20px; text-align: center;">
+        <section class="section">
+            <h2>Emergency Contacts</h2>
+            <ul class="contact-list">
+                <li>
+                    <span>Family/Friends: Mom</span>
+                    <a href="tel:+1234567890">Call (123) 456-7890</a>
+                </li>
+                <li>
+                    <span>Emergency Services</span>
+                    <a href="tel:911">Call 911</a>
+                </li>
+                <li>
+                    <span>Crisis Hotline</span>
+                    <a href="tel:988">Call 988 (Suicide Prevention)</a>
+                </li>
+                <!-- Add more contacts here -->
+            </ul>
+        </section>
 
-  <!-- 🔹 NAVIGATION BAR -->
-  <div style="margin-bottom: 20px;">
-    <a href="index.html"><button style="padding: 10px; margin: 5px;">🏠 Home</button></a>
-    <a href="Music.html"><button style="padding: 10px; margin: 5px;">🎶 Music</button></a> <!-- ⭐ NEW BUTTON ADDED -->
-    <a href="videos.html"><button style="padding: 10px; margin: 5px;">📺 Videos</button></a>
-    <a href="mental.html"><button style="padding: 10px; margin: 5px;">🧠 Mental Tools</button></a>
-    <a href="emergency.html"><button style="padding: 10px; margin: 5px;">❗ Emergency</button></a>
-  </div>
+        <section class="section">
+            <h2>Quick Resources</h2>
+            <div class="resources">
+                <div class="resource-card">
+                    <a href="https://www.mentalhealth.gov/" target="_blank">Mental Health Resources</a>
+                </div>
+                <div class="resource-card">
+                    <a href="https://www.samhsa.gov/" target="_blank">SAMHSA Helpline</a>
+                </div>
+                <div class="resource-card">
+                    <a href="https://www.nami.org/" target="_blank">NAMI Support</a>
+                </div>
+                <div class="resource-card">
+                    <a href="https://www.headspace.com/" target="_blank">Meditation App</a>
+                </div>
+                <!-- Add more links here -->
+            </div>
+        </section>
 
-  <!-- 🔻 All your original panic + grounding content stays below -->
-  
-  <div class="section" style="background-color: #fff; border: 2px solid #87ceeb; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-    <h2 style="color: #00bcd4;">Panic Attacks/Suicidal Ideation</h2>
-    <p>Breathe, you're okay. Stay present.</p>
-  </div>
+        <section class="section">
+            <h2>Daily Notes & Affirmations</h2>
+            <div class="notes" contenteditable="true">
+                <p>Write your thoughts here...</p>
+                <p>Example: "Today, I am grateful for small wins."</p>
+                <!-- This is editable – type directly in the browser! -->
+            </div>
+        </section>
 
-  <div class="section" style="background-color: #fff; border: 2px solid #87ceeb; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
-    <h2 style="color: #00bcd4;">🫁 Ground Yourself</h2>
-    <button onclick="startGrounding()">Start 5 Senses</button>
-    <p id="groundText"></p>
-  </div>
-
-<script>
-  function startGrounding(){
-    const steps = [
-      "🌍 Name 5 things you can see.",
-      "🖐 Name 4 things you can feel.",
-      "👂 Name 3 things you can hear.",
-      "👃 Name 2 things you can smell.",
-      "👅 Name 1 thing you can taste."
-    ];
-    let i = 0;
-    const textEl = document.getElementById("groundText");
-    textEl.textContent = steps[i];
-
-    const interval = setInterval(()=>{
-      i++;
-      if(i >= steps.length){
-        textEl.textContent = "You're safe. You're here. You made it through that moment ❤️";
-        clearInterval(interval);
-      } else {
-        textEl.textContent = steps[i];
-      }
-    }, 5000);
-  }
-</script>
-
+        <footer>
+            <p>&copy; 2025 Your Name. Customize and stay strong.</p>
+        </footer>
+    </div>
 </body>
 </html>
