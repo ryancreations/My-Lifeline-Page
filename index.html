@@ -1,157 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Lifeline Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        .section {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        .section:last-child {
-            border-bottom: none;
-        }
-        .section h2 {
-            color: #667eea;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 5px;
-        }
-        .contact-list {
-            list-style: none;
-            padding: 0;
-        }
-        .contact-list li {
-            background: #f9f9f9;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .contact-list a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .resources {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
-        .resource-card {
-            background: #e3f2fd;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .resource-card a {
-            color: #1976d2;
-            text-decoration: none;
-        }
-        .notes {
-            background: #fff3e0;
-            border: 1px dashed #ff9800;
-            padding: 15px;
-            min-height: 100px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background: #f0f8ff;
-            font-size: 0.9em;
-            color: #666;
-        }
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            header h1 { font-size: 2em; }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Lifeline Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+
+<style>
+@keyframes breathe {
+ 0% { transform: scale(1); opacity: 0.7; }
+ 50% { transform: scale(1.5); opacity: 1; }
+ 100% { transform: scale(1); opacity: 0.7; }
+}
+* { box-sizing: border-box; }
+
+body {
+ background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
+ font-family: 'Quicksand', sans-serif;
+ color: #333;
+ margin: 0;
+ padding: 0;
+}
+
+#breathingCircle {
+ margin: 0 auto;
+ width: 100px;
+ height: 100px;
+ border-radius: 50%;
+ background-color: #87ceeb;
+ animation: breathe 12s infinite;
+}
+
+header {
+ background-color: #87ceeb;
+ color: white;
+ padding: 20px;
+ text-align: center;
+}
+
+main { 
+ padding: 20px;
+ max-width: 900px;
+ margin: auto;
+}
+
+.section {
+ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+ border: 2px solid #87ceeb;
+ border-radius: 10px;
+ padding: 20px;
+ margin-bottom: 20px;
+ background-color: #f0fbff;
+}
+
+.section h2 {
+ color: #00bcd4;
+}
+
+a { color: #00bcd4; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.quote {
+ font-style: italic;
+ font-size: 1.1em;
+ color: #555;
+ margin-top: 10px;
+}
+
+#countdown {
+ font-size: 1.5em;
+ font-weight: bold;
+ margin-top: 10px;
+ color: #0077aa;
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>My Lifeline</h1>
-            <p>Your quick guide to support and positivity.</p>
-        </header>
 
-        <section class="section">
-            <h2>Emergency Contacts</h2>
-            <ul class="contact-list">
-                <li>
-                    <span>Family/Friends: Mom</span>
-                    <a href="tel:+1234567890">Call (123) 456-7890</a>
-                </li>
-                <li>
-                    <span>Emergency Services</span>
-                    <a href="tel:911">Call 911</a>
-                </li>
-                <li>
-                    <span>Crisis Hotline</span>
-                    <a href="tel:988">Call 988 (Suicide Prevention)</a>
-                </li>
-                <!-- Add more contacts here -->
-            </ul>
-        </section>
+<header>
+ <h1>My Lifeline Page</h1>
+ <p>Your Safe Space When Things Get Hard!</p>
+ <p>Created By, Your's Truly: Ryan Roland</p>
+ <p id="currentDate">Today's patience: (loading😂...)</p>
+</header>
 
-        <section class="section">
-            <h2>Quick Resources</h2>
-            <div class="resources">
-                <div class="resource-card">
-                    <a href="https://www.mentalhealth.gov/" target="_blank">Mental Health Resources</a>
-                </div>
-                <div class="resource-card">
-                    <a href="https://www.samhsa.gov/" target="_blank">SAMHSA Helpline</a>
-                </div>
-                <div class="resource-card">
-                    <a href="https://www.nami.org/" target="_blank">NAMI Support</a>
-                </div>
-                <div class="resource-card">
-                    <a href="https://www.headspace.com/" target="_blank">Meditation App</a>
-                </div>
-                <!-- Add more links here -->
-            </div>
-        </section>
 
-        <section class="section">
-            <h2>Daily Notes & Affirmations</h2>
-            <div class="notes" contenteditable="true">
-                <p>Write your thoughts here...</p>
-                <p>Example: "Today, I am grateful for small wins."</p>
-                <!-- This is editable – type directly in the browser! -->
-            </div>
-        </section>
+<p id="randomHugMessage"></p>
 
-        <footer>
-            <p>&copy; 2025 Your Name. Customize and stay strong.</p>
-        </footer>
-    </div>
+<div class="section">
+ <button onclick="document.body.style.backgroundColor='#0a0a0a'; document.body.style.color='white'; alert('Breathe. You’re safe. Just stay here with me.')">
+ Panic Button
+ </button>
+</div>
+
+<div class="section">
+ <button onclick="task()">Give me something to do</button>
+</div>
+
+
+<main>
+
+<!-- MUSIC PLAYER -->
+<div class="section">
+ <h2> 🤙Music🎶Player📱</h2>
+ <h2> 🎸All Out 2000's🎸</h2>
+ <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<div class="section">
+ <h2>🎵 Best Of Alternative Rock</h2>
+ <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0" allowfullscreen></iframe>
+</div>
+
+
+<div class="section">
+ <h2>Daily Bestie❤️ Quote</h2>
+ <p class="quote" id="daily-quote">"You are not your illness💌."</p>
+</div>
+
+
+<!-- BREATHING -->
+<div class="section">
+ <h2>Breathe With Me</h2>
+ <div id="breathingCircle"></div>
+ <h2>🫁 BREATHE IN</h2>
+ <p>HOLD</p>
+ <h2>BREATHE OUT 🧠</h2>
+</div>
+
+
+<!-- ERASE WRITING -->
+<div class="section">
+ <h2>Write it out and Erase it!</h2>
+ <p>Let your feelings out, this will not save.</p>
+ <textarea id="PoemBox" rows="8" style="width:100%; border-radius:8px; padding:10px;"></textarea><br><br>
+ <button onclick="document.getElementById('PoemBox').value=''" style="padding:10px 20px; background:#00bcd4; color:white; border:none; border-radius:6px; cursor:pointer;">
+ 🧠 Poof! Be Gone!
+ </button>
+</div>
+
+
+<!-- COUNTDOWN -->
+<div class="section">
+ <h2>Time until you're okay:</h2>
+ <div id="countdown"></div>
+</div>
+
+
+<!-- FLOATING AFFIRMATION -->
+<div id="floatAff" style="position:fixed; top:20px; left:20px; background:#222; color:white; padding:10px; border-radius:10px;">
+ You’re still here. That matters.
+</div>
+
+
+</main>
+
+
+<script>
+/** RANDOM TASK BUTTON **/
+const tasks = ["Drink water", "Take 3 breaths", "Stretch arms", "Stand outside 1 min", "Put on music"];
+function task(){ alert(tasks[Math.floor(Math.random()*tasks.length)]); }
+
+/** RANDOM HUG **/
+const hugs = [
+ "You're doing better than you think. 💖",
+ "One breath at a time. 🌿",
+ "You are so loved. 💙",
+ "It’s okay to be a mess and still show up. 🎨",
+ "You don’t need to figure it all out today. 🚶"
+];
+document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
+
+/** FLOAT AFFIRMATION MOVEMENT **/
+setInterval(() => {
+ const el = document.getElementById("floatAff");
+ el.style.top = Math.random()*80 + "vh";
+ el.style.left = Math.random()*80 + "vw";
+}, 5000);
+
+/** DATE **/
+window.addEventListener("load", () => {
+ const dateElement = document.getElementById("currentDate");
+ const now = new Date();
+ const formatted = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+ dateElement.textContent = `Today's date: ${formatted}`;
+});
+
+/** COUNTDOWN **/
+const countdownDisplay = document.getElementById("countdown");
+const targetDate = new Date("2025-06-24T12:00:00");
+
+function updateCountdown() {
+ const now = new Date();
+ const diff = targetDate - now;
+ if (diff <= 0) {
+  countdownDisplay.textContent = "I promise, everything will be okay.";
+  return;
+ }
+ const days = Math.floor(diff / (1000*60*60*24));
+ const hours = Math.floor((diff / (1000*60*60)) % 24);
+ const minutes = Math.floor((diff / (1000*60)) % 60);
+ const seconds = Math.floor((diff / 1000) % 60);
+ countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+</script>
+
 </body>
 </html>
