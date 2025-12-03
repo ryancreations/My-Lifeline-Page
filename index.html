@@ -1,213 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>My Lifeline Page</title>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
-
-<style>
-@keyframes breathe {
- 0% { transform: scale(1); opacity: 0.7; }
- 50% { transform: scale(1.5); opacity: 1; }
- 100% { transform: scale(1); opacity: 0.7; }
-}
-* { box-sizing: border-box; }
-
-body {
- background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
- font-family: 'Quicksand', sans-serif;
- color: #333;
- margin: 0;
- padding: 0;
-}
-
-#breathingCircle {
- margin: 0 auto;
- width: 100px;
- height: 100px;
- border-radius: 50%;
- background-color: #87ceeb;
- animation: breathe 12s infinite;
-}
-
-header {
- background-color: #87ceeb;
- color: white;
- padding: 20px;
- text-align: center;
-}
-
-main { 
- padding: 20px;
- max-width: 900px;
- margin: auto;
-}
-
-.section {
- box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
- border: 2px solid #87ceeb;
- border-radius: 10px;
- padding: 20px;
- margin-bottom: 20px;
- background-color: #f0fbff;
-}
-
-.section h2 {
- color: #00bcd4;
-}
-
-a { color: #00bcd4; text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.quote {
- font-style: italic;
- font-size: 1.1em;
- color: #555;
- margin-top: 10px;
-}
-
-#countdown {
- font-size: 1.5em;
- font-weight: bold;
- margin-top: 10px;
- color: #0077aa;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Lifeline Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
+    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
+    nav button:hover { background: #00bcd4; color: white; }
+    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
+    header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
+    header h1 { font-size: 2.5em; margin-bottom: 10px; }
+    .back { color: white; text-decoration: none; font-size: 1.1em; }
+    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
+    .breathing-circle { margin: 20px auto; width: 100px; height: 100px; border-radius: 50%; background: #87ceeb; animation: breathe 4s infinite; }
+    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
+    textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; resize: vertical; }
+    button { background: #00bcd4; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px; }
+    button:hover { background: #0097a7; }
+    ul { list-style: none; padding: 0; }
+    ul li { background: #e0f7ff; margin: 10px 0; padding: 10px; border-radius: 6px; }
+    ul li a { color: #00bcd4; text-decoration: none; }
+    #randomHugMessage { text-align: center; font-style: italic; font-size: 1.2em; margin: 20px 0; color: #555; }
+    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } main { margin-top: 120px; } }
+  </style>
 </head>
-
 <body>
+  <nav>
+    <button onclick="window.location.href='index.html'">🏠 Dashboard</button>
+    <button onclick="window.location.href='emergency.html'">🚨 Emergency</button>
+    <button onclick="window.location.href='mental.html'">🧠 Mental Health</button>
+    <button onclick="window.location.href='videos.html'">🎥 Videos</button>
+    <button onclick="window.location.href='music.html'">🎵 Music</button>
+  </nav>
 
-<header>
- <h1>My Lifeline Page</h1>
- <p>Your Safe Space When Things Get Hard!</p>
- <p>Created By, Your's Truly: Ryan Roland</p>
- <p id="currentDate">Today's patience: (loading😂...)</p>
-</header>
+  <main>
+    <header>
+      <h1>My Lifeline</h1>
+      <p>Your Safe Space – You're Not Alone 💙</p>
+      <a href="#" class="back" onclick="alert('You\'re already home!')">← Stay Here</a>
+    </header>
 
+    <div id="randomHugMessage"></div>
 
-<p id="randomHugMessage"></p>
+    <div class="section">
+      <h2>Quick Task</h2>
+      <button onclick="task()">Give Me Something To Do</button>
+    </div>
 
+    <div class="section">
+      <h2>Breathe With Me</h2>
+      <div class="breathing-circle"></div>
+      <p style="text-align: center;">Inhale... Hold... Exhale... Repeat 💨</p>
+    </div>
 
+    <div class="section">
+      <h2>Write & Release</h2>
+      <textarea id="poemBox" placeholder="Vent here... It's just for you." rows="6"></textarea><br>
+      <button onclick="document.getElementById('poemBox').value=''">🧠 Poof! Erase</button>
+    </div>
 
+    <div class="section">
+      <h2>How Are You Feeling?</h2>
+      <button onclick="saveMood('😊')">😊 Good</button>
+      <button onclick="saveMood('😢')">😢 Sad</button>
+      <button onclick="saveMood('😴')">😴 Tired</button>
+      <button onclick="saveMood('😡')">😡 Angry</button>
+      <div id="savedMood"></div>
+    </div>
 
-<main>
-<div class="section">
- <button onclick="document.body.style.backgroundColor='#0a0a0a'; document.body.style.color='white'; alert('Breathe. You’re safe. Just stay here with me.')">
- Panic Button
- </button>
-</div>
+    <div class="section">
+      <h2>Distractions</h2>
+      <ul>
+        <li><a href="https://www.google.com/search?q=snake" target="_blank">🐍 Snake Game</a></li>
+        <li><a href="https://neal.fun" target="_blank">🎮 Fun Absurdity</a></li>
+        <li><a href="https://www.patatap.com" target="_blank">🎨 Sound Toy</a></li>
+      </ul>
+    </div>
 
-<div class="section">
- <button onclick="task()">Give me something to do</button>
-</div>
- 
-<!-- MUSIC PLAYER -->
-<div class="section">
- <h2> 🤙Music🎶Player📱</h2>
- <h2> 🎸All Out 2000's🎸</h2>
- <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0" allowfullscreen></iframe>
-</div>
+    <div class="section">
+      <h2>Countdown to Better Days</h2>
+      <div id="countdown"></div>
+    </div>
 
-<div class="section">
- <h2>🎵 Best Of Alternative Rock</h2>
- <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0" allowfullscreen></iframe>
-</div>
+    <div class="section">
+      <h2>People Who Care</h2>
+      <button onclick="location.href='tel:9032494334'">Call Bryce ❤️</button>
+      <button onclick="alert('Text Mom: Hey, need a hug?')">Text Mom</button>
+    </div>
+  </main>
 
+  <script>
+    const hugs = ["You're stronger than you know. 💖", "One step at a time. 🌿", "You are loved. 💙", "This too shall pass. 🎨"];
+    document.getElementById('randomHugMessage').textContent = hugs[Math.floor(Math.random() * hugs.length)];
 
-<div class="section">
- <h2>Daily Bestie❤️ Quote</h2>
- <p class="quote" id="daily-quote">"You are not your illness💌."</p>
-</div>
+    const tasks = ["Drink water 💧", "Take 3 deep breaths 🌬️", "Stretch your arms ✋", "Step outside for 1 min 🚶", "Listen to a favorite song 🎶"];
+    function task() { alert(tasks[Math.floor(Math.random() * tasks.length)]); }
 
+    function saveMood(mood) { localStorage.setItem('mood', mood); document.getElementById('savedMood').textContent = `Last: ${mood} (Saved 💾)`; }
 
-<!-- BREATHING -->
-<div class="section">
- <h2>Breathe With Me</h2>
- <div id="breathingCircle"></div>
- <h2>🫁 BREATHE IN</h2>
- <p>HOLD</p>
- <h2>BREATHE OUT 🧠</h2>
-</div>
+    const targetDate = new Date("2025-06-24T12:00:00");
+    function updateCountdown() {
+      const now = new Date(), diff = targetDate - now;
+      const el = document.getElementById('countdown');
+      if (diff <= 0) el.textContent = "Today is that day! You've made it. 🌟";
+      else {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        el.textContent = `${days} days left – You're almost there!`;
+      }
+    }
+    setInterval(updateCountdown, 1000 * 60 * 60 * 24); // Update daily
+    updateCountdown();
 
-
-<!-- ERASE WRITING -->
-<div class="section">
- <h2>Write it out and Erase it!</h2>
- <p>Let your feelings out, this will not save.</p>
- <textarea id="PoemBox" rows="8" style="width:100%; border-radius:8px; padding:10px;"></textarea><br><br>
- <button onclick="document.getElementById('PoemBox').value=''" style="padding:10px 20px; background:#00bcd4; color:white; border:none; border-radius:6px; cursor:pointer;">
- 🧠 Poof! Be Gone!
- </button>
-</div>
-
-
-<!-- COUNTDOWN -->
-<div class="section">
- <h2>Time until you're okay:</h2>
- <div id="countdown"></div>
-</div>
-
-
-<!-- FLOATING AFFIRMATION -->
-<div id="floatAff" style="position:fixed; top:20px; left:20px; background:#222; color:white; padding:10px; border-radius:10px;">
- You’re still here. That matters.
-</div>
-
-
-</main>
-
-
-<script>
-/** RANDOM TASK BUTTON **/
-const tasks = ["Drink water", "Take 3 breaths", "Stretch arms", "Stand outside 1 min", "Put on music"];
-function task(){ alert(tasks[Math.floor(Math.random()*tasks.length)]); }
-
-/** RANDOM HUG **/
-const hugs = [
- "You're doing better than you think. 💖",
- "One breath at a time. 🌿",
- "You are so loved. 💙",
- "It’s okay to be a mess and still show up. 🎨",
- "You don’t need to figure it all out today. 🚶"
-];
-document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
-
-/** FLOAT AFFIRMATION MOVEMENT **/
-setInterval(() => {
- const el = document.getElementById("floatAff");
- el.style.top = Math.random()*80 + "vh";
- el.style.left = Math.random()*80 + "vw";
-}, 5000);
-
-/** DATE **/
-window.addEventListener("load", () => {
- const dateElement = document.getElementById("currentDate");
- const now = new Date();
- const formatted = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
- dateElement.textContent = `Today's date: ${formatted}`;
-});
-
-/** COUNTDOWN **/
-const countdownDisplay = document.getElementById("countdown");
-const targetDate = new Date("2025-06-24T12:00:00");
-
-function updateCountdown() {
- const now = new Date();
- const diff = targetDate - now;
- if (diff <= 0) {
-  countdownDisplay.textContent = "I promise, everything will be okay.";
-  return;
- }
- const days = Math.floor(diff / (1000*60*60*24));
- const hours = Math.floor((diff / (1000*60*60)) % 24);
- const minutes = Math.floor((diff / (1000*60)) % 60);
- const seconds = Math.floor((diff / 1000) % 60);
- countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-setInterval(updateCountdown,1000);
-updateCountdown();
-</script>
-
+    if (localStorage.getItem('mood')) saveMood(localStorage.getItem('mood'));
+  </script>
 </body>
 </html>
