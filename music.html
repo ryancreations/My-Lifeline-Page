@@ -7,6 +7,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
+    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
+    nav button:hover { background: #00bcd4; color: white; }
+    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
+    header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
+    header h1 { font-size: 2.5em; margin-bottom: 10px; }
+    .back { color: white; text-decoration: none; font-size: 1.1em; }
+    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
+    .breathing-circle { margin: 20px auto; width: 100px; height: 100px; border-radius: 50%; background: #87ceeb; animation: breathe 4s infinite; }
+    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
+    textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; resize: vertical; }
+    button { background: #00bcd4; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px; }
+    button:hover { background: #0097a7; }
+    ul { list-style: none; padding: 0; }
+    ul li { background: #e0f7ff; margin: 10px 0; padding: 10px; border-radius: 6px; }
+    ul li a { color: #00bcd4; text-decoration: none; }
+    #randomHugMessage { text-align: center; font-style: italic; font-size: 1.2em; margin: 20px 0; color: #555; }
+    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } main { margin-top: 120px; } }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
       font-family: 'Quicksand', sans-serif;
