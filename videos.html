@@ -8,29 +8,30 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
-    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    nav { position: fixed; top: 0; left: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
     nav button:hover { background: #00bcd4; color: white; }
-    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
+    main { margin-top: 70px; max-width: 900px; margin-left: auto; margin-right: auto; padding: 0 15px; }
     header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
     header h1 { font-size: 2.5em; margin-bottom: 10px; }
     .back { color: white; text-decoration: none; font-size: 1.1em; }
-    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
     iframe { width: 100%; height: 315px; border: none; border-radius: 10px; display: block; margin: 10px auto; }
     ul { list-style: none; padding: 0; }
-    ul li { margin: 10px 0; padding: 10px; background: #e0f7ff; border-radius: 6px; }
+    ul li { margin: 10px 0; padding: 12px; background: #e0f7ff; border-radius: 6px; }
     ul li a { color: #00bcd4; text-decoration: none; font-weight: 600; }
-    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } iframe { height: 200px; } main { margin-top: 120px; } }
+    @media (max-width: 600px) { iframe { height: 200px; } nav button { display: block; margin: 5px auto; } main { margin-top: 140px; } }
   </style>
 </head>
 <body>
+
   <nav>
-    <button onclick="window.location.href='index.html'">🏠 Dashboard</button>
-    <button onclick="window.location.href='emergency.html'">🚨 Emergency</button>
-    <button onclick="window.location.href='mental.html'">🧠 Mental Health</button>
-    <button onclick="window.location.href='videos.html'">🎥 Videos</button>
-    <button onclick="window.location.href='music.html'">🎵 Music</button>
+    <button onclick="location.href='index.html'">Dashboard</button>
+    <button onclick="location.href='emergency.html'">Emergency</button>
+    <button onclick="location.href='mental.html'">Mental Health</button>
+    <button onclick="location.href='videos.html'">Videos</button>
+    <button onclick="location.href='music.html'">Music</button>
   </nav>
 
   <main>
@@ -40,38 +41,44 @@
       <a href="index.html" class="back">← Back to Dashboard</a>
     </header>
 
+    <!-- Original Dukes of Hazzard links restored exactly as you had them -->
     <div class="section">
-      <h2>🎬 Dukes of Hazzard – Season 4 Ep 1</h2>
-      <iframe src="https://archive.org/embed/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)" allowfullscreen></iframe>
+      <h2>Dukes Of Hazzard!!</h2>
+      <iframe width="560" height="315"
+        src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4"
+        frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
-      <h2>🎬 Dukes of Hazzard – Season 7 Ep 3</h2>
-      <iframe src="https://archive.org/embed/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)" allowfullscreen></iframe>
+      <h2>Dukes Of Hazzard S7!</h2>
+      <iframe width="560" height="315"
+        src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4"
+        frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
-      <h2>📺 Streaming Favorites</h2>
+      <h2>Streaming Favorites</h2>
       <ul>
-        <li><a href="https://www.netflix.com" target="_blank">🍿 Netflix</a></li>
-        <li><a href="https://www.hulu.com" target="_blank">📺 Hulu</a></li>
-        <li><a href="https://www.primevideo.com" target="_blank">📦 Prime Video</a></li>
-        <li><a href="https://www.tubitv.com" target="_blank">🆓 Tubi (Free)</a></li>
-        <li><a href="https://www.pluto.tv" target="_blank">🪐 Pluto TV (Free)</a></li>
+        <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
+        <li><a href="https://www.hulu.com" target="_blank">Hulu</a></li>
+        <li><a href="https://www.primevideo.com" target="_blank">Prime Video</a></li>
+        <li><a href="https://www.tubitv.com" target="_blank">Tubi (Free)</a></li>
+        <li><a href="https://www.pluto.tv" target="_blank">Pluto TV (Free)</a></li>
       </ul>
     </div>
 
     <div class="section">
-      <h2>YouTubers You Love 😍</h2>
+      <h2>YouTubers You Love</h2>
       <ul>
-        <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">🐒 FamLaurenRP</a></li>
+        <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">FamLaurenRP</a></li>
         <li><a href="https://www.youtube.com/@FamExtra" target="_blank">FamExtra</a></li>
-        <li><a href="https://www.youtube.com/@Elanip" target="_blank">🐎 Elanip</a></li>
-        <li><a href="https://www.youtube.com/@Treyten." target="_blank">🎮 Treyten</a></li>
+        <li><a href="https://www.youtube.com/@Elanip" target="_blank">Elanip</a></li>
+        <li><a href="https://www.youtube.com/@Treyten." target="_blank">Treyten</a></li>
         <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris</a></li>
-        <li><a href="https://www.youtube.com/@JustFrenchieYT" target="_blank">🕹 Frenchie</a></li>
+        <li><a href="https://www.youtube.com/@JustFrenchieYT" target="_blank">Frenchie</a></li>
       </ul>
     </div>
+
   </main>
 </body>
 </html>
