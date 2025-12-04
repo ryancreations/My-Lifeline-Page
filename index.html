@@ -3,120 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Lifeline Dashboard</title>
+  <title>My Lifeline • Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#87ceeb">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
-    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
-    nav button:hover { background: #00bcd4; color: white; }
-    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
-    header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    .back { color: white; text-decoration: none; font-size: 1.1em; }
-    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
-    .breathing-circle { margin: 20px auto; width: 100px; height: 100px; border-radius: 50%; background: #87ceeb; animation: breathe 4s infinite; }
-    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
-    textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; resize: vertical; }
-    button { background: #00bcd4; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px; }
-    button:hover { background: #0097a7; }
-    ul { list-style: none; padding: 0; }
-    ul li { background: #e0f7ff; margin: 10px 0; padding: 10px; border-radius: 6px; }
-    ul li a { color: #00bcd4; text-decoration: none; }
-    #randomHugMessage { text-align: center; font-style: italic; font-size: 1.2em; margin: 20px 0; color: #555; }
-    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } main { margin-top: 120px; } }
+    :root{--primary:#87ceeb;--accent:#00bcd4;--dark:#0a0a0a;--light:#f0fbff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg,linear-gradient(to bottom,#fff8f0,#e0f7ff));font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
+    nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;z-index:1000;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+    nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600;transition:.3s}
+    nav button:hover{background:var(--accent);color:white}
+    main{margin-top:80px;max-width:900px;margin:auto;padding:15px}
+    header{background:var(--primary);color:white;padding:35px;text-align:center;border-radius:15px}
+    .section{background:var(--light);border:2px solid var(--primary);border-radius:15px;padding:20px;margin:20px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
+    .section h2{color:var(--accent);text-align:center;margin-bottom:15px}
+    #breathingCircle{width:120px;height:120px;background:var(--accent);border-radius:50%;margin:20px auto;animation:breathe 12s infinite}
+    @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+    button{background:var(--accent);color:white;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin:8px;font-size:1.1em;transition:.3s}
+    button:hover{background:#0097a7}
+    textarea{width:100%;padding:15px;border-radius:10px;border:1px solid #ccc;resize:vertical;font-family:inherit}
+    #floatAff{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:15px;border-radius:15px;z-index:999;animation:float 20s infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+    .mood-chart canvas{background:white;border-radius:10px;padding:10px}
+    .theme-btn{background:#333;color:white;margin:5px;padding:10px}
+    #dailyQuote{font-size:1.4em;font-style:italic;text-align:center;background:#fff;padding:20px;border-radius:15px;margin:20px 0}
+    @media(max-width:600px){nav button{display:block;margin:10px auto}}
   </style>
 </head>
 <body>
-  <nav>
-    <button onclick="window.location.href='index.html'">🏠 Dashboard</button>
-    <button onclick="window.location.href='emergency.html'">🚨 Emergency</button>
-    <button onclick="window.location.href='mental.html'">🧠 Mental Health</button>
-    <button onclick="window.location.href='videos.html'">🎥 Videos</button>
-    <button onclick="window.location.href='music.html'">🎵 Music</button>
-  </nav>
 
-  <main>
-    <header>
-      <h1>My Lifeline</h1>
-      <p>Your Safe Space – You're Not Alone 💙</p>
-      <a href="#" class="back" onclick="alert('You\'re already home!')">← Stay Here</a>
-    </header>
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental Health</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+</nav>
 
-    <div id="randomHugMessage"></div>
+<main>
+  <header>
+    <h1>My Lifeline Page</h1>
+    <p>Your Safe Space • Created with love by Ryan Roland</p>
+    <p id="currentDate"></p>
+  </header>
 
-    <div class="section">
-      <h2>Quick Task</h2>
-      <button onclick="task()">Give Me Something To Do</button>
-    </div>
+  <div id="floatAff">You're still here. That matters.</div>
+  <p id="randomHugMessage" style="text-align:center;font-size:1.4em;color:#555;margin:20px"></p>
 
-    <div class="section">
-      <h2>Breathe With Me</h2>
-      <div class="breathing-circle"></div>
-      <p style="text-align: center;">Inhale... Hold... Exhale... Repeat 💨</p>
-    </div>
+  <div class="section">
+    <button onclick="panicMode()">Panic Button • Breathe With Me</button>
+    <button onclick="task()">Give Me Something To Do</button>
+  </div>
 
-    <div class="section">
-      <h2>Write & Release</h2>
-      <textarea id="poemBox" placeholder="Vent here... It's just for you." rows="6"></textarea><br>
-      <button onclick="document.getElementById('poemBox').value=''">🧠 Poof! Erase</button>
-    </div>
+  <div class="section">
+    <h2>Breathe With Me</h2>
+    <div id="breathingCircle"></div>
+    <p style="text-align:center;font-size:1.3em">Inhale... Hold... Exhale...</p>
+  </div>
 
-    <div class="section">
-      <h2>How Are You Feeling?</h2>
-      <button onclick="saveMood('😊')">😊 Good</button>
-      <button onclick="saveMood('😢')">😢 Sad</button>
-      <button onclick="saveMood('😴')">😴 Tired</button>
-      <button onclick="saveMood('😡')">😡 Angry</button>
-      <div id="savedMood"></div>
-    </div>
+  <div class="section">
+    <h2>Daily Affirmation</h2>
+    <div id="dailyQuote">Loading your hug...</div>
+  </div>
 
-    <div class="section">
-      <h2>Distractions</h2>
-      <ul>
-        <li><a href="https://www.google.com/search?q=snake" target="_blank">🐍 Snake Game</a></li>
-        <li><a href="https://neal.fun" target="_blank">🎮 Fun Absurdity</a></li>
-        <li><a href="https://www.patatap.com" target="_blank">🎨 Sound Toy</a></li>
-      </ul>
-    </div>
+  <div class="section mood-chart">
+    <h2>How Are You Feeling?</h2>
+    <button onclick="saveMood('Happy')">Happy</button>
+    <button onclick="saveMood('Sad')">Sad</button>
+    <button onclick="saveMood('Anxious')">Anxious</button>
+    <button onclick="saveMood('Calm')">Calm</button>
+    <button onclick="saveMood('Tired')">Tired</button>
+    <canvas id="moodChart" height="200"></canvas>
+  </div>
 
-    <div class="section">
-      <h2>Countdown to Better Days</h2>
-      <div id="countdown"></div>
-    </div>
+  <div class="section">
+    <h2>Write & Release</h2>
+    <textarea id="journal" rows="6" placeholder="Let it out... this is just for you."></textarea><br><br>
+    <button onclick="saveJournal()">Save Entry</button>
+    <button onclick="clearJournal()">Poof! Erase</button>
+    <button onclick="downloadJournal()">Download Journal</button>
+  </div>
 
-    <div class="section">
-      <h2>People Who Care</h2>
-      <button onclick="location.href='tel:9032494334'">Call Bryce ❤️</button>
-      <button onclick="alert('Text Mom: Hey, need a hug?')">Text Mom</button>
-    </div>
-  </main>
+  <div class="section">
+    <h2>People Who Care</h2>
+    <button onclick="location.href='tel:9032494334'">Call Bryce ❤️</button>
+    <button onclick="alert('Text Mom: I need a check-in')">'Mom'</button>
+  </div>
 
-  <script>
-    const hugs = ["You're stronger than you know. 💖", "One step at a time. 🌿", "You are loved. 💙", "This too shall pass. 🎨"];
-    document.getElementById('randomHugMessage').textContent = hugs[Math.floor(Math.random() * hugs.length)];
+  <div class="section">
+    <h2>Milestone Countdown</h2>
+    <div id="countdown" style="font-size:1.6em;text-align:center"></div>
+  </div>
 
-    const tasks = ["Drink water 💧", "Take 3 deep breaths 🌬️", "Stretch your arms ✋", "Step outside for 1 min 🚶", "Listen to a favorite song 🎶"];
-    function task() { alert(tasks[Math.floor(Math.random() * tasks.length)]); }
+  <div class="section">
+    <h2>Change Theme</h2>
+    <button class="theme-btn" onclick="setTheme('light')">Light</button>
+    <button class="theme-btn" onclick="setTheme('dark')">Dark Mode</button>
+    <button class="theme-btn" onclick="setTheme('ocean')">Ocean</button>
+    <button class="theme-btn" onclick="setTheme('forest')">Forest</button>
+  </div>
+</main>
 
-    function saveMood(mood) { localStorage.setItem('mood', mood); document.getElementById('savedMood').textContent = `Last: ${mood} (Saved 💾)`; }
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Date
+  document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
 
-    const targetDate = new Date("2025-06-24T12:00:00");
-    function updateCountdown() {
-      const now = new Date(), diff = targetDate - now;
-      const el = document.getElementById('countdown');
-      if (diff <= 0) el.textContent = "Today is that day! You've made it. 🌟";
-      else {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        el.textContent = `${days} days left – You're almost there!`;
-      }
+  // Floating affirmation
+  setInterval(() => document.getElementById("floatAff").style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`, 4000);
+
+  // Daily quote API
+  fetch('https://zenquotes.io/api/random').then(r=>r.json()).then(d=> {
+    document.getElementById("dailyQuote").innerHTML = `"${d[0].q}"<br><i>— ${d[0].a}</i>`;
+  });
+
+  // Mood tracking + Chart.js
+  const moods = JSON.parse(localStorage.getItem('moods')||'[]');
+  function saveMood(mood) {
+    const today = new Date().toLocaleDateString();
+    moods.push({date: today, mood});
+    localStorage.setItem('moods', JSON.stringify(moods.slice(-30)));
+    updateChart();
+  }
+  const ctx = document.getElementById('moodChart').getContext('2d');
+  const chart = new Chart(ctx, {type:'line', data:{labels:[], datasets:[{label:'Mood Trend', data:[], borderColor:'#00bcd4', tension:0.4}]}, options:{scales:{y:{min:0,max:5}}}});
+  function updateChart() {
+    const last7 = moods.slice(-7);
+    chart.data.labels = last7.map(m=>m.date.slice(5));
+    chart.data.datasets[0].data = last7.map(m=>['Sad','Anxious','Tired','Calm','Happy'].indexOf(m.mood)+1);
+    chart.update();
+  }
+  updateChart();
+
+  // Journal
+  document.getElementById('journal').value = localStorage.getItem('journal')||'';
+  function saveJournal(){localStorage.setItem('journal', document.getElementById('journal').value); alert('Saved');}
+  function clearJournal(){if(confirm('Erase everything?')){document.getElementById('journal').value='';localStorage.removeItem('journal');}}
+  function downloadJournal(){
+    const text = document.getElementById('journal').value || "Your thoughts matter.";
+    const blob = new Blob([text], {type:'text/plain'});
+    const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my-lifeline-journal.txt'; a.click();
+  }
+
+  // Countdown (customize date!)
+  const target = new Date("2026-06-24T00:00:00");
+  function updateCountdown(){
+    const diff = target - new Date();
+    const el = document.getElementById("countdown");
+    if(diff<=0) el.innerHTML = "You made it! Today is your day!";
+    else{
+      const d=Math.floor(diff/(1000*60*60*24));
+      const h=Math.floor((diff/(1000*60*60))%24);
+      el.innerHTML = `${d} days ${h} hours until your milestone`;
     }
-    setInterval(updateCountdown, 1000 * 60 * 60 * 24); // Update daily
-    updateCountdown();
+  }
+  setInterval(updateCountdown,1000); updateCountdown();
 
-    if (localStorage.getItem('mood')) saveMood(localStorage.getItem('mood'));
-  </script>
+  // Themes
+  function setTheme(theme){
+    if(theme==='dark'){document.body.style.background='#0a0a0a';document.body.style.color='white';}
+    else if(theme==='ocean') document.body.style.background='linear-gradient(to bottom,#001f3f,#87ceeb)';
+    else if(theme==='forest') document.body.style.background='linear-gradient(to bottom,#1b4d3e,#a8e6cf)';
+    else document.body.style.background='linear-gradient(to bottom,#fff8f0,#e0f7ff)';
+    localStorage.setItem('theme',theme);
+  }
+  if(localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
+
+  // Tasks & Panic
+  const tasks = ["Drink water","Take 3 deep breaths","Stretch","Go outside for 1 minute","Listen to your favorite song"];
+  function task(){alert(tasks[Math.floor(Math.random()*tasks.length)]);}
+  function panicMode(){
+    document.body.style.background='#000';document.body.style.color='#fff';
+    alert("You're safe. You're here. Just breathe with me.");
+  }
+
+  // Random hug
+  const hugs = ["You're doing better than you think","One breath at a time","You are so loved","It’s okay to rest","You don’t have to be strong today"];
+  document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random()*hugs.length)];
+</script>
 </body>
 </html>
