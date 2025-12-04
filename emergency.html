@@ -3,77 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emergency – My Lifeline</title>
+  <title>Emergency • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
-    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
-    nav button:hover { background: #00bcd4; color: white; }
-    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
-    header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    .back { color: white; text-decoration: none; font-size: 1.1em; }
-    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
-    .hotline { background: #e0fff4; padding: 15px; border-left: 4px solid #3cb371; border-radius: 6px; margin: 10px 0; }
-    .hotline button { background: #ff6b6b; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 1.1em; }
-    ul li { margin: 10px 0; padding: 10px; background: #e0f7ff; border-radius: 6px; }
-    ul li a { color: #00bcd4; text-decoration: none; font-weight: 600; }
-    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } main { margin-top: 120px; } }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#fff8f0;font-family:'Quicksand',sans-serif;color:#333}
+    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:12px;text-align:center;z-index:1000}
+    nav button{background:white;color:#00bcd4;border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
+    nav button:hover{background:#00bcd4;color:white}
+    main{margin-top:90px;padding:20px;text-align:center}
+    .hotline{background:#ff6b6b;color:white;padding:20px;border-radius:15px;margin:20px auto;max-width:500px}
+    .hotline button{background:white;color:#ff6b6b;padding:15px 30px;border:none;border-radius:50px;font-size:1.3em;margin:10px;cursor:pointer}
+    .distraction{background:#e0f7ff;padding:15px;border-radius:12px;margin:15px}
+    .distraction a{color:#00bcd4;text-decoration:none;font-weight:bold}
   </style>
 </head>
 <body>
-  <nav>
-    <button onclick="window.location.href='index.html'">🏠 Dashboard</button>
-    <button onclick="window.location.href='emergency.html'">🚨 Emergency</button>
-    <button onclick="window.location.href='mental.html'">🧠 Mental Health</button>
-    <button onclick="window.location.href='videos.html'">🎥 Videos</button>
-    <button onclick="window.location.href='music.html'">🎵 Music</button>
-  </nav>
 
-  <main>
-    <header>
-      <h1>Emergency Help</h1>
-      <p>You're safe here. Reach out – help is one call away.</p>
-      <a href="index.html" class="back">← Back to Dashboard</a>
-    </header>
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental Health</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+</nav>
 
-    <div class="section">
-      <h2>🚨 Crisis Hotlines</h2>
-      <div class="hotline">
-        <strong>National Suicide Prevention: 988</strong><br>
-        <button onclick="location.href='tel:988'">Call Now</button>
-      </div>
-      <div class="hotline">
-        <strong>Emergency Services: 911</strong><br>
-        <button onclick="location.href='tel:911'">Call Now</button>
-      </div>
-      <div class="hotline">
-        <strong>Bryce (Personal): (903) 249-4334</strong><br>
-        <button onclick="location.href='tel:9032494334'">Call Bryce</button>
-      </div>
-    </div>
+<main>
+  <h1 style="font-size:2.5em;color:#d32f2f">You Are Not Alone</h1>
+  <p style="font-size:1.4em">Help is one tap away</p>
 
-    <div class="section">
-      <h2>Quick Support Links</h2>
-      <ul>
-        <li><a href="https://988lifeline.org/" target="_blank">988 Lifeline Chat</a></li>
-        <li><a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank">SAMHSA Helpline</a></li>
-        <li><a href="https://www.nami.org/help" target="_blank">NAMI Support</a></li>
-        <li><a href="https://ibpf.org/resource-list/" target="_blank">More Resources</a></li>
-      </ul>
-    </div>
+  <div class="hotline" id="mainHotline">
+    <h2>988 • Suicide & Crisis Lifeline</h2>
+    <button onclick="location.href='tel:988'">Call 988 Now</button>
+    <button onclick="location.href='tel:911'">Call 911</button>
+    <button onclick="location.href='tel:9032494334'">Call Bryce</button>
+  </div>
 
-    <div class="section">
-      <h2>Grounding Distractions</h2>
-      <ul>
-        <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Fluid Simulation 🌀</a></li>
-        <li><a href="https://quickdraw.withgoogle.com/" target="_blank">Quick Draw 🎨</a></li>
-        <li><a href="https://play2048.co/" target="_blank">2048 Puzzle 🧩</a></li>
-      </ul>
-    </div>
-  </main>
+  <div class="distraction">
+    <h3>Need a distraction?</h3>
+    <p><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Calming Fluid</a> • 
+       <a href="https://neal.fun" target="_blank">Fun Games</a> • 
+       <a href="https://www.patatap.com" target="_blank">Make Music</a></p>
+  </div>
+</main>
+
+<script>
+  // Try to detect country and show local hotline
+  fetch('https://ipapi.co/json/').then(r=>r.json()).then(data=>{
+    const country = data.country_code;
+    const hotlineDiv = document.getElementById('mainHotline');
+    if(country==='GB') hotlineDiv.innerHTML = `<h2>116 123 • Samaritans (UK)</h2><button onclick="location.href='tel:116123'">Call Now</button>`;
+    else if(country==='AU') hotlineDiv.innerHTML = `<h2>13 11 14 • Lifeline Australia</h2><button onclick="location.href='tel:131114'">Call Now</button>`;
+  });
+</script>
 </body>
 </html>
