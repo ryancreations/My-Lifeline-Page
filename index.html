@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Lifeline • Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#87ceeb">
   <style>
     :root{--primary:#87ceeb;--accent:#00bcd4;--dark:#0a0a0a;--light:#f0fbff}
@@ -27,7 +26,9 @@
     @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
     .mood-chart canvas{background:white;border-radius:10px;padding:10px}
     .theme-btn{background:#333;color:white;margin:5px;padding:10px}
-    #dailyQuote{font-size:1.4em;font-style:italic;text-align:center;background:#fff;padding:20px;border-radius:15px;margin:20px 0}
+    #dailyQuote{font-size:1.4em;font-style:italic;text-align:center;background:#fff;padding:25px;border-radius:15px;margin:20px 0;box-shadow:0 6px 20px rgba(0,0,0,.1);line-height:1.6}
+    #dailyQuote::before{content:"open-quote";font-size:3em;color:var(--accent);opacity:0.3;float:left;margin-right:10px}
+    #dailyQuote::after{content:"close-quote";font-size:3em;color:var(--accent);opacity:0.3;float:right;margin-left:10px;margin-top:20px}
     @media(max-width:600px){nav button{display:block;margin:10px auto}}
   </style>
 </head>
@@ -63,8 +64,8 @@
   </div>
 
   <div class="section">
-    <h2>Daily Affirmation</h2>
-    <div id="dailyQuote">Loading your hug...</div>
+    <h2>Your Daily Affirmation</h2>
+    <div id="dailyQuote">One moment...</div>
   </div>
 
   <div class="section mood-chart">
@@ -87,7 +88,7 @@
 
   <div class="section">
     <h2>People Who Care</h2>
-    <button onclick="location.href='tel:9032494334'">Call Bryce ❤️</button>
+    <button onclick="location.href='tel:9032494334'">Call Bryce</button>
     <button onclick="alert('Text Mom: I need a check-in')">'Mom'</button>
   </div>
 
@@ -107,80 +108,181 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Date
-  document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+// 100 BEAUTIFUL AFFIRMATIONS — ONE PER DAY, FOREVER
+const affirmations = [
+  "You are worthy exactly as you are today.",
+  "Your feelings are valid. You are allowed to feel.",
+  "You have survived every hard day so far. That matters.",
+  "Healing is not linear, and that's okay.",
+  "You don't have to be productive to be worthy.",
+  "Your story is still being written — and it's beautiful.",
+  "It's okay to not be okay.",
+  "You are not a burden for needing help.",
+  "You are stronger than you feel right now.",
+  "One breath at a time is enough.",
+  "You deserve rest without guilt.",
+  "Your existence alone makes the world better.",
+  "You are allowed to take up space.",
+  "Progress looks different for everyone — yours counts.",
+  "You are doing better than you think.",
+  "Your past does not define your future.",
+  "You are loved even on your worst days.",
+  "Asking for help is a sign of strength.",
+  "You are not broken. You are healing.",
+  "Your pace is perfect for you.",
+  "You are enough. Right now. Exactly as you are.",
+  "It's okay to let go of what you can't control.",
+  "You are worthy of kindness — especially from yourself.",
+  "Your voice matters. Your truth matters.",
+  "You don't have to have it all figured out.",
+  "You are allowed to change your mind.",
+  "Your feelings will pass. You will not feel this way forever.",
+  "You are resilient beyond measure.",
+  "You are not alone in this.",
+  "Small steps are still steps forward.",
+  "You deserve peace.",
+  "Your needs are important.",
+  "You are capable of amazing things — even on quiet days.",
+  "It's okay to outgrow people and places.",
+  "You are allowed to say no.",
+  "Your boundaries are valid.",
+  "You are more than your struggles.",
+  "You are growing, even when it doesn't feel like it.",
+  "You are allowed to feel proud of yourself.",
+  "Your heart is kind. That matters.",
+  "You don't have to earn rest.",
+  "You are worthy of love without conditions.",
+  "Your pain does not make you weak.",
+  "You are allowed to take time for yourself.",
+  "You are doing your best — and that is enough.",
+  "Your journey is uniquely yours.",
+  "You are safe. You are here. You are breathing.",
+  "You are not too much.",
+  "Your emotions are messengers, not masters.",
+  "You deserve to be heard.",
+  "You are allowed to grieve.",
+  "You are allowed to celebrate small wins.",
+  "Your light still shines, even on cloudy days.",
+  "You are not behind.",
+  "You are worthy of second chances — from yourself.",
+  "You are allowed to be a work in progress.",
+  "Your presence is a gift.",
+  "You are brave for trying.",
+  "You are allowed to feel deeply.",
+  "Your scars tell a story of survival.",
+  "You are worthy of gentle days.",
+  "You don't have to explain your healing.",
+  "You are allowed to choose yourself.",
+  "Your softness is your strength.",
+  "You are worthy of joy.",
+  "You are allowed to dream again.",
+  "Your worth is not measured by productivity.",
+  "You are allowed to rest without apology.",
+  "You are healing in your own time.",
+  "You are not your worst moments.",
+  "You are allowed to be human.",
+  "Your heart knows the way.",
+  "You are worthy of forgiveness — especially from yourself.",
+  "You are allowed to start over.",
+  "You are enough, even on the days you don't feel it.",
+  "Your courage inspires.",
+  "You are allowed to feel safe.",
+  "You are worthy of calm.",
+  "You are growing through what you're going through.",
+  "You are allowed to be proud of how far you've come.",
+  "Your existence is resistance.",
+  "You are worthy of love that stays.",
+  "You are allowed to believe in better days.",
+  "You are not too sensitive.",
+  "Your feelings are real.",
+  "You are worthy of patience.",
+  "You are allowed to take your time.",
+  "You are healing, not broken.",
+  "You are worthy of hope.",
+  "You are allowed to be soft.",
+  "Your story matters.",
+  "You are worthy of peace.",
+  "You are allowed to be here.",
+  "You are loved beyond measure.",
+  "You are enough.",
+  "You are safe.",
+  "You are whole.",
+  "You are worthy.",
+  "You belong here.",
+  "You are going to be okay."
+];
 
-  // Floating affirmation
-  setInterval(() => document.getElementById("floatAff").style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`, 4000);
+// Daily affirmation based on date (one per day, forever)
+function showDailyAffirmation() {
+  const today = new Date();
+  const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+  const index = dayOfYear % affirmations.length;
+  document.getElementById("dailyQuote").innerHTML = affirmations[index];
+}
+showDailyAffirmation();
 
-  // Daily quote API
-  fetch('https://zenquotes.io/api/random').then(r=>r.json()).then(d=> {
-    document.getElementById("dailyQuote").innerHTML = `"${d[0].q}"<br><i>— ${d[0].a}</i>`;
-  });
+// Rest of your existing script (unchanged)
+document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
 
-  // Mood tracking + Chart.js
-  const moods = JSON.parse(localStorage.getItem('moods')||'[]');
-  function saveMood(mood) {
-    const today = new Date().toLocaleDateString();
-    moods.push({date: today, mood});
-    localStorage.setItem('moods', JSON.stringify(moods.slice(-30)));
-    updateChart();
-  }
-  const ctx = document.getElementById('moodChart').getContext('2d');
-  const chart = new Chart(ctx, {type:'line', data:{labels:[], datasets:[{label:'Mood Trend', data:[], borderColor:'#00bcd4', tension:0.4}]}, options:{scales:{y:{min:0,max:5}}}});
-  function updateChart() {
-    const last7 = moods.slice(-7);
-    chart.data.labels = last7.map(m=>m.date.slice(5));
-    chart.data.datasets[0].data = last7.map(m=>['Sad','Anxious','Tired','Calm','Happy'].indexOf(m.mood)+1);
-    chart.update();
-  }
+setInterval(() => document.getElementById("floatAff").style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`, 4000);
+
+const moods = JSON.parse(localStorage.getItem('moods')||'[]');
+function saveMood(mood) {
+  const today = new Date().toLocaleDateString();
+  moods.push({date: today, mood});
+  localStorage.setItem('moods', JSON.stringify(moods.slice(-30)));
   updateChart();
+}
+const ctx = document.getElementById('moodChart').getContext('2d');
+const chart = new Chart(ctx, {type:'line', data:{labels:[], datasets:[{label:'Mood Trend', data:[], borderColor:'#00bcd4', tension:0.4}]}, options:{scales:{y:{min:0,max:5}}}});
+function updateChart() {
+  const last7 = moods.slice(-7);
+  chart.data.labels = last7.map(m=>m.date.slice(5));
+  chart.data.datasets[0].data = last7.map(m=>['Sad','Anxious','Tired','Calm','Happy'].indexOf(m.mood)+1);
+  chart.update();
+}
+updateChart();
 
-  // Journal
-  document.getElementById('journal').value = localStorage.getItem('journal')||'';
-  function saveJournal(){localStorage.setItem('journal', document.getElementById('journal').value); alert('Saved');}
-  function clearJournal(){if(confirm('Erase everything?')){document.getElementById('journal').value='';localStorage.removeItem('journal');}}
-  function downloadJournal(){
-    const text = document.getElementById('journal').value || "Your thoughts matter.";
-    const blob = new Blob([text], {type:'text/plain'});
-    const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my-lifeline-journal.txt'; a.click();
+document.getElementById('journal').value = localStorage.getItem('journal')||'';
+function saveJournal(){localStorage.setItem('journal', document.getElementById('journal').value); alert('Saved');}
+function clearJournal(){if(confirm('Erase everything?')){document.getElementById('journal').value='';localStorage.removeItem('journal');}}
+function downloadJournal(){
+  const text = document.getElementById('journal').value || "Your thoughts matter.";
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my-lifeline-journal.txt'; a.click();
+}
+
+const target = new Date("2025-10-20T01:15:36");
+function updateCountdown(){
+  const diff = target - new Date();
+  const el = document.getElementById("countdown");
+  if(diff<=0) el.innerHTML = "You made it! Today is your day!";
+  else{
+    const d=Math.floor(diff/(1000*60*60*24));
+    const h=Math.floor((diff/(1000*60*60))%24);
+    el.innerHTML = `${d} days ${h} hours until your milestone`;
   }
+}
+setInterval(updateCountdown,1000); updateCountdown();
 
-  // Countdown (customize date!)
-  const target = new Date("2025-10-20T01:15:36");
-  function updateCountdown(){
-    const diff = target - new Date();
-    const el = document.getElementById("countdown");
-    if(diff<=0) el.innerHTML = "You made it! Today is your day!";
-    else{
-      const d=Math.floor(diff/(1000*60*60*24));
-      const h=Math.floor((diff/(1000*60*60))%24);
-      el.innerHTML = `${d} days ${h} hours until your milestone`;
-    }
-  }
-  setInterval(updateCountdown,1000); updateCountdown();
+function setTheme(theme){
+  if(theme==='dark'){document.body.style.background='#0a0a0a';document.body.style.color='white';}
+  else if(theme==='ocean') document.body.style.background='linear-gradient(to bottom,#001f3f,#87ceeb)';
+  else if(theme==='forest') document.body.style.background='linear-gradient(to bottom,#1b4d3e,#a8e6cf)';
+  else document.body.style.background='linear-gradient(to bottom,#fff8f0,#e0f7ff)';
+  localStorage.setItem('theme',theme);
+}
+if(localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
 
-  // Themes
-  function setTheme(theme){
-    if(theme==='dark'){document.body.style.background='#0a0a0a';document.body.style.color='white';}
-    else if(theme==='ocean') document.body.style.background='linear-gradient(to bottom,#001f3f,#87ceeb)';
-    else if(theme==='forest') document.body.style.background='linear-gradient(to bottom,#1b4d3e,#a8e6cf)';
-    else document.body.style.background='linear-gradient(to bottom,#fff8f0,#e0f7ff)';
-    localStorage.setItem('theme',theme);
-  }
-  if(localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
+const tasks = ["Drink water","Take 3 deep breaths","Stretch","Go outside for 1 minute","Listen to your favorite song"];
+function task(){alert(tasks[Math.floor(Math.random()*tasks.length)]);}
+function panicMode(){
+  document.body.style.background='#000';document.body.style.color='#fff';
+  alert("You're safe. You're here. Just breathe with me.");
+}
 
-  // Tasks & Panic
-  const tasks = ["Drink water","Take 3 deep breaths","Stretch","Go outside for 1 minute","Listen to your favorite song"];
-  function task(){alert(tasks[Math.floor(Math.random()*tasks.length)]);}
-  function panicMode(){
-    document.body.style.background='#000';document.body.style.color='#fff';
-    alert("You're safe. You're here. Just breathe with me.");
-  }
-
-  // Random hug
-  const hugs = ["You're doing better than you think","One breath at a time","You are so loved","It’s okay to rest","You don’t have to be strong today"];
-  document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random()*hugs.length)];
+const hugs = ["You're doing better than you think","One breath at a time","You are so loved","It’s okay to rest","You don’t have to be strong today"];
+document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random()*hugs.length)];
 </script>
 </body>
 </html>
