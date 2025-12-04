@@ -1,160 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Lifeline • Music Player</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Sanctuary • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
-    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
-    nav button:hover { background: #00bcd4; color: white; }
-    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
-    header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    .back { color: white; text-decoration: none; font-size: 1.1em; }
-    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
-    .breathing-circle { margin: 20px auto; width: 100px; height: 100px; border-radius: 50%; background: #87ceeb; animation: breathe 4s infinite; }
-    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
-    textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; resize: vertical; }
-    button { background: #00bcd4; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin: 5px; }
-    button:hover { background: #0097a7; }
-    ul { list-style: none; padding: 0; }
-    ul li { background: #e0f7ff; margin: 10px 0; padding: 10px; border-radius: 6px; }
-    ul li a { color: #00bcd4; text-decoration: none; }
-    #randomHugMessage { text-align: center; font-style: italic; font-size: 1.2em; margin: 20px 0; color: #555; }
-    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } main { margin-top: 120px; } }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
-      font-family: 'Quicksand', sans-serif;
-      color: #333;
-      line-height: 1.6;
-    }
-    header {
-      background: #87ceeb;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-    header h1 { font-size: 2.8em; margin-bottom: 10px; }
-    .back { color: white; font-size: 1.2em; text-decoration: none; }
-    .back:hover { text-decoration: underline; }
-
-    main { max-width: 900px; margin: 20px auto; padding: 0 15px; }
-
-    .section {
-      background: #f0fbff;
-      border: 2px solid #87ceeb;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .section h2 {
-      color: #00bcd4;
-      margin-bottom: 15px;
-      font-size: 1.8em;
-      text-align: center;
-    }
-    iframe, video {
-      width: 100%;
-      height: 315px;
-      border: none;
-      border-radius: 10px;
-      display: block;
-      margin: 10px auto;
-    }
-    @media (max-width: 600px) {
-      iframe, video { height: 200px; }
-    }
-    .upload-area {
-      text-align: center;
-      padding: 20px;
-      background: #e0f7ff;
-      border-radius: 10px;
-    }
+    :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg,#111);color:#fff;font-family:'Quicksand',sans-serif;overflow-x:hidden}
+    nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000}
+    nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
+    nav button:hover{background:var(--accent);color:white}
+    main{margin-top:90px;padding:20px}
+    header{background:var(--primary);color:white;padding:50px;text-align:center;border-radius:15px}
+    .section{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:2px solid var(--primary);border-radius:15px;padding:25px;margin:25px auto;max-width:900px}
+    .section h2{color:white;text-align:center;font-size:2em;margin-bottom:20px;text-shadow:0 0 10px #00bcd4}
+    iframe{width:100%;height:400px;border-radius:15px;margin:15px 0;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+    .upload-area{background:rgba(255,255,255,.15);padding:30px;border-radius:15px;text-align:center}
+    #globalVolume{margin:20px auto;width:80%;height:15px;border-radius:10px;background:#333}
+    .favorite-btn{background:#ff6b6b;color:white;border:none;padding:10px 20px;border-radius:50px;margin-top:10px;cursor:pointer}
+    @media(max-width:600px){iframe{height:250px}}
   </style>
 </head>
 <body>
 
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental Health</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+</nav>
+
+<main>
   <header>
-    <h1>Music & Chill</h1>
-    <p>Your personal escape soundtrack</p>
-    <a href="index.html" class="back">← Back to Lifeline Dashboard</a>
+    <h1>Music Sanctuary</h1>
+    <p>Every song here was chosen to hold you</p>
+    <input type="range" id="globalVolume" min="0" max="1" step="0.1" value="0.7">
   </header>
 
-  <main>
+  <div class="section"><h2>All Out 2000s Rock</h2>
+    <iframe src="https://archive.org/details/nirvana-all-apologies" allowfullscreen></iframe></div>
 
-    <!-- 2000s Rock -->
-    <div class="section">
-      <h2>Sleepy Hollow - 2055</h2>
-     <iframe width="853" height="480" src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=RDy1xZ_kAhjMc" title="Sleepy Hallow - 2055 (Official Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>Alternative Rock Legends</h2>
+    <iframe src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" allowfullscreen></iframe></div>
 
-    <!-- Alternative Rock -->
-    <div class="section">
-      <h2>Best Of Alternative Rock</h2>
-      <iframe src="https://www.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" title="Alternative Rock Playlist" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>Rap – Sleepy Hallow "2055"</h2>
+    <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe></div>
 
-    <!-- Rap / Sleepy Hallow -->
-    <div class="section">
-      <h2>Rap Vibes</h2>
-      <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" title="Sleepy Hallow - 2055" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>When You're Feeling Low</h2>
+    <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe></div>
 
-    <!-- Depression / Emotional Playlist -->
-    <div class="section">
-      <h2>When You're Feeling Low</h2>
-      <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" title="Sik World - 7 Years & more" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>Ram Jam – Black Betty</h2>
+    <iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe></div>
 
-    <!-- Lofi / Chill -->
-    <div class="section">
-      <h2>Lofi & Chillhop</h2>
-      <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" title="SpongeBob Lofi & Chill" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>Lofi Sanctuary</h2>
+    <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe></div>
 
-    <!-- Night Drive / Smoke & Chill -->
-    <div class="section">
-      <h2>Night Smoke Drive</h2>
-      <iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" title="Night Smoke Lofi Drive" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>Lil Peep – 16 Lines</h2>
+    <iframe src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII" allowfullscreen></iframe></div>
 
-    <!-- Lil Peep & Emo Rap -->
-    <div class="section">
-      <h2>Lil Peep – 16 Lines</h2>
-      <iframe src="https://www.youtube.com/embed/DxNt7xV5aII" title="Lil Peep - 16 Lines" allowfullscreen></iframe>
-    </div>
+  <div class="section"><h2>Night Drive Vibes</h2>
+    <iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" allowfullscreen></iframe></div>
 
-    <!-- Upload Your Own Song -->
-    <div class="section">
-      <h2>Upload Your Own Track</h2>
-      <div class="upload-area">
-        <input type="file" id="audioUpload" accept="audio/*" style="margin-bottom:15px;">
-        <br>
-        <audio id="uploadedAudio" controls style="width:100%; max-width:500px;"></audio>
-      </div>
-    </div>
+  <div class="section upload-area">
+    <h2>Upload Your Own Song</h2>
+    <input type="file" id="upload" accept="audio/*" style="background:white;padding:10px;border-radius:10px">
+    <audio id="customPlayer" controls style="width:100%;margin-top:20px"></audio>
+    <button class="favorite-btn" onclick="saveFavorite()">Favorite This Song</button>
+  </div>
+</main>
 
-  </main>
+<script>
+  // Global volume control
+  document.getElementById('globalVolume').addEventListener('input', e=>{
+    document.querySelectorAll('iframe, audio').forEach(el=>el.volume=e.target.value);
+  });
 
-  <script>
-    // Simple file upload → play
-    document.getElementById('audioUpload').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
-        const player = document.getElementById('uploadedAudio');
-        player.src = url;
-        player.play().catch(() => alert("Click play to start your song!"));
-      }
-    });
-  </script>
+  // Upload & play
+  document.getElementById('upload').addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if(file){
+      document.getElementById('customPlayer').src = URL.createObjectURL(file);
+    }
+  });
 
+  // Save favorite songs
+  function saveFavorite(){
+    const src = document.getElementById('customPlayer').src;
+    if(src && !src.includes('blob')) return;
+    let favs = JSON.parse(localStorage.getItem('favSongs')||'[]');
+    favs.push({name: prompt("Song name?"), url: src});
+    localStorage.setItem('favSongs', JSON.stringify(favs));
+    alert('Added to favorites!');
+  }
+</script>
 </body>
 </html>
