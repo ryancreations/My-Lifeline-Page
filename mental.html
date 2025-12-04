@@ -3,95 +3,114 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mental Health – My Lifeline</title>
+  <title>Mental Wellness • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: linear-gradient(to bottom, #fff8f0, #e0f7ff); font-family: 'Quicksand', sans-serif; color: #333; line-height: 1.6; }
-    nav { position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0; text-align: center; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav button { background: white; border: none; padding: 8px 16px; margin: 0 5px; border-radius: 20px; cursor: pointer; font-family: inherit; color: #00bcd4; font-weight: 600; }
-    nav button:hover { background: #00bcd4; color: white; }
-    main { margin-top: 60px; max-width: 900px; margin: 60px auto 20px; padding: 0 15px; }
-    header { background: #87ceeb; color: white; text-align: center; padding: 30px 20px; border-radius: 10px; margin-bottom: 20px; }
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    .back { color: white; text-decoration: none; font-size: 1.1em; }
-    .section { background: #f0fbff; border: 2px solid #87ceeb; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .section h2 { color: #00bcd4; margin-bottom: 15px; text-align: center; }
-    .quote { font-style: italic; font-size: 1.2em; text-align: center; padding: 20px; background: #e0fff4; border-radius: 8px; margin: 10px 0; }
-    .self-care button { background: #4caf50; margin: 5px; padding: 12px 20px; font-size: 1.1em; }
-    .self-care button:hover { background: #45a049; }
-    textarea { width: 100%; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; }
-    @media (max-width: 600px) { nav button { display: block; margin: 5px auto; } main { margin-top: 120px; } }
+    :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg,linear-gradient(to bottom,#fff8f0,#e0f7ff));font-family:'Quicksand',sans-serif;color:#333;transition:.5s}
+    nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+    nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
+    nav button:hover{background:var(--accent);color:white}
+    main{margin-top:90px;max-width:900px;margin:auto;padding:20px}
+    header{background:var(--primary);color:white;padding:40px;text-align:center;border-radius:15px}
+    .section{background:var(--light);border:2px solid var(--primary);border-radius:15px;padding:25px;margin:25px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
+    .section h2{color:var(--accent);text-align:center;font-size:1.8em;margin-bottom:20px}
+    .quote{font-size:1.5em;font-style:italic;text-align:center;background:white;padding:25px;border-radius:15px;margin:20px 0;box-shadow:inset 0 4px 10px rgba(0,0,0,.05)}
+    button{background:var(--accent);color:white;border:none;padding:14px 28px;border-radius:12px;cursor:pointer;margin:10px;font-size:1.1em}
+    button:hover{background:#0097a7}
+    textarea{width:100%;padding:20px;border-radius:12px;border:1px solid #ccc;font-family:inherit;height:180px}
+    .grounding{background:#e0fff4;padding:20px;border-radius:12px;margin:15px 0}
+    @media(max-width:600px){main{margin-top:140px}}
   </style>
 </head>
 <body>
-  <nav>
-    <button onclick="window.location.href='index.html'">🏠 Dashboard</button>
-    <button onclick="window.location.href='emergency.html'">🚨 Emergency</button>
-    <button onclick="window.location.href='mental.html'">🧠 Mental Health</button>
-    <button onclick="window.location.href='videos.html'">🎥 Videos</button>
-    <button onclick="window.location.href='music.html'">🎵 Music</button>
-  </nav>
 
-  <main>
-    <header>
-      <h1>Mental Wellness</h1>
-      <p>Tools to nurture your mind – small steps, big impact.</p>
-      <a href="index.html" class="back">← Back to Dashboard</a>
-    </header>
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental Health</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+</nav>
 
-    <div class="section">
-      <h2>Daily Affirmation</h2>
-      <div class="quote" id="dailyQuote">"You are not your illness. You are your story – and it's still being written. 💌"</div>
-    </div>
+<main>
+  <header>
+    <h1>Mental Wellness Tools</h1>
+    <p>Small steps. Big healing.</p>
+  </header>
 
-    <div class="section">
-      <h2>Self-Care Quick Wins</h2>
-      <div class="self-care">
-        <button onclick="alert('Hydrate: Take a sip of water now. 💧')">Drink Water</button>
-        <button onclick="alert('Move: Stretch for 30 seconds. 🧘')">Stretch</button>
-        <button onclick="alert('Gratitude: Name 1 thing you're thankful for. 🙏')">Gratitude</button>
-        <button onclick="alert('Rest: Close eyes for 1 min. 😌')">Breathe</button>
-      </div>
-    </div>
+  <div class="section">
+    <h2>Today's Affirmation</h2>
+    <div class="quote" id="affirmation">Loading your daily love note...</div>
+  </div>
 
-    <div class="section">
-      <h2>Mood Journal</h2>
-      <textarea id="journal" placeholder="How are you today? Write freely..." rows="6"></textarea><br>
-      <button onclick="saveJournal()">Save Entry 💾</button>
-      <button onclick="document.getElementById('journal').value=''">Clear</button>
-      <p id="lastEntry" style="font-size: 0.9em; color: #666; margin-top: 10px;"></p>
-    </div>
+  <div class="section grounding">
+    <h2>5-4-3-2-1 Grounding</h2>
+    <p id="groundingPrompt" style="font-size:1.3em;text-align:center;margin:20px"></p>
+    <button onclick="newGrounding()">New Prompt</button>
+  </div>
 
-    <div class="section">
-      <h2>Helpful Reads</h2>
-      <ul>
-        <li><a href="https://www.mentalhealth.gov/" target="_blank">Mental Health Basics</a></li>
-        <li><a href="https://www.headspace.com/" target="_blank">Guided Meditations</a></li>
-        <li><a href="https://psychcentral.com/" target="_blank">Articles & Tools</a></li>
-      </ul>
-    </div>
-  </main>
+  <div class="section">
+    <h2>Guided Breathing</h2>
+    <div style="width:150px;height:150px;background:var(--accent);border-radius:50%;margin:30px auto;animation:breathe 8s infinite"></div>
+    <audio id="breathAudio" src="https://freesound.org/data/previews/243/243020_4374624-lq.mp3" preload="auto"></audio>
+    <button onclick="toggleBreath()">Play Breathing Guide</button>
+  </div>
 
-  <script>
-    const quotes = [
-      "You are enough. Just as you are. 🌟",
-      "Healing doesn't mean the damage never existed. It means the damage no longer controls you. 💪",
-      "Be gentle with yourself. You're doing the best you can. ❤️"
-    ];
-    document.getElementById('dailyQuote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+  <div class="section">
+    <h2>Quick Self-Care Wins</h2>
+    <button onclick="alert('Drink a full glass of water now')">Hydrate</button>
+    <button onclick="alert('Stand up and stretch for 30 seconds')">Move</button>
+    <button onclick="alert('Name 3 things you\'re grateful for')">Gratitude</button>
+    <button onclick="alert('Close your eyes and breathe for 1 minute')">Rest</button>
+  </div>
 
-    function saveJournal() {
-      const entry = document.getElementById('journal').value;
-      if (entry) {
-        localStorage.setItem('lastJournal', entry);
-        document.getElementById('lastEntry').textContent = 'Last entry saved! (Private to you)';
-        document.getElementById('journal').value = '';
-      }
-    }
-    // Load last entry if exists
-    const last = localStorage.getItem('lastJournal');
-    if (last) document.getElementById('lastEntry').textContent = 'You have a saved entry. Add more anytime.';
-  </script>
+  <div class="section">
+    <h2>Journal Your Heart</h2>
+    <textarea id="ventBox" placeholder="Let it all out... this stays private forever."></textarea><br><br>
+    <button onclick="saveVent()">Save</button>
+    <button onclick="clearVent()">Clear All</button>
+    <button onclick="downloadVent()">Download</button>
+  </div>
+</main>
+
+<style>@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.7)}}</style>
+<script>
+  // Daily affirmation
+  fetch('https://www.affirmations.dev').then(r=>r.json()).then(d=> {
+    document.getElementById('affirmation').textContent = d.affirmation;
+  });
+
+  // Grounding prompts
+  const prompts = [
+    "Name 5 things you can see right now",
+    "Name 4 things you can touch",
+    "Name 3 sounds you hear",
+    "Name 2 things you can smell",
+    "Name 1 thing you can taste"
+  ];
+  function newGrounding(){
+    const p = prompts[Math.floor(Math.random()*prompts.length)];
+    document.getElementById('groundingPrompt').textContent = p;
+  }
+  newGrounding();
+
+  // Breathing audio
+  const audio = document.getElementById('breathAudio');
+  function toggleBreath(){
+    audio.paused ? audio.play() : audio.pause();
+  }
+
+  // Vent journal
+  document.getElementById('ventBox').value = localStorage.getItem('vent')||'';
+  function saveVent(){localStorage.setItem('vent',document.getElementById('ventBox').value);alert('Saved');}
+  function clearVent(){if(confirm('Delete everything?')){document.getElementById('ventBox').value='';localStorage.removeItem('vent');}}
+  function downloadVent(){
+    const text = document.getElementById('ventBox').value || "Your heart matters.;
+    const blob = new Blob([text],{type:'text/plain'});
+    const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my-vent.txt'; a.click();
+  }
+</script>
 </body>
 </html>
