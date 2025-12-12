@@ -3,57 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emergency • My Lifeline</title>
+  <title>Mental Wellness • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:linear-gradient(to bottom,#87ceeb,#e0f7ff);font-family:'Quicksand',sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}
     .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
     h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
-    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em;font-family:inherit}
+    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer;margin-top:20px}
     button:hover{background:#0097a7}
     .hidden{display:none}
   </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- LOGIN SCREEN -->
 <div id="loginScreen" class="login-box">
   <h1>My Lifeline</h1>
   <p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
+  <input type="text" id="username" placeholder="Username" autocomplete="username">
+  <input type="password" id="password" placeholder="Password" autocomplete="current-password">
   <button onclick="checkLogin()">Enter Safe Space</button>
+  <p style="margin-top:25px;font-size:0.9em;color:#666">This space is yours and only yours.</p>
 </div>
 
-<!-- FULL EMERGENCY PAGE -->
+<!-- FULL MENTAL HEALTH PAGE -->
 <div id="mainContent" class="hidden">
   <!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency • My Lifeline</title>
+    <title>Mental Wellness • My Lifeline</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
       :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
       *{box-sizing:border-box;margin:0;padding:0}
-      body{background:#fff8f0;font-family:'Quicksand',sans-serif;color:#333}
-      nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-      nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
+      body{background:var(--bg,linear-gradient(to bottom,#fff8f0,#e0f7ff));font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
+      nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;z-index:1000;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+      nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600;transition:.3s}
       nav button:hover{background:var(--accent);color:white}
-      main{margin-top:90px;padding:20px;text-align:center}
-      .hotline{background:#ff6b6b;color:white;padding:25px;border-radius:15px;margin:20px auto;max-width:500px;box-shadow:0 8px 20px rgba(255,0,0,.3)}
-      .hotline button{background:white;color:#ff6b6b;padding:18px 35px;border:none;border-radius:50px;font-size:1.4em;margin:10px;cursor:pointer}
-      .sos,.distraction button{background:#d32f2f;color:white;padding:15px;border-radius:50px;margin:15px;font-size:1.2em}
-      .heartbeat{width:100px;height:100px;background:#ff6b6b;border-radius:50%;margin:20px auto;animation:pulse 1.5s infinite}
-      @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
-      .offline-warning,.battery-low{background:#ff9800;color:white;padding:15px;border-radius:10px;margin:15px;display:none}
-      .photo-gallery img{width:100px;height:100px;object-fit:cover;border-radius:10px;margin:10px;cursor:pointer}
+      main{margin-top:80px;max-width:900px;margin:auto;padding:15px}
+      header{background:var(--primary);color:white;padding:35px;text-align:center;border-radius:15px}
+      .section{background:var(--light);border:2px solid var(--primary);border-radius:15px;padding:25px;margin:25px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
+      .section h2{color:var(--accent);text-align:center;margin-bottom:15px}
+      .quote-container{position:relative;display:flex;align-items:center;justify-content:center;min-height:180px}
+      .open-quote{position:absolute;top:-10px;left:15px;font-size:5em;color:var(--accent);opacity:0.25;font-family:Georgia,serif}
+      .close-quote{position:absolute;bottom:-25px;right:15px;font-size:5em;color:var(--accent);opacity:0.25;font-family:Georgia,serif}
+      #dailyQuote{font-size:1.4em;font-style:italic;text-align:center;background:#fff;padding:40px 30px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.12);line-height:1.7}
+      .grounding-steps{list-style:none;padding:0}
+      .grounding-steps li{margin:15px 0;padding:15px;background:#e0f7ff;border-radius:8px}
+      .grounding-steps input{width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;font-family:inherit}
+      .breath-container{text-align:center}
+      #breathCircle{width:120px;height:120px;background:var(--accent);border-radius:50%;margin:30px auto;transition:transform 4s ease-in-out}
+      .breath-prompt{font-size:1.3em;font-weight:600;color:var(--accent);margin:10px 0}
+      .sensory-jar{background:#fff3e0;padding:20px;border-radius:12px;text-align:center;font-size:1.4em;margin:20px 0}
+      .quiz-result{background:#e8f5e9;padding:20px;border-radius:12px;margin:20px 0;text-align:center;font-size:1.2em}
+      textarea{width:100%;padding:15px;border:1px solid #ccc;border-radius:8px;resize:vertical;font-family:inherit}
+      button{background:var(--accent);color:white;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin:8px;font-size:1.1em}
+      button:hover{background:#0097a7}
+      @media(max-width:600px){nav button{display:block;margin:10px auto}#dailyQuote{font-size:1.25em;padding:30px 20px}}
     </style>
   </head>
   <body>
+
     <nav>
       <button onclick="location.href='index.html'">Dashboard</button>
       <button onclick="location.href='emergency.html'">Emergency</button>
@@ -64,4 +78,191 @@
     </nav>
 
     <main>
-      <h1 style="font-size:3em;color:#d32f2f">You Are
+      <header>
+        <h1>Mental Wellness</h1>
+        <p>Tools to nurture your mind — you're doing great</p>
+      </header>
+
+      <div class="section">
+        <h2>Your Daily Affirmation</h2>
+        <div class="quote-container">
+          <span class="open-quote">“</span>
+          <div id="dailyQuote">One moment...</div>
+          <span class="close-quote">”</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>5-4-3-2-1 Grounding</h2>
+        <ul class="grounding-steps">
+          <li><strong>5 things I can see:</strong><br><input type="text" id="see" placeholder="e.g., my phone, a window..."></li>
+          <li><strong>4 things I can touch:</strong><br><input type="text" id="touch" placeholder="e.g., my clothes, the floor..."></li>
+          <li><strong>3 things I can hear:</strong><br><input type="text" id="hear" placeholder="e.g., my breath, birds..."></li>
+          <li><strong>2 things I can smell:</strong><br><input type="text" id="smell" placeholder="e.g., coffee, fresh air..."></li>
+          <li><strong>1 thing I can taste:</strong><br><input type="text" id="taste" placeholder="e.g., gum, water..."></li>
+        </ul>
+        <button onclick="saveGrounding()">Save Session</button>
+        <button onclick="newGroundingSession()">New Session</button>
+      </div>
+
+      <div class="section">
+        <h2>Guided Breathing</h2>
+        <div class="breath-container">
+          <div id="breathCircle"></div>
+          <p id="breathPrompt" class="breath-prompt">Click to begin</p>
+          <audio id="breathAudio" src="https://freesound.org/data/previews/243/243020_4374624-lq.mp3" preload="auto"></audio>
+          <button onclick="startBreathing()">Start Breathing</button>
+          <button onclick="stopBreathing()">Stop</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Sensory Jar</h2>
+        <div class="sensory-jar" id="sensoryPrompt">Click for a calming sensory idea</div>
+        <button onclick="newSensory()">New Idea</button>
+      </div>
+
+      <div class="section">
+        <h2>Burnout Quiz</h2>
+        <div id="quizQuestions">
+          <p>1. I feel emotionally drained: <select data-q="1"><option>Never</option><option>Rarely</option><option>Sometimes</option><option>Often</option><option>Always</option></select></p>
+          <p>2. I feel used up at the end of the day: <select data-q="2"><option>Never</option><option>Rarely</option><option>Sometimes</option><option>Often</option><option>Always</option></select></p>
+          <p>3. I dread getting up in the morning: <select data-q="3"><option>Never</option><option>Rarely</option><option>Sometimes</option><option>Often</option><option>Always</option></select></p>
+          <p>4. I feel irritable or impatient: <select data-q="4"><option>Never</option><option>Rarely</option><option>Sometimes</option><option>Often</option><option>Always</option></select></p>
+          <p>5. I feel detached from others: <select data-q="5"><option>Never</option><option>Rarely</option><option>Sometimes</option><option>Often</option><option>Always</option></select></p>
+        </div>
+        <button onclick="calculateBurnout()">See Result</button>
+        <div id="quizResult" class="quiz-result" style="display:none"></div>
+      </div>
+
+      <div class="section">
+        <h2>Therapy Prep Notes</h2>
+        <textarea id="therapyNotes" rows="6" placeholder="What do you want to talk about this week?"></textarea><br><br>
+        <button onclick="saveTherapyNotes()">Save Notes</button>
+        <button onclick="clearTherapyNotes()">Clear</button>
+      </div>
+
+      <div class="section">
+        <h2>Quick Self-Care</h2>
+        <button onclick="alert('Drink a full glass of water now')">Hydrate</button>
+        <button onclick="alert('Stretch for 30 seconds')">Move</button>
+        <button onclick="alert('Name 3 things you\'re grateful for')">Gratitude</button>
+      </div>
+
+      <div class="section">
+        <h2>Mood Journal</h2>
+        <textarea id="journal" rows="6" placeholder="How are you today?"></textarea><br><br>
+        <button onclick="saveJournal()">Save Entry</button>
+        <button onclick="clearJournal()">Clear</button>
+      </div>
+    </main>
+
+    <script>
+      // === LOGIN SYSTEM ===
+      function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
+      if(localStorage.getItem('lifelineAuthenticated')!=='true'){
+        document.getElementById('mainContent').remove();
+      }
+
+      // === 100 DAILY AFFIRMATIONS ===
+      const affirmations = ["You are worthy exactly as you are today.","Your feelings are valid. You are allowed to feel.","You have survived every hard day so far. That matters.","Healing is not linear, and that's okay.","You don't have to be productive to be worthy.","Your story is still being written — and it's beautiful.","It's okay to not be okay.","You are not a burden for needing help.","You are stronger than you feel right now.","One breath at a time is enough.","You deserve rest without guilt.","Your existence alone makes the world better.","You are allowed to take up space.","Progress looks different for everyone — yours counts.","You are doing better than you think.","Your past does not define your future.","You are loved even on your worst days.","Asking for help is a sign of strength.","You are not broken. You are healing.","Your pace is perfect for you.","You are enough. Right now. Exactly as you are.","It's okay to let go of what you can't control.","You are worthy of kindness — especially from yourself.","Your voice matters. Your truth matters.","You don't have to have it all figured out.","You are allowed to change your mind.","Your feelings will pass. You will not feel this way forever.","You are resilient beyond measure.","You are not alone in this.","Small steps are still steps forward.","You deserve peace.","Your needs are important.","You are capable of amazing things — even on quiet days.","It's okay to outgrow people and places.","You are allowed to say no.","Your boundaries are valid.","You are more than your struggles.","You are growing, even when it doesn't feel like it.","You are allowed to feel proud of yourself.","Your heart is kind. That matters.","You don't have to earn rest.","You are worthy of love without conditions.","Your pain does not make you weak.","You are allowed to take time for yourself.","You are doing your best — and that is enough.","Your journey is uniquely yours.","You are safe. You are here. You are breathing.","You are not too much.","Your emotions are messengers, not masters.","You deserve to be heard.","You are allowed to grieve.","You are allowed to celebrate small wins.","Your light still shines, even on cloudy days.","You are not behind.","You are worthy of second chances — from yourself.","You are allowed to be a work in progress.","Your presence is a gift.","You are brave for trying.","You are allowed to feel deeply.","Your scars tell a story of survival.","You are worthy of gentle days.","You don't have to explain your healing.","You are allowed to choose yourself.","Your softness is your strength.","You are worthy of joy.","You are allowed to dream again.","Your worth is not measured by productivity.","You are allowed to rest without apology.","You are healing in your own time.","You are not your worst moments.","You are allowed to be human.","Your heart knows the way.","You are worthy of forgiveness — especially from yourself.","You are allowed to start over.","You are enough, even on the days you don't feel it.","Your courage inspires.","You are allowed to feel safe.","You are worthy of calm.","You are growing through what you're going through.","You are allowed to be proud of how far you've come.","Your existence is resistance.","You are worthy of love that stays.","You are allowed to believe in better days.","You are not too sensitive.","Your feelings are real.","You are worthy of patience.","You are allowed to take your time.","You are healing, not broken.","You are worthy of hope.","You are allowed to be soft.","Your story matters.","You are worthy of peace.","You are allowed to be here.","You are loved beyond measure.","You are enough.","You are safe.","You are whole.","You are worthy.","You belong here.","You are going to be okay."];
+      function showDailyAffirmation() {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+        const index = dayOfYear % affirmations.length;
+        document.getElementById("dailyQuote").textContent = affirmations[index];
+      }
+      showDailyAffirmation();
+
+      // === ALL YOUR MENTAL HEALTH FEATURES (grounding, breathing, sensory jar, burnout quiz, therapy notes, journal) ===
+      // (Everything from your last working version — fully functional)
+      // 5-4-3-2-1 Grounding
+      function saveGrounding() {
+        const session = {see:document.getElementById('see').value,touch:document.getElementById('touch').value,hear:document.getElementById('hear').value,smell:document.getElementById('smell').value,taste:document.getElementById('taste').value,date:new Date().toLocaleDateString()};
+        let sessions = JSON.parse(localStorage.getItem('groundingSessions')||'[]');
+        sessions.push(session);
+        localStorage.setItem('groundingSessions', JSON.stringify(sessions.slice(-10)));
+        alert("Session saved");
+      }
+      function newGroundingSession() {
+        if(confirm('Start fresh?')){document.querySelectorAll('.grounding-steps input').forEach(i=>i.value='');}
+      }
+      // Load last session
+      const lastSessions = JSON.parse(localStorage.getItem('groundingSessions')||'[]');
+      if(lastSessions.length>0){
+        const last = lastSessions[lastSessions.length-1];
+        document.getElementById('see').value = last.see||'';
+        document.getElementById('touch').value = last.touch||'';
+        document.getElementById('hear').value = last.hear||'';
+        document.getElementById('smell').value = last.smell||'';
+        document.getElementById('taste').value = last.taste||'';
+      }
+
+      // Guided Breathing
+      let breathingInterval;
+      const prompts = ['Inhale deeply... (4s)', 'Hold... (4s)', 'Exhale slowly... (4s)', 'Great job. Repeat if needed.'];
+      let promptIndex = 0;
+      const circle = document.getElementById('breathCircle');
+      const promptEl = document.getElementById('breathPrompt');
+      const audio = document.getElementById('breathAudio');
+      function startBreathing() {
+        audio.play().catch(()=>{});
+        breathingInterval = setInterval(() => {
+          if (promptIndex === 0) circle.style.transform = 'scale(1.6)';
+          else if (promptIndex === 1) circle.style.transform = 'scale(1.2)';
+          else circle.style.transform = 'scale(1)';
+          promptEl.textContent = prompts[promptIndex];
+          promptIndex = (promptIndex + 1) % prompts.length;
+        }, 4000);
+      }
+      function stopBreathing() {
+        clearInterval(breathingInterval);
+        circle.style.transform = 'scale(1)';
+        promptEl.textContent = 'Click to begin';
+        audio.pause();
+      }
+
+      // Sensory Jar
+      const sensoryIdeas = ["Feel the texture of your clothes","Smell something comforting","Listen to the quiet","Taste something slowly","Look at a calming color"];
+      function newSensory(){document.getElementById('sensoryPrompt').textContent = sensoryIdeas[Math.floor(Math.random()*sensoryIdeas.length)];}
+      newSensory();
+
+      // Burnout Quiz
+      function calculateBurnout(){
+        let score = 0;
+        document.querySelectorAll('[data-q]').forEach(s=>{score += ["Never","Rarely","Sometimes","Often","Always"].indexOf(s.value);});
+        const result = score <= 5 ? "You're doing well — keep resting!" :
+                      score <= 10 ? "Some signs of stress — be gentle with yourself." :
+                      score <= 15 ? "Moderate burnout — time for self-care." : "High burnout — please reach out for support.";
+        document.getElementById('quizResult').textContent = result;
+        document.getElementById('quizResult').style.display = 'block';
+      }
+
+      // Therapy Notes & Journal
+      document.getElementById('therapyNotes').value = localStorage.getItem('therapyNotes')||'';
+      function saveTherapyNotes(){localStorage.setItem('therapyNotes',document.getElementById('therapyNotes').value);alert('Saved');}
+      function clearTherapyNotes(){if(confirm('Clear notes?')){document.getElementById('therapyNotes').value='';localStorage.removeItem('therapyNotes');}}
+      document.getElementById('journal').value = localStorage.getItem('mentalJournal')||'';
+      function saveJournal(){localStorage.setItem('mentalJournal',document.getElementById('journal').value);alert('Saved');}
+      function clearJournal(){if(confirm('Clear journal?')){document.getElementById('journal').value='';localStorage.removeItem('mentalJournal');}}
+    </script>
+  </body>
+  </html>
+</div>
+
+<script>
+function checkLogin(){
+  if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
+    localStorage.setItem('lifelineAuthenticated','true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  } else alert("Incorrect username or password.");
+}
+function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
