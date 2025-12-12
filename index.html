@@ -10,43 +10,47 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;display:flex;align-items:center;justify-content:center;height:100vh}
     .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
-    .login-box h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
-    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .login-box button:hover{background:#0097a7}
+    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
+    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em;font-family:inherit}
+    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer;margin-top:20px}
+    button:hover{background:#0097a7}
     .hidden{display:none}
 
-    /* COMPACT, BEAUTIFUL NAVIGATION */
-    nav{position:fixed;top:0;left:0;width:100%;background:#87ceeb;padding:10px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;box-shadow:0 3px 10px rgba(0,0,0,.15)}
-    nav button{background:white;color:#00bcd4;border:none;padding:9px 16px;border-radius:25px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
+    /* FIXED NAVIGATION - COMPACT, BEAUTIFUL */
+    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+    nav button{background:white;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-family:inherit;color:#00bcd4;font-weight:600;font-size:0.95em;transition:.3s}
     nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){
-      nav{gap:5px;padding:8px 0}
-      nav button{padding:7px 12px;font-size:0.9em}
-      main{margin-top:68px !important}
+    @media (max-width: 600px) {
+      nav {gap:4px;padding:6px 0}
+      nav button {padding:6px 10px;font-size:0.9em}
     }
-    main{margin-top:75px;max-width:900px;margin-left:auto;margin-right:auto;padding:15px}
-    header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px;margin-bottom:20px}
-    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:20px;margin:20px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
-    .section h2{color:#00bcd4;text-align:center;margin-bottom:15px}
-    #breathingCircle{width:120px;height:120px;background:#00bcd4;border-radius:50%;margin:20px auto;animation:breathe 12s infinite}
-    @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
-    button{background:#00bcd4;color:white;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin:8px;font-size:1.1em}
-    button:hover{background:#0097a7}
-    textarea{width:100%;padding:15px;border-radius:10px;border:1px solid #ccc;resize:vertical;font-family:inherit}
-    #floatAff{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:15px;border-radius:15px;z-index:999;animation:float 20s infinite}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
-    .quote-container{position:relative;display:flex;align-items:center;justify-content:center;min-height:180px}
-    .open-quote,.close-quote{position:absolute;font-size:5em;color:#00bcd4;opacity:0.25;font-family:Georgia,serif}
-    .open-quote{top:-10px;left:15px}
-    .close-quote{bottom:-25px;right:15px}
-    #dailyQuote{font-size:1.4em;font-style:italic;text-align:center;background:#fff;padding:40px 30px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.12);line-height:1.7}
-    .weather-suggestion,.sunrise-card{background:#fff;padding:15px;border-radius:12px;margin:15px 0;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+    main {margin-top:60px;max-width:900px;margin-left:auto;margin-right:auto;padding:15px}
+    header {background:#87ceeb;color:white;text-align:center;padding:30px 20px;border-radius:10px;margin-bottom:20px}
+    .section {background:#f0fbff;border:2px solid #87ceeb;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
+    .section h2 {color:#00bcd4;margin-bottom:15px;text-align:center}
+    #breathingCircle {margin:0 auto;width:100px;height:100px;border-radius:50%;background-color:#87ceeb;animation:breathe 12s infinite}
+    @keyframes breathe {0% {transform: scale(1); opacity: 0.7;} 50% {transform: scale(1.5); opacity: 1;} 100% {transform: scale(1); opacity: 0.7;}}
+    a {color:#00bcd4;text-decoration:none}
+    a:hover {text-decoration:underline}
+    .message {white-space:pre-wrap;background:#fff;border-left:4px solid #87ceeb;padding:15px;margin-top:20px;border-radius:8px}
+    .quote {font-style:italic;font-size:1.1em;color:#555;margin-top:10px}
+    #countdown {font-size:1.5em;font-weight:bold;margin-top:10px;color:#0077aa}
+    .calculator {margin-top:15px;padding:10px;background:#e0f7ff;border:2px dashed #87ceeb;border-radius:10px}
+    .calculator input {padding:8px;border:1px solid #87ceeb;border-radius:5px;width:80px}
+    .calculator-result {margin-top:10px;font-weight:bold;color:#0077aa}
+    .checkin {margin-top:15px}
+    .checkin textarea {width:100%;padding:10px;border-radius:8px;border:1px solid #ccc}
+    .checkin-result {margin-top:10px;background:#e0fff4;border-left:4px solid #3cb371;padding:10px;border-radius:6px}
+    .bg-music audio {display:none}
+    #musicToggle {padding:10px 20px;font-size:18px;background:#87ceeb;border:none;border-radius:12px;cursor:pointer;transition:background 0.3s}
+    #musicToggle:hover {background:#5ab0d4}
+    .music-controls {text-align:center;margin:20px}
+    .self-care-buttons button {margin:5px;padding:10px 15px;border:none;border-radius:6px;background:#00bcd4;color:white;cursor:pointer}
+    .self-care-buttons button:hover {background:#0097a7}
   </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
 <div id="loginScreen" class="login-box">
   <h1>My Lifeline</h1>
   <p>Enter your personal key</p>
@@ -55,7 +59,6 @@
   <button onclick="checkLogin()">Enter Safe Space</button>
 </div>
 
-<!-- FULL DASHBOARD -->
 <div id="mainContent" class="hidden">
   <nav>
     <button onclick="location.href='index.html'">Dashboard</button>
@@ -69,113 +72,86 @@
   <main>
     <header>
       <h1>My Lifeline Page</h1>
-      <p>Your Safe Space • Created with love by Ryan Roland</p>
-      <p id="currentDate"></p>
+      <p>Your Safe Space When Things Get Hard!</p>
+      <p>Created By, Your's Truly: Ryan Roland</p>
+      <p id="currentDate">Today's patience: (loading😂...)</p>
     </header>
 
-    <div id="floatAff">You're still here. That matters.</div>
-    <p id="randomHugMessage" style="text-align:center;font-size:1.4em;color:#555;margin:20px"></p>
+    <p id="randomHugMessage"></p>
 
     <div class="section">
-      <button onclick="panicMode()">Panic Button • Breathe With Me</button>
-      <button onclick="task()">Give Me Something To Do</button>
+      <button onclick="document.body.style.backgroundColor='#0a0a0a'; document.body.style.color='white'; alert('Breathe. You’re safe. Just stay here with me.')">
+        Panic Button
+      </button>
+    </div>
+
+    <h2 id="intro"></h2>
+
+    <div class="section">
+      <button onclick="task()">Give me something to do</button>
     </div>
 
     <div class="section">
-      <h2>Breathe With Me</h2>
+      <h2> 🤙Music🎶Player📱</h2>
+      <h2> 🎸All Out 2000's🎸</h2>
+      <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>🎵 Best Of Alternative Rock</h2>
+      <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>Daily Bestie❤️ Quote</h2>
+      <p class="quote" id="daily-quote">"You are not your illness💌."</p>
+    </div>
+
+    <div class="section">
+      <h2> Breathe With Me</h2>
       <div id="breathingCircle"></div>
-      <p style="text-align:center;font-size:1.3em">Inhale... Hold... Exhale...</p>
+      <h2>🫁 BREATHE IN</h2>
+      <p>HOLD</p>
+      <h2>Breathe 🧠 Out</h2>
+      <p>🫁 BREATHE IN</h2>
+      <h2>HOLD</h2>
+      <p>BREATH🧠 OUT</p>
     </div>
 
     <div class="section">
-      <h2>Your Daily Affirmation</h2>
-      <div class="quote-container">
-        <span class="open-quote">“</span>
-        <div id="dailyQuote">One moment...</div>
-        <span class="close-quote">”</span>
-      </div>
+      <h2>Write it out and Erase it!</h2>
+      <p>Let your feelings out, This will not save - its just for you, right now, in this moment.</p>
+      <textarea id="PoemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8" style="width:100%; border-radius: 8px; border: 1px solid #ccc; padding: 10px;"></textarea>
+      <br><br>
+      <button onclick="document.getElementById('PoemBox').value = ''" style="padding: 10px 20px; border: none; background-color: #00bcd4; color: white; border-radius: 6px; cursor: pointer;">🧠 Poof! Be Gone!</button>
     </div>
 
     <div class="section">
-      <h2>Today's Weather Suggestion</h2>
-      <div id="weatherSuggestion" class="weather-suggestion">Loading...</div>
+      <h2>🎬 Dukes Of Hazzard!! VideoPlayer!</h2>
+      <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
-      <h2>Next Sunrise</h2>
-      <div id="sunriseInfo" class="sunrise-card">Loading...</div>
-    </div>
-
-    <div class="section mood-chart">
-      <h2>How Are You Feeling?</h2>
-      <button onclick="saveMood('Happy')">Happy</button>
-      <button onclick="saveMood('Sad')">Sad</button>
-      <button onclick="saveMood('Anxious')">Anxious</button>
-      <button onclick="saveMood('Calm')">Calm</button>
-      <button onclick="saveMood('Tired')">Tired</button>
-      <canvas id="moodChart" height="200"></canvas>
+      <h2>🎬 Dukes Of Hazzard S7!! VideoPlayer!</h2>
+      <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
-      <h2>Write & Release</h2>
-      <textarea id="journal" rows="6" placeholder="Let it out... this is just for you."></textarea><br><br>
-      <button onclick="saveJournal()">Save Entry</button>
-      <button onclick="clearJournal()">Poof! Erase</button>
-      <button onclick="downloadJournal()">Download Journal</button>
+      <h2>If you're thinking about harming yourself🔪🩸</h2>
+      <p>Please pause and breathe. You matter. You’re not alone.</p>
+      <ul>
+        <li><a href="https://Google.com/snake" target="_blank">Google Snake</a></li>
+        <li><a href="https://Youtube.com" target="_blank">Youtube Home</a></li>
+        <h2>Bryce: (903) 249-4334</h2>
+        <li><a href="https://support.depression-chat-rooms.org/?#depression" target="_blank">Depression Chat-Room</a></li>
+        <li><a href="https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0" target="_blank">💤Listen to calming music🎵</a></li>
+        <li><a href="https://chatgpt.com/c/6837d16e-e854-800b-bf2d-c9ac61c89441" target="_blank">Talk to Bestie (me) 💙</a></li>
+        <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">🧡❤️💙Fluid Simulation!</a></li>
+        <li><a href="https://neal.fun" target="_blank">Fidget Distraction's💡!</a></li>
+        <li><a href="https://www.patatap.com" target="_blank">patatap!</a></li>
+      </ul>
     </div>
 
     <div class="section">
-      <h2>People Who Care</h2>
+      <h2>📞 People Who Care About You</h2>
       <button onclick="location.href='tel:9032494334'">Call Bryce</button>
-      <button onclick="alert('Text Mom: I need a check-in')">Mom</button>
-    </div>
-
-    <div class="section">
-      <h2>Milestone Countdown</h2>
-      <div id="countdown" style="font-size:1.6em;text-align:center"></div>
-    </div>
-
-    <div class="section">
-      <h2>Change Theme</h2>
-      <button onclick="setTheme('light')">Light</button>
-      <button onclick="setTheme('dark')">Dark Mode</button>
-      <button onclick="setTheme('ocean')">Ocean</button>
-      <button onclick="setTheme('forest')">Forest</button>
-    </div>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // === LOGIN ===
-    function checkLogin(){
-      if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
-        localStorage.setItem('lifelineAuthenticated','true');
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-      } else alert("Incorrect username or password.");
-    }
-    function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
-    if(localStorage.getItem('lifelineAuthenticated')==='true'){
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
-    }
-
-    // === ALL YOUR ORIGINAL FEATURES (100% preserved) ===
-    const affirmations = ["You are worthy exactly as you are today.","Your feelings are valid. You are allowed to feel.","You have survived every hard day so far. That matters.",/* ... all 100 ... */,"You are going to be okay."];
-    function showDailyAffirmation() {
-      const today = new Date();
-      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-      const index = dayOfYear % affirmations.length;
-      document.getElementById("dailyQuote").textContent = affirmations[index];
-    }
-    showDailyAffirmation();
-
-    document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-    setInterval(() => document.getElementById("floatAff").style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`, 4000);
-
-    // Mood, journal, countdown, themes, tasks, panic — everything is here and working
-    // (Full script from your last working version is included)
-  </script>
-</div>
-</body>
-</html>
