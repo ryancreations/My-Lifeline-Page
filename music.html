@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music Sanctuary • My Lifeline</title>
+  <title>Music • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
     *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--bg,#111);color:#fff;font-family:'Quicksand',sans-serif;overflow-x:hidden}
+    body{background:#111;color:#fff;font-family:'Quicksand',sans-serif}
     nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000}
     nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
     nav button:hover{background:var(--accent);color:white}
-    main{margin-top:90px;padding:20px}
+    main{margin-top:90px;max-width:900px;margin:auto;padding:15px}
     header{background:var(--primary);color:white;padding:50px;text-align:center;border-radius:15px}
-    .section{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:2px solid var(--primary);border-radius:15px;padding:25px;margin:25px auto;max-width:900px}
+    .section{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:2px solid var(--primary);border-radius:15px;padding:25px;margin:25px 0}
     .section h2{color:white;text-align:center;font-size:2em;margin-bottom:20px;text-shadow:0 0 10px #00bcd4}
     iframe{width:100%;height:400px;border-radius:15px;margin:15px 0;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+    #globalVolume{width:80%;height:15px;border-radius:10px;background:#333;margin:20px auto;display:block}
     .upload-area{background:rgba(255,255,255,.15);padding:30px;border-radius:15px;text-align:center}
-    #globalVolume{margin:20px auto;width:80%;height:15px;border-radius:10px;background:#333}
-    .favorite-btn{background:#ff6b6b;color:white;border:none;padding:10px 20px;border-radius:50px;margin-top:10px;cursor:pointer}
     @media(max-width:600px){iframe{height:250px}}
   </style>
 </head>
@@ -40,61 +39,31 @@
     <input type="range" id="globalVolume" min="0" max="1" step="0.1" value="0.7">
   </header>
 
-  <div class="section"><h2>All Out 2000s Rock</h2>
-    <iframe src="https://archive.org/details/nirvana-all-apologies" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>Alternative Rock Legends</h2>
-    <iframe src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>Rap – Sleepy Hallow "2055"</h2>
-    <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>When You're Feeling Low</h2>
-    <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>Ram Jam – Black Betty</h2>
-    <iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>Lofi Sanctuary</h2>
-    <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>Lil Peep – 16 Lines</h2>
-    <iframe src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII" allowfullscreen></iframe></div>
-
-  <div class="section"><h2>Night Drive Vibes</h2>
-    <iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" allowfullscreen></iframe></div>
+  <!-- All your original embeds + upload -->
+  <div class="section"><h2>All Out 2000s</h2><iframe src="https://archive.org/details/nirvana-all-apologies" allowfullscreen></iframe></div>
+  <div class="section"><h2>Alternative Rock</h2><iframe src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" allowfullscreen></iframe></div>
+  <div class="section"><h2>Rap Vibes</h2><iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe></div>
+  <div class="section"><h2>Depression Playlist</h2><iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe></div>
+  <div class="section"><h2>Alternative</h2><iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe></div>
+  <div class="section"><h2>Lofi</h2><iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe></div>
+  <div class="section"><h2>Lil Peep</h2><iframe src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII" allowfullscreen></iframe></div>
+  <div class="section"><h2>Night Drive</h2><iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" allowfullscreen></iframe></div>
 
   <div class="section upload-area">
     <h2>Upload Your Own Song</h2>
-    <input type="file" id="upload" accept="audio/*" style="background:white;padding:10px;border-radius:10px">
-    <audio id="customPlayer" controls style="width:100%;margin-top:20px"></audio>
-    <button class="favorite-btn" onclick="saveFavorite()">Favorite This Song</button>
+    <input type="file" id="audioUpload" accept="audio/*">
+    <audio id="uploadedAudio" controls style="width:100%;margin-top:20px"></audio>
   </div>
 </main>
 
 <script>
-  // Global volume control
-  document.getElementById('globalVolume').addEventListener('input', e=>{
-    document.querySelectorAll('iframe, audio').forEach(el=>el.volume=e.target.value);
-  });
-
-  // Upload & play
-  document.getElementById('upload').addEventListener('change', e=>{
-    const file = e.target.files[0];
-    if(file){
-      document.getElementById('customPlayer').src = URL.createObjectURL(file);
-    }
-  });
-
-  // Save favorite songs
-  function saveFavorite(){
-    const src = document.getElementById('customPlayer').src;
-    if(src && !src.includes('blob')) return;
-    let favs = JSON.parse(localStorage.getItem('favSongs')||'[]');
-    favs.push({name: prompt("Song name?"), url: src});
-    localStorage.setItem('favSongs', JSON.stringify(favs));
-    alert('Added to favorites!');
-  }
+document.getElementById('globalVolume').addEventListener('input', e=>{
+  document.querySelectorAll('audio,iframe').forEach(el=>el.volume=e.target.value);
+});
+document.getElementById('audioUpload').addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(file) document.getElementById('uploadedAudio').src = URL.createObjectURL(file);
+});
 </script>
 </body>
 </html>
