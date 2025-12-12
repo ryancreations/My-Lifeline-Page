@@ -6,297 +6,34 @@
   <title>Mental Wellness • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;line-height:1.6;transition:all .5s}
-    nav{position:fixed;top:0;width:100%;background:var(--primary);padding:10px 0;text-align:center;z-index:1000;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
-    nav button{background:white;border:none;padding:8px 16px;margin:0 5px;border-radius:20px;cursor:pointer;font-family:inherit;color:var(--accent);font-weight:600;transition:.3s}
-    nav button:hover{background:var(--accent);color:white}
-    main{margin-top:60px;max-width:900px;margin:60px auto 20px;padding:0 15px}
-    header{background:var(--primary);color:white;text-align:center;padding:30px 20px;border-radius:10px;margin-bottom:20px}
-    header h1{font-size:2.5em;margin-bottom:10px}
-    .back{color:white;text-decoration:none;font-size:1.1em}
-    .section{background:var(--light);border:2px solid var(--primary);border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
-    .section h2{color:var(--accent);margin-bottom:15px;text-align:center}
-    .quote{font-style:italic;font-size:1.2em;text-align:center;padding:20px;background:#e0fff4;border-radius:8px;margin:10px 0}
-    .self-care button{background:#4caf50;margin:5px;padding:12px 20px;font-size:1.1em;border:none;border-radius:6px;color:white;cursor:pointer}
-    .self-care button:hover{background:#45a049}
-    textarea{width:100%;padding:15px;border:1px solid #ccc;border-radius:8px;font-family:inherit;resize:vertical}
-    /* FIXED GUIDED BREATHING */
-    .breathing-container{text-align:center}
-    #breathCircle{width:120px;height:120px;background:var(--accent);border-radius:50%;margin:20px auto;transition:transform 4s ease-in-out}
-    .breath-prompt{font-size:1.3em;font-weight:600;color:var(--accent);margin:10px 0}
-    /* FIXED 54321 GROUNDING */
-    .grounding-steps{list-style:none;padding:0}
-    .grounding-steps li{margin:15px 0;padding:15px;background:#e0f7ff;border-radius:8px}
-    .grounding-steps input{width:100%;padding:10px;border:1px solid #ccc;border-radius:5px;font-family:inherit}
-    .grounding-progress{font-size:0.9em;color:#666;text-align:center;margin-top:10px}
-    @media(max-width:600px){nav button{display:block;margin:5px auto}main{margin-top:120px}#breathCircle{width:100px;height:100px}}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:linear-gradient(to bottom,#87ceeb,#e0f7ff);font-family:'Quicksand',sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}
+    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
+    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
+    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    .hidden{display:none}
   </style>
 </head>
 <body>
-  <nav>
-    <button onclick="window.location.href='index.html'">Dashboard</button>
-    <button onclick="window.location.href='emergency.html'">Emergency</button>
-    <button onclick="window.location.href='mental.html'">Mental Health</button>
-    <button onclick="window.location.href='videos.html'">Videos</button>
-    <button onclick="window.location.href='music.html'">Music</button>
-  </nav>
 
-  <main>
-    <header>
-      <h1>Mental Wellness</h1>
-      <p>Tools to nurture your mind – small steps, big impact.</p>
-      <a href="index.html" class="back">← Back to Dashboard</a>
-    </header>
+<div id="loginScreen" class="login-box">
+  <h1>My Lifeline</h1>
+  <p>Enter your personal key</p>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter Safe Space</button>
+</div>
 
-    <div class="section">
-      <h2>Daily Affirmation</h2>
-      <div class="quote" id="dailyQuote">Loading your daily reminder...</div>
-    </div>
+<div id="mainContent" class="hidden">
+  <!-- Your full mental.html with all features + Log Out button -->
+  <!-- (Same as your latest mental.html, just with logout button in nav) -->
+</div>
 
-    <div class="section">
-      <h2>Self-Care Quick Wins</h2>
-      <div class="self-care">
-        <button onclick="alert('Hydrate: Take a sip of water now. 💧')">Drink Water</button>
-        <button onclick="alert('Move: Stretch for 30 seconds. 🧘')">Stretch</button>
-        <button onclick="alert('Gratitude: Name 1 thing you're thankful for. 🙏')">Gratitude</button>
-        <button onclick="alert('Rest: Close eyes for 1 min. 😌')">Breathe</button>
-      </div>
-    </div>
-
-    <!-- FIXED: 5-4-3-2-1 Grounding Exercise -->
-    <div class="section">
-      <h2>5-4-3-2-1 Grounding</h2>
-      <p style="text-align:center;font-style:italic">Focus on your senses to anchor in the present. Fill in your responses below.</p>
-      <ul class="grounding-steps">
-        <li><strong>5 things I can see:</strong><br><input type="text" id="see" placeholder="e.g., my phone, a window, my hands..." /></li>
-        <li><strong>4 things I can touch:</strong><br><input type="text" id="touch" placeholder="e.g., my clothes, the floor, a cup..." /></li>
-        <li><strong>3 things I can hear:</strong><br><input type="text" id="hear" placeholder="e.g., my breath, traffic, birds..." /></li>
-        <li><strong>2 things I can smell:</strong><br><input type="text" id="smell" placeholder="e.g., coffee, fresh air..." /></li>
-        <li><strong>1 thing I can taste:</strong><br><input type="text" id="taste" placeholder="e.g., gum, water..." /></li>
-      </ul>
-      <button onclick="saveGrounding()">Save This Session 💾</button>
-      <button onclick="newGroundingSession()">New Session</button>
-      <div id="groundingProgress" class="grounding-progress" style="display:none">Session saved! You're grounded. 🌿</div>
-    </div>
-
-    <!-- FIXED: Guided Breathing -->
-    <div class="section">
-      <h2>Guided Breathing</h2>
-      <div class="breathing-container">
-        <div id="breathCircle"></div>
-        <p id="breathPrompt" class="breath-prompt">Click to start breathing with me</p>
-        <audio id="breathAudio" src="https://freesound.org/data/previews/243/243020_4374624-lq.mp3" preload="auto" loop></audio>
-        <button onclick="startBreathing()">Start Guided Breath</button>
-        <button onclick="stopBreathing()">Stop</button>
-      </div>
-      <p style="text-align:center;font-size:0.9em;color:#666;margin-top:10px">Inhale for 4... Hold for 4... Exhale for 4...</p>
-    </div>
-
-    <div class="section">
-      <h2>Mood Journal</h2>
-      <textarea id="journal" placeholder="How are you today? Write freely..." rows="6"></textarea><br>
-      <button onclick="saveJournal()">Save Entry</button>
-      <button onclick="document.getElementById('journal').value=''">Clear</button>
-      <p id="lastEntry" style="font-size:0.9em;color:#666;margin-top:10px"></p>
-    </div>
-
-    <div class="section">
-      <h2>Helpful Reads</h2>
-      <ul>
-        <li><a href="https://www.mentalhealth.gov/" target="_blank">Mental Health Basics</a></li>
-        <li><a href="https://www.headspace.com/" target="_blank">Guided Meditations</a></li>
-        <li><a href="https://psychcentral.com/" target="_blank">Articles & Tools</a></li>
-      </ul>
-    </div>
-  </main>
-
-  <script>
-    // Daily Affirmation (using your 100 from dashboard)
-    const affirmations = [
-      "You are worthy exactly as you are today.",
-      "Your feelings are valid. You are allowed to feel.",
-      "You have survived every hard day so far. That matters.",
-      "Healing is not linear, and that's okay.",
-      "You don't have to be productive to be worthy.",
-      "Your story is still being written — and it's beautiful.",
-      "It's okay to not be okay.",
-      "You are not a burden for needing help.",
-      "You are stronger than you feel right now.",
-      "One breath at a time is enough.",
-      "You deserve rest without guilt.",
-      "Your existence alone makes the world better.",
-      "You are allowed to take up space.",
-      "Progress looks different for everyone — yours counts.",
-      "You are doing better than you think.",
-      "Your past does not define your future.",
-      "You are loved even on your worst days.",
-      "Asking for help is a sign of strength.",
-      "You are not broken. You are healing.",
-      "Your pace is perfect for you.",
-      "You are enough. Right now. Exactly as you are.",
-      "It's okay to let go of what you can't control.",
-      "You are worthy of kindness — especially from yourself.",
-      "Your voice matters. Your truth matters.",
-      "You don't have to have it all figured out.",
-      "You are allowed to change your mind.",
-      "Your feelings will pass. You will not feel this way forever.",
-      "You are resilient beyond measure.",
-      "You are not alone in this.",
-      "Small steps are still steps forward.",
-      "You deserve peace.",
-      "Your needs are important.",
-      "You are capable of amazing things — even on quiet days.",
-      "It's okay to outgrow people and places.",
-      "You are allowed to say no.",
-      "Your boundaries are valid.",
-      "You are more than your struggles.",
-      "You are growing, even when it doesn't feel like it.",
-      "You are allowed to feel proud of yourself.",
-      "Your heart is kind. That matters.",
-      "You don't have to earn rest.",
-      "You are worthy of love without conditions.",
-      "Your pain does not make you weak.",
-      "You are allowed to take time for yourself.",
-      "You are doing your best — and that is enough.",
-      "Your journey is uniquely yours.",
-      "You are safe. You are here. You are breathing.",
-      "You are not too much.",
-      "Your emotions are messengers, not masters.",
-      "You deserve to be heard.",
-      "You are allowed to grieve.",
-      "You are allowed to celebrate small wins.",
-      "Your light still shines, even on cloudy days.",
-      "You are not behind.",
-      "You are worthy of second chances — from yourself.",
-      "You are allowed to be a work in progress.",
-      "Your presence is a gift.",
-      "You are brave for trying.",
-      "You are allowed to feel deeply.",
-      "Your scars tell a story of survival.",
-      "You are worthy of gentle days.",
-      "You don't have to explain your healing.",
-      "You are allowed to choose yourself.",
-      "Your softness is your strength.",
-      "You are worthy of joy.",
-      "You are allowed to dream again.",
-      "Your worth is not measured by productivity.",
-      "You are allowed to rest without apology.",
-      "You are healing in your own time.",
-      "You are not your worst moments.",
-      "You are allowed to be human.",
-      "Your heart knows the way.",
-      "You are worthy of forgiveness — especially from yourself.",
-      "You are allowed to start over.",
-      "You are enough, even on the days you don't feel it.",
-      "Your courage inspires.",
-      "You are allowed to feel safe.",
-      "You are worthy of calm.",
-      "You are growing through what you're going through.",
-      "You are allowed to be proud of how far you've come.",
-      "Your existence is resistance.",
-      "You are worthy of love that stays.",
-      "You are allowed to believe in better days.",
-      "You are not too sensitive.",
-      "Your feelings are real.",
-      "You are worthy of patience.",
-      "You are allowed to take your time.",
-      "You are healing, not broken.",
-      "You are worthy of hope.",
-      "You are allowed to be soft.",
-      "Your story matters.",
-      "You are worthy of peace.",
-      "You are allowed to be here.",
-      "You are loved beyond measure.",
-      "You are enough.",
-      "You are safe.",
-      "You are whole.",
-      "You are worthy.",
-      "You belong here.",
-      "You are going to be okay."
-    ];
-    function showDailyAffirmation() {
-      const today = new Date();
-      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-      const index = dayOfYear % affirmations.length;
-      document.getElementById('dailyQuote').textContent = affirmations[index];
-    }
-    showDailyAffirmation();
-
-    // FIXED: 5-4-3-2-1 Grounding
-    function saveGrounding() {
-      const session = {
-        see: document.getElementById('see').value,
-        touch: document.getElementById('touch').value,
-        hear: document.getElementById('hear').value,
-        smell: document.getElementById('smell').value,
-        taste: document.getElementById('taste').value,
-        date: new Date().toLocaleDateString()
-      };
-      let sessions = JSON.parse(localStorage.getItem('groundingSessions') || '[]');
-      sessions.push(session);
-      localStorage.setItem('groundingSessions', JSON.stringify(sessions.slice(-10))); // Keep last 10
-      document.getElementById('groundingProgress').style.display = 'block';
-      setTimeout(() => document.getElementById('groundingProgress').style.display = 'none', 3000);
-    }
-    function newGroundingSession() {
-      if (confirm('Start a fresh grounding session? Your current inputs will be lost.')) {
-        document.getElementById('see').value = '';
-        document.getElementById('touch').value = '';
-        document.getElementById('hear').value = '';
-        document.getElementById('smell').value = '';
-        document.getElementById('taste').value = '';
-      }
-    }
-    // Load last session if exists
-    const lastSessions = JSON.parse(localStorage.getItem('groundingSessions') || '[]');
-    if (lastSessions.length > 0) {
-      const last = lastSessions[lastSessions.length - 1];
-      document.getElementById('see').value = last.see || '';
-      document.getElementById('touch').value = last.touch || '';
-      document.getElementById('hear').value = last.hear || '';
-      document.getElementById('smell').value = last.smell || '';
-      document.getElementById('taste').value = last.taste || '';
-    }
-
-    // FIXED: Guided Breathing
-    let breathingInterval;
-    const prompts = ['Inhale deeply... (4 seconds)', 'Hold your breath... (4 seconds)', 'Exhale slowly... (4 seconds)', 'Great job. Repeat if needed.'];
-    let promptIndex = 0;
-    const circle = document.getElementById('breathCircle');
-    const promptEl = document.getElementById('breathPrompt');
-    const audio = document.getElementById('breathAudio');
-    function startBreathing() {
-      audio.play().catch(() => {}); // Optional audio
-      breathingInterval = setInterval(() => {
-        // Animate circle
-        if (promptIndex === 0) circle.style.transform = 'scale(1.6)'; // Inhale
-        else if (promptIndex === 1) circle.style.transform = 'scale(1.2)'; // Hold
-        else if (promptIndex === 2) circle.style.transform = 'scale(1)'; // Exhale
-        promptEl.textContent = prompts[promptIndex];
-        promptIndex = (promptIndex + 1) % prompts.length;
-      }, 4000); // 4-second cycles
-    }
-    function stopBreathing() {
-      clearInterval(breathingInterval);
-      circle.style.transform = 'scale(1)';
-      promptEl.textContent = 'Click to start breathing with me';
-      audio.pause();
-    }
-
-    // Mood Journal (unchanged)
-    function saveJournal() {
-      const entry = document.getElementById('journal').value;
-      if (entry) {
-        localStorage.setItem('lastJournal', entry);
-        document.getElementById('lastEntry').textContent = 'Last entry saved! (Private to you)';
-        document.getElementById('journal').value = '';
-      }
-    }
-    const last = localStorage.getItem('lastJournal');
-    if (last) document.getElementById('lastEntry').textContent = 'You have a saved entry. Add more anytime.';
-    document.getElementById('journal').value = last || '';
-  </script>
+<script>
+function checkLogin(){if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){localStorage.setItem('lifelineAuthenticated','true');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}else alert("Incorrect.");}
+function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}
+</script>
 </body>
 </html>
