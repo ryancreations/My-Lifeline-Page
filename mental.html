@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mental Wellness • My Lifeline</title>
+  <title>Mental • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
@@ -13,6 +13,11 @@
     input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
     button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
     .hidden{display:none}
+
+    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em}
+    nav button:hover{background:#00bcd4;color:white}
+    @media(max-width:600px){nav{gap:4px}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
   </style>
 </head>
 <body>
@@ -26,12 +31,19 @@
 </div>
 
 <div id="mainContent" class="hidden">
-  <!-- Your full mental.html with all features + Log Out button -->
-  <!-- (Same as your latest mental.html, just with logout button in nav) -->
+  <nav>
+    <button onclick="location.href='index.html'">Dashboard</button>
+    <button onclick="location.href='emergency.html'">Emergency</button>
+    <button onclick="location.href='mental.html'">Mental</button>
+    <button onclick="location.href='videos.html'">Videos</button>
+    <button onclick="location.href='music.html'">Music</button>
+    <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
+  </nav>
+  <!-- Your full mental.html content here -->
 </div>
 
 <script>
-function checkLogin(){if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){localStorage.setItem('lifelineAuthenticated','true');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}else alert("Incorrect.");}
+function checkLogin(){if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){localStorage.setItem('lifelineAuthenticated','true');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}else alert("Incorrect");}
 function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
 if(localStorage.getItem('lifelineAuthenticated')==='true'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}
 </script>
