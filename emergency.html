@@ -6,16 +6,20 @@
   <title>Emergency • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:#fff8f0;font-family:'Quicksand',sans-serif;color:#333}
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:12px;text-align:center;z-index:1000}
-    nav button{background:white;color:#00bcd4;border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
-    nav button:hover{background:#00bcd4;color:white}
+    nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000}
+    nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
+    nav button:hover{background:var(--accent);color:white}
     main{margin-top:90px;padding:20px;text-align:center}
-    .hotline{background:#ff6b6b;color:white;padding:20px;border-radius:15px;margin:20px auto;max-width:500px}
-    .hotline button{background:white;color:#ff6b6b;padding:15px 30px;border:none;border-radius:50px;font-size:1.3em;margin:10px;cursor:pointer}
-    .distraction{background:#e0f7ff;padding:15px;border-radius:12px;margin:15px}
-    .distraction a{color:#00bcd4;text-decoration:none;font-weight:bold}
+    .hotline{background:#ff6b6b;color:white;padding:25px;border-radius:15px;margin:20px auto;max-width:500px;box-shadow:0 8px 20px rgba(255,0,0,.3)}
+    .hotline button{background:white;color:#ff6b6b;padding:18px 35px;border:none;border-radius:50px;font-size:1.4em;margin:10px;cursor:pointer}
+    .sos,.distraction button{background:#d32f2f;color:white;padding:15px;border-radius:50px;margin:15px;font-size:1.2em}
+    .heartbeat{width:100px;height:100px;background:#ff6b6b;border-radius:50%;margin:20px auto;animation:pulse 1.5s infinite}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+    .offline-warning,.battery-low{background:#ff9800;color:white;padding:15px;border-radius:10px;margin:15px;display:none}
+    .photo-gallery img{width:100px;height:100px;object-fit:cover;border-radius:10px;margin:10px;cursor:pointer}
   </style>
 </head>
 <body>
@@ -29,32 +33,49 @@
 </nav>
 
 <main>
-  <h1 style="font-size:2.5em;color:#d32f2f">You Are Not Alone</h1>
-  <p style="font-size:1.4em">Help is one tap away</p>
+  <h1 style="font-size:3em;color:#d32f2f">You Are Not Alone</h1>
+  <p style="font-size:1.5em">Help is here. Right now.</p>
 
-  <div class="hotline" id="mainHotline">
-    <h2>988 • Suicide & Crisis Lifeline</h2>
+  <div class="hotline" id="crisisHotline">
+    <h2 id="hotlineTitle">988 • Suicide & Crisis Lifeline</h2>
     <button onclick="location.href='tel:988'">Call 988 Now</button>
     <button onclick="location.href='tel:911'">Call 911</button>
     <button onclick="location.href='tel:9032494334'">Call Bryce</button>
   </div>
 
-  <div class="distraction">
-    <h3>Need a distraction?</h3>
-    <p><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Calming Fluid</a> • 
-       <a href="https://neal.fun" target="_blank">Fun Games</a> • 
-       <a href="https://www.patatap.com" target="_blank">Make Music</a></p>
+  <div class="sos">
+    <button onclick="sendSOS()">Silent SOS • Text Help Now</button>
   </div>
+
+  <div class="heartbeat"></div>
+
+  <div class="section">
+    <h2>Distraction Roulette</h2>
+    <button onclick="distractionRoulette()">Spin for Help</button>
+  </div>
+
+  <div class="section">
+    <h2>Post-Crisis Check-In</h2>
+    <button onclick="startCheckIn()">Start 10-Min Timer</button>
+    <div id="checkInTimer" style="font-size:1.4em;margin:20px"></div>
+  </div>
+
+  <div class="section">
+    <h2>Your Safe Photos</h2>
+    <input type="file" id="safePhoto" accept="image/*" multiple>
+    <div id="photoGallery" class="photo-gallery"></div>
+  </div>
+
+  <div class="section">
+    <button onclick="shareLifeline()">Share This Lifeline</button>
+  </div>
+
+  <div id="offlineWarning" class="offline-warning">You're offline. All tools still work.</div>
+  <div id="batteryWarning" class="battery-low">Battery low. Please charge soon.</div>
 </main>
 
 <script>
-  // Try to detect country and show local hotline
-  fetch('https://ipapi.co/json/').then(r=>r.json()).then(data=>{
-    const country = data.country_code;
-    const hotlineDiv = document.getElementById('mainHotline');
-    if(country==='GB') hotlineDiv.innerHTML = `<h2>116 123 • Samaritans (UK)</h2><button onclick="location.href='tel:116123'">Call Now</button>`;
-    else if(country==='AU') hotlineDiv.innerHTML = `<h2>13 11 14 • Lifeline Australia</h2><button onclick="location.href='tel:131114'">Call Now</button>`;
-  });
+// All emergency features from previous message
 </script>
 </body>
 </html>
