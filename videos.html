@@ -6,69 +6,118 @@
   <title>Videos • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333}
-    nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000}
-    nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
-    nav button:hover{background:var(--accent);color:white}
-    main{margin-top:80px;max-width:900px;margin:auto;padding:15px}
-    header{background:var(--primary);color:white;padding:35px;text-align:center;border-radius:15px}
-    .section{background:var(--light);border:2px solid var(--primary);border-radius:15px;padding:20px;margin:20px 0}
-    .section h2{color:var(--accent);text-align:center;margin-bottom:15px}
-    iframe{width:100%;height:400px;border:none;border-radius:10px}
-    ul{list-style:none;padding:0}
-    ul li{background:#e0f7ff;margin:10px 0;padding:15px;border-radius:8px;text-align:center}
-    ul li a{color:var(--accent);text-decoration:none;font-weight:600;font-size:1.2em}
-    @media(max-width:600px){iframe{height:220px}}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:linear-gradient(to bottom,#87ceeb,#e0f7ff);font-family:'Quicksand',sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}
+    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
+    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
+    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    button:hover{background:#0097a7}
+    .hidden{display:none}
   </style>
 </head>
 <body>
 
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="location.href='emergency.html'">Emergency</button>
-  <button onclick="location.href='mental.html'">Mental Health</button>
-  <button onclick="location.href='videos.html'">Videos</button>
-  <button onclick="location.href='music.html'">Music</button>
-</nav>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-box">
+  <h1>My Lifeline</h1>
+  <p>Enter your personal key</p>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter Safe Space</button>
+</div>
 
-<main>
-  <header>
-    <h1>Comfort Videos</h1>
-    <p>Escape, laugh, rest</p>
-  </header>
+<!-- FULL VIDEOS PAGE -->
+<div id="mainContent" class="hidden">
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos • My Lifeline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      :root{--primary:#87ceeb;--accent:#00bcd4;--light:#f0fbff}
+      *{box-sizing:border-box;margin:0;padding:0}
+      body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333}
+      nav{position:fixed;top:0;width:100%;background:var(--primary);padding:12px;text-align:center;z-index:1000;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+      nav button{background:white;color:var(--accent);border:none;padding:10px 18px;margin:5px;border-radius:25px;cursor:pointer;font-weight:600}
+      nav button:hover{background:var(--accent);color:white}
+      main{margin-top:90px;max-width:900px;margin:auto;padding:15px}
+      header{background:var(--primary);color:white;padding:35px;text-align:center;border-radius:15px}
+      .section{background:var(--light);border:2px solid var(--primary);border-radius:15px;padding:20px;margin:20px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
+      .section h2{color:var(--accent);text-align:center;margin-bottom:15px}
+      iframe{width:100%;height:400px;border:none;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.1)}
+      ul{list-style:none;padding:0}
+      ul li{background:#e0f7ff;margin:10px 0;padding:15px;border-radius:8px;text-align:center}
+      ul li a{color:var(--accent);text-decoration:none;font-weight:600;font-size:1.2em}
+      @media(max-width:600px){iframe{height:220px}}
+    </style>
+  </head>
+  <body>
+    <nav>
+      <button onclick="location.href='index.html'">Dashboard</button>
+      <button onclick="location.href='emergency.html'">Emergency</button>
+      <button onclick="location.href='mental.html'">Mental Health</button>
+      <button onclick="location.href='videos.html'">Videos</button>
+      <button onclick="location.href='music.html'">Music</button>
+      <button onclick="logout()" style="background:#ff6b6b;float:right">Log Out</button>
+    </nav>
 
-  <div class="section">
-    <h2>Dukes of Hazzard S4 Ep1</h2>
-    <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" allowfullscreen></iframe>
-  </div>
+    <main>
+      <header>
+        <h1>Comfort Videos</h1>
+        <p>Escape, laugh, rest</p>
+      </header>
 
-  <div class="section">
-    <h2>Dukes of Hazzard S7 Ep3</h2>
-    <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" allowfullscreen></iframe>
-  </div>
+      <div class="section">
+        <h2>Dukes of Hazzard S4 Ep1</h2>
+        <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" allowfullscreen></iframe>
+      </div>
 
-  <div class="section">
-    <h2>Streaming</h2>
-    <ul>
-      <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
-      <li><a href="https://www.hulu.com" target="_blank">Hulu</a></li>
-      <li><a href="https://www.primevideo.com" target="_blank">Prime Video</a></li>
-      <li><a href="https://www.tubitv.com" target="_blank">Tubi (Free)</a></li>
-      <li><a href="https://www.pluto.tv" target="_blank">Pluto TV (Free)</a></li>
-    </ul>
-  </div>
+      <div class="section">
+        <h2>Dukes of Hazzard S7 Ep3</h2>
+        <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" allowfullscreen></iframe>
+      </div>
 
-  <div class="section">
-    <h2>YouTubers</h2>
-    <ul>
-      <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">FamLaurenRP</a></li>
-      <li><a href="https://www.youtube.com/@Elanip" target="_blank">Elanip</a></li>
-      <li><a href="https://www.youtube.com/@Treyten." target="_blank">Treyten</a></li>
-      <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris</a></li>
-    </ul>
-  </div>
-</main>
+      <div class="section">
+        <h2>Streaming</h2>
+        <ul>
+          <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
+          <li><a href="https://www.hulu.com" target="_blank">Hulu</a></li>
+          <li><a href="https://www.primevideo.com" target="_blank">Prime Video</a></li>
+          <li><a href="https://www.tubitv.com" target="_blank">Tubi (Free)</a></li>
+          <li><a href="https://www.pluto.tv" target="_blank">Pluto TV (Free)</a></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>YouTubers</h2>
+        <ul>
+          <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">FamLaurenRP</a></li>
+          <li><a href="https://www.youtube.com/@Elanip" target="_blank">Elanip</a></li>
+          <li><a href="https://www.youtube.com/@Treyten." target="_blank">Treyten</a></li>
+          <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris</a></li>
+        </ul>
+      </div>
+    </main>
+  </body>
+  </html>
+</div>
+
+<script>
+function checkLogin(){
+  if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
+    localStorage.setItem('lifelineAuthenticated','true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  } else alert("Incorrect username or password.");
+}
+function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
+}
+</script>
 </body>
 </html>
