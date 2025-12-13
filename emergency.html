@@ -7,32 +7,57 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#87ceeb,#e0f7ff);font-family:'Quicksand',sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
-    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
-    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    button:hover{background:#0097a7}
+    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
+    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    .login-box button:hover{background:#0097a7}
     .hidden{display:none}
+
+    /* COMPACT NAVIGATION */
     nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
     nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
     nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
-    main{margin-top:70px;padding:20px;text-align:center}
+    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
+
+    main{margin-top:70px;max-width:900px;margin:auto;padding:20px;text-align:center}
+    header{background:#87ceeb;color:white;padding:35px;border-radius:15px;margin-bottom:30px}
+    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:25px;margin:30px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
     .hotline{background:#ff6b6b;color:white;padding:30px;border-radius:15px;margin:30px auto;max-width:600px;box-shadow:0 8px 20px rgba(255,107,107,0.3)}
     .hotline button{background:white;color:#ff6b6b;padding:18px 35px;border:none;border-radius:50px;font-size:1.4em;margin:10px;cursor:pointer}
+    ul{list-style:none;padding:0}
+    ul li{background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px}
+    ul li a{color:#00bcd4;text-decoration:none;font-weight:600}
+    #breathCircle{width:120px;height:120px;background:#00bcd4;border-radius:50%;margin:30px auto;animation:breathe 12s infinite}
+    @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
+    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+    .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
+    .view-toggle button:hover{background:#0097a7}
+    .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
+
+    /* Mobile / Desktop Forced Styles */
+    body.mobile-mode nav button { padding: 6px 10px; font-size: 0.9em; }
+    body.mobile-mode main { margin-top: 70px; }
+    body.mobile-mode .section { padding: 15px; }
+    body.desktop-mode nav button { padding: 8px 14px; font-size: 0.95em; }
+    body.desktop-mode .section { padding: 25px; }
   </style>
 </head>
 <body>
 
-<div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1>
-  <p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkLogin()">Enter Safe Space</button>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>My Lifeline</h1>
+    <p>Enter your personal key</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkLogin()">Enter Safe Space</button>
+  </div>
 </div>
 
+<!-- MAIN EMERGENCY PAGE -->
 <div id="mainContent" class="hidden">
   <nav>
     <button onclick="location.href='index.html'">Dashboard</button>
@@ -44,8 +69,18 @@
   </nav>
 
   <main>
-    <h1 style="font-size:3em;color:#d32f2f">You Are Not Alone</h1>
-    <p style="font-size:1.5em">Help is here. Right now.</p>
+    <header>
+      <h1>You Are Not Alone</h1>
+      <p>Help is here. Right now.</p>
+    </header>
+
+    <!-- View Mode Toggle -->
+    <div class="section view-toggle">
+      <h2>View Mode</h2>
+      <button onclick="setView('mobile')">📱 Mobile View</button>
+      <button onclick="setView('desktop')">🖥️ Desktop View</button>
+      <p>Switch anytime — best for your screen</p>
+    </div>
 
     <div class="hotline">
       <h2>988 • Suicide & Crisis Lifeline</h2>
@@ -55,11 +90,19 @@
     </div>
 
     <div class="section">
+      <h2>Quick Breath</h2>
+      <div id="breathCircle"></div>
+      <p style="font-size:1.3em">Inhale... Hold... Exhale...</p>
+    </div>
+
+    <div class="section">
       <h2>Quick Distractions</h2>
-      <ul style="list-style:none">
+      <ul>
         <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Fluid Simulation</a></li>
         <li><a href="https://neal.fun" target="_blank">Fun Games</a></li>
         <li><a href="https://www.patatap.com" target="_blank">Make Music</a></li>
+        <li><a href="https://quickdraw.withgoogle.com/" target="_blank">Quick, Draw!</a></li>
+        <li><a href="https://play2048.co/" target="_blank">2048 Game</a></li>
       </ul>
     </div>
   </main>
@@ -82,6 +125,16 @@
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('mainContent').classList.remove('hidden');
     }
+
+    // Mobile / Desktop View Toggle
+    function setView(mode) {
+      document.body.classList.remove('mobile-mode', 'desktop-mode');
+      if (mode === 'mobile') document.body.classList.add('mobile-mode');
+      else document.body.classList.add('desktop-mode');
+      localStorage.setItem('viewMode', mode);
+    }
+    const savedView = localStorage.getItem('viewMode');
+    if (savedView) setView(savedView);
   </script>
 </div>
 </body>
