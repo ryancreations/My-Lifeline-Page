@@ -12,4 +12,105 @@ header{background:rgba(0,0,0,.5);padding:16px;text-align:center;font-size:2em}
 .ryan{background:#ff9a9e;align-self:flex-end;border-bottom-right-radius:4px}
 .bryce{background:#a8e6cf;align-self:flex-start;border-bottom-left-radius:4px}
 #inputArea{background:rgba(0,0,0,.6);padding:12px;display:flex;gap:10px}
-input{flex:1;padding:14px;border-radius:25px;border:none;background:rgba(255,255,255,.2
+input{flex:1;padding:14px;border-radius:25px;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:1.1em}
+input::placeholder{color:#ccc}
+button{background:#ff6b9d;border:none;width:50px;height:50px;border-radius:50%;font-size:1.6em;cursor:pointer}
+#photos img{width:60px;height:60px;object-fit:cover;border-radius:50%;border:3px solid #fff;margin:10px}
+</style>
+</head><body>
+
+<!-- QUICK PASSWORD -->
+<div id="login" style="position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-size:2em;z-index:999">
+  <h1>Ryan ♡ Bryce</h1>
+  <input type="password" id="pass" placeholder="password" style="padding:15px;font-size:1.2em;border-radius:15px;border:none;width:280px;text-align:center">
+  <button onclick="check()" style="padding:14px 40px;border-radius:50px;background:#ff6b9d;border:none;color:#fff;font-size:1.2em">Enter</button>
+</div>
+
+<div id="chat" class="hidden">
+<header>Ryan ♡ Bryce</header>
+<div id="photos">
+  <img id="ryanPhoto" src="https://via.placeholder.com/60/ffb6c1/fff?text=R">
+  <img id="brycePhoto" src="https://via.placeholder.com/60/a8e6cf/fff?text=B">
+</div>
+<div id="messages"></div>
+<div id="inputArea">
+  <input type="text" id="msg" placeholder="say something…">
+  <button onclick="send()">Send</button>
+</div>
+</div>
+
+<script>
+// Passwords — change Bryce's to whatever you want
+const passwords = {Ryan:"ITSmf420", Bryce:"yourbrycepasswordhere"};
+let name = "";
+
+function check(){
+  const p = document.getElementById('pass').value;
+  if(passwords.Ryan===p) name="Ryan";
+  else if(passwords.Bryce===p) name="Bryce";
+  else {alert("wrong");return}
+  document.getElementById('login').remove();
+  document.getElementById('chat').classList.remove('hidden');
+  loadAll();
+}
+
+function send(){
+  const txt=document.getElementById('msg').value.trim();
+  if(!txt)return;
+  add(txt,name);
+  const chat=JSON.parse(localStorage.getItem('rbChat')||'[]');
+  chat.push({n:name,t:txt,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
+  localStorage.setItem('rbChat',JSON.stringify(chat));
+  document.getElementById('msg').value='';
+}
+
+function add(text,sender){
+  const m=document.createElement('div');
+  m.className=`message ${sender.toLowerCase()}`;
+  m.textContent=text;
+  document.getElementById('messages').appendChild(m);
+  document.getElementById('messages').scrollTop=document.getElementById('messages').scrollHeight;
+}
+
+function loadAll(){
+  // Load messages
+  JSON.parse(localStorage.getItem('rbChat')||'[]').forEach(m=>add(m.t,m.n));
+  // Load photos
+  if(localStorage.ryanPhoto) document.getElementById('ryanPhoto').src=localStorage.ryanPhoto;
+  if(localStorage.brycePhoto) document.getElementById('brycePhoto').src=localStorage.brycePhoto;
+  // Load background
+  if(localStorage.chatBg) document.body.style.backgroundImage=`url(${localStorage.chatBg})`;
+  // Load colors
+  if(localStorage.ryanColor) document.querySelectorAll('.ryan').forEach(e=>e.style.background=localStorage.ryanColor);
+  if(localStorage.bryceColor) document.querySelectorAll('.bryce').forEach(e=>e.style.background=localStorage.bryceColor);
+}
+
+// Quick settings (tap photos to change, long-press to change color)
+document.getElementById('ryanPhoto').onclick=()=>document.getElementById('rp').click();
+document.getElementById('brycePhoto').onclick=()=>document.getElementById('bp').click();
+document.getElementById('ryanPhoto').oncontextmenu=e=>{e.preventDefault();const c=prompt("Ryan bubble color",localStorage.ryanColor||"#ff9a9e");if(c){localStorage.ryanColor=c;loadAll()}}
+document.getElementById('brycePhoto').oncontextmenu=e=>{e.preventDefault();const c=prompt("Bryce bubble color",localStorage.bryceColor||"#a8e6cf");if(c){localStorage.bryceColor=c;loadAll()}}
+document.body.onclick=()=>document.getElementById('bg').click();
+document.getElementById('msg').addEventListener('keypress',e=>e.key==='Enter'&&send());
+
+<input type="file" id="rp" hidden accept="image/*" onchange="up(this,'ryanPhoto')">
+<input type="file" id="bp" hidden accept="image/*" onchange="up(this,'brycePhoto')">
+<input type="file" id="bg" hidden accept="image/*" onchange="up(this,'body','backgroundImage')">
+
+function up(input,id,prop='src'){
+  const f=input.files[0];
+  if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    if(prop==='backgroundImage') {
+      document.body.style.backgroundImage=`url(${e.target.result})`;
+      localStorage.chatBg=e.target.result;
+    } else {
+      document.getElementById(id).src=e.target.result;
+      localStorage[id]=e.target.result;
+    }
+  };
+  r.readAsDataURL(f);
+}
+</script>
+</body></html>
