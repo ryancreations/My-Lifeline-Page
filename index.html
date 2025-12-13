@@ -3,68 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard • My Lifeline</title>
+  <title>My Lifeline • Dashboard</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#87ceeb">
+
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:.5s}
-    .hidden{display:none}
 
-    .login-box{
-      background:white;padding:50px 30px;border-radius:20px;
-      box-shadow:0 20px 50px rgba(0,0,0,.3);
-      text-align:center;max-width:420px;width:90%;
-      position:fixed;top:50%;left:50%;
-      transform:translate(-50%,-50%);z-index:9999
+    body{
+      font-family:'Quicksand',sans-serif;
+      background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
+      color:#333;
+      min-height:100vh;
     }
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-    .login-box input{
-      width:100%;padding:16px;margin:12px 0;
-      border:2px solid #87ceeb;border-radius:12px;font-size:1.1em
-    }
-    .login-box button{
-      background:#00bcd4;color:white;padding:16px;
-      border-radius:50px;font-size:1.3em;width:100%;
-      border:none;cursor:pointer
-    }
-    .login-box button:hover{background:#0097a7}
 
     nav{
-      position:fixed;top:0;width:100%;background:#87ceeb;
-      padding:8px 0;z-index:1000;
-      display:flex;flex-wrap:wrap;justify-content:center;gap:6px
+      position:fixed;
+      top:0;
+      width:100%;
+      background:#87ceeb;
+      padding:8px 0;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:6px;
+      z-index:1000;
     }
-    nav button{
-      background:white;color:#00bcd4;border:none;
-      padding:8px 14px;border-radius:20px;
-      font-weight:600;cursor:pointer
-    }
-    nav button:hover{background:#00bcd4;color:white}
 
-    main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
-    header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
-    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:20px;margin:20px 0}
-    #floatAff{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:15px;border-radius:15px}
-    textarea{width:100%;padding:15px;border-radius:10px}
+    nav button{
+      background:white;
+      color:#00bcd4;
+      border:none;
+      padding:8px 14px;
+      border-radius:20px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:.95em;
+    }
+
+    nav button:hover{
+      background:#00bcd4;
+      color:white;
+    }
+
+    main{
+      max-width:1000px;
+      margin:auto;
+      padding:90px 15px 40px;
+    }
+
+    header{
+      background:#87ceeb;
+      color:white;
+      padding:40px 20px;
+      border-radius:18px;
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    header h1{
+      font-size:2.6em;
+      margin-bottom:10px;
+    }
+
+    header p{
+      font-size:1.1em;
+      opacity:.95;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:white;
+      border-radius:16px;
+      padding:25px;
+      box-shadow:0 6px 18px rgba(0,0,0,.12);
+      cursor:pointer;
+      transition:.25s;
+      text-align:center;
+    }
+
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 10px 25px rgba(0,0,0,.18);
+    }
+
+    .card h2{
+      color:#00bcd4;
+      margin-bottom:10px;
+      font-size:1.4em;
+    }
+
+    .card p{
+      font-size:.95em;
+      color:#555;
+    }
+
+    footer{
+      margin-top:40px;
+      text-align:center;
+      font-size:.85em;
+      color:#777;
+    }
+
+    @media(max-width:600px){
+      header h1{font-size:2.1em}
+    }
   </style>
 </head>
 
 <body>
-
-<!-- LOGIN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Enter your personal key</p>
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter Safe Space</button>
-  </div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="mainContent" class="hidden">
 
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
@@ -72,72 +124,86 @@
   <button onclick="location.href='mental.html'">Mental</button>
   <button onclick="location.href='videos.html'">Videos</button>
   <button onclick="location.href='music.html'">Music</button>
-  <button onclick="location.href='bestie.html'">AI Help</button>
+  <button onclick="location.href='bestie.html'">AI Bestie</button>
   <button onclick="location.href='letters.html'">Letters</button>
   <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
   <button onclick="location.href='yourenough.html'">You’re Enough</button>
   <button onclick="location.href='goodthings.html'">Good Things</button>
   <button onclick="location.href='lofiroom.html'">Lofi Room</button>
   <button onclick="location.href='chatroom.html'">Chat Room</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
 </nav>
 
 <main>
-  <header>
-    <h1>My Lifeline</h1>
-    <p>Your safe space • Made with love</p>
-    <p id="currentDate"></p>
-  </header>
 
-  <div id="floatAff">You're still here. That matters.</div>
+<header>
+  <h1>Welcome Back</h1>
+  <p>This is your safe space. You made it here — that matters.</p>
+</header>
 
-  <div class="section">
-    <h2>Write & Release</h2>
-    <textarea id="journal" rows="6" placeholder="Let it out..."></textarea><br><br>
-    <button onclick="saveJournal()">Save</button>
-    <button onclick="clearJournal()">Clear</button>
+<section class="grid">
+
+  <div class="card" onclick="location.href='emergency.html'">
+    <h2>🚨 Emergency</h2>
+    <p>Immediate help, grounding tools, crisis resources.</p>
   </div>
+
+  <div class="card" onclick="location.href='bestie.html'">
+    <h2>🫂 AI Bestie</h2>
+    <p>Talk it out. Vent. Be heard without judgment.</p>
+  </div>
+
+  <div class="card" onclick="location.href='mental.html'">
+    <h2>🧠 Mental Tools</h2>
+    <p>Coping skills, calming exercises, check-ins.</p>
+  </div>
+
+  <div class="card" onclick="location.href='music.html'">
+    <h2>🎧 Music</h2>
+    <p>Grounding playlists and emotional comfort.</p>
+  </div>
+
+  <div class="card" onclick="location.href='videos.html'">
+    <h2>📺 Videos</h2>
+    <p>Distraction, comfort, and safe content.</p>
+  </div>
+
+  <div class="card" onclick="location.href='letters.html'">
+    <h2>✉️ Letters</h2>
+    <p>Things you wish you could say — or read.</p>
+  </div>
+
+  <div class="card" onclick="location.href='todayistayed.html'">
+    <h2>📌 Today I Stayed</h2>
+    <p>Proof that you survived another day.</p>
+  </div>
+
+  <div class="card" onclick="location.href='yourenough.html'">
+    <h2>💙 You’re Enough</h2>
+    <p>Read this when your brain lies to you.</p>
+  </div>
+
+  <div class="card" onclick="location.href='goodthings.html'">
+    <h2>🌱 Good Things</h2>
+    <p>Small wins still count. All of them.</p>
+  </div>
+
+  <div class="card" onclick="location.href='lofiroom.html'">
+    <h2>🌙 Lofi Room</h2>
+    <p>Slow down. Breathe. Stay awhile.</p>
+  </div>
+
+  <div class="card" onclick="location.href='chatroom.html'">
+    <h2>💬 Chat Room</h2>
+    <p>Connect. You’re not the only one.</p>
+  </div>
+
+</section>
+
+<footer>
+  <p>My Lifeline • Built for survival, not perfection</p>
+</footer>
+
 </main>
-</div>
-
-<script>
-  function checkLogin(){
-    if(username.value==="Ryan" && password.value==="ITSmf420"){
-      localStorage.setItem("lifelineAuth","true");
-      showDashboard();
-    } else alert("Wrong login");
-  }
-
-  function logout(){
-    localStorage.removeItem("lifelineAuth");
-    location.reload();
-  }
-
-  function showDashboard(){
-    loginScreen.classList.add("hidden");
-    mainContent.classList.remove("hidden");
-  }
-
-  function showLogin(){
-    loginScreen.classList.remove("hidden");
-    mainContent.classList.add("hidden");
-  }
-
-  if(localStorage.getItem("lifelineAuth")==="true") showDashboard();
-  else showLogin();
-
-  currentDate.textContent = new Date().toDateString();
-
-  journal.value = localStorage.getItem("journal") || "";
-  function saveJournal(){
-    localStorage.setItem("journal",journal.value);
-    alert("Saved");
-  }
-  function clearJournal(){
-    journal.value="";
-    localStorage.removeItem("journal");
-  }
-</script>
 
 </body>
 </html>
