@@ -21,6 +21,7 @@ header{
   text-align:center;
   font-size:1.8em;
   font-weight:600;
+  cursor:pointer;
 }
 #messages{
   flex:1;
@@ -48,6 +49,11 @@ header{
   color:#000;
   align-self:flex-start;
   border-bottom-left-radius:4px;
+}
+.message img{
+  max-width:220px;
+  border-radius:14px;
+  margin-top:6px;
 }
 .time{
   font-size:.8em;
@@ -80,64 +86,215 @@ header{
   font-size:1.4em;
   cursor:pointer;
 }
+#photo{
+  font-size:1.4em;
+  cursor:pointer;
+}
+input[type=file]{display:none}
+
+/* PROFILE PANEL */
+#profile{
+  position:fixed;
+  inset:0;
+  background:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:40px;
+  z-index:9999;
+  text-align:center;
+  display:none;
+}
+#profile img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  margin:20px 0;
+  border:4px solid #dbdbdb;
+}
+#profile input{
+  margin:10px 0;
+  padding:12px;
+  width:80%;
+  border:1px solid #dbdbdb;
+  border-radius:10px;
+  font-size:1.1em;
+}
+#profile button{
+  background:#0095f6;
+  color:#fff;
+  padding:14px 40px;
+  border:none;
+  border-radius:8px;
+  font-size:1.2em;
+  cursor:pointer;
+  margin-top:20px;
+}
+#closeProfile{
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:1.8em;
+  color:#999;
+  cursor:pointer;
+}
 </style>
 </head>
 
 <body>
 
-<header>Our Messages</header>
+<header id="header">Our Messages</header>
 
 <div id="messages"></div>
 
 <div id="inputArea">
+  <span id="photo">📷</span>
   <input type="text" id="msg" placeholder="Type a message…">
   <button id="send">➤</button>
 </div>
 
-<!-- FIREBASE (DATABASE ONLY) -->
+<input type="file" id="photoUpload" accept="image/*">
+
+<!-- PROFILE PANEL -->
+<div id="profile">
+  <span id="closeProfile">×</span>
+  <h1>Profile</h1>
+  <img id="profilePhoto" src="https://via.placeholder.com/120/dbdbdb/000000?text=Photo">
+  <input type="text" id="profileName" placeholder="Your Name">
+  <input type="file" id="profileUpload" accept="image/*" style="display:none">
+  <button id="changePhoto">Change Photo</button>
+  <button id="saveProfile">Save</button>
+</div>
+
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
-/* FIREBASE — DATABASE ONLY */
-firebase.initializeApp({
-  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com"
-});
+/* 🔥 FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyBBRAhMp-LMjS5hgzQNB48bz31AeBMAHDk",
+  authDomain: "chatroom-3b44c.firebaseapp.com",
+  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com",
+  projectId: "chatroom-3b44c",
+  storageBucket: "chatroom-3b44c.firebasestorage.app",
+  messagingSenderId: "222445358770",
+  appId: "1:222445358770:web:c7fc0e4245308a8be943ab",
+  measurementId: "G-NJVE8C8SZQ"
+};
 
+firebase.initializeApp(firebaseConfig);
+
+/* FIREBASE REFERENCES */
 const db = firebase.database().ref("messages");
-
-/* USER */
-let name = localStorage.getItem("myName");
-if(!name){
-  name = prompt("What's your name?");
-  localStorage.setItem("myName", name);
-}
+const storage = firebase.storage();
 
 /* ELEMENTS */
 const messages = document.getElementById("messages");
 const msgInput = document.getElementById("msg");
 const sendBtn = document.getElementById("send");
+const photoBtn = document.getElementById("photo");
+const photoUpload = document.getElementById("photoUpload");
 
-/* SEND */
+/* PROFILE ELEMENTS */
+const header = document.getElementById("header");
+const profile = document.getElementById("profile");
+const profilePhoto = document.getElementById("profilePhoto");
+const profileNameInput = document.getElementById("profileName");
+const profileUpload = document.getElementById("profileUpload");
+const changePhotoBtn = document.getElementById("changePhoto");
+const saveProfileBtn = document.getElementById("saveProfile");
+const closeProfileBtn = document.getElementById("closeProfile");
+
+/* USER DATA */
+let name = localStorage.getItem("myName") || "Me";
+let photoURL = localStorage.getItem("myPhoto") || "https://via.placeholder.com/120/dbdbdb/000000?text=Photo";
+
+/* SET PROFILE INFO */
+header.textContent = name;
+profilePhoto.src = photoURL;
+profileNameInput.value = name;
+
+/* HEADER CLICK → OPEN PROFILE */
+header.onclick = () => {
+  profile.style.display = "flex";
+};
+
+/* CLOSE PROFILE */
+closeProfileBtn.onclick = () => profile.style.display = "none";
+
+/* CHANGE PROFILE PHOTO */
+changePhotoBtn.onclick = () => profileUpload.click();
+
+profileUpload.onchange = e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => profilePhoto.src = ev.target.result;
+  reader.readAsDataURL(file);
+};
+
+/* SAVE PROFILE */
+saveProfileBtn.onclick = () => {
+  name = profileNameInput.value || "Me";
+  photoURL = profilePhoto.src;
+  localStorage.setItem("myName", name);
+  localStorage.setItem("myPhoto", photoURL);
+  header.textContent = name;
+  profile.style.display = "none";
+};
+
+/* SEND TEXT */
 function sendMessage(){
   const text = msgInput.value.trim();
   if(!text) return;
 
   db.push({
     name: name,
+    type: "text",
     text: text,
+    photo: photoURL,
     time: Date.now()
   });
 
   msgInput.value = "";
 }
 
-/* RECEIVE */
+/* SEND PHOTO */
+photoBtn.onclick = () => photoUpload.click();
+
+photoUpload.onchange = e => {
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const ref = storage.ref("photos/" + Date.now() + "_" + file.name);
+  ref.put(file).then(() => {
+    ref.getDownloadURL().then(url => {
+      db.push({
+        name: name,
+        type: "photo",
+        url: url,
+        photo: photoURL,
+        time: Date.now()
+      });
+    });
+  });
+};
+
+/* RECEIVE MESSAGES */
 db.limitToLast(100).on("child_added", snap => {
   const m = snap.val();
   const div = document.createElement("div");
   div.className = `message ${m.name === name ? "you" : "them"}`;
-  div.textContent = m.text;
+
+  if(m.type === "photo"){
+    div.innerHTML = `<img src="${m.url}">`;
+  } else {
+    div.textContent = m.text;
+  }
 
   const t = document.createElement("div");
   t.className = "time";
@@ -153,9 +310,7 @@ db.limitToLast(100).on("child_added", snap => {
 
 /* EVENTS */
 sendBtn.onclick = sendMessage;
-msgInput.addEventListener("keydown", e => {
-  if(e.key === "Enter") sendMessage();
-});
+msgInput.addEventListener("keydown", e => { if(e.key === "Enter") sendMessage(); });
 </script>
 
 </body>
