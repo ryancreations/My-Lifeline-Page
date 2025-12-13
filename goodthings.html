@@ -68,6 +68,10 @@ button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
+function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.href = 'index.html';
+  }
 // Login (same as always)
 function checkLogin(){
   if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
