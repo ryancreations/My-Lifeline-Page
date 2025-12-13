@@ -1,23 +1,27 @@
-<!DOCTYPE html>
-<html lang="en"><head>
+<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cozy Rain • My Lifeline</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#111;font-family:'Quicksand',sans-serif;color:#fff;overflow:hidden;height:100vh}
+body{background:#000;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;overflow:hidden;position:relative}
 .login-box,.hidden{display:none}
 nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer;font-size:0.9em}
 nav button:hover{background:#00bcd4;color:#fff}
-main{margin-top:70px;height:calc(100vh - 70px);position:relative}
-#rain-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.7)}
-#fog-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
-h1{position:absolute;top:20%;left:50%;transform:translateX(-50%);font-size:3em;text-shadow:0 0 20px #000;z-index:10}
+main{position:relative;width:100%;height:100vh}
+video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.85}
+canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:all}
+h1{position:absolute;top:15%;left:50%;transform:translateX(-50%);font-size:3em;text-shadow:0 0 20px #000;z-index:10}
 </style>
 </head><body>
 
-<div id="loginScreen" class="login-box">…(your login code here)…</div>
+<div id="loginScreen" class="login-box">
+  <h1>My Lifeline</h1><p>Enter your key</p>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter</button>
+</div>
 
 <div id="mainContent" class="hidden">
 <nav>
@@ -32,37 +36,36 @@ h1{position:absolute;top:20%;left:50%;transform:translateX(-50%);font-size:3em;t
   <button onclick="location.href='cattherapy.html'">Cat Therapy</button>
   <button onclick="location.href='pixelpet.html'">Pixel Pet</button>
   <button onclick="location.href='90sroom.html'">90s Room</button>
+  <!-- Nostalgia -->
   <button onclick="location.href='sandbox.html'">Sandbox</button>
   <button onclick="location.href='movienight.html'">Movie Night</button>
   <button onclick="location.href='campfire.html'">Campfire</button>
-  <button onclick="location.href='asmr.html'">ASMR Room</button>
+  <button onclick="location.href='asmr.html'">ASMR</button>
   <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
 </nav>
 <main>
-  <h1>Just breathe… it’s raining outside</h1>
-  <video id="rain-video" autoplay loop muted playsinline>
-    <source src="https://archive.org/download/rain-on-window/rain.mp4" type="video/mp4">
+  <h1>It's raining... you're safe inside</h1>
+  <video autoplay loop muted playsinline>
+    <source src="https://files.catbox.moe/8h1f5r.mp4" type="video/mp4">
   </video>
-  <canvas id="fog-canvas"></canvas>
-  <audio autoplay loop><source src="https://archive.org/download/rain-thunder-lofi/rain.mp3" type="audio/mpeg"></audio>
+  <canvas id="fog"></canvas>
+  <audio autoplay loop volume="0.6">
+    <source src="https://files.catbox.moe/3y8o6p.mp3" type="audio/mpeg">
+  </audio>
 </main>
 </div>
 
 <script>
-// login & logout same as your other pages
-// fog drawing with mouse/finger
-const canvas = document.getElementById('fog-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fillRect(0,0,canvas.width,canvas.height);
-let drawing = false;
-canvas.addEventListener('mousedown',()=>drawing=true);
-canvas.addEventListener('mouseup',()=>drawing=false);
-canvas.addEventListener('mousemove',draw);
-canvas.addEventListener('touchstart',e=> {drawing=true;e.preventDefault()});
-canvas.addEventListener('touchend',()=>drawing=false);
-canvas.addEventListener('touchmove',e=> {draw(e.touches[0]);e.preventDefault()});
-function draw(e){if(!drawing)return;const rect=canvas.getBoundingClientRect();const x=e.clientX-rect.left;const y=e.clientY-rect.top;ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(x,y,40,0,Math.PI*2);ctx.fill()}
-window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;ctx.fillStyle='rgba(255,255,255,0.15)';ctx.fillRect(0,0,canvas.width,canvas.height)});
+function checkLogin(){if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){localStorage.setItem('lifelineAuthenticated','true');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden')}else alert("Wrong")}
+function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload()}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden')}
+
+const c=document.getElementById('fog'),x=c.getContext('2d');
+c.width=innerWidth;c.height=innerHeight;
+x.fillStyle='rgba(255,255,255,0.12)';x.fillRect(0,0,c.width,c.height);
+let drawing=false;
+c.addEventListener('pointerdown',()=>{drawing=true});
+c.addEventListener('pointerup',()=>{drawing=false});
+c.addEventListener('pointermove',e=>{if(!drawing)return;x.globalCompositeOperation='destination-out';x.beginPath();x.arc(e.clientX,e.clientY,50,0,Math.PI*2);x.fill()});
 </script>
 </body></html>
