@@ -1,68 +1,150 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bryce ♡ Ryan</title>
+<title>Only Us</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:linear-gradient(135deg,#667eea,#764ba2);font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column}
-header{background:rgba(255,255,255,.1);padding:20px;text-align:center;font-size:2.5em;backdrop-filter:blur(10px)}
-#messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-.message{max-width:80%;padding:14px 20px;border-radius:25px;line-height:1.5;position:relative}
-.ryan{background:#ff9a9e;align-self:flex-end;border-bottom-right-radius:5px}
-.bryce{background:#a8e6cf;align-self:flex-start;border-bottom-left-radius:5px}
-#inputArea{background:rgba(255,255,255,.15);padding:15px;display:flex;gap:10px;align-items:center;backdrop-filter:blur(10px)}
-input{flex:1;padding:16px;border-radius:30px;border:none;font-size:1.1em;background:rgba(255,255,255,.2);color:#fff}
-input::placeholder{color:#ddd}
-button{background:#ff6b9d;border:none;padding:16px 24px;border-radius:50%;font-size:1.5em;cursor:pointer}
+body{background:#667eea;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden;background-size:cover;background-position:center}
+header{background:rgba(0,0,0,.4);padding:20px;text-align:center;font-size:2.5em;backdrop-filter:blur(10px)}
+#messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.message{max-width:78%;padding:16px 22px;border-radius:28px;line-height:1.5;position:relative;align-self:flex-start}
+.ryan{background:#ff9a9e;align-self:flex-end;border-bottom-right-radius:6px}
+.bryce{background:#a8e6cf;align-self:flex-start;border-bottom-left-radius:6px}
+#inputArea{background:rgba(0,0,0,.5);padding:15px;display:flex;gap:12px;align-items:center;backdrop-filter:blur(12px)}
+input{flex:1;padding:18px;border-radius:30px;border:none;font-size:1.2em;background:rgba(255,255,255,.15);color:#fff}
+input::placeholder{color:#ccc}
+button{background:#ff6b9d;border:none;padding:18px;border-radius:50%;font-size:1.6em;cursor:pointer}
+#photos{display:flex;justify-content:center;gap:20px;margin:15px 0}
+#photos img{width:90px;height:90px;object-fit:cover;border-radius:50%;border:4px solid rgba(255,255,255,255,.3);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+#customizer{background:rgba(0,0,0,.6);padding:15px;text-align:center}
+#customizer input, #customizer button{margin:8px}
 </style>
 </head><body>
 
-<header>Bryce ♡ Ryan</header>
+<!-- LOGIN -->
+<div id="login" style="position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;color:#fff;font-size:2em">
+  <h1>Only Us</h1>
+  <input type="password" id="pass" placeholder="Password" style="padding:15px;font-size:1.2em;border-radius:15px;border:none;margin:20px;width:300px;text-align:center">
+  <button onclick="check()" style="padding:15px 40px;font-size:1.2em;border-radius:50px;background:#ff6b9d;border:none;color:#fff;cursor:pointer">Enter</button>
+</div>
+
+<div id="chat" class="hidden">
+<header>Ryan ♡ Bryce</header>
+
+<div id="photos">
+  <img id="ryanPhoto" src="https://via.placeholder.com/90/ffb6c1/ffffff?text=Ryan">
+  <img id="brycePhoto" src="https://via.placeholder.com/90/a8e6cf/ffffff?text=Bryce">
+</div>
 
 <div id="messages"></div>
 
+<div id="customizer">
+  <input type="color" id="ryanColor" value="#ff9a9e" title="Your color">
+  <input type="color" id="bryceColor" value="#a8e6cf" title="Bryce’s color">
+  <input type="file" id="bgUpload" accept="image/*" title="Change background">
+  <button onclick="saveSettings()">Save Look</button>
+</div>
+
 <div id="inputArea">
-  <input type="text" id="msg" placeholder="type a message…">
+  <input type="text" id="msg" placeholder="say something sweet…">
   <button onclick="send()">Send</button>
+</div>
 </div>
 
 <script>
-const messages = document.getElementById('messages');
-let name = localStorage.getItem('chatName') || prompt("Who are you? (Ryan or Bryce)", "Ryan");
-if(!localStorage.getItem('chatName')) localStorage.setItem('chatName', name);
-document.title = name === "Ryan" ? "Ryan ♡ Bryce" : "Bryce ♡ Ryan";
+const correctPasswords = {Ryan:"ITSmf420", Bryce:"brycespassword"}; // Change "brycespassword" to whatever you want
+let name = "";
+
+function check(){
+  const p = document.getElementById('pass').value;
+  if(p === correctPasswords.Ryan){ name="Ryan"; start(); }
+  else if(p === correctPasswords.Bryce){ name="Bryce"; start(); }
+  else alert("Wrong password, love");
+}
+
+function start(){
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('chat').classList.remove('hidden');
+  loadSettings();
+  loadChat();
+}
 
 function send(){
   const input = document.getElementById('msg');
   const text = input.value.trim();
   if(!text) return;
-  
-  const div = document.createElement('div');
-  div.className = `message ${name.toLowerCase()}`;
-  div.textContent = text;
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-  
-  // Save to both of your browsers
-  let chat = JSON.parse(localStorage.getItem('bryceRyanChat')||'[]');
-  chat.push({name, text, time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
-  localStorage.setItem('bryceRyanChat', JSON.stringify(chat));
-  
-  input.value = '';
+  addMessage(text, name);
+  let chat = JSON.parse(localStorage.getItem('ryanBryceChat')||'[]');
+  chat.push({name,text,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  localStorage.setItem('ryanBryceChat',JSON.stringify(chat));
+  input.value='';
 }
 
-// Load old messages
-let chat = JSON.parse(localStorage.getItem('bryceRyanChat')||'[]');
-chat.forEach(m=>{
-  const div = document.createElement('div');
-  div.className = `message ${m.name.toLowerCase()}`;
-  div.textContent = m.text;
-  messages.appendChild(div);
-});
-messages.scrollTop = messages.scrollHeight;
+function addMessage(text, sender){
+  const m = document.createElement('div');
+  m.className = `message ${sender.toLowerCase()}`;
+  m.textContent = text;
+  document.getElementById('messages').appendChild(m);
+  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+}
 
-// Send with Enter
-document.getElementById('msg').addEventListener('keypress', e=>{ if(e.key==='Enter') send(); });
+function loadChat(){
+  const chat = JSON.parse(localStorage.getItem('ryanBryceChat')||'[]');
+  chat.forEach(m=>addMessage(m.text, m.name));
+}
+
+// Photos & Colors
+function saveSettings(){
+  const r = document.getElementById('ryanColor').value;
+  const b = document.getElementById('bryceColor').value;
+  localStorage.setItem('ryanColor',r);
+  localStorage.setItem('bryceColor',b);
+  document.querySelectorAll('.ryan').forEach(e=>e.style.background=r);
+  document.querySelectorAll('.bryce').forEach(e=>e.style.background=b);
+}
+function loadSettings(){
+  const r = localStorage.getItem('ryanColor')||'#ff9a9e';
+  const b = localStorage.getItem('bryceColor')||'#a8e6cf';
+  document.querySelectorAll('.ryan').forEach(e=>e.style.background=r);
+  document.querySelectorAll('.bryce').forEach(e=>e.style.background=b);
+  document.getElementById('ryanColor').value=r;
+  document.getElementById('bryceColor').value=b;
+}
+
+// Background photo upload
+document.getElementById('bgUpload').onchange=e=>{
+  const file=e.target.files[0];
+  if(file){
+    const reader=new FileReader();
+    reader.onload=ev=> {
+      document.body.style.backgroundImage=`url(${ev.target.result})`;
+      localStorage.setItem('chatBg',ev.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+if(localStorage.getItem('chatBg')) document.body.style.backgroundImage=`url(${localStorage.getItem('chatBg')})`;
+
+// Photo upload
+document.getElementById('ryanPhoto').onclick=()=>document.getElementById('ryanUpload').click();
+document.getElementById('brycePhoto').onclick=()=>document.getElementById('bryceUpload').click();
+document.getElementById('ryanUpload').onchange=e=>uploadPhoto(e,'ryanPhoto');
+document.getElementById('bryceUpload').onchange=e=>uploadPhoto(e,'brycePhoto');
+function uploadPhoto(e,id){
+  const file=e.target.files[0];
+  if(file){
+    const r=new FileReader();
+    r.onload=ev=>{document.getElementById(id).src=ev.target.result;localStorage.setItem(id,ev.target.result)};
+    r.readAsDataURL(file);
+  }
+}
+if(localStorage.getItem('ryanPhoto')) document.getElementById('ryanPhoto').src=localStorage.getItem('ryanPhoto');
+if(localStorage.getItem('brycePhoto')) document.getElementById('brycePhoto').src=localStorage.getItem('brycePhoto');
+
+document.getElementById('msg').addEventListener('keypress',e=>{if(e.key==='Enter')send()});
 </script>
+
+<input type="file" id="ryanUpload" hidden accept="image/*">
+<input type="file" id="bryceUpload" hidden accept="image/*">
 </body></html>
