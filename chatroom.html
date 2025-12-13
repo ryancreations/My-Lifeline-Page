@@ -14,29 +14,51 @@ body{
   display:flex;
   flex-direction:column;
 }
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  padding:5px;
+  background:#fff;
+  border-bottom:1px solid #eee;
+}
+nav button{
+  flex:1 1 48%;
+  padding:10px;
+  font-size:0.9em;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  background:#0095f6;
+  color:white;
+}
+nav button:last-child{
+  background:#ff6b6b;
+}
 header{
   background:#ff6b9d;
   color:#fff;
-  padding:20px;
+  padding:15px;
   text-align:center;
-  font-size:1.8em;
+  font-size:1.6em;
   font-weight:600;
   cursor:pointer;
 }
 #messages{
   flex:1;
-  padding:20px;
+  padding:10px;
   overflow-y:auto;
   background:#fff;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:10px;
 }
 .message{
-  max-width:80%;
-  padding:14px 20px;
-  border-radius:20px;
-  line-height:1.5;
+  max-width:90%;
+  padding:10px 14px;
+  border-radius:18px;
+  line-height:1.4;
+  word-wrap: break-word;
 }
 .you{
   background:#ff9a9e;
@@ -51,30 +73,31 @@ header{
   border-bottom-left-radius:4px;
 }
 .message img{
-  max-width:220px;
-  border-radius:14px;
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
   margin-top:6px;
 }
 .time{
-  font-size:.8em;
+  font-size:.7em;
   color:#555;
-  margin-top:6px;
+  margin-top:4px;
   text-align:right;
 }
 #inputArea{
   background:#fff;
   border-top:1px solid #eee;
-  padding:15px;
+  padding:10px;
   display:flex;
-  gap:10px;
+  gap:8px;
   align-items:center;
 }
 #msg{
   flex:1;
-  padding:16px;
-  border-radius:30px;
+  padding:12px;
+  border-radius:25px;
   border:1px solid #ddd;
-  font-size:1.1em;
+  font-size:1em;
 }
 #send{
   background:#ff6b9d;
@@ -101,7 +124,7 @@ input[type=file]{display:none}
   flex-direction:column;
   align-items:center;
   justify-content:flex-start;
-  padding:40px;
+  padding:30px;
   z-index:9999;
   text-align:center;
   display:none;
@@ -116,36 +139,72 @@ input[type=file]{display:none}
 }
 #profile input{
   margin:10px 0;
-  padding:12px;
+  padding:10px;
   width:80%;
   border:1px solid #dbdbdb;
   border-radius:10px;
-  font-size:1.1em;
+  font-size:1em;
 }
 #profile button{
   background:#0095f6;
   color:#fff;
-  padding:14px 40px;
+  padding:12px 30px;
   border:none;
   border-radius:8px;
-  font-size:1.2em;
+  font-size:1.1em;
   cursor:pointer;
-  margin-top:20px;
+  margin-top:15px;
 }
 #closeProfile{
   position:absolute;
-  top:20px;
-  right:20px;
-  font-size:1.8em;
+  top:15px;
+  right:15px;
+  font-size:1.6em;
   color:#999;
   cursor:pointer;
+}
+
+/* MEDIA QUERIES FOR SMALL DEVICES */
+@media (max-width:480px){
+  header{
+    font-size:1.3em;
+    padding:12px;
+  }
+  nav button{
+    flex:1 1 48%;
+    font-size:0.8em;
+    padding:8px;
+  }
+  #send,#photo{
+    width:45px;
+    height:45px;
+    font-size:1.2em;
+  }
+  #msg{
+    font-size:0.95em;
+  }
 }
 </style>
 </head>
 
 <body>
-<header id="header">Our Messages</header>
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+  <button onclick="location.href='bestie.html'">Bestie</button>
+  <button onclick="location.href='letters.html'">Letters</button>
+  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
+  <button onclick="location.href='yourenough.html'">You’re Enough</button>
+  <button onclick="location.href='goodthings.html'">Good Things</button>
+  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
+  <button onclick="location.href='chatroom.html'">Chat Room</button>
+  <button onclick="logout()">Log Out</button>
+</nav>
 
+<header id="header">Our Messages</header>
 <div id="messages"></div>
 
 <div id="inputArea">
@@ -153,7 +212,6 @@ input[type=file]{display:none}
   <input type="text" id="msg" placeholder="Type a message…">
   <button id="send">➤</button>
 </div>
-
 <input type="file" id="photoUpload" accept="image/*">
 
 <!-- PROFILE PANEL -->
@@ -173,6 +231,7 @@ input[type=file]{display:none}
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
+/* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyBBRAhMp-LMjS5hgzQNB48bz31AeBMAHDk",
   authDomain: "chatroom-3b44c.firebaseapp.com",
@@ -183,9 +242,10 @@ const firebaseConfig = {
   appId: "1:222445358770:web:c7fc0e4245308a8be943ab",
   measurementId: "G-NJVE8C8SZQ"
 };
+
 firebase.initializeApp(firebaseConfig);
 
-/* FIREBASE REFERENCES */
+/* REFERENCES */
 const db = firebase.database().ref("messages");
 const storage = firebase.storage();
 
@@ -196,7 +256,7 @@ const sendBtn = document.getElementById("send");
 const photoBtn = document.getElementById("photo");
 const photoUpload = document.getElementById("photoUpload");
 
-/* PROFILE ELEMENTS */
+/* PROFILE */
 const header = document.getElementById("header");
 const profile = document.getElementById("profile");
 const profilePhoto = document.getElementById("profilePhoto");
@@ -210,12 +270,12 @@ const closeProfileBtn = document.getElementById("closeProfile");
 let name = localStorage.getItem("myName") || "Promise of Love";
 let photoURL = localStorage.getItem("myPhoto") || "https://via.placeholder.com/120/dbdbdb/000000?text=Photo";
 
-/* SET PROFILE INFO */
+/* SET PROFILE */
 header.textContent = name;
 profilePhoto.src = photoURL;
 profileNameInput.value = name;
 
-/* HEADER CLICK → OPEN PROFILE */
+/* HEADER CLICK */
 header.onclick = () => profile.style.display = "flex";
 
 /* CLOSE PROFILE */
@@ -245,16 +305,8 @@ saveProfileBtn.onclick = () => {
 function sendMessage(){
   const text = msgInput.value.trim();
   if(!text) return;
-
-  db.push({
-    name: name,
-    type: "text",
-    text: text,
-    photo: photoURL,
-    time: Date.now()
-  });
-
-  msgInput.value = "";
+  db.push({ name, type:"text", text, photo: photoURL, time: Date.now() });
+  msgInput.value="";
 }
 
 /* SEND PHOTO */
@@ -262,40 +314,24 @@ photoBtn.onclick = () => photoUpload.click();
 photoUpload.onchange = e => {
   const file = e.target.files[0];
   if(!file) return;
-
   const ref = storage.ref("photos/" + Date.now() + "_" + file.name);
   ref.put(file).then(() => {
     ref.getDownloadURL().then(url => {
-      db.push({
-        name: name,
-        type: "photo",
-        url: url,
-        photo: photoURL,
-        time: Date.now()
-      });
+      db.push({ name, type:"photo", url, photo: photoURL, time: Date.now() });
     });
   });
 };
 
 /* RECEIVE MESSAGES */
-db.limitToLast(100).on("child_added", snap => {
+db.limitToLast(50).on("child_added", snap => {
   const m = snap.val();
   const div = document.createElement("div");
-  div.className = `message ${m.name === name ? "you" : "them"}`;
-
-  if(m.type === "photo"){
-    div.innerHTML = `<img src="${m.url}">`;
-  } else {
-    div.textContent = m.text;
-  }
-
+  div.className = `message ${m.name===name?"you":"them"}`;
+  if(m.type==="photo"){ div.innerHTML=`<img src="${m.url}">`; }
+  else{ div.textContent = m.text; }
   const t = document.createElement("div");
-  t.className = "time";
-  t.textContent = new Date(m.time).toLocaleTimeString([], {
-    hour:"numeric",
-    minute:"2-digit"
-  });
-
+  t.className="time";
+  t.textContent = new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
   div.appendChild(t);
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
@@ -303,7 +339,7 @@ db.limitToLast(100).on("child_added", snap => {
 
 /* EVENTS */
 sendBtn.onclick = sendMessage;
-msgInput.addEventListener("keydown", e => { if(e.key === "Enter") sendMessage(); });
+msgInput.addEventListener("keydown", e => { if(e.key==="Enter") sendMessage(); });
 </script>
 
 </body>
