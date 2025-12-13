@@ -7,17 +7,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#87ceeb,#e0f7ff);font-family:'Quicksand',sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
-    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
-    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    button:hover{background:#0097a7}
+    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
+    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    .login-box button:hover{background:#0097a7}
     .hidden{display:none}
+
+    /* COMPACT NAVIGATION */
     nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
     nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
     nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
+    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
+
     main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
     header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
     .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:25px;margin:25px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
@@ -37,17 +40,30 @@
     textarea{width:100%;padding:15px;border:1px solid #ccc;border-radius:8px;resize:vertical;font-family:inherit}
     button{background:#00bcd4;color:white;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin:8px;font-size:1.1em}
     button:hover{background:#0097a7}
+    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+    .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
+    .view-toggle button:hover{background:#0097a7}
+    .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
+
+    /* Mobile / Desktop Forced Styles */
+    body.mobile-mode nav button { padding: 6px 10px; font-size: 0.9em; }
+    body.mobile-mode main { margin-top: 70px; }
+    body.mobile-mode .section { padding: 15px; }
+    body.desktop-mode nav button { padding: 8px 14px; font-size: 0.95em; }
+    body.desktop-mode .section { padding: 25px; }
     @media(max-width:600px){#dailyQuote{font-size:1.25em;padding:30px 20px}}
   </style>
 </head>
 <body>
 
-<div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1>
-  <p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkLogin()">Enter Safe Space</button>
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>My Lifeline</h1>
+    <p>Enter your personal key</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkLogin()">Enter Safe Space</button>
+  </div>
 </div>
 
 <div id="mainContent" class="hidden">
@@ -65,6 +81,14 @@
       <h1>Mental Wellness</h1>
       <p>Tools to nurture your mind — you're doing great</p>
     </header>
+
+    <!-- View Mode Toggle -->
+    <div class="section view-toggle">
+      <h2>View Mode</h2>
+      <button onclick="setView('mobile')">📱 Mobile View</button>
+      <button onclick="setView('desktop')">🖥️ Desktop View</button>
+      <p>Switch anytime — best for your screen</p>
+    </div>
 
     <div class="section">
       <h2>Your Daily Affirmation</h2>
@@ -120,7 +144,7 @@
 
     <div class="section">
       <h2>Therapy Prep Notes</h2>
-      <textarea id="therapyNotes" rows="6" placeholder="What do you want to talk about this week?"></textarea><br><br>
+      <textarea id="therapyNotes" rows="6" placeholder="What do you want to talk about this week? Wins, struggles, goals..."></textarea><br><br>
       <button onclick="saveTherapyNotes()">Save Notes</button>
       <button onclick="clearTherapyNotes()">Clear</button>
     </div>
@@ -158,6 +182,16 @@
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('mainContent').classList.remove('hidden');
     }
+
+    // Mobile / Desktop View Toggle
+    function setView(mode) {
+      document.body.classList.remove('mobile-mode', 'desktop-mode');
+      if (mode === 'mobile') document.body.classList.add('mobile-mode');
+      else document.body.classList.add('desktop-mode');
+      localStorage.setItem('viewMode', mode);
+    }
+    const savedView = localStorage.getItem('viewMode');
+    if (savedView) setView(savedView);
 
     // 100 Affirmations
     const affirmations = ["You are worthy exactly as you are today.","Your feelings are valid. You are allowed to feel.","You have survived every hard day so far. That matters.","Healing is not linear, and that's okay.","You don't have to be productive to be worthy.","Your story is still being written — and it's beautiful.","It's okay to not be okay.","You are not a burden for needing help.","You are stronger than you feel right now.","One breath at a time is enough.","You deserve rest without guilt.","Your existence alone makes the world better.","You are allowed to take up space.","Progress looks different for everyone — yours counts.","You are doing better than you think.","Your past does not define your future.","You are loved even on your worst days.","Asking for help is a sign of strength.","You are not broken. You are healing.","Your pace is perfect for you.","You are enough. Right now. Exactly as you are.","It's okay to let go of what you can't control.","You are worthy of kindness — especially from yourself.","Your voice matters. Your truth matters.","You don't have to have it all figured out.","You are allowed to change your mind.","Your feelings will pass. You will not feel this way forever.","You are resilient beyond measure.","You are not alone in this.","Small steps are still steps forward.","You deserve peace.","Your needs are important.","You are capable of amazing things — even on quiet days.","It's okay to outgrow people and places.","You are allowed to say no.","Your boundaries are valid.","You are more than your struggles.","You are growing, even when it doesn't feel like it.","You are allowed to feel proud of yourself.","Your heart is kind. That matters.","You don't have to earn rest.","You are worthy of love without conditions.","Your pain does not make you weak.","You are allowed to take time for yourself.","You are doing your best — and that is enough.","Your journey is uniquely yours.","You are safe. You are here. You are breathing.","You are not too much.","Your emotions are messengers, not masters.","You deserve to be heard.","You are allowed to grieve.","You are allowed to celebrate small wins.","Your light still shines, even on cloudy days.","You are not behind.","You are worthy of second chances — from yourself.","You are allowed to be a work in progress.","Your presence is a gift.","You are brave for trying.","You are allowed to feel deeply.","Your scars tell a story of survival.","You are worthy of gentle days.","You don't have to explain your healing.","You are allowed to choose yourself.","Your softness is your strength.","You are worthy of joy.","You are allowed to dream again.","Your worth is not measured by productivity.","You are allowed to rest without apology.","You are healing in your own time.","You are not your worst moments.","You are allowed to be human.","Your heart knows the way.","You are worthy of forgiveness — especially from yourself.","You are allowed to start over.","You are enough, even on the days you don't feel it.","Your courage inspires.","You are allowed to feel safe.","You are worthy of calm.","You are growing through what you're going through.","You are allowed to be proud of how far you've come.","Your existence is resistance.","You are worthy of love that stays.","You are allowed to believe in better days.","You are not too sensitive.","Your feelings are real.","You are worthy of patience.","You are allowed to take your time.","You are healing, not broken.","You are worthy of hope.","You are allowed to be soft.","Your story matters.","You are worthy of peace.","You are allowed to be here.","You are loved beyond measure.","You are enough.","You are safe.","You are whole.","You are worthy.","You belong here.","You are going to be okay."];
