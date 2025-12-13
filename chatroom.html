@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Us</title>
+<title>Ryan ♡ Bryce</title>
 <style>
-body{margin:0;background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{background:#111;padding:15px;text-align:center;font-size:1.5em}
 #log{flex:1;padding:20px;overflow-y:auto;font-size:1.2em;line-height:1.6}
-#input{padding:15px;background:#111;display:flex}
+.line{margin:5px 0}
+.ryan{color:#0f0}
+.bryce{color:#0ff}
+#input{background:#111;padding:15px;display:flex}
 #msg{flex:1;background:transparent;border:none;color:#0f0;font-size:1.2em;outline:none}
 #msg::placeholder{color:#060}
 </style>
 </head><body>
 
+<header>Ryan ♡ Bryce</header>
+
 <div id="log">
-  <div>=== ONLY US ===</div>
+  <div class="line">Chat loading...</div>
 </div>
 
 <div id="input">
@@ -20,40 +27,55 @@ body{margin:0;background:#000;color:#0f0;font-family:'Courier New',monospace;hei
 </div>
 
 <script>
-let name = localStorage.getItem('name') || prompt("Ryan or Bryce?", "Ryan");
-localStorage.setItem('name', name);
+// CHANGE THIS TO YOUR RAW messages.txt URL
+const MESSAGES_URL = "https://raw.githubusercontent.com/ryancreations/My-Lifeline-Page/refs/heads/main/messages.txt"; // e.g. https://raw.githubusercontent.com/ryancreations/My-Lifeline-Page/main/messages.txt
+
+let name = localStorage.getItem('chatName') || prompt("Ryan or Bryce?", "Ryan");
+localStorage.setItem('chatName', name);
 
 function send(){
-  const msg = document.getElementById('msg');
-  const text = msg.value.trim();
+  const text = document.getElementById('msg').value.trim();
   if(!text) return;
   
-  const line = document.createElement('div');
-  line.textContent = `${name}: ${text}`;
-  line.style.color = name === "Ryan" ? "#0f0" : "#0ff";
-  document.getElementById('log').appendChild(line);
-  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+  const line = `${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})} ${name}: ${text}`;
+  addLine(line, name);
   
-  let chat = JSON.parse(localStorage.getItem('chat')||'[]');
-  chat.push({name, text});
-  localStorage.setItem('chat', JSON.stringify(chat));
-  msg.value = '';
+  // Append to local "cache"
+  let chat = localStorage.getItem('localChat') || '';
+  chat += line + '\n';
+  localStorage.setItem('localChat', chat);
+  
+  document.getElementById('msg').value = '';
 }
 
-// Load old messages
-let chat = JSON.parse(localStorage.getItem('chat')||'[]');
-chat.forEach(m => {
-  const line = document.createElement('div');
-  line.textContent = `${m.name}: ${m.text}`;
-  line.style.color = m.name === "Ryan" ? "#0f0" : "#0ff";
-  document.getElementById('log').appendChild(line);
-});
-document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+function addLine(text, sender){
+  const div = document.createElement('div');
+  div.className = `line ${sender.toLowerCase()}`;
+  div.textContent = text;
+  document.getElementById('log').appendChild(div);
+  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+}
 
-// Enter to send
+// Load from shared file every 5 seconds
+setInterval(async () => {
+  try {
+    const res = await fetch(MESSAGES_URL + '?t=' + Date.now()); // cache bust
+    const text = await res.text();
+    document.getElementById('log').innerHTML = '<div class="line">Chat synced</div>';
+    text.split('\n').filter(l=>l.trim()).forEach(line => {
+      const parts = line.split(': ');
+      const sender = parts.shift().includes('Ryan') ? 'Ryan' : 'Bryce';
+      addLine(line, sender);
+    });
+  } catch(e) {
+    document.getElementById('log').innerHTML += '<div class="line">Sync failed — using local</div>';
+  }
+}, 5000);
+
+// Initial load
 document.getElementById('msg').focus();
 document.getElementById('msg').addEventListener('keypress', e => {
-  if(e.key === 'Enter') send();
+  if(e.key==='Enter') send();
 });
 </script>
 </body></html>
