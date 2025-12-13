@@ -45,6 +45,10 @@ header{text-align:center;background:#ff6b9d;color:white;padding:20px;font-size:1
 </div>
 
 <script>
+function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.href = 'index.html';
+  }
 function changeBackground(type){
   const room = document.getElementById('calmRoom');
   switch(type){
