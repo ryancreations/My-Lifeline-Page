@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bryce ♡ Ryan</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(135deg,#667eea,#764ba2);font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column}
+header{background:rgba(255,255,255,.1);padding:20px;text-align:center;font-size:2.5em;backdrop-filter:blur(10px)}
+#messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.message{max-width:80%;padding:14px 20px;border-radius:25px;line-height:1.5;position:relative}
+.ryan{background:#ff9a9e;align-self:flex-end;border-bottom-right-radius:5px}
+.bryce{background:#a8e6cf;align-self:flex-start;border-bottom-left-radius:5px}
+#inputArea{background:rgba(255,255,255,.15);padding:15px;display:flex;gap:10px;align-items:center;backdrop-filter:blur(10px)}
+input{flex:1;padding:16px;border-radius:30px;border:none;font-size:1.1em;background:rgba(255,255,255,.2);color:#fff}
+input::placeholder{color:#ddd}
+button{background:#ff6b9d;border:none;padding:16px 24px;border-radius:50%;font-size:1.5em;cursor:pointer}
+</style>
+</head><body>
+
+<header>Bryce ♡ Ryan</header>
+
+<div id="messages"></div>
+
+<div id="inputArea">
+  <input type="text" id="msg" placeholder="type a message…">
+  <button onclick="send()">Send</button>
+</div>
+
+<script>
+const messages = document.getElementById('messages');
+let name = localStorage.getItem('chatName') || prompt("Who are you? (Ryan or Bryce)", "Ryan");
+if(!localStorage.getItem('chatName')) localStorage.setItem('chatName', name);
+document.title = name === "Ryan" ? "Ryan ♡ Bryce" : "Bryce ♡ Ryan";
+
+function send(){
+  const input = document.getElementById('msg');
+  const text = input.value.trim();
+  if(!text) return;
+  
+  const div = document.createElement('div');
+  div.className = `message ${name.toLowerCase()}`;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Save to both of your browsers
+  let chat = JSON.parse(localStorage.getItem('bryceRyanChat')||'[]');
+  chat.push({name, text, time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  localStorage.setItem('bryceRyanChat', JSON.stringify(chat));
+  
+  input.value = '';
+}
+
+// Load old messages
+let chat = JSON.parse(localStorage.getItem('bryceRyanChat')||'[]');
+chat.forEach(m=>{
+  const div = document.createElement('div');
+  div.className = `message ${m.name.toLowerCase()}`;
+  div.textContent = m.text;
+  messages.appendChild(div);
+});
+messages.scrollTop = messages.scrollHeight;
+
+// Send with Enter
+document.getElementById('msg').addEventListener('keypress', e=>{ if(e.key==='Enter') send(); });
+</script>
+</body></html>
