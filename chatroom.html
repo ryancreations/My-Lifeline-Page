@@ -8,13 +8,14 @@
 body{background:#667eea;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden;background-size:cover;background-position:center}
 header{background:rgba(0,0,0,.5);padding:16px;text-align:center;font-size:2em}
 #messages{flex:1;padding:10px 15px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;background:rgba(0,0,0,.1)}
-.message{max-width:75%;padding:12px 18px;border-radius:22px;line-height:1.5;align-self:flex-start;word-wrap:break-word}
+.message{max-width:75%;padding:12px 18px;border-radius:22px;line-height:1.4;align-self:flex-start;word-wrap:break-word}
 .ryan{background:#ff9a9e;align-self:flex-end;border-bottom-right-radius:4px}
 .bryce{background:#a8e6cf;align-self:flex-start;border-bottom-left-radius:4px}
 #inputArea{background:rgba(0,0,0,.6);padding:12px;display:flex;gap:10px}
 input{flex:1;padding:14px;border-radius:25px;border:none;background:rgba(255,255,255,.2);color:#fff;font-size:1.1em}
 input::placeholder{color:#ccc}
 button{background:#ff6b9d;border:none;width:50px;height:50px;border-radius:50%;font-size:1.6em;cursor:pointer}
+#clear{background:#ff4444;width:auto;padding:8px 16px;border-radius:20px;margin-left:10px;font-size:1em}
 #photos img{width:60px;height:60px;object-fit:cover;border-radius:50%;border:3px solid #fff;margin:10px}
 </style>
 </head><body>
@@ -29,13 +30,14 @@ button{background:#ff6b9d;border:none;width:50px;height:50px;border-radius:50%;f
 <div id="chat" class="hidden">
 <header>Ryan ♡ Bryce</header>
 <div id="photos">
-  <img id="ryanPhoto" src="https://via.placeholder.com/60/ffb6c1/fff?text=R">
-  <img id="brycePhoto" src="https://via.placeholder.com/60/a8e6cf/fff?text=B">
+  <img id="ryanPhoto" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIgZmlsbD0iI2ZmYjZjMSIvPjx0ZXh0IHg9IjM1IiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+RjwvdGV4dD48L3N2Zz4=">
+  <img id="brycePhoto" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIzMCIgZmlsbD0iI2E4ZTZjZiIvPjx0ZXh0IHg9IjM0IiB5PSIzNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSJ3aGl0ZSI+QjwvdGV4dD48L3N2Zz4=">
 </div>
 <div id="messages"></div>
 <div id="inputArea">
-  <input type="text" id="msg" placeholder="say something…">
+  <input type="text" id="msg" placeholder="say something sweet…">
   <button onclick="send()">Send</button>
+  <button id="clear" onclick="clearChat()">Clear</button>
 </div>
 </div>
 
@@ -60,7 +62,7 @@ function send(){
   add(txt,name);
   const chat=JSON.parse(localStorage.getItem('rbChat')||'[]');
   chat.push({n:name,t:txt,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
-  localStorage.setItem('rbChat',JSON.stringify(chat));
+  localStorage.setItem('rbChat',JSON.stringify(chat.slice(-100))); // limit to 100 messages for speed
   document.getElementById('msg').value='';
 }
 
@@ -73,9 +75,10 @@ function add(text,sender){
 }
 
 function loadAll(){
-  // Load messages
-  JSON.parse(localStorage.getItem('rbChat')||'[]').forEach(m=>add(m.t,m.n));
-  // Load photos
+  // Load messages (limit to 100 for speed)
+  const chat=JSON.parse(localStorage.getItem('rbChat')||'[]');
+  chat.slice(-100).forEach(m=>add(m.t,m.n));
+  // Load photos (use base64 to avoid extra loads)
   if(localStorage.ryanPhoto) document.getElementById('ryanPhoto').src=localStorage.ryanPhoto;
   if(localStorage.brycePhoto) document.getElementById('brycePhoto').src=localStorage.brycePhoto;
   // Load background
@@ -93,16 +96,13 @@ document.getElementById('brycePhoto').oncontextmenu=e=>{e.preventDefault();const
 document.body.onclick=()=>document.getElementById('bg').click();
 document.getElementById('msg').addEventListener('keypress',e=>e.key==='Enter'&&send());
 
-<input type="file" id="rp" hidden accept="image/*" onchange="up(this,'ryanPhoto')">
-<input type="file" id="bp" hidden accept="image/*" onchange="up(this,'brycePhoto')">
-<input type="file" id="bg" hidden accept="image/*" onchange="up(this,'body','backgroundImage')">
-
-function up(input,id,prop='src'){
+// Photo upload
+function up(input,id){
   const f=input.files[0];
   if(!f)return;
   const r=new FileReader();
   r.onload=e=>{
-    if(prop==='backgroundImage') {
+    if(id==='body') {
       document.body.style.backgroundImage=`url(${e.target.result})`;
       localStorage.chatBg=e.target.result;
     } else {
@@ -112,5 +112,26 @@ function up(input,id,prop='src'){
   };
   r.readAsDataURL(f);
 }
+
+function clearChat(){
+  if(confirm("Clear all messages?")) {
+    localStorage.removeItem('rbChat');
+    document.getElementById('messages').innerHTML = '';
+  }
+}
+
+// Faster touch handling
+let touchStartTime = 0;
+document.addEventListener('touchstart', e => { touchStartTime = Date.now(); });
+document.addEventListener('touchend', e => {
+  if (Date.now() - touchStartTime < 300) e.preventDefault(); // Prevent double-tap zoom
+});
+
+// Load on start
+loadAll();
 </script>
+
+<input type="file" id="rp" hidden accept="image/*">
+<input type="file" id="bp" hidden accept="image/*">
+<input type="file" id="bg" hidden accept="image/*">
 </body></html>
