@@ -18,8 +18,7 @@ h1{font-size:3.5em;color:#ff6b9d;margin:20px 0}
 .jar{background:linear-gradient(#ffeb3b,#ffb300);width:100%;height:100%;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;box-shadow:inset 0 -30px 60px rgba(0,0,0,.15),0 15px 30px rgba(0,0,0,.3);overflow:hidden;position:relative}
 .jar::before{content:"";position:absolute;top:15px;left:50%;transform:translateX(-50%);width:180px;height:40px;background:#fff3;border-radius:50%;opacity:0.4}
 #notes{position:absolute;bottom:40px;left:10%;width:80%;max-height:420px;overflow-y:auto}
-.note{background:#fff;padding:14px 18px;margin:12px auto;border-radius:15px;box-shadow:0 6px 15px rgba(0,0,0,.15);font-size:1.1em;line-height:1.4;max-width:85%;transform:rotate(0deg);animation:float 8s infinite ease-in-out}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.note{background:#fff;padding:14px 18px;margin:12px auto;border-radius:15px;box-shadow:0 6px 15px rgba(0,0,0,.15);font-size:1.1em;line-height:1.4;max-width:85%}
 textarea{width:90%;max-width:600px;height:120px;padding:20px;margin:20px 0;border:3px solid #87ceeb;border-radius:20px;font-size:1.3em;font-family:inherit;background:#fffaf0}
 button{background:#ff6b9d;color:#fff;padding:18px 50px;border:none;border-radius:50px;font-size:1.6em;cursor:pointer;box-shadow:0 8px 25px rgba(255,107,157,.4);transition:.2s}
 button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
@@ -73,15 +72,19 @@ button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// LOGIN
+// LOGIN HANDLER
 function checkLogin(){
   const user = document.getElementById('username').value.trim();
   const pass = document.getElementById('password').value.trim();
   if(user === "Ryan" && pass === "ITSmf420"){
     localStorage.setItem('lifelineAuthenticated','true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
+    showMain();
   } else alert("Incorrect username or password");
+}
+
+function showMain(){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
 }
 
 // LOGOUT
@@ -90,10 +93,9 @@ function logout(){
   location.reload();
 }
 
-// SHOW LOGIN OR MAIN BASED ON AUTH
-if(localStorage.getItem('lifelineAuthenticated') === 'true'){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('mainContent').classList.remove('hidden');
+// CHECK LOGIN ON PAGE LOAD
+if(localStorage.getItem('lifelineAuthenticated')==='true'){
+  showMain();
 }else{
   document.getElementById('loginScreen').classList.remove('hidden');
 }
