@@ -39,15 +39,29 @@
     <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
   </nav>
 
-  <main style="margin-top:70px;padding:20px">
-    <!-- Your full mental.html content here -->
+  <main>
+    <!-- Your full original mental content (grounding, breathing, burnout quiz, therapy notes, journal, etc.) -->
   </main>
 </div>
 
 <script>
-function checkLogin(){if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){localStorage.setItem('lifelineAuthenticated','true');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}else alert("Incorrect");}
-function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
-if(localStorage.getItem('lifelineAuthenticated')==='true'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}
+  function checkLogin() {
+    if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
+      localStorage.setItem('lifelineAuthenticated', 'true');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+    } else {
+      alert("Incorrect username or password.");
+    }
+  }
+  function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.reload();
+  }
+  if (localStorage.getItem('lifelineAuthenticated') === 'true') {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  }
 </script>
 </body>
 </html>
