@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalized Motivation</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f8ff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  padding: 20px;
+}
+nav {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+nav button {
+  padding: 8px 15px;
+  font-size: 0.9em;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: #ff6b9d;
+  color: #fff;
+  transition: background 0.2s;
+}
+nav button:hover { background: #ff4c7d; }
+
+header {
+  font-size: 2em;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ff6b9d;
+}
+#quoteBox, #challengeBox {
+  background: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  font-size: 1.2em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+#imageBox {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+#imageBox img {
+  width: 100%;
+  display: block;
+}
+button.action-btn {
+  padding: 12px 25px;
+  font-size: 1em;
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
+  cursor: pointer;
+  background: #ff6b9d;
+  color: #fff;
+  transition: background 0.2s;
+}
+button.action-btn:hover { background: #ff4c7d; }
+#buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+footer {
+  margin-top: auto;
+  font-size: 0.9em;
+  color: #555;
+  text-align: center;
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+  <button onclick="location.href='bestie.html'">Bestie</button>
+  <button onclick="location.href='letters.html'">Letters</button>
+  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
+  <button onclick="location.href='yourenough.html'">You’re Enough</button>
+  <button onclick="location.href='goodthings.html'">Good Things</button>
+  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
+  <button onclick="location.href='chatroom.html'">Chat Room</button>
+  <button onclick="location.href='personalized-motivation.html'">Motivation</button>
+</nav>
+
+<header>Personalized Motivation</header>
+
+<div id="quoteBox">Loading quote...</div>
+<div id="imageBox"><img src="https://via.placeholder.com/400x200/f0f8ff/333333?text=Stay+Strong" alt="Uplifting"></div>
+<div id="challengeBox">Loading challenge...</div>
+
+<div id="buttons">
+  <button class="action-btn" id="newBtn">🔄 New Motivation</button>
+  <button class="action-btn" id="saveBtn">❤️ Save Favorite</button>
+</div>
+
+<footer>Part of My Lifeline Page</footer>
+
+<script>
+// --- Data ---
+const name = localStorage.getItem("myName") || "Ryan";
+
+const quotes = [
+  `Believe in yourself, ${name}. You can do amazing things!`,
+  `Every day is a fresh start, ${name}.`,
+  `You are stronger than your fears, ${name}.`,
+  `Keep going, ${name}. Your effort matters!`,
+  `Smile today, ${name}. It suits you.`
+];
+
+const challenges = [
+  "Take 5 deep breaths and smile.",
+  "Write down one thing you did well today.",
+  "Reach out to someone you care about.",
+  "Do 2 minutes of stretching.",
+  "List 3 things you’re grateful for right now."
+];
+
+const images = [
+  "https://via.placeholder.com/400x200/ff6b9d/fff?text=Stay+Strong",
+  "https://via.placeholder.com/400x200/ffb347/fff?text=You+Got+This",
+  "https://via.placeholder.com/400x200/6bc1ff/fff?text=Keep+Going",
+  "https://via.placeholder.com/400x200/ff7f50/fff?text=Shine+Bright",
+  "https://via.placeholder.com/400x200/90ee90/fff?text=Believe+In+You"
+];
+
+// --- Elements ---
+const quoteBox = document.getElementById("quoteBox");
+const challengeBox = document.getElementById("challengeBox");
+const imageBox = document.querySelector("#imageBox img");
+const newBtn = document.getElementById("newBtn");
+const saveBtn = document.getElementById("saveBtn");
+
+// --- Functions ---
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function showMotivation() {
+  quoteBox.textContent = getRandom(quotes);
+  challengeBox.textContent = getRandom(challenges);
+  imageBox.src = getRandom(images);
+}
+
+// Load saved favorites
+let favorites = JSON.parse(localStorage.getItem("motivationFavorites")) || [];
+
+// Save current motivation
+function saveFavorite() {
+  const current = {
+    quote: quoteBox.textContent,
+    challenge: challengeBox.textContent,
+    image: imageBox.src
+  };
+  favorites.push(current);
+  localStorage.setItem("motivationFavorites", JSON.stringify(favorites));
+  alert("Saved to favorites!");
+}
+
+// --- Events ---
+newBtn.onclick = showMotivation;
+saveBtn.onclick = saveFavorite;
+
+// Initial display
+showMotivation();
+</script>
+
+</body>
+</html>
