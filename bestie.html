@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bestie • My Lifeline</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Elfsight platform (LOAD ONCE) -->
@@ -11,11 +12,13 @@
 
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
+
     body{
       background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
       font-family:'Quicksand',sans-serif;
       color:#333;
-      transition:.5s
+      transition:.5s;
+      min-height:100vh;
     }
 
     .hidden{display:none}
@@ -32,17 +35,20 @@
       top:50%;
       left:50%;
       transform:translate(-50%,-50%);
-      z-index:9999
+      z-index:9999;
     }
+
     .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+
     .login-box input{
       width:100%;
       padding:16px;
       margin:12px 0;
       border:2px solid #87ceeb;
       border-radius:12px;
-      font-size:1.1em
+      font-size:1.1em;
     }
+
     .login-box button{
       background:#00bcd4;
       color:white;
@@ -51,8 +57,9 @@
       font-size:1.3em;
       width:100%;
       border:none;
-      cursor:pointer
+      cursor:pointer;
     }
+
     .login-box button:hover{background:#0097a7}
 
     nav{
@@ -65,8 +72,10 @@
       display:flex;
       flex-wrap:wrap;
       justify-content:center;
-      gap:6px
+      gap:6px;
+      box-shadow:0 2px 6px rgba(0,0,0,.1);
     }
+
     nav button{
       background:white;
       color:#00bcd4;
@@ -75,17 +84,20 @@
       border-radius:20px;
       cursor:pointer;
       font-weight:600;
-      font-size:.95em
+      font-size:.95em;
+      transition:.25s;
     }
+
     nav button:hover{background:#00bcd4;color:white}
 
     main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
+
     header{
       background:#87ceeb;
       color:white;
       padding:35px;
       text-align:center;
-      border-radius:15px
+      border-radius:15px;
     }
 
     .view-toggle{
@@ -94,8 +106,9 @@
       border-radius:12px;
       margin:20px 0;
       text-align:center;
-      box-shadow:0 4px 10px rgba(0,0,0,.1)
+      box-shadow:0 4px 10px rgba(0,0,0,.1);
     }
+
     .view-toggle button{
       margin:5px;
       padding:12px 20px;
@@ -104,7 +117,7 @@
       color:white;
       border:none;
       border-radius:10px;
-      cursor:pointer
+      cursor:pointer;
     }
 
     .chat-container{
@@ -114,7 +127,7 @@
       border-radius:15px;
       overflow:hidden;
       box-shadow:0 6px 20px rgba(0,0,0,.2);
-      background:#fff
+      background:#fff;
     }
 
     body.mobile-mode .chat-container{height:70vh}
@@ -124,13 +137,22 @@
 
 <body>
 
+<!-- 🔒 AUTH GUARD -->
+<script>
+  if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loginScreen').classList.remove('hidden');
+    });
+  }
+</script>
+
 <!-- LOGIN -->
-<div id="loginScreen">
+<div id="loginScreen" class="hidden">
   <div class="login-box">
     <h1>My Lifeline</h1>
     <p>Enter your personal key</p>
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
     <button onclick="checkLogin()">Enter Safe Space</button>
   </div>
 </div>
@@ -166,7 +188,6 @@
     <button onclick="setView('desktop')">🖥 Desktop</button>
   </div>
 
-  <!-- ELFSIGHT AI CHATBOT -->
   <div class="chat-container">
     <div class="elfsight-app-a4a21978-316b-42c6-8a00-e38be645a03e" data-elfsight-app-lazy></div>
   </div>
@@ -174,37 +195,38 @@
 </div>
 
 <script>
-
-  function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    location.href = 'index.html';
-  }
+  const loginScreen = document.getElementById('loginScreen');
+  const mainContent = document.getElementById('mainContent');
+  const username = document.getElementById('username');
+  const password = document.getElementById('password');
 
   function checkLogin(){
-    if(username.value==="Ryan" && password.value==="ITSmf420"){
+    if(username.value === "Ryan" && password.value === "ITSmf420"){
       localStorage.setItem("lifelineAuthenticated","true");
       loginScreen.classList.add("hidden");
       mainContent.classList.remove("hidden");
-    } else alert("Incorrect username or password");
+    } else {
+      alert("Incorrect username or password");
+    }
   }
 
   function logout(){
     localStorage.removeItem("lifelineAuthenticated");
-    location.reload();
+    location.href = "index.html";
   }
 
-  if(localStorage.getItem("lifelineAuthenticated")==="true"){
+  if(localStorage.getItem("lifelineAuthenticated") === "true"){
     loginScreen.classList.add("hidden");
     mainContent.classList.remove("hidden");
   }
 
   function setView(mode){
     document.body.classList.remove("mobile-mode","desktop-mode");
-    document.body.classList.add(mode+"-mode");
+    document.body.classList.add(mode + "-mode");
     localStorage.setItem("viewMode",mode);
   }
 
-  const savedView=localStorage.getItem("viewMode");
+  const savedView = localStorage.getItem("viewMode");
   if(savedView) setView(savedView);
 </script>
 
