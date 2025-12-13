@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bestie • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .login-box button:hover{background:#0097a7}
-    .hidden{display:none}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestie • My Lifeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
+.hidden{display:none}
 
-    /* COMPACT NAVIGATION */
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
-    nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
+/* LOGIN */
+.login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+.login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+.login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+.login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+.login-box button:hover{background:#0097a7}
 
-    main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
-    header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
-    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-    .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
-    .view-toggle button:hover{background:#0097a7}
-    .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
-    .chat-container{position:relative;height:80vh;margin:20px 0;border-radius:15px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.2);background:#fff}
-    .elfsight-app-a4a21978-316b-42c6-8a00-e38be645a03e{width:100%;height:100%}
-    @media(max-width:600px){.chat-container{height:70vh}}
+/* NAVIGATION */
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
+nav button:hover{background:#00bcd4;color:white}
+@media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
 
-    /* Mobile / Desktop Forced Styles */
-    body.mobile-mode .chat-container { height: 70vh; }
-    body.desktop-mode .chat-container { height: 80vh; }
-  </style>
+/* MAIN CONTENT */
+main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
+header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
+.view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
+.view-toggle button:hover{background:#0097a7}
+.view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
+
+/* CHAT CONTAINERS */
+.chat-container{position:relative;height:40vh;margin:20px 0;border-radius:15px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.2);background:#fff;padding:10px}
+.chat-window{height:100%;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:8px;background:#f5f5f5;border-radius:12px;box-shadow:inset 0 2px 6px rgba(0,0,0,.1)}
+.chat-window .message.user{align-self:flex-end;background:#00bcd4;color:white;padding:8px 12px;border-radius:12px;max-width:80%}
+.chat-window .message.ai{align-self:flex-start;background:#e0e0e0;color:#333;padding:8px 12px;border-radius:12px;max-width:80%}
+.chat-input{display:flex;gap:8px;margin-top:8px}
+.chat-input input{flex:1;padding:12px;border-radius:12px;border:1px solid #ccc;font-size:1em}
+.chat-input button{padding:12px 20px;border:none;border-radius:12px;background:#00bcd4;color:white;cursor:pointer}
+.chat-input button:hover{background:#0097a7}
+
+/* Mobile/Desktop Forced Styles */
+body.mobile-mode .chat-container { height:35vh; }
+body.desktop-mode .chat-container { height:45vh; }
+</style>
 </head>
 <body>
 
@@ -49,8 +59,10 @@
   </div>
 </div>
 
-<!-- MAIN BESTIE PAGE -->
+<!-- MAIN PAGE -->
 <div id="mainContent" class="hidden">
+
+<!-- NAVIGATION -->
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
   <button onclick="location.href='emergency.html'">Emergency</button>
@@ -68,57 +80,101 @@
   <button onclick="location.href='calmingroom.html'">Calming Room</button>
 </nav>
 
-  <main>
-    <header>
-      <h1>Bestie Mode</h1>
-      <p>Your always-on AI bestie — talk about anything, anytime</p>
-    </header>
+<main>
+  <header>
+    <h1>Bestie Mode</h1>
+    <p>Your always-on AI bestie — talk about anything, anytime</p>
+  </header>
 
-    <!-- View Mode Toggle -->
-    <div class="view-toggle">
-      <h2>View Mode</h2>
-      <button onclick="setView('mobile')">📱 Mobile View</button>
-      <button onclick="setView('desktop')">🖥️ Desktop View</button>
-      <p>Switch anytime — best for your screen</p>
+  <!-- View Mode Toggle -->
+  <div class="view-toggle">
+    <h2>View Mode</h2>
+    <button onclick="setView('mobile')">📱 Mobile View</button>
+    <button onclick="setView('desktop')">🖥️ Desktop View</button>
+    <p>Switch anytime — best for your screen</p>
+  </div>
+
+  <!-- ELFSIGHT CHATBOT -->
+  <div class="chat-container">
+    <div class="elfsight-app-a4a21978-316b-42c6-8a00-e38be645a03e" data-elfsight-app-lazy></div>
+  </div>
+
+  <!-- CUSTOM AI CHAT -->
+  <div class="chat-container">
+    <div class="chat-window" id="chatWindow"></div>
+    <div class="chat-input">
+      <input type="text" id="chatMessage" placeholder="Talk to your AI bestie…">
+      <button onclick="sendMessage()">Send</button>
     </div>
+  </div>
+</main>
 
-    <!-- EMBEDDED ELFSIGHT AI CHATBOT -->
-    <div class="chat-container">
-      <!-- Elfsight AI Chatbot | Untitled AI Chatbot -->
-      <script src="https://elfsightcdn.com/platform.js" async></script>
-      <div class="elfsight-app-a4a21978-316b-42c6-8a00-e38be645a03e" data-elfsight-app-lazy></div>
-    </div>
-  </main>
+<script src="https://elfsightcdn.com/platform.js" async></script>
 
-  <script>
-    function checkLogin() {
-      if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
-        localStorage.setItem('lifelineAuthenticated', 'true');
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-      } else {
-        alert("Incorrect username or password.");
-      }
-    }
-    function logout() {
-      localStorage.removeItem('lifelineAuthenticated');
-      location.reload();
-    }
-    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
-    }
+<script>
+/* LOGIN HANDLING */
+function checkLogin() {
+  if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
+    localStorage.setItem('lifelineAuthenticated', 'true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  } else {
+    alert("Incorrect username or password.");
+  }
+}
+function logout() {
+  localStorage.removeItem('lifelineAuthenticated');
+  location.reload();
+}
+if (localStorage.getItem('lifelineAuthenticated') === 'true') {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
+}
 
-    // Mobile / Desktop View Toggle
-    function setView(mode) {
-      document.body.classList.remove('mobile-mode', 'desktop-mode');
-      if (mode === 'mobile') document.body.classList.add('mobile-mode');
-      else document.body.classList.add('desktop-mode');
-      localStorage.setItem('viewMode', mode);
-    }
-    const savedView = localStorage.getItem('viewMode');
-    if (savedView) setView(savedView);
-  </script>
-</div>
+/* VIEW TOGGLE */
+function setView(mode) {
+  document.body.classList.remove('mobile-mode', 'desktop-mode');
+  if (mode === 'mobile') document.body.classList.add('mobile-mode');
+  else document.body.classList.add('desktop-mode');
+  localStorage.setItem('viewMode', mode);
+}
+const savedView = localStorage.getItem('viewMode');
+if (savedView) setView(savedView);
+
+/* CUSTOM AI CHAT */
+const chatWindow = document.getElementById('chatWindow');
+const chatMessage = document.getElementById('chatMessage');
+
+function appendMessage(text,cls){
+  const div = document.createElement('div');
+  div.className = 'message ' + cls;
+  div.textContent = text;
+  chatWindow.appendChild(div);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+}
+
+async function sendMessage(){
+  const message = chatMessage.value.trim();
+  if(!message) return;
+  appendMessage(message,'user');
+  chatMessage.value = '';
+
+  try {
+    const response = await fetch('https://YOUR_FIREBASE_FUNCTION_URL', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message})
+    });
+    const data = await response.json();
+    appendMessage(data.reply,'ai');
+  } catch(err){
+    appendMessage("AI is unavailable. Please try later.",'ai');
+  }
+}
+
+chatMessage.addEventListener('keydown', e=>{
+  if(e.key==='Enter') sendMessage();
+});
+</script>
 </body>
 </html>
