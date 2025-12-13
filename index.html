@@ -3,62 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Lifeline • Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#87ceeb">
+  <title>My Lifeline Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;display:flex;align-items:center;justify-content:center;height:100vh}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
-    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
-    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em;font-family:inherit}
-    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer;margin-top:20px}
-    button:hover{background:#0097a7}
-    .hidden{display:none}
-
-    /* FIXED NAVIGATION - COMPACT, BEAUTIFUL */
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
-    nav button{background:white;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-family:inherit;color:#00bcd4;font-weight:600;font-size:0.95em;transition:.3s}
-    nav button:hover{background:#00bcd4;color:white}
-    @media (max-width: 600px) {
-      nav {gap:4px;padding:6px 0}
-      nav button {padding:6px 10px;font-size:0.9em}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
+      font-family: 'Quicksand', sans-serif;
+      color: #333;
     }
-    main {margin-top:60px;max-width:900px;margin-left:auto;margin-right:auto;padding:15px}
-    header {background:#87ceeb;color:white;text-align:center;padding:30px 20px;border-radius:10px;margin-bottom:20px}
-    .section {background:#f0fbff;border:2px solid #87ceeb;border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.05)}
-    .section h2 {color:#00bcd4;margin-bottom:15px;text-align:center}
-    #breathingCircle {margin:0 auto;width:100px;height:100px;border-radius:50%;background-color:#87ceeb;animation:breathe 12s infinite}
-    @keyframes breathe {0% {transform: scale(1); opacity: 0.7;} 50% {transform: scale(1.5); opacity: 1;} 100% {transform: scale(1); opacity: 0.7;}}
-    a {color:#00bcd4;text-decoration:none}
-    a:hover {text-decoration:underline}
-    .message {white-space:pre-wrap;background:#fff;border-left:4px solid #87ceeb;padding:15px;margin-top:20px;border-radius:8px}
-    .quote {font-style:italic;font-size:1.1em;color:#555;margin-top:10px}
-    #countdown {font-size:1.5em;font-weight:bold;margin-top:10px;color:#0077aa}
-    .calculator {margin-top:15px;padding:10px;background:#e0f7ff;border:2px dashed #87ceeb;border-radius:10px}
-    .calculator input {padding:8px;border:1px solid #87ceeb;border-radius:5px;width:80px}
-    .calculator-result {margin-top:10px;font-weight:bold;color:#0077aa}
-    .checkin {margin-top:15px}
-    .checkin textarea {width:100%;padding:10px;border-radius:8px;border:1px solid #ccc}
-    .checkin-result {margin-top:10px;background:#e0fff4;border-left:4px solid #3cb371;padding:10px;border-radius:6px}
-    .bg-music audio {display:none}
-    #musicToggle {padding:10px 20px;font-size:18px;background:#87ceeb;border:none;border-radius:12px;cursor:pointer;transition:background 0.3s}
-    #musicToggle:hover {background:#5ab0d4}
-    .music-controls {text-align:center;margin:20px}
-    .self-care-buttons button {margin:5px;padding:10px 15px;border:none;border-radius:6px;background:#00bcd4;color:white;cursor:pointer}
-    .self-care-buttons button:hover {background:#0097a7}
+    /* LOGIN SCREEN */
+    #loginScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to bottom, #87ceeb, #e0f7ff);
+    }
+    .login-box {
+      background: white;
+      padding: 50px 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.3);
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+    }
+    .login-box h1 { font-size: 3em; color: #00bcd4; margin-bottom: 10px; }
+    .login-box input { width: 100%; padding: 16px; margin: 12px 0; border: 2px solid #87ceeb; border-radius: 12px; font-size: 1.1em; }
+    .login-box button { background: #00bcd4; color: white; padding: 16px 40px; border-radius: 50px; font-size: 1.3em; width: 100%; border: none; cursor: pointer; }
+    .login-box button:hover { background: #0097a7; }
+    .hidden { display: none; }
+
+    /* NAVIGATION - COMPACT & FIXED */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #87ceeb;
+      padding: 8px 0;
+      z-index: 1000;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    }
+    nav button {
+      background: white;
+      color: #00bcd4;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95em;
+      transition: .3s;
+    }
+    nav button:hover { background: #00bcd4; color: white; }
+    @media (max-width: 600px) {
+      nav { gap: 4px; padding: 6px 0; }
+      nav button { padding: 6px 10px; font-size: 0.9em; }
+      main { margin-top: 70px; }
+    }
+    main { margin-top: 70px; max-width: 900px; margin-left: auto; margin-right: auto; padding: 20px; }
+    header { background: #87ceeb; color: white; padding: 20px; text-align: center; }
+    .section {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      border: 2px solid #87ceeb;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #f0fbff;
+    }
+    .section h2 { color: #00bcd4; }
+    a { color: #00bcd4; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    iframe { width: 100%; height: 315px; border-radius: 10px; }
+    @media (max-width: 600px) { iframe { height: 200px; } }
   </style>
 </head>
 <body>
 
-<div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1>
-  <p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkLogin()">Enter Safe Space</button>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>My Lifeline</h1>
+    <p>Your Safe Space</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkLogin()">Enter</button>
+  </div>
 </div>
 
+<!-- MAIN PAGE -->
 <div id="mainContent" class="hidden">
   <nav>
     <button onclick="location.href='index.html'">Dashboard</button>
@@ -74,7 +112,7 @@
       <h1>My Lifeline Page</h1>
       <p>Your Safe Space When Things Get Hard!</p>
       <p>Created By, Your's Truly: Ryan Roland</p>
-      <p id="currentDate">Today's patience: (loading😂...)</p>
+      <p id="currentDate">Today's date: loading...</p>
     </header>
 
     <p id="randomHugMessage"></p>
@@ -94,12 +132,12 @@
     <div class="section">
       <h2> 🤙Music🎶Player📱</h2>
       <h2> 🎸All Out 2000's🎸</h2>
-      <iframe width="560" height="315" src="https://archive.org/details/nirvana-all-apologies" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+      <iframe src="https://archive.org/details/nirvana-all-apologies" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
       <h2>🎵 Best Of Alternative Rock</h2>
-      <iframe width="560" height="315" src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+      <iframe src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
@@ -119,21 +157,21 @@
     </div>
 
     <div class="section">
-      <h2>Write it out and Erase it!</h2>
+      <h2> Write it out and Erase it!</h2>
       <p>Let your feelings out, This will not save - its just for you, right now, in this moment.</p>
-      <textarea id="PoemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8" style="width:100%; border-radius: 8px; border: 1px solid #ccc; padding: 10px;"></textarea>
+      <textarea id="PoemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8"></textarea>
       <br><br>
-      <button onclick="document.getElementById('PoemBox').value = ''" style="padding: 10px 20px; border: none; background-color: #00bcd4; color: white; border-radius: 6px; cursor: pointer;">🧠 Poof! Be Gone!</button>
+      <button onclick="document.getElementById('PoemBox').value = ''">🧠 Poof! Be Gone!</button>
     </div>
 
     <div class="section">
       <h2>🎬 Dukes Of Hazzard!! VideoPlayer!</h2>
-      <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+      <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
       <h2>🎬 Dukes Of Hazzard S7!! VideoPlayer!</h2>
-      <iframe width="560" height="315" src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+      <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="section">
@@ -155,3 +193,184 @@
     <div class="section">
       <h2>📞 People Who Care About You</h2>
       <button onclick="location.href='tel:9032494334'">Call Bryce</button>
+      <button onclick="alert('Text your mom and ask for a check-in.')">Mom</button>
+      <button onclick="alert('Text someone you trust: \"Can we talk?\"')">Someone Safe</button>
+    </div>
+
+    <div class="section">
+      <h2>Rap Music</h2>
+      <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>Distractions When You Need Them</h2>
+      <ul>
+        <li><a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank">Play Google Snake</a></li>
+        <li><a href="https://www.tiktok.com" target="_blank">Scroll through TikTok</a></li>
+        <li><a href="https://quickdraw.withgoogle.com/" target="_blank">Google’s Quick, Draw!</a></li>
+        <li><a href="https://play2048.co/" target="_blank">Play 2048</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h3>How are you feeling?</h3>
+      <button onclick="localStorage.setItem('mood','😡 Angry')">😡</button>
+      <button onclick="localStorage.setItem('mood','😢 Sad')">😢</button>
+      <button onclick="localStorage.setItem('mood','😴 Tired')">😴</button>
+      <button onclick="localStorage.setItem('mood','🙂 Okay')">🙂</button>
+      <button onclick="localStorage.setItem('mood','😌 Calm')">😌</button>
+    </div>
+    <div id="savedMood"></div>
+
+    <div class="section">
+      <h2>Depression Playlist</h2>
+      <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>🎸Alternative 🎧 Playlist 🤘🏻</h2>
+      <iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>📺Streaming Services You Love📺</h2>
+      <ul>
+        <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
+        <li><a href="https://www.hulu.com" target="_blank">Hulu</a></li>
+        <li><a href="https://www.peacocktv.com" target="_blank">Peacock</a></li>
+        <li><a href="https://www.paramountplus.com" target="_blank">Paramount+</a></li>
+        <li><a href="https://www.primevideo.com" target="_blank">Prime Video</a></li>
+        <li><a href="https://www.tubitv.com" target="_blank">Tubi</a></li>
+        <li><a href="https://www.pluto.tv" target="_blank">Pluto TV</a></li>
+        <p>YouTubers you like😍</p>
+        <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">FamLaurenRP Youtube</a></li>
+        <li><a href="https://www.youtube.com/@FamExtra" target="_blank">FamExtra Youtube</a></li>
+        <li><a href="https://www.youtube.com/@Elanip" target="_blank">Elanip Youtube</a></li>
+        <li><a href="https://www.youtube.com/@elanipmore" target="_blank">Elanip Extra Youtube</a></li>
+        <li><a href="https://www.youtube.com/@Treyten." target="_blank">Treyten Youtube</a></li>
+        <li><a href="https://www.youtube.com/@TreytenExtra" target="_blank">Treyten Extra Youtube</a></li>
+        <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris Youtube</a></li>
+        <li><a href="https://www.youtube.com/@maxamilirp" target="_blank">Maxamili RP Youtube</a></li>
+        <li><a href="https://www.youtube.com/@JustFrenchieYT" target="_blank">Frenchie Youtube</a></li>
+        <li><a href="https://www.youtube.com/@jakerp" target="_blank">JakeRP Youtube</a></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <select onchange="document.body.style.background=this.value">
+        <option value="#000000">Dark</option>
+        <option value="#001f3f">Deep Blue</option>
+        <option value="#330033">Purple Chill</option>
+        <option value="#3a1f00">Warm Brown</option>
+      </select>
+    </div>
+
+    <div class="section">
+      <h2>🎵Lofi Playlist</h2>
+      <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>📁 Upload Your Song</h2>
+      <input type="file" id="audioUpload" accept="audio/*">
+      <br>
+      <audio id="uploadedAudio" controls></audio>
+    </div>
+
+    <div class="section">
+      <iframe src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <h2>Remember Why You're Here!</h2>
+      <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
+    </div>
+
+    <div id="countdown"></div>
+
+    <div class="section">
+      <h2>Search the web freely💻</h2>
+      <a href="https://ubgus.net/apps/google" target="_blank">
+        <button>Launch UBGUS 🥳</button>
+      </a>
+    </div>
+
+    <div class="section">
+      <h2>Just relax, Enjoy this Lofi Car Drive</h2>
+      <p>Just light Up and Enjoy The Ride!!</p>
+      <iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" allowfullscreen></iframe>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Login
+  function checkLogin() {
+    if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
+      localStorage.setItem('lifelineAuthenticated', 'true');
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+    } else {
+      alert("Incorrect username or password.");
+    }
+  }
+  function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.reload();
+  }
+  if (localStorage.getItem('lifelineAuthenticated') === 'true') {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  }
+
+  // All your original scripts
+  const tasks = ["Drink water","Take 3 breaths","Stretch arms","Stand outside 1 min","Put on music"];
+  function task(){ alert(tasks[Math.floor(Math.random()*tasks.length)]); }
+  let text = "Hey. You made it back. I’m glad you didn’t give up.";
+  let i = 0;
+  function type(){
+    if(i < text.length){
+      document.getElementById("intro").innerText += text.charAt(i++);
+      setTimeout(type,80);
+    }
+  }
+  type();
+  document.getElementById("savedMood").innerText = "Last mood: " + (localStorage.getItem("mood") || "None saved yet");
+  setInterval(()=>{
+    const el = document.getElementById("floatAff");
+    el.style.top = Math.random()*80 + "vh";
+    el.style.left = Math.random()*80 + "vw";
+  }, 5000);
+  const hugs = ["You're doing better than you think. 💖","One breath at a time. That’s enough. 🌿","You are so loved, even on the days you forget. 💙","It’s okay to be a masterpiece and a work in progress. 🎨","You don’t have to have it all figured out to move forward. 🚶"];
+  document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
+  const countdownDisplay = document.getElementById("countdown");
+  const targetDate = new Date("2025-06-24T12:00:00");
+  function updateCountdown() {
+    const now = new Date();
+    const diff = targetDate - now;
+    if (diff <= 0) {
+      countdownDisplay.textContent = "I promise, everything will be okay, just take one day at a time!!";
+    } else {
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
+    }
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+  const audioUpload = document.getElementById('audioUpload');
+  const uploadedAudio = document.getElementById('uploadedAudio');
+  audioUpload.addEventListener('change', () => {
+    const files = audioUpload.files;
+    if (files.length > 0) {
+      const fileURL = URL.createObjectURL(files[0]);
+      uploadedAudio.src = fileURL;
+      uploadedAudio.play();
+    }
+  });
+  document.getElementById("currentDate").textContent = "Today's date: " + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+</script>
+</body>
+</html>
