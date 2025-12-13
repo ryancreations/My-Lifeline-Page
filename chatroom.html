@@ -12,14 +12,13 @@ body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh
 #inputArea{background:#111;padding:15px;display:flex;border-top:2px solid #333}
 #prompt{color:#0f0;font-weight:bold}
 #msg{flex:1;background:transparent;border:none;color:#0f0;font-family:inherit;font-size:1.1em;outline:none}
-#msg::placeholder{color:#0a0}
+#msg::placeholder{color:#060}
 </style>
 </head><body>
 
 <div id="log">
-  <div class="line">=== PRIVATE TERMINAL ACTIVE ===</div>
-  <div class="line">Ryan & Bryce only. Forever.</div>
-  <div class="line">Type your message and press Enter.</div>
+  <div class="line">=== RYAN & BRYCE PRIVATE TERMINAL ===</div>
+  <div class="line">Connected. Type and press Enter.</div>
 </div>
 
 <div id="inputArea">
@@ -27,42 +26,55 @@ body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh
   <input type="text" id="msg" placeholder="say something..." autocomplete="off">
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
 <script>
-// Who are you?
+// CHANGE THIS LINE TO YOUR FIREBASE URL
+const firebaseConfig = {
+  databaseURL: "https://YOUR-PROJECT-ID.firebaseio.com"  // ← PUT YOUR URL HERE
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref("chat");
+
 let name = localStorage.getItem('termName') || prompt("Ryan or Bryce?", "Ryan");
 localStorage.setItem('termName', name);
-document.title = name + " & Bryce Terminal";
 
 function send(){
   const input = document.getElementById('msg');
   const text = input.value.trim();
   if(!text) return;
   
-  const line = document.createElement('div');
-  line.className = `line ${name.toLowerCase()}`;
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${name}: ${text}`;
-  document.getElementById('log').appendChild(line);
-  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+  const msg = {
+    n: name,
+    t: text,
+    time: new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
+  };
   
-  // Save
-  const chat = JSON.parse(localStorage.getItem('termChat')||'[]');
-  chat.push({n:name,t:text,time:new Date().toLocaleTimeString()});
-  localStorage.setItem('termChat',JSON.stringify(chat.slice(-500)));
-  
+  db.push(msg);
   input.value = '';
 }
 
-// Load old messages
-JSON.parse(localStorage.getItem('termChat')||'[]').forEach(m=>{
+function add(text, sender, time){
   const line = document.createElement('div');
-  line.className = `line ${m.n.toLowerCase()}`;
-  line.textContent = `[${m.time}] ${m.n}: ${m.t}`;
+  line.className = `line ${sender.toLowerCase()}`;
+  line.textContent = `[${time}] ${sender}: ${text}`;
   document.getElementById('log').appendChild(line);
+  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+}
+
+// Listen for new messages
+db.on('child_added', snapshot => {
+  const m = snapshot.val();
+  add(m.t, m.n, m.time);
 });
-document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
 
 // Enter = send
 document.getElementById('msg').focus();
-document.getElementById('msg').addEventListener('keypress', e=>{if(e.key==='Enter')send()});
+document.getElementById('msg').addEventListener('keypress', e => {
+  if(e.key==='Enter') send();
+});
 </script>
 </body></html>
