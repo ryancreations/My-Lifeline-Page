@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cozy Rain • My Lifeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111;font-family:'Quicksand',sans-serif;color:#fff;overflow:hidden;height:100vh}
+.login-box,.hidden{display:none}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer}
+nav button:hover{background:#00bcd4;color:#fff}
+main{margin-top:70px;height:calc(100vh - 70px);position:relative}
+#rain-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.7)}
+#fog-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+h1{position:absolute;top:20%;left:50%;transform:translateX(-50%);font-size:3em;text-shadow:0 0 20px #000;z-index:10}
+</style>
+</head><body>
 
+<div id="loginScreen" class="login-box">…(your login code here)…</div>
+
+<div id="mainContent" class="hidden">
+<nav>
+  <button onclick="location.href='index.html'">Home</button>
+  <button onclick="location.href='cozyrain.html'">Cozy Rain</button>
+  <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
+</nav>
+<main>
+  <h1>Just breathe… it’s raining outside</h1>
+  <video id="rain-video" autoplay loop muted playsinline>
+    <source src="https://archive.org/download/rain-on-window/rain.mp4" type="video/mp4">
+  </video>
+  <canvas id="fog-canvas"></canvas>
+  <audio autoplay loop><source src="https://archive.org/download/rain-thunder-lofi/rain.mp3" type="audio/mpeg"></audio>
+</main>
+</div>
+
+<script>
+// login & logout same as your other pages
+// fog drawing with mouse/finger
+const canvas = document.getElementById('fog-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fillRect(0,0,canvas.width,canvas.height);
+let drawing = false;
+canvas.addEventListener('mousedown',()=>drawing=true);
+canvas.addEventListener('mouseup',()=>drawing=false);
+canvas.addEventListener('mousemove',draw);
+canvas.addEventListener('touchstart',e=> {drawing=true;e.preventDefault()});
+canvas.addEventListener('touchend',()=>drawing=false);
+canvas.addEventListener('touchmove',e=> {draw(e.touches[0]);e.preventDefault()});
+function draw(e){if(!drawing)return;const rect=canvas.getBoundingClientRect();const x=e.clientX-rect.left;const y=e.clientY-rect.top;ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(x,y,40,0,Math.PI*2);ctx.fill()}
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;ctx.fillStyle='rgba(255,255,255,0.15)';ctx.fillRect(0,0,canvas.width,canvas.height)});
+</script>
+</body></html>
