@@ -20,16 +20,16 @@
     @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
     main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
     header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
-    #grok-iframe{width:100%;height:80vh;border:none;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+    #chat-iframe{width:100%;height:80vh;border:none;border-radius:15px;box-shadow:0 6px 20px rgba(0,0,0,.2)}
     .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
     .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
     .view-toggle button:hover{background:#0097a7}
     .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
 
     /* Mobile / Desktop Forced Styles */
-    body.mobile-mode #grok-iframe { height: 70vh; }
-    body.desktop-mode #grok-iframe { height: 80vh; }
-    @media(max-width:600px){#grok-iframe{height:70vh}}
+    body.mobile-mode #chat-iframe { height: 70vh; }
+    body.desktop-mode #chat-iframe { height: 80vh; }
+    @media(max-width:600px){#chat-iframe{height:70vh}}
   </style>
 </head>
 <body>
@@ -58,7 +58,7 @@
   <main>
     <header>
       <h1>Bestie Mode</h1>
-      <p>Chat with Grok — your cosmic bestie who's always here for you</p>
+      <p>Chat with ChatGPT — your cosmic bestie who's always here for you</p>
     </header>
 
     <!-- View Mode Toggle -->
@@ -69,8 +69,8 @@
       <p>Switch anytime — best for your screen</p>
     </div>
 
-    <!-- EMBEDDED GROK CHAT -->
-    <iframe id="grok-iframe" src="https://grok.x.ai" title="Grok Chat"></iframe>
+    <!-- EMBEDDED CHATGPT CHAT -->
+    <iframe id="chat-iframe" src="https://chat.openai.com" title="ChatGPT Chat"></iframe>
   </main>
 
   <script>
