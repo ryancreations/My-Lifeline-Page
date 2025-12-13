@@ -29,7 +29,7 @@ header{
   overflow-y:auto;
   background:#fff;
   display:flex;
-  flex-direction:column-reverse;
+  flex-direction:column;
   gap:12px;
 }
 .message{
@@ -185,6 +185,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+/* FIREBASE REFERENCES */
 const db = firebase.database().ref("messages");
 const storage = firebase.storage();
 
@@ -214,16 +215,23 @@ header.textContent = name;
 profilePhoto.src = photoURL;
 profileNameInput.value = name;
 
-/* PROFILE EVENTS */
+/* HEADER CLICK → OPEN PROFILE */
 header.onclick = () => profile.style.display = "flex";
+
+/* CLOSE PROFILE */
 closeProfileBtn.onclick = () => profile.style.display = "none";
+
+/* CHANGE PROFILE PHOTO */
 changePhotoBtn.onclick = () => profileUpload.click();
 profileUpload.onchange = e => {
-  const file = e.target.files[0]; if(!file) return;
+  const file = e.target.files[0];
+  if(!file) return;
   const reader = new FileReader();
   reader.onload = ev => profilePhoto.src = ev.target.result;
   reader.readAsDataURL(file);
 };
+
+/* SAVE PROFILE */
 saveProfileBtn.onclick = () => {
   name = profileNameInput.value || "Promise of Love";
   photoURL = profilePhoto.src;
@@ -233,87 +241,70 @@ saveProfileBtn.onclick = () => {
   profile.style.display = "none";
 };
 
-/* SEND MESSAGE FUNCTIONS */
+/* SEND TEXT */
 function sendMessage(){
-  const text = msgInput.value.trim(); if(!text) return;
-  db.push({name,type:"text",text,photo:photoURL,time:Date.now()});
+  const text = msgInput.value.trim();
+  if(!text) return;
+
+  db.push({
+    name: name,
+    type: "text",
+    text: text,
+    photo: photoURL,
+    time: Date.now()
+  });
+
   msgInput.value = "";
 }
-sendBtn.onclick = sendMessage;
-msgInput.addEventListener("keydown", e => { if(e.key==="Enter") sendMessage(); });
 
 /* SEND PHOTO */
 photoBtn.onclick = () => photoUpload.click();
 photoUpload.onchange = e => {
-  const file = e.target.files[0]; if(!file) return;
+  const file = e.target.files[0];
+  if(!file) return;
+
   const ref = storage.ref("photos/" + Date.now() + "_" + file.name);
-  ref.put(file).then(()=> ref.getDownloadURL().then(url => {
-    db.push({name,type:"photo",url,photo:photoURL,time:Date.now()});
-  }));
+  ref.put(file).then(() => {
+    ref.getDownloadURL().then(url => {
+      db.push({
+        name: name,
+        type: "photo",
+        url: url,
+        photo: photoURL,
+        time: Date.now()
+      });
+    });
+  });
 };
 
-/* LOAD MESSAGES WITH INFINITE SCROLL */
-let lastKey = null;
-let loadingOlder = false;
-
-function loadMessages(initial=false){
-  let query = db.orderByKey().limitToLast(20);
-  if(lastKey && !initial) query = db.orderByKey().endBefore(lastKey).limitToLast(20);
-  
-  query.once("value", snap => {
-    const fragment = document.createDocumentFragment();
-    const msgs = [];
-    snap.forEach(childSnap => { msgs.push({key: childSnap.key, val: childSnap.val()}); });
-    msgs.reverse().forEach(m => {
-      const div = document.createElement("div");
-      div.className = `message ${m.val.name===name?"you":"them"}`;
-      if(m.val.type==="photo"){
-        const img = document.createElement("img");
-        img.src = m.val.url;
-        img.loading="lazy";
-        div.appendChild(img);
-      } else div.textContent = m.val.text;
-      const t = document.createElement("div");
-      t.className="time";
-      t.textContent = new Date(m.val.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
-      div.appendChild(t);
-      fragment.appendChild(div);
-    });
-    if(msgs.length>0) lastKey = msgs[0].key;
-    messages.appendChild(fragment);
-    if(initial) messages.scrollTop = messages.scrollHeight;
-    loadingOlder = false;
-  });
-}
-
-/* INITIAL LOAD */
-loadMessages(true);
-
-/* SCROLL UP TO LOAD OLDER */
-messages.addEventListener("scroll", ()=>{
-  if(messages.scrollTop<50 && !loadingOlder){
-    loadingOlder=true;
-    loadMessages();
-  }
-});
-
-/* LISTEN FOR NEW MESSAGES */
-db.limitToLast(1).on("child_added", snap=>{
+/* RECEIVE MESSAGES */
+db.limitToLast(100).on("child_added", snap => {
   const m = snap.val();
   const div = document.createElement("div");
-  div.className = `message ${m.name===name?"you":"them"}`;
-  if(m.type==="photo"){
-    const img = document.createElement("img");
-    img.src = m.url;
-    img.loading="lazy";
-    div.appendChild(img);
-  } else div.textContent = m.text;
-  const t=document.createElement("div");
-  t.className="time";
-  t.textContent=new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+  div.className = `message ${m.name === name ? "you" : "them"}`;
+
+  if(m.type === "photo"){
+    div.innerHTML = `<img src="${m.url}">`;
+  } else {
+    div.textContent = m.text;
+  }
+
+  const t = document.createElement("div");
+  t.className = "time";
+  t.textContent = new Date(m.time).toLocaleTimeString([], {
+    hour:"numeric",
+    minute:"2-digit"
+  });
+
   div.appendChild(t);
-  messages.prepend(div);
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
 });
+
+/* EVENTS */
+sendBtn.onclick = sendMessage;
+msgInput.addEventListener("keydown", e => { if(e.key === "Enter") sendMessage(); });
 </script>
+
 </body>
 </html>
