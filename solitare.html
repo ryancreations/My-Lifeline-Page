@@ -3,118 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Solitaire • My Lifeline</title>
+<title>Solitaire • My Lifeline</title>
 <style>
-  body {
-    font-family: 'Quicksand', sans-serif;
-    background: #0a0a1f;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-  }
-  #game {
-    display: grid;
-    grid-template-columns: repeat(7, 100px);
-    gap: 10px;
-  }
-  .pile {
-    width: 100px;
-    height: 140px;
-    border-radius: 10px;
-    background: #1a1a2e;
-    position: relative;
-  }
-  .card {
-    width: 100px;
-    height: 140px;
-    border-radius: 10px;
-    background: white;
-    color: black;
-    font-size: 24px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.2s;
-  }
-  .red { color: red; }
-  .dragging { opacity: 0.6; transform: scale(1.1); z-index: 1000; }
+  body { font-family: 'Quicksand', sans-serif; background:#0a0a1f; color:#fff; display:flex; flex-direction:column; align-items:center; padding:20px; }
+  h1 { margin-bottom:10px; }
+  #foundations { display:flex; gap:10px; margin-bottom:20px; }
+  .foundation { width:120px; height:160px; background:#1a1a2e; border-radius:10px; position:relative; }
+  #stock { width:120px; height:160px; background:#444; border-radius:10px; margin-bottom:20px; cursor:pointer; display:flex; justify-content:center; align-items:center; }
+  #board { display:grid; grid-template-columns: repeat(7, 120px); gap:10px; }
+  .pile { width:120px; height:600px; background:#1a1a2e; border-radius:10px; position:relative; }
+  .card { width:120px; height:160px; border-radius:10px; background:white; color:black; display:flex; justify-content:center; align-items:center; position:absolute; top:0; left:0; cursor:pointer; user-select:none; }
+  .red { color:red; }
+  .face-down { background:#222; color:#222; }
 </style>
 </head>
 <body>
 
-<div id="game"></div>
+<h1>Solitaire</h1>
+
+<div id="foundations">
+  <div class="foundation" data-suit="♠"></div>
+  <div class="foundation" data-suit="♥"></div>
+  <div class="foundation" data-suit="♦"></div>
+  <div class="foundation" data-suit="♣"></div>
+</div>
+
+<div id="stock" onclick="drawCard()">Stock</div>
+
+<div id="board"></div>
 
 <script>
-// === CARD SETUP ===
-const suits = ["♠", "♥", "♦", "♣"];
-const deck = [];
-
+// === Deck setup ===
+const suits = ["♠","♥","♦","♣"];
+let deck = [];
 for(let s of suits){
   for(let i=1;i<=13;i++){
-    deck.push({value:i,suit:s,color:(s==="♥"||s==="♦")?"red":"black"});
+    deck.push({value:i, suit:s, color:(s==="♥"||s==="♦")?"red":"black"});
   }
 }
 
-// Shuffle
-function shuffle(array) {
-  for(let i=array.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
+// Shuffle function
+function shuffle(array){for(let i=array.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[array[i],array[j]]=[array[j],array[i]];}}
 shuffle(deck);
 
-// === GAME BOARD ===
-const game = document.getElementById('game');
+// === Board setup ===
+const board = document.getElementById('board');
 const piles = [];
-
 for(let i=0;i<7;i++){
   const pile = document.createElement('div');
   pile.classList.add('pile');
-  game.appendChild(pile);
+  board.appendChild(pile);
   piles.push(pile);
-
   for(let j=0;j<=i;j++){
     const cardData = deck.pop();
     const card = document.createElement('div');
     card.classList.add('card');
-    if(cardData.color==="red") card.classList.add('red');
     card.textContent = cardData.value + cardData.suit;
-    card.style.top = `${j*25}px`;
+    if(cardData.color==="red") card.classList.add('red');
     card.dataset.value = cardData.value;
     card.dataset.suit = cardData.suit;
     card.dataset.color = cardData.color;
+    card.dataset.face = j<i ? "down" : "up";
+    if(j<i) card.classList.add('face-down');
+    card.style.top = `${j*25}px`;
     pile.appendChild(card);
-
-    // Drag & Drop
     card.onmousedown = dragStart;
   }
 }
 
-// === DRAG & DROP ===
+// === Drag & Drop ===
 let dragged = null;
 function dragStart(e){
   dragged = e.target;
+  if(dragged.dataset.face==="down") return;
   dragged.classList.add('dragging');
-
-  const onMove = (e) => {
-    dragged.style.transform = `translate(${e.pageX-50}px, ${e.pageY-70}px)`;
+  const onMove = (e)=>{
+    dragged.style.transform = `translate(${e.pageX-60}px,${e.pageY-80}px)`;
   }
-  document.addEventListener('mousemove', onMove);
-
-  document.onmouseup = () => {
+  document.addEventListener('mousemove',onMove);
+  document.onmouseup = ()=>{
     dragged.classList.remove('dragging');
-    dragged.style.transform = '';
-    document.removeEventListener('mousemove', onMove);
-    dragged = null;
+    dragged.style.transform='';
+    document.removeEventListener('mousemove',onMove);
+    dragged=null;
   }
+}
+
+// === Stock Pile ===
+const stockDiv = document.getElementById('stock');
+function drawCard(){
+  if(deck.length===0){ alert("No more cards in stock!"); return; }
+  const cardData = deck.pop();
+  const card = document.createElement('div');
+  card.classList.add('card');
+  card.textContent = cardData.value + cardData.suit;
+  if(cardData.color==="red") card.classList.add('red');
+  card.dataset.value = cardData.value;
+  card.dataset.suit = cardData.suit;
+  card.dataset.color = cardData.color;
+  card.dataset.face="up";
+  card.style.top="0px"; card.style.left="0px";
+  document.body.appendChild(card);
+  card.onmousedown=dragStart;
 }
 </script>
 
