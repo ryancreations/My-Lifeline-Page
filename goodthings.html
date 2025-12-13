@@ -1,1 +1,108 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Good Things Jar • My Lifeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff8f0;font-family:'Quicksand',sans-serif;color:#333;height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+.login-box,.hidden{display:none}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer}
+nav button:hover{background:#00bcd4;color:#fff}
+main{margin-top:80px;text-align:center;padding:20px}
+h1{font-size:3.5em;color:#ff6b9d;margin:20px 0}
+.jar-container{position:relative;width:340px;height:500px;margin:40px auto}
+.jar{background:linear-gradient(#ffeb3b,#ffb300);width:100%;height:100%;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;box-shadow:inset 0 -30px 60px rgba(0,0,0,.15), 0 15px 30px rgba(0,0,0,.3);overflow:hidden;position:relative}
+.jar::before{content:"";position:absolute;top:15px;left:50%;transform:translateX(-50%);width:180px;height:40px;background:#fff3;border-radius:50%;opacity:0.4}
+#notes{position:absolute;bottom:40px;left:10%;width:80%;max-height:420px;overflow:hidden}
+.note{background:#fff;padding:14px 18px;margin:12px auto;border-radius:15px;box-shadow:0 6px 15px rgba(0,0,0,.15);font-size:1.1em;line-height:1.4;max-width:85%;transform:rotate(${Math.random()*10-5}deg);animation:float 8s infinite ease-in-out}
+@keyframes float{0%,100%{transform:translateY(0) rotate(${Math.random()*10-5}deg)}50%{transform:translateY(-20px) rotate(${Math.random()*10-5}deg)}}
+textarea{width:90%;max-width:600px;height:120px;padding:20px;margin:20px 0;border:3px solid #87ceeb;border-radius:20px;font-size:1.3em;font-family:inherit;background:#fffaf0}
+button{background:#ff6b9d;color:#fff;padding:18px 50px;border:none;border-radius:50px;font-size:1.6em;cursor:pointer;box-shadow:0 8px 25px rgba(255,107,157,.4)}
+button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
+</style>
+</head><body>
 
+<!-- LOGIN -->
+<div id="loginScreen" class="login-box">
+  <h1>My Lifeline</h1><p>Enter your personal key</p>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter Safe Space</button>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="mainContent" class="hidden">
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+  <button onclick="location.href='bestie.html'">Bestie</button>
+  <button onclick="location.href='letters.html'">Letters</button>
+  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
+  <button onclick="location.href='yourenough.html'">You’re Enough</button>
+  <button onclick="location.href='goodthings.html'">Good Things Jar</button>
+  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
+</nav>
+
+<main>
+  <h1>Good Things Jar</h1>
+  <p style="font-size:1.4em;color:#ff6b9d;margin:20px">Every tiny happy moment belongs here</p>
+
+  <div class="jar-container">
+    <div class="jar">
+      <div id="notes"></div>
+    </div>
+  </div>
+
+  <textarea id="newGood" placeholder="Something good that happened… (big or tiny)"></textarea><br>
+  <button onclick="addGood()">Drop in Jar</button>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+// Login (same as always)
+function checkLogin(){
+  if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
+    localStorage.setItem('lifelineAuthenticated','true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  }else alert("Incorrect password");
+}
+function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload()}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
+}
+
+// Good Things Jar
+let goods = JSON.parse(localStorage.getItem('goodThings')||'[]');
+
+function addGood(){
+  const text = document.getElementById('newGood').value.trim();
+  if(!text) return;
+  goods.push({text, date:new Date().toLocaleDateString()});
+  localStorage.setItem('goodThings',JSON.stringify(goods));
+  document.getElementById('newGood').value='';
+  showNotes();
+  confetti({particleCount:100,spread:80,origin:{y:0.8},colors:['#ff9a9e','#fad0c4','#ffecd2','#fcab88']});
+}
+
+function showNotes(){
+  const container = document.getElementById('notes');
+  container.innerHTML='';
+  const recent = goods.slice(-40).reverse(); // show newest on top
+  recent.forEach(item=>{
+    const note = document.createElement('div');
+    note.className='note';
+    note.style.animationDelay = Math.random()*3+'s';
+    note.innerHTML = `<strong>${item.date}</strong><br>${item.text}`;
+    container.appendChild(note);
+  });
+}
+showNotes();
+</script>
+</body></html>
