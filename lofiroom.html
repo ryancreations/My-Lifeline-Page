@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Soft Lofi Room • My Lifeline</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0a1f;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;overflow:hidden;position:relative}
-.login-box,.hidden{display:none}
 nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
-nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.25s}
 nav button:hover{background:#00bcd4;color:#fff}
 #bg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.6}
 main{position:relative;z-index:10;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:100px}
@@ -19,19 +20,11 @@ button:hover{transform:scale(1.08)}
 #timer{font-size:3em;margin:30px 0;color:#a8e6cf}
 #current{background:#1e1e3f;padding:15px;border-radius:15px;margin:15px 0;font-size:1.3em}
 </style>
-</head><body>
+</head>
+<body>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1><p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkLogin()">Enter Safe Space</button>
-</div>
-
-<!-- MAIN PAGE -->
-<div id="mainContent" class="hidden">
- <nav>
+<!-- NAVIGATION -->
+<nav>
   <button onclick="location.href='index.html'">Dashboard</button>
   <button onclick="location.href='emergency.html'">Emergency</button>
   <button onclick="location.href='mental.html'">Mental</button>
@@ -46,7 +39,6 @@ button:hover{transform:scale(1.08)}
   <button onclick="location.href='chatroom.html'">Chat Room</button>
   <button onclick="location.href='personalized-motivation.html'">Motivation</button>
   <button onclick="location.href='calmingroom.html'">Calming Room</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;">Log Out</button>
 </nav>
 
 <video id="bg" autoplay loop muted playsinline>
@@ -75,25 +67,12 @@ button:hover{transform:scale(1.08)}
 </main>
 
 <script>
-function checkLogin(){
-  if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
-    localStorage.setItem('lifelineAuthenticated','true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-  }else alert("Incorrect password");
-}
-function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload()}
-if(localStorage.getItem('lifelineAuthenticated')==='true'){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('mainContent').classList.remove('hidden');
-}
-
 const playlists = {
   lofi: 'jfKfPfyJRdk',
- rain: 'nDq6TstdEi8',
- jazz: 'DWcJFNfaw9c',
- chillhop: '5qap5aO4i9A',
- synth: '4xDzrJKXooY'
+  rain: 'nDq6TstdEi8',
+  jazz: 'DWcJFNfaw9c',
+  chillhop: '5qap5aO4i9A',
+  synth: '4xDzrJKXooY'
 };
 
 function play(type){
@@ -131,4 +110,7 @@ function stopTimer(){
   document.getElementById('timer').textContent = "25:00";
 }
 </script>
-</body></html>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
