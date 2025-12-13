@@ -204,6 +204,11 @@
 </footer>
 
 </main>
-
+<script>
+function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.href = 'index.html';
+  }
+  </script>
 </body>
 </html>
