@@ -29,7 +29,7 @@ header{
   overflow-y:auto;
   background:#fff;
   display:flex;
-  flex-direction:column;
+  flex-direction:column-reverse;
   gap:12px;
 }
 .message{
@@ -144,21 +144,6 @@ input[type=file]{display:none}
 </head>
 
 <body>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="location.href='emergency.html'">Emergency</button>
-  <button onclick="location.href='mental.html'">Mental</button>
-  <button onclick="location.href='videos.html'">Videos</button>
-  <button onclick="location.href='music.html'">Music</button>
-  <button onclick="location.href='bestie.html'">Bestie</button>
-  <button onclick="location.href='letters.html'">Letters</button>
-  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
-  <button onclick="location.href='yourenough.html'">You’re Enough</button>
-  <button onclick="location.href='goodthings.html'">Good Things</button>
-  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
-  <button onclick="location.href='chatroom.html'">Chat Room</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
-</nav>
 <header id="header">Our Messages</header>
 
 <div id="messages"></div>
@@ -188,7 +173,6 @@ input[type=file]{display:none}
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
-/* 🔥 FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyBBRAhMp-LMjS5hgzQNB48bz31AeBMAHDk",
   authDomain: "chatroom-3b44c.firebaseapp.com",
@@ -199,10 +183,8 @@ const firebaseConfig = {
   appId: "1:222445358770:web:c7fc0e4245308a8be943ab",
   measurementId: "G-NJVE8C8SZQ"
 };
-
 firebase.initializeApp(firebaseConfig);
 
-/* FIREBASE REFERENCES */
 const db = firebase.database().ref("messages");
 const storage = firebase.storage();
 
@@ -232,26 +214,16 @@ header.textContent = name;
 profilePhoto.src = photoURL;
 profileNameInput.value = name;
 
-/* HEADER CLICK → OPEN PROFILE */
-header.onclick = () => {
-  profile.style.display = "flex";
-};
-
-/* CLOSE PROFILE */
+/* PROFILE EVENTS */
+header.onclick = () => profile.style.display = "flex";
 closeProfileBtn.onclick = () => profile.style.display = "none";
-
-/* CHANGE PROFILE PHOTO */
 changePhotoBtn.onclick = () => profileUpload.click();
-
 profileUpload.onchange = e => {
-  const file = e.target.files[0];
-  if(!file) return;
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = ev => profilePhoto.src = ev.target.result;
   reader.readAsDataURL(file);
 };
-
-/* SAVE PROFILE */
 saveProfileBtn.onclick = () => {
   name = profileNameInput.value || "Promise of Love";
   photoURL = profilePhoto.src;
@@ -261,99 +233,87 @@ saveProfileBtn.onclick = () => {
   profile.style.display = "none";
 };
 
-/* SEND TEXT */
+/* SEND MESSAGE FUNCTIONS */
 function sendMessage(){
-  const text = msgInput.value.trim();
-  if(!text) return;
-
-  db.push({
-    name: name,
-    type: "text",
-    text: text,
-    photo: photoURL,
-    time: Date.now()
-  });
-
+  const text = msgInput.value.trim(); if(!text) return;
+  db.push({name,type:"text",text,photo:photoURL,time:Date.now()});
   msgInput.value = "";
 }
+sendBtn.onclick = sendMessage;
+msgInput.addEventListener("keydown", e => { if(e.key==="Enter") sendMessage(); });
 
 /* SEND PHOTO */
 photoBtn.onclick = () => photoUpload.click();
-
 photoUpload.onchange = e => {
-  const file = e.target.files[0];
-  if(!file) return;
-
+  const file = e.target.files[0]; if(!file) return;
   const ref = storage.ref("photos/" + Date.now() + "_" + file.name);
-  ref.put(file).then(() => {
-    ref.getDownloadURL().then(url => {
-      db.push({
-        name: name,
-        type: "photo",
-        url: url,
-        photo: photoURL,
-        time: Date.now()
-      });
-    });
-  });
+  ref.put(file).then(()=> ref.getDownloadURL().then(url => {
+    db.push({name,type:"photo",url,photo:photoURL,time:Date.now()});
+  }));
 };
 
-/* RECEIVE MESSAGES — optimized */
-db.limitToLast(30).once("value", snap => {
-  const fragment = document.createDocumentFragment();
-  snap.forEach(childSnap => {
-    const m = childSnap.val();
-    const div = document.createElement("div");
-    div.className = `message ${m.name === name ? "you" : "them"}`;
+/* LOAD MESSAGES WITH INFINITE SCROLL */
+let lastKey = null;
+let loadingOlder = false;
 
-    if(m.type === "photo"){
-      const img = document.createElement("img");
-      img.src = m.url;
-      img.loading = "lazy";
-      div.appendChild(img);
-    } else {
-      div.textContent = m.text;
-    }
-
-    const t = document.createElement("div");
-    t.className = "time";
-    t.textContent = new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
-    div.appendChild(t);
-
-    fragment.appendChild(div);
+function loadMessages(initial=false){
+  let query = db.orderByKey().limitToLast(20);
+  if(lastKey && !initial) query = db.orderByKey().endBefore(lastKey).limitToLast(20);
+  
+  query.once("value", snap => {
+    const fragment = document.createDocumentFragment();
+    const msgs = [];
+    snap.forEach(childSnap => { msgs.push({key: childSnap.key, val: childSnap.val()}); });
+    msgs.reverse().forEach(m => {
+      const div = document.createElement("div");
+      div.className = `message ${m.val.name===name?"you":"them"}`;
+      if(m.val.type==="photo"){
+        const img = document.createElement("img");
+        img.src = m.val.url;
+        img.loading="lazy";
+        div.appendChild(img);
+      } else div.textContent = m.val.text;
+      const t = document.createElement("div");
+      t.className="time";
+      t.textContent = new Date(m.val.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+      div.appendChild(t);
+      fragment.appendChild(div);
+    });
+    if(msgs.length>0) lastKey = msgs[0].key;
+    messages.appendChild(fragment);
+    if(initial) messages.scrollTop = messages.scrollHeight;
+    loadingOlder = false;
   });
-  messages.appendChild(fragment);
-  messages.scrollTop = messages.scrollHeight;
+}
+
+/* INITIAL LOAD */
+loadMessages(true);
+
+/* SCROLL UP TO LOAD OLDER */
+messages.addEventListener("scroll", ()=>{
+  if(messages.scrollTop<50 && !loadingOlder){
+    loadingOlder=true;
+    loadMessages();
+  }
 });
 
 /* LISTEN FOR NEW MESSAGES */
-db.limitToLast(1).on("child_added", snap => {
+db.limitToLast(1).on("child_added", snap=>{
   const m = snap.val();
   const div = document.createElement("div");
-  div.className = `message ${m.name === name ? "you" : "them"}`;
-
-  if(m.type === "photo"){
+  div.className = `message ${m.name===name?"you":"them"}`;
+  if(m.type==="photo"){
     const img = document.createElement("img");
     img.src = m.url;
-    img.loading = "lazy";
+    img.loading="lazy";
     div.appendChild(img);
-  } else {
-    div.textContent = m.text;
-  }
-
-  const t = document.createElement("div");
-  t.className = "time";
-  t.textContent = new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+  } else div.textContent = m.text;
+  const t=document.createElement("div");
+  t.className="time";
+  t.textContent=new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
   div.appendChild(t);
-
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
+  messages.prepend(div);
 });
-
-/* EVENTS */
-sendBtn.onclick = sendMessage;
-msgInput.addEventListener("keydown", e => { if(e.key === "Enter") sendMessage(); });
 </script>
-
 </body>
 </html>
