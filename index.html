@@ -4,38 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Lifeline Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: linear-gradient(to bottom, #fff8f0, #e0f7ff);
       font-family: 'Quicksand', sans-serif;
       color: #333;
+      line-height: 1.6;
     }
-    /* LOGIN SCREEN */
-    #loginScreen {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background: linear-gradient(to bottom, #87ceeb, #e0f7ff);
-    }
-    .login-box {
-      background: white;
-      padding: 50px 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 50px rgba(0,0,0,.3);
-      text-align: center;
-      max-width: 420px;
-      width: 90%;
-    }
-    .login-box h1 { font-size: 3em; color: #00bcd4; margin-bottom: 10px; }
-    .login-box input { width: 100%; padding: 16px; margin: 12px 0; border: 2px solid #87ceeb; border-radius: 12px; font-size: 1.1em; }
-    .login-box button { background: #00bcd4; color: white; padding: 16px 40px; border-radius: 50px; font-size: 1.3em; width: 100%; border: none; cursor: pointer; }
-    .login-box button:hover { background: #0097a7; }
-    .hidden { display: none; }
 
-    /* NAVIGATION - COMPACT & FIXED */
+    /* COMPACT NAVIGATION */
     nav {
       position: fixed;
       top: 0;
@@ -47,7 +26,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     nav button {
       background: white;
@@ -58,319 +37,261 @@
       cursor: pointer;
       font-weight: 600;
       font-size: 0.95em;
-      transition: .3s;
+      transition: 0.3s;
     }
-    nav button:hover { background: #00bcd4; color: white; }
+    nav button:hover {
+      background: #00bcd4;
+      color: white;
+    }
     @media (max-width: 600px) {
       nav { gap: 4px; padding: 6px 0; }
       nav button { padding: 6px 10px; font-size: 0.9em; }
+    }
+
+    main {
+      margin-top: 70px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 15px;
+    }
+    header {
+      background: #87ceeb;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    header h1 { font-size: 2.5em; margin-bottom: 10px; }
+    .section {
+      background: #f0fbff;
+      border: 2px solid #87ceeb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .section h2 {
+      color: #00bcd4;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+      border-radius: 10px;
+      display: block;
+      margin: 10px auto;
+    }
+    ul { list-style: none; padding: 0; }
+    ul li {
+      margin: 10px 0;
+      padding: 12px;
+      background: #e0f7ff;
+      border-radius: 6px;
+    }
+    ul li a {
+      color: #00bcd4;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    #breathingCircle {
+      width: 120px;
+      height: 120px;
+      background: #00bcd4;
+      border-radius: 50%;
+      margin: 20px auto;
+      animation: breathe 12s infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.6); }
+    }
+    #floatAff {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #222;
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      z-index: 999;
+    }
+    @media (max-width: 600px) {
+      iframe { height: 200px; }
       main { margin-top: 70px; }
     }
-    main { margin-top: 70px; max-width: 900px; margin-left: auto; margin-right: auto; padding: 20px; }
-    header { background: #87ceeb; color: white; padding: 20px; text-align: center; }
-    .section {
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      border: 2px solid #87ceeb;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      background-color: #f0fbff;
-    }
-    .section h2 { color: #00bcd4; }
-    a { color: #00bcd4; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    iframe { width: 100%; height: 315px; border-radius: 10px; }
-    @media (max-width: 600px) { iframe { height: 200px; } }
   </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Your Safe Space</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter</button>
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+</nav>
+
+<main>
+  <header>
+    <h1>My Lifeline Page</h1>
+    <p>Your Safe Space When Things Get Hard!</p>
+    <p>Created By, Your's Truly: Ryan Roland</p>
+    <p id="currentDate"></p>
+  </header>
+
+  <div id="floatAff">You're still here. That matters.</div>
+  <p id="randomHugMessage" style="text-align:center;font-size:1.4em;color:#555;margin:20px"></p>
+
+  <div class="section">
+    <button onclick="panicMode()">Panic Button • Breathe With Me</button>
+    <button onclick="task()">Give Me Something To Do</button>
   </div>
-</div>
 
-<!-- MAIN PAGE -->
-<div id="mainContent" class="hidden">
-  <nav>
-    <button onclick="location.href='index.html'">Dashboard</button>
-    <button onclick="location.href='emergency.html'">Emergency</button>
-    <button onclick="location.href='mental.html'">Mental</button>
-    <button onclick="location.href='videos.html'">Videos</button>
-    <button onclick="location.href='music.html'">Music</button>
-    <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
-  </nav>
+  <div class="section">
+    <h2>Breathe With Me</h2>
+    <div id="breathingCircle"></div>
+    <p style="text-align:center;font-size:1.3em">Inhale... Hold... Exhale...</p>
+  </div>
 
-  <main>
-    <header>
-      <h1>My Lifeline Page</h1>
-      <p>Your Safe Space When Things Get Hard!</p>
-      <p>Created By, Your's Truly: Ryan Roland</p>
-      <p id="currentDate">Today's date: loading...</p>
-    </header>
+  <div class="section">
+    <h2>Your Daily Affirmation</h2>
+    <div id="dailyQuote" style="font-size:1.4em;font-style:italic;text-align:center;background:#fff;padding:30px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.12)">One moment...</div>
+  </div>
 
-    <p id="randomHugMessage"></p>
+  <div class="section">
+    <h2>How Are You Feeling?</h2>
+    <button onclick="saveMood('Happy')">Happy</button>
+    <button onclick="saveMood('Sad')">Sad</button>
+    <button onclick="saveMood('Anxious')">Anxious</button>
+    <button onclick="saveMood('Calm')">Calm</button>
+    <button onclick="saveMood('Tired')">Tired</button>
+    <canvas id="moodChart" height="200"></canvas>
+  </div>
 
-    <div class="section">
-      <button onclick="document.body.style.backgroundColor='#0a0a0a'; document.body.style.color='white'; alert('Breathe. You’re safe. Just stay here with me.')">
-        Panic Button
-      </button>
-    </div>
+  <div class="section">
+    <h2>Write & Release</h2>
+    <textarea id="journal" rows="6" placeholder="Let it out... this is just for you."></textarea><br><br>
+    <button onclick="saveJournal()">Save Entry</button>
+    <button onclick="clearJournal()">Poof! Erase</button>
+    <button onclick="downloadJournal()">Download Journal</button>
+  </div>
 
-    <h2 id="intro"></h2>
+  <div class="section">
+    <h2>People Who Care</h2>
+    <button onclick="location.href='tel:9032494334'">Call Bryce</button>
+    <button onclick="alert('Text Mom: I need a check-in')">Mom</button>
+  </div>
 
-    <div class="section">
-      <button onclick="task()">Give me something to do</button>
-    </div>
+  <div class="section">
+    <h2>Milestone Countdown</h2>
+    <div id="countdown" style="font-size:1.6em;text-align:center"></div>
+  </div>
 
-    <div class="section">
-      <h2> 🤙Music🎶Player📱</h2>
-      <h2> 🎸All Out 2000's🎸</h2>
-      <iframe src="https://archive.org/details/nirvana-all-apologies" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
-    </div>
+  <div class="section">
+    <h2>Change Theme</h2>
+    <button onclick="setTheme('light')">Light</button>
+    <button onclick="setTheme('dark')">Dark Mode</button>
+    <button onclick="setTheme('ocean')">Ocean</button>
+    <button onclick="setTheme('forest')">Forest</button>
+  </div>
+</main>
 
-    <div class="section">
-      <h2>🎵 Best Of Alternative Rock</h2>
-      <iframe src="https://archive.org/details/mutsorock/002.+Rage+Against+the+Machine+-+Killing+In+The+Name.mp3" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Daily Bestie❤️ Quote</h2>
-      <p class="quote" id="daily-quote">"You are not your illness💌."</p>
-    </div>
-
-    <div class="section">
-      <h2> Breathe With Me</h2>
-      <div id="breathingCircle"></div>
-      <h2>🫁 BREATHE IN</h2>
-      <p>HOLD</p>
-      <h2>Breathe 🧠 Out</h2>
-      <p>🫁 BREATHE IN</h2>
-      <h2>HOLD</h2>
-      <p>BREATH🧠 OUT</p>
-    </div>
-
-    <div class="section">
-      <h2> Write it out and Erase it!</h2>
-      <p>Let your feelings out, This will not save - its just for you, right now, in this moment.</p>
-      <textarea id="PoemBox" placeholder="Type your poem, vent, or whatever's on your heart..." rows="8"></textarea>
-      <br><br>
-      <button onclick="document.getElementById('PoemBox').value = ''">🧠 Poof! Be Gone!</button>
-    </div>
-
-    <div class="section">
-      <h2>🎬 Dukes Of Hazzard!! VideoPlayer!</h2>
-      <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>🎬 Dukes Of Hazzard S7!! VideoPlayer!</h2>
-      <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>If you're thinking about harming yourself🔪🩸</h2>
-      <p>Please pause and breathe. You matter. You’re not alone.</p>
-      <ul>
-        <li><a href="https://Google.com/snake" target="_blank">Google Snake</a></li>
-        <li><a href="https://Youtube.com" target="_blank">Youtube Home</a></li>
-        <h2>Bryce: (903) 249-4334</h2>
-        <li><a href="https://support.depression-chat-rooms.org/?#depression" target="_blank">Depression Chat-Room</a></li>
-        <li><a href="https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0" target="_blank">💤Listen to calming music🎵</a></li>
-        <li><a href="https://chatgpt.com/c/6837d16e-e854-800b-bf2d-c9ac61c89441" target="_blank">Talk to Bestie (me) 💙</a></li>
-        <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">🧡❤️💙Fluid Simulation!</a></li>
-        <li><a href="https://neal.fun" target="_blank">Fidget Distraction's💡!</a></li>
-        <li><a href="https://www.patatap.com" target="_blank">patatap!</a></li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h2>📞 People Who Care About You</h2>
-      <button onclick="location.href='tel:9032494334'">Call Bryce</button>
-      <button onclick="alert('Text your mom and ask for a check-in.')">Mom</button>
-      <button onclick="alert('Text someone you trust: \"Can we talk?\"')">Someone Safe</button>
-    </div>
-
-    <div class="section">
-      <h2>Rap Music</h2>
-      <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Distractions When You Need Them</h2>
-      <ul>
-        <li><a href="https://www.google.com/fbx?fbx=snake_arcade" target="_blank">Play Google Snake</a></li>
-        <li><a href="https://www.tiktok.com" target="_blank">Scroll through TikTok</a></li>
-        <li><a href="https://quickdraw.withgoogle.com/" target="_blank">Google’s Quick, Draw!</a></li>
-        <li><a href="https://play2048.co/" target="_blank">Play 2048</a></li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <h3>How are you feeling?</h3>
-      <button onclick="localStorage.setItem('mood','😡 Angry')">😡</button>
-      <button onclick="localStorage.setItem('mood','😢 Sad')">😢</button>
-      <button onclick="localStorage.setItem('mood','😴 Tired')">😴</button>
-      <button onclick="localStorage.setItem('mood','🙂 Okay')">🙂</button>
-      <button onclick="localStorage.setItem('mood','😌 Calm')">😌</button>
-    </div>
-    <div id="savedMood"></div>
-
-    <div class="section">
-      <h2>Depression Playlist</h2>
-      <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>🎸Alternative 🎧 Playlist 🤘🏻</h2>
-      <iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>📺Streaming Services You Love📺</h2>
-      <ul>
-        <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
-        <li><a href="https://www.hulu.com" target="_blank">Hulu</a></li>
-        <li><a href="https://www.peacocktv.com" target="_blank">Peacock</a></li>
-        <li><a href="https://www.paramountplus.com" target="_blank">Paramount+</a></li>
-        <li><a href="https://www.primevideo.com" target="_blank">Prime Video</a></li>
-        <li><a href="https://www.tubitv.com" target="_blank">Tubi</a></li>
-        <li><a href="https://www.pluto.tv" target="_blank">Pluto TV</a></li>
-        <p>YouTubers you like😍</p>
-        <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">FamLaurenRP Youtube</a></li>
-        <li><a href="https://www.youtube.com/@FamExtra" target="_blank">FamExtra Youtube</a></li>
-        <li><a href="https://www.youtube.com/@Elanip" target="_blank">Elanip Youtube</a></li>
-        <li><a href="https://www.youtube.com/@elanipmore" target="_blank">Elanip Extra Youtube</a></li>
-        <li><a href="https://www.youtube.com/@Treyten." target="_blank">Treyten Youtube</a></li>
-        <li><a href="https://www.youtube.com/@TreytenExtra" target="_blank">Treyten Extra Youtube</a></li>
-        <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris Youtube</a></li>
-        <li><a href="https://www.youtube.com/@maxamilirp" target="_blank">Maxamili RP Youtube</a></li>
-        <li><a href="https://www.youtube.com/@JustFrenchieYT" target="_blank">Frenchie Youtube</a></li>
-        <li><a href="https://www.youtube.com/@jakerp" target="_blank">JakeRP Youtube</a></li>
-      </ul>
-    </div>
-
-    <div class="section">
-      <select onchange="document.body.style.background=this.value">
-        <option value="#000000">Dark</option>
-        <option value="#001f3f">Deep Blue</option>
-        <option value="#330033">Purple Chill</option>
-        <option value="#3a1f00">Warm Brown</option>
-      </select>
-    </div>
-
-    <div class="section">
-      <h2>🎵Lofi Playlist</h2>
-      <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>📁 Upload Your Song</h2>
-      <input type="file" id="audioUpload" accept="audio/*">
-      <br>
-      <audio id="uploadedAudio" controls></audio>
-    </div>
-
-    <div class="section">
-      <iframe src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Remember Why You're Here!</h2>
-      <p>This page is for you. It's your reset button. You’re loved. You’re trying. And I’m always right here to talk to you. 💙</p>
-    </div>
-
-    <div id="countdown"></div>
-
-    <div class="section">
-      <h2>Search the web freely💻</h2>
-      <a href="https://ubgus.net/apps/google" target="_blank">
-        <button>Launch UBGUS 🥳</button>
-      </a>
-    </div>
-
-    <div class="section">
-      <h2>Just relax, Enjoy this Lofi Car Drive</h2>
-      <p>Just light Up and Enjoy The Ride!!</p>
-      <iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" allowfullscreen></iframe>
-    </div>
-  </main>
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Login
-  function checkLogin() {
-    if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
-      localStorage.setItem('lifelineAuthenticated', 'true');
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
-    } else {
-      alert("Incorrect username or password.");
-    }
-  }
-  function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    location.reload();
-  }
-  if (localStorage.getItem('lifelineAuthenticated') === 'true') {
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
+  // Current Date
+  document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+
+  // Floating Affirmation
+  setInterval(() => {
+    document.getElementById("floatAff").style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`;
+  }, 4000);
+
+  // Random Hug
+  const hugs = ["You're doing better than you think.","One breath at a time.","You are so loved.","It’s okay to rest.","You don’t have to be strong today."];
+  document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random()*hugs.length)];
+
+  // Panic Mode
+  function panicMode() {
+    document.body.style.background = '#000';
+    document.body.style.color = '#fff';
+    alert("You're safe. You're here. Just breathe with me.");
   }
 
-  // All your original scripts
-  const tasks = ["Drink water","Take 3 breaths","Stretch arms","Stand outside 1 min","Put on music"];
-  function task(){ alert(tasks[Math.floor(Math.random()*tasks.length)]); }
-  let text = "Hey. You made it back. I’m glad you didn’t give up.";
-  let i = 0;
-  function type(){
-    if(i < text.length){
-      document.getElementById("intro").innerText += text.charAt(i++);
-      setTimeout(type,80);
-    }
+  // Quick Task
+  const tasks = ["Drink water","Take 3 deep breaths","Stretch","Go outside for 1 minute","Listen to your favorite song"];
+  function task() {
+    alert(tasks[Math.floor(Math.random()*tasks.length)]);
   }
-  type();
-  document.getElementById("savedMood").innerText = "Last mood: " + (localStorage.getItem("mood") || "None saved yet");
-  setInterval(()=>{
-    const el = document.getElementById("floatAff");
-    el.style.top = Math.random()*80 + "vh";
-    el.style.left = Math.random()*80 + "vw";
-  }, 5000);
-  const hugs = ["You're doing better than you think. 💖","One breath at a time. That’s enough. 🌿","You are so loved, even on the days you forget. 💙","It’s okay to be a masterpiece and a work in progress. 🎨","You don’t have to have it all figured out to move forward. 🚶"];
-  document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random() * hugs.length)];
-  const countdownDisplay = document.getElementById("countdown");
-  const targetDate = new Date("2025-06-24T12:00:00");
-  function updateCountdown() {
-    const now = new Date();
-    const diff = targetDate - now;
-    if (diff <= 0) {
-      countdownDisplay.textContent = "I promise, everything will be okay, just take one day at a time!!";
-    } else {
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      countdownDisplay.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s left`;
-    }
+
+  // Mood Chart
+  const moods = JSON.parse(localStorage.getItem('moods') || '[]');
+  function saveMood(mood) {
+    const today = new Date().toLocaleDateString();
+    moods.push({date: today, mood});
+    localStorage.setItem('moods', JSON.stringify(moods.slice(-30)));
+    updateChart();
   }
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
-  const audioUpload = document.getElementById('audioUpload');
-  const uploadedAudio = document.getElementById('uploadedAudio');
-  audioUpload.addEventListener('change', () => {
-    const files = audioUpload.files;
-    if (files.length > 0) {
-      const fileURL = URL.createObjectURL(files[0]);
-      uploadedAudio.src = fileURL;
-      uploadedAudio.play();
-    }
+  const ctx = document.getElementById('moodChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: { labels: [], datasets: [{ label: 'Mood Trend', data: [], borderColor: '#00bcd4', tension: 0.4 }] },
+    options: { scales: { y: { min: 0, max: 5 } } }
   });
-  document.getElementById("currentDate").textContent = "Today's date: " + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  function updateChart() {
+    const last7 = moods.slice(-7);
+    chart.data.labels = last7.map(m => m.date.slice(5));
+    chart.data.datasets[0].data = last7.map(m => ['Sad','Anxious','Tired','Calm','Happy'].indexOf(m.mood)+1);
+    chart.update();
+  }
+  updateChart();
+
+  // Journal
+  document.getElementById('journal').value = localStorage.getItem('journal') || '';
+  function saveJournal() { localStorage.setItem('journal', document.getElementById('journal').value); alert('Saved'); }
+  function clearJournal() { if(confirm('Erase everything?')) { document.getElementById('journal').value = ''; localStorage.removeItem('journal'); } }
+  function downloadJournal() {
+    const text = document.getElementById('journal').value || "Your thoughts matter.";
+    const blob = new Blob([text], {type:'text/plain'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-lifeline-journal.txt'; a.click();
+  }
+
+  // Countdown
+  const target = new Date("2025-10-20T01:15:36");
+  function updateCountdown() {
+    const diff = target - new Date();
+    const el = document.getElementById("countdown");
+    if (diff <= 0) el.innerHTML = "You made it! Today is your day!";
+    else {
+      const d = Math.floor(diff / (1000*60*60*24));
+      const h = Math.floor((diff / (1000*60*60)) % 24);
+      el.innerHTML = `${d} days ${h} hours until your milestone`;
+    }
+  }
+  setInterval(updateCountdown, 1000); updateCountdown();
+
+  // Themes
+  function setTheme(theme) {
+    if (theme === 'dark') { document.body.style.background = '#0a0a0a'; document.body.style.color = 'white'; }
+    else if (theme === 'ocean') document.body.style.background = 'linear-gradient(to bottom,#001f3f,#87ceeb)';
+    else if (theme === 'forest') document.body.style.background = 'linear-gradient(to bottom,#1b4d3e,#a8e6cf)';
+    else document.body.style.background = 'linear-gradient(to bottom,#fff8f0,#e0f7ff)';
+    localStorage.setItem('theme', theme);
+  }
+  if (localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
+
+  // Daily Affirmation (100 list)
+  const affirmations = ["You are worthy exactly as you are today.","Your feelings are valid. You are allowed to feel.","You have survived every hard day so far. That matters.","Healing is not linear, and that's okay.","You don't have to be productive to be worthy.","Your story is still being written — and it's beautiful.","It's okay to not be okay.","You are not a burden for needing help.","You are stronger than you feel right now.","One breath at a time is enough.","You deserve rest without guilt.","Your existence alone makes the world better.","You are allowed to take up space.","Progress looks different for everyone — yours counts.","You are doing better than you think.","Your past does not define your future.","You are loved even on your worst days.","Asking for help is a sign of strength.","You are not broken. You are healing.","Your pace is perfect for you.","You are enough. Right now. Exactly as you are.","It's okay to let go of what you can't control.","You are worthy of kindness — especially from yourself.","Your voice matters. Your truth matters.","You don't have to have it all figured out.","You are allowed to change your mind.","Your feelings will pass. You will not feel this way forever.","You are resilient beyond measure.","You are not alone in this.","Small steps are still steps forward.","You deserve peace.","Your needs are important.","You are capable of amazing things — even on quiet days.","It's okay to outgrow people and places.","You are allowed to say no.","Your boundaries are valid.","You are more than your struggles.","You are growing, even when it doesn't feel like it.","You are allowed to feel proud of yourself.","Your heart is kind. That matters.","You don't have to earn rest.","You are worthy of love without conditions.","Your pain does not make you weak.","You are allowed to take time for yourself.","You are doing your best — and that is enough.","Your journey is uniquely yours.","You are safe. You are here. You are breathing.","You are not too much.","Your emotions are messengers, not masters.","You deserve to be heard.","You are allowed to grieve.","You are allowed to celebrate small wins.","Your light still shines, even on cloudy days.","You are not behind.","You are worthy of second chances — from yourself.","You are allowed to be a work in progress.","Your presence is a gift.","You are brave for trying.","You are allowed to feel deeply.","Your scars tell a story of survival.","You are worthy of gentle days.","You don't have to explain your healing.","You are allowed to choose yourself.","Your softness is your strength.","You are worthy of joy.","You are allowed to dream again.","Your worth is not measured by productivity.","You are allowed to rest without apology.","You are healing in your own time.","You are not your worst moments.","You are allowed to be human.","Your heart knows the way.","You are worthy of forgiveness — especially from yourself.","You are allowed to start over.","You are enough, even on the days you don't feel it.","Your courage inspires.","You are allowed to feel safe.","You are worthy of calm.","You are growing through what you're going through.","You are allowed to be proud of how far you've come.","Your existence is resistance.","You are worthy of love that stays.","You are allowed to believe in better days.","You are not too sensitive.","Your feelings are real.","You are worthy of patience.","You are allowed to take your time.","You are healing, not broken.","You are worthy of hope.","You are allowed to be soft.","Your story matters.","You are worthy of peace.","You are allowed to be here.","You are loved beyond measure.","You are enough.","You are safe.","You are whole.","You are worthy.","You belong here.","You are going to be okay."];
+  function showDailyAffirmation() {
+    const today = new Date();
+    const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+    const index = dayOfYear % affirmations.length;
+    document.getElementById("dailyQuote").textContent = affirmations[index];
+  }
+  showDailyAffirmation();
 </script>
 </body>
 </html>
