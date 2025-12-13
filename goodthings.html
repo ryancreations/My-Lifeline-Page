@@ -8,7 +8,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#fff8f0;font-family:'Quicksand',sans-serif;color:#333;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
-.login-box,.hidden{display:none}
 nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
 nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.25s}
 nav button:hover{background:#00bcd4;color:#fff}
@@ -26,17 +25,7 @@ button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1>
-  <p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkLogin()">Enter Safe Space</button>
-</div>
-
-<!-- MAIN PAGE -->
-<div id="mainContent" class="hidden">
+<!-- NAVIGATION -->
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
   <button onclick="location.href='emergency.html'">Emergency</button>
@@ -52,9 +41,9 @@ button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
   <button onclick="location.href='chatroom.html'">Chat Room</button>
   <button onclick="location.href='personalized-motivation.html'">Motivation</button>
   <button onclick="location.href='calmingroom.html'">Calming Room</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;">Log Out</button>
 </nav>
 
+<!-- MAIN CONTENT -->
 <main>
   <h1>Good Things Jar</h1>
   <p style="font-size:1.4em;color:#ff6b9d;margin:20px">Every tiny happy moment belongs here</p>
@@ -68,40 +57,11 @@ button:hover{transform:scale(1.05);box-shadow:0 12px 35px rgba(255,107,157,.6)}
   <textarea id="newGood" placeholder="Something good that happened… (big or tiny)"></textarea><br>
   <button onclick="addGood()">Drop in Jar</button>
 </main>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-// LOGIN HANDLER
-function checkLogin(){
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
-  if(user === "Ryan" && pass === "ITSmf420"){
-    localStorage.setItem('lifelineAuthenticated','true');
-    showMain();
-  } else alert("Incorrect username or password");
-}
-
-function showMain(){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('mainContent').classList.remove('hidden');
-}
-
-// LOGOUT
-function logout(){
-  localStorage.removeItem('lifelineAuthenticated');
-  location.reload();
-}
-
-// CHECK LOGIN ON PAGE LOAD
-if(localStorage.getItem('lifelineAuthenticated')==='true'){
-  showMain();
-}else{
-  document.getElementById('loginScreen').classList.remove('hidden');
-}
-
 // GOOD THINGS JAR
-let goods = JSON.parse(localStorage.getItem('goodThings')||'[]');
+let goods = JSON.parse(localStorage.getItem('goodThings') || '[]');
 
 function addGood(){
   const text = document.getElementById('newGood').value.trim();
@@ -124,7 +84,9 @@ function showNotes(){
     container.appendChild(note);
   });
 }
+
 showNotes();
 </script>
+
 </body>
 </html>
