@@ -3,141 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ryan ♡ Bryce</title>
+<title>Our Messages</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   background:#f5f5f5;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-family:'Segoe UI',sans-serif;
   height:100vh;
   display:flex;
   flex-direction:column;
-  overflow:hidden;
 }
-
-/* HEADER */
 header{
-  background:#fff;
-  border-bottom:1px solid #dbdbdb;
-  padding:12px;
+  background:#ff6b9d;
+  color:#fff;
+  padding:20px;
   text-align:center;
-  font-size:1.6em;
-  position:relative;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
+  font-size:1.8em;
+  font-weight:600;
 }
-
-#profileBtn{
-  position:absolute;
-  right:16px;
-  top:12px;
-  font-size:1.4em;
-  cursor:pointer;
-  color:#0095f6;
-}
-
-/* CHAT */
 #messages{
   flex:1;
-  padding:20px 0;
+  padding:20px;
   overflow-y:auto;
+  background:#fff;
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:12px;
 }
-
 .message{
   max-width:80%;
-  padding:12px 16px;
-  border-radius:22px;
-  line-height:1.4;
-  word-wrap:break-word;
+  padding:14px 20px;
+  border-radius:20px;
+  line-height:1.5;
 }
-
-.ryan{background:#e0e0e0;align-self:flex-start;border-bottom-left-radius:4px}
-.bryce{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-
+.you{
+  background:#ff9a9e;
+  color:#fff;
+  align-self:flex-end;
+  border-bottom-right-radius:4px;
+}
+.them{
+  background:#e0e0e0;
+  color:#000;
+  align-self:flex-start;
+  border-bottom-left-radius:4px;
+}
 .time{
-  font-size:.75em;
-  color:#999;
-  margin-top:4px;
+  font-size:.8em;
+  color:#555;
+  margin-top:6px;
   text-align:right;
 }
-
-/* INPUT */
 #inputArea{
   background:#fff;
-  border-top:1px solid #dbdbdb;
-  padding:10px;
+  border-top:1px solid #eee;
+  padding:15px;
   display:flex;
   gap:10px;
+  align-items:center;
 }
-
 #msg{
   flex:1;
-  padding:12px 16px;
+  padding:16px;
   border-radius:30px;
-  background:#f1f1f1;
-  border:none;
-  font-size:1.05em;
-  outline:none;
-}
-
-#sendBtn{
-  background:#0084ff;
-  color:#fff;
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  border:none;
-  cursor:pointer;
-}
-
-/* PROFILE */
-#profile{
-  position:fixed;
-  inset:0;
-  background:#fff;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  padding:40px;
-  z-index:9999;
-}
-
-#profile img{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  border:4px solid #dbdbdb;
-  object-fit:cover;
-  margin:20px 0;
-}
-
-#profile input, #profile select{
-  width:80%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:10px;
-  border:1px solid #dbdbdb;
-}
-
-#profile button{
-  background:#0095f6;
-  color:#fff;
-  padding:14px 40px;
-  border:none;
-  border-radius:8px;
+  border:1px solid #ddd;
   font-size:1.1em;
-  margin-top:10px;
-  cursor:pointer;
 }
-
-#close{
-  position:absolute;
-  top:20px;
-  right:20px;
-  font-size:1.8em;
+#send{
+  background:#ff6b9d;
+  color:#fff;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  font-size:1.4em;
   cursor:pointer;
 }
 </style>
@@ -145,112 +85,78 @@ header{
 
 <body>
 
-<header id="header">
-  Chat
-  <span id="profileBtn">⚙️</span>
-</header>
+<header>Our Messages</header>
 
 <div id="messages"></div>
 
 <div id="inputArea">
-  <input id="msg" placeholder="iMessage">
-  <button id="sendBtn">➤</button>
+  <input type="text" id="msg" placeholder="Type a message…">
+  <button id="send">➤</button>
 </div>
 
-<!-- PROFILE -->
-<div id="profile">
-  <span id="close">×</span>
-  <h1>Profile</h1>
-  <img id="profilePhoto">
-  <input id="profileName" placeholder="Your name">
-  <input type="file" id="profileUpload" accept="image/*" hidden>
-
-  <select id="bgSelect">
-    <option value="#f5f5f5">Default</option>
-    <option value="#eaf4ff">Light Blue</option>
-    <option value="#ffeef2">Pink</option>
-    <option value="#111">Dark</option>
-    <option value="linear-gradient(135deg,#667eea,#764ba2)">Gradient</option>
-  </select>
-
-  <button id="changePhoto">Change Photo</button>
-  <button id="saveProfile">Save</button>
-</div>
+<!-- FIREBASE (DATABASE ONLY) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
-/* ELEMENTS */
-const messages = document.getElementById('messages');
-const msgInput = document.getElementById('msg');
-const sendBtn = document.getElementById('sendBtn');
+/* FIREBASE — DATABASE ONLY */
+firebase.initializeApp({
+  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com"
+});
+
+const db = firebase.database().ref("messages");
 
 /* USER */
-let name = localStorage.getItem('chatName') || 'Ryan';
-localStorage.setItem('chatName', name);
-const other = name === 'Ryan' ? 'Bryce' : 'Ryan';
-document.getElementById('header').firstChild.textContent = other;
+let name = localStorage.getItem("myName");
+if(!name){
+  name = prompt("What's your name?");
+  localStorage.setItem("myName", name);
+}
 
-/* BACKGROUND LOAD */
-const savedBg = localStorage.getItem('chatBg');
-if(savedBg) document.body.style.background = savedBg;
+/* ELEMENTS */
+const messages = document.getElementById("messages");
+const msgInput = document.getElementById("msg");
+const sendBtn = document.getElementById("send");
 
-/* SEND MESSAGE */
+/* SEND */
 function sendMessage(){
   const text = msgInput.value.trim();
   if(!text) return;
 
-  const time = new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-  const div = document.createElement('div');
-  div.className = `message ${name.toLowerCase()}`;
-  div.innerHTML = `${text}<div class="time">${time}</div>`;
-  messages.appendChild(div);
+  db.push({
+    name: name,
+    text: text,
+    time: Date.now()
+  });
 
-  const chat = JSON.parse(localStorage.getItem('rbChat')||'[]');
-  chat.push({n:name,t:text,time});
-  localStorage.setItem('rbChat',JSON.stringify(chat.slice(-150)));
-
-  msgInput.value='';
-  messages.scrollTop = messages.scrollHeight;
+  msgInput.value = "";
 }
 
-/* LOAD CHAT */
-(JSON.parse(localStorage.getItem('rbChat')||'[]')).forEach(m=>{
-  const div=document.createElement('div');
-  div.className=`message ${m.n.toLowerCase()}`;
-  div.innerHTML=`${m.t}<div class="time">${m.time}</div>`;
+/* RECEIVE */
+db.limitToLast(100).on("child_added", snap => {
+  const m = snap.val();
+  const div = document.createElement("div");
+  div.className = `message ${m.name === name ? "you" : "them"}`;
+  div.textContent = m.text;
+
+  const t = document.createElement("div");
+  t.className = "time";
+  t.textContent = new Date(m.time).toLocaleTimeString([], {
+    hour:"numeric",
+    minute:"2-digit"
+  });
+
+  div.appendChild(t);
   messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
 });
-messages.scrollTop = messages.scrollHeight;
 
 /* EVENTS */
-sendBtn.addEventListener('click', sendMessage);
-msgInput.addEventListener('keydown', e => {
-  if(e.key === 'Enter') sendMessage();
+sendBtn.onclick = sendMessage;
+msgInput.addEventListener("keydown", e => {
+  if(e.key === "Enter") sendMessage();
 });
-
-/* PROFILE */
-profileBtn.onclick = () => {
-  profile.style.display='flex';
-  profileName.value = localStorage.getItem('profileName') || other;
-  profilePhoto.src = localStorage.getItem('profilePhoto') || 'https://via.placeholder.com/120';
-  bgSelect.value = localStorage.getItem('chatBg') || '#f5f5f5';
-};
-
-close.onclick = () => profile.style.display='none';
-changePhoto.onclick = () => profileUpload.click();
-
-profileUpload.onchange = e => {
-  const reader = new FileReader();
-  reader.onload = ev => profilePhoto.src = ev.target.result;
-  reader.readAsDataURL(e.target.files[0]);
-};
-
-saveProfile.onclick = () => {
-  localStorage.setItem('profileName', profileName.value);
-  localStorage.setItem('profilePhoto', profilePhoto.src);
-  localStorage.setItem('chatBg', bgSelect.value);
-  document.body.style.background = bgSelect.value;
-  profile.style.display='none';
-};
 </script>
+
 </body>
 </html>
