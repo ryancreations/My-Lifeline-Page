@@ -127,6 +127,10 @@ footer {
 <footer>Part of My Lifeline Page</footer>
 
 <script>
+function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.href = 'index.html';
+  }
 // --- Data ---
 const name = localStorage.getItem("myName") || "Ryan";
 
