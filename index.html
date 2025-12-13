@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Lifeline • Dashboard</title>
 
+  <!-- 🔒 AUTH HARD BLOCK (RUNS BEFORE PAGE LOADS) -->
+  <script>
+    if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
+      window.location.replace('index.html');
+    }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -120,15 +127,8 @@
 
 <body>
 
-<!-- 🔒 AUTH PROTECTION -->
-<script>
-  if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
-    location.href = 'index.html';
-  }
-</script>
-
 <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='dashboard.html'">Dashboard</button>
   <button onclick="location.href='emergency.html'">Emergency</button>
   <button onclick="location.href='mental.html'">Mental</button>
   <button onclick="location.href='videos.html'">Videos</button>
@@ -217,7 +217,7 @@
 <script>
   function logout() {
     localStorage.removeItem('lifelineAuthenticated');
-    location.href = 'index.html';
+    window.location.replace('index.html');
   }
 </script>
 
