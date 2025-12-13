@@ -1,80 +1,59 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ryan & Bryce Terminal</title>
+<title>Us</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-#log{flex:1;padding:20px;overflow-y:auto;font-size:1.1em;line-height:1.6}
-.line{margin:4px 0}
-.ryan{color:#0f0}
-.bryce{color:#0ff}
-#inputArea{background:#111;padding:15px;display:flex;border-top:2px solid #333}
-#prompt{color:#0f0;font-weight:bold}
-#msg{flex:1;background:transparent;border:none;color:#0f0;font-family:inherit;font-size:1.1em;outline:none}
+body{margin:0;background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column}
+#log{flex:1;padding:20px;overflow-y:auto;font-size:1.2em;line-height:1.6}
+#input{padding:15px;background:#111;display:flex}
+#msg{flex:1;background:transparent;border:none;color:#0f0;font-size:1.2em;outline:none}
 #msg::placeholder{color:#060}
 </style>
 </head><body>
 
 <div id="log">
-  <div class="line">=== RYAN & BRYCE PRIVATE TERMINAL ===</div>
-  <div class="line">Connected. Type and press Enter.</div>
+  <div>=== ONLY US ===</div>
 </div>
 
-<div id="inputArea">
-  <span id="prompt">></span>
-  <input type="text" id="msg" placeholder="say something..." autocomplete="off">
+<div id="input">
+  <input id="msg" placeholder="type here...">
 </div>
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
-// CHANGE THIS LINE TO YOUR FIREBASE URL
-const firebaseConfig = {
-  databaseURL: "https://YOUR-PROJECT-ID.firebaseio.com"  // ← PUT YOUR URL HERE
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database().ref("chat");
-
-let name = localStorage.getItem('termName') || prompt("Ryan or Bryce?", "Ryan");
-localStorage.setItem('termName', name);
+let name = localStorage.getItem('name') || prompt("Ryan or Bryce?", "Ryan");
+localStorage.setItem('name', name);
 
 function send(){
-  const input = document.getElementById('msg');
-  const text = input.value.trim();
+  const msg = document.getElementById('msg');
+  const text = msg.value.trim();
   if(!text) return;
   
-  const msg = {
-    n: name,
-    t: text,
-    time: new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
-  };
-  
-  db.push(msg);
-  input.value = '';
-}
-
-function add(text, sender, time){
   const line = document.createElement('div');
-  line.className = `line ${sender.toLowerCase()}`;
-  line.textContent = `[${time}] ${sender}: ${text}`;
+  line.textContent = `${name}: ${text}`;
+  line.style.color = name === "Ryan" ? "#0f0" : "#0ff";
   document.getElementById('log').appendChild(line);
   document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+  
+  let chat = JSON.parse(localStorage.getItem('chat')||'[]');
+  chat.push({name, text});
+  localStorage.setItem('chat', JSON.stringify(chat));
+  msg.value = '';
 }
 
-// Listen for new messages
-db.on('child_added', snapshot => {
-  const m = snapshot.val();
-  add(m.t, m.n, m.time);
+// Load old messages
+let chat = JSON.parse(localStorage.getItem('chat')||'[]');
+chat.forEach(m => {
+  const line = document.createElement('div');
+  line.textContent = `${m.name}: ${m.text}`;
+  line.style.color = m.name === "Ryan" ? "#0f0" : "#0ff";
+  document.getElementById('log').appendChild(line);
 });
+document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
 
-// Enter = send
+// Enter to send
 document.getElementById('msg').focus();
 document.getElementById('msg').addEventListener('keypress', e => {
-  if(e.key==='Enter') send();
+  if(e.key === 'Enter') send();
 });
 </script>
 </body></html>
