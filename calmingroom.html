@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calm Room</title>
+<style>
+body, html{margin:0;padding:0;font-family:'Segoe UI',sans-serif;height:100%;}
+nav{display:flex;flex-wrap:wrap;background:#ff6b9d;color:white;gap:5px;padding:5px;}
+nav button{flex:1;min-width:80px;background:#ff9aa2;color:white;border:none;padding:10px;cursor:pointer;border-radius:5px;}
+header{text-align:center;background:#ff6b9d;color:white;padding:20px;font-size:1.8em;}
+#calmRoom{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100vh - 110px);transition:background 0.5s;}
+#controls{margin:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.control-btn{padding:10px 15px;border:none;border-radius:8px;background:#ff9aa2;color:white;cursor:pointer;}
+@media(max-width:600px){header{font-size:1.4em;}}
+</style>
+</head>
+<body>
+<nav>
+  <button onclick="location.href='index.html'">Home</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+  <button onclick="location.href='bestie.html'">Bestie</button>
+  <button onclick="location.href='letters.html'">Letters</button>
+  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
+  <button onclick="location.href='yourenough.html'">You’re Enough</button>
+  <button onclick="location.href='goodthings.html'">Good Things</button>
+  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
+  <button onclick="location.href='chatroom.html'">Chat Room</button>
+</nav>
+<header>Calm Room</header>
+
+<div id="calmRoom" style="background:url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center/cover;width:100%;">
+  <div id="controls">
+    <button class="control-btn" onclick="changeBackground('forest')">Forest</button>
+    <button class="control-btn" onclick="changeBackground('ocean')">Ocean</button>
+    <button class="control-btn" onclick="changeBackground('night')">Night Sky</button>
+    <button class="control-btn" onclick="changeBackground('sunset')">Sunset</button>
+  </div>
+</div>
+
+<script>
+function changeBackground(type){
+  const room = document.getElementById('calmRoom');
+  switch(type){
+    case 'forest': room.style.background = "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') no-repeat center/cover"; break;
+    case 'ocean': room.style.background = "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center/cover"; break;
+    case 'night': room.style.background = "url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') no-repeat center/cover"; break;
+    case 'sunset': room.style.background = "url('https://images.unsplash.com/photo-1493244040629-496f6d136cc3') no-repeat center/cover"; break;
+  }
+}
+</script>
+</body>
+</html>
