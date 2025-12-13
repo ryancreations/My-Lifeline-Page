@@ -1,64 +1,76 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ryan ♡ Bryce</title>
+<title>Our Messages</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{background:#111;padding:20px;text-align:center;font-size:1.8em}
-#log{flex:1;padding:20px;overflow-y:auto;font-size:1.2em;line-height:1.6}
-.line{margin:6px 0}
-.ryan{color:#0f0}
-.bryce{color:#0ff}
-#input{background:#111;padding:15px;display:flex}
-#msg{flex:1;background:transparent;border:none;color:#0f0;font-size:1.2em;outline:none}
-#msg::placeholder{color:#060}
-button{background:#333;color:#0f0;padding:10px 20px;border:1px solid #0f0;font-size:1em;cursor:pointer}
+body{background:#f5f5f5;font-family:'Segoe UI',sans-serif;color:#333;height:100vh;display:flex;flex-direction:column}
+header{background:#ff6b9d;color:#fff;padding:20px;text-align:center;font-size:1.8em;font-weight:600}
+#messages{flex:1;padding:20px;overflow-y:auto;background:#fff;display:flex;flex-direction:column;gap:12px}
+.message{max-width:80%;padding:14px 20px;border-radius:20px;line-height:1.5;align-self:flex-start}
+.you{background:#ff9a9e;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.them{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:4px}
+.time{font-size:0.8em;color:#999;margin-top:6px;text-align:right}
+#inputArea{background:#fff;border-top:1px solid #eee;padding:15px;display:flex;gap:10px}
+#msg{flex:1;padding:16px;border-radius:30px;border:1px solid #ddd;font-size:1.1em}
+#send{background:#ff6b9d;color:#fff;width:50px;height:50px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer}
 </style>
 </head><body>
-
-<header>Ryan ♡ Bryce</header>
-
-<div id="log">
-  <div class="line">Welcome back. Refresh to see new messages.</div>
+ 
+<header>Our Messages</header>
+ 
+<div id="messages"></div>
+ 
+<div id="inputArea">
+  <input type="text" id="msg" placeholder="Type a message...">
+  <button id="send">Send</button>
 </div>
-
-<div id="input">
-  <input id="msg" placeholder="type here...">
-  <button onclick="send()">Send</button>
-</div>
-
+ 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+ 
 <script>
-let name = localStorage.getItem('chatName') || prompt("Are you Ryan or Bryce?", "Ryan");
-localStorage.setItem('chatName', name);
-
-function send(){
+// PASTE YOUR FIREBASE DATABASE URL HERE
+const firebaseConfig = {
+  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com"  // ← change this
+};
+ 
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database().ref("messages");
+ 
+let name = localStorage.getItem('myName') || prompt("What's your name?", "Me");
+localStorage.setItem('myName', name);
+ 
+function sendMessage(){
   const text = document.getElementById('msg').value.trim();
   if(!text) return;
   
-  const line = document.createElement('div');
-  line.className = `line ${name.toLowerCase()}`;
-  line.textContent = `${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})} ${name}: ${text}`;
-  document.getElementById('log').appendChild(line);
-  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
-  
-  let chat = JSON.parse(localStorage.getItem('ourChat')||'[]');
-  chat.push({n:name,t:text,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
-  localStorage.setItem('ourChat',JSON.stringify(chat));
+  db.push({
+    name: name,
+    text: text,
+    time: new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
+  });
   
   document.getElementById('msg').value = '';
 }
-
-// Load messages
-let chat = JSON.parse(localStorage.getItem('ourChat')||'[]');
-chat.forEach(m => {
-  const line = document.createElement('div');
-  line.className = `line ${m.n.toLowerCase()}`;
-  line.textContent = `${m.time} ${m.n}: ${m.t}`;
-  document.getElementById('log').appendChild(line);
+ 
+function addMessage(data){
+  const m = data.val();
+  const div = document.createElement('div');
+  div.className = `message ${m.name === name ? 'you' : 'them'}`;
+  div.innerHTML = `${m.text}<div class="time">${m.time}</div>`;
+  document.getElementById('messages').appendChild(div);
+  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+}
+ 
+// Listen for new messages
+db.on('child_added', snapshot => addMessage(snapshot));
+ 
+// Send on button or Enter
+document.getElementById('send').onclick = sendMessage;
+document.getElementById('msg').addEventListener('keypress', e => {
+  if(e.key === 'Enter') sendMessage();
 });
-document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
-
-// Enter = send
-document.getElementById('msg').focus();
-document
+</script>
+</body></html>
