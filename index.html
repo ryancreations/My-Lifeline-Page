@@ -5,13 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Lifeline • Dashboard</title>
 
-  <!-- 🔒 AUTH HARD BLOCK (RUNS BEFORE PAGE LOADS) -->
-  <script>
-    if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
-      window.location.replace('index.html');
-    }
-  </script>
-
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -150,7 +143,6 @@
 </header>
 
 <section class="grid">
-
   <div class="card" onclick="location.href='emergency.html'">
     <h2>🚨 Emergency</h2>
     <p>Immediate help, grounding tools, crisis resources.</p>
@@ -205,7 +197,6 @@
     <h2>💬 Chat Room</h2>
     <p>Connect. You’re not the only one.</p>
   </div>
-
 </section>
 
 <footer>
@@ -215,6 +206,17 @@
 </main>
 
 <script>
+  // 🔒 AUTH CHECK (SAFE + RELIABLE)
+  (function () {
+    try {
+      if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
+        window.location.replace('index.html');
+      }
+    } catch (e) {
+      window.location.replace('index.html');
+    }
+  })();
+
   function logout() {
     localStorage.removeItem('lifelineAuthenticated');
     window.location.replace('index.html');
