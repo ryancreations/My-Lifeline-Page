@@ -1,111 +1,68 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ryan ♡ Bryce</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Ryan & Bryce Terminal</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#fafafa;font-family:'Inter',sans-serif;color:#262626;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{background:#fff;border-bottom:1px solid #dbdbdb;padding:12px 20px;text-align:center;font-size:1.4em;font-weight:600;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-header::before{content:"←";position:absolute;left:16px;font-size:1.8em;cursor:pointer}
-#chatName{font-size:1.4em}
-#messages{flex:1;padding:20px 10px;overflow-y:auto;background:#f0f2f5;display:flex;flex-direction:column;gap:12px}
-.message{max-width:78%;padding:10px 16px;border-radius:22px;line-height:1.45;font-size:1.05em;position:relative}
-.message}
-.ryan{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.bryce{background:#fff;color:#000;align-self:flex-start;border:1px solid #e5e5e5;border-bottom-left-radius:4px}
-.time{font-size:0.75em;color:#888;margin-top:4px;text-align:right}
-#inputArea{background:#fff;border-top:1px solid #dbdbdb;padding:10px 16px;display:flex;align-items:center;gap:10px}
-#msg{flex:1;padding:12px 16px;border-radius:30px;border:1px solid #dbdbdb;background:#fff;font-size:1.05em}
-#sendBtn{background:#0095f6;color:#fff;width:46px;height:46px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer;display:flex;align-items:center;justify-content:center}
-#photos{display:flex;justify-content:center;gap:16px;margin:12px 0}
-#photos img{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#log{flex:1;padding:20px;overflow-y:auto;font-size:1.1em;line-height:1.6}
+.line{margin:4px 0}
+.ryan{color:#0f0}
+.bryce{color:#0ff}
+#inputArea{background:#111;padding:15px;display:flex;border-top:2px solid #333}
+#prompt{color:#0f0;font-weight:bold}
+#msg{flex:1;background:transparent;border:none;color:#0f0;font-family:inherit;font-size:1.1em;outline:none}
+#msg::placeholder{color:#0a0}
 </style>
 </head><body>
 
-<header>
-  <div id="chatName">Ryan ♡ Bryce</div>
-</header>
-
-<div id="photos">
-  <img id="ryanPhoto" src="https://via.placeholder.com/80/0084ff/ffffff?text=R">
-  <img id="brycePhoto" src="https://via.placeholder.com/80/a8e6cf/000000?text=B">
+<div id="log">
+  <div class="line">=== PRIVATE TERMINAL ACTIVE ===</div>
+  <div class="line">Ryan & Bryce only. Forever.</div>
+  <div class="line">Type your message and press Enter.</div>
 </div>
 
-<div id="messages"></div>
-
 <div id="inputArea">
-  <input type="text" id="msg" placeholder="Message…">
-  <button id="sendBtn">Send</button>
+  <span id="prompt">></span>
+  <input type="text" id="msg" placeholder="say something..." autocomplete="off">
 </div>
 
 <script>
-let name = localStorage.getItem('chatName') || prompt("Are you Ryan or Bryce?", "Ryan");
-localStorage.setItem('chatName', name);
-document.getElementById('chatName').textContent = name==="Ryan" ? "Bryce" : "Ryan";
+// Who are you?
+let name = localStorage.getItem('termName') || prompt("Ryan or Bryce?", "Ryan");
+localStorage.setItem('termName', name);
+document.title = name + " & Bryce Terminal";
 
 function send(){
   const input = document.getElementById('msg');
   const text = input.value.trim();
   if(!text) return;
   
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `message ${name.toLowerCase()}`;
-  msgDiv.innerHTML = `${text}<div class="time">${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</div>`;
-  document.getElementById('messages').appendChild(msgDiv);
-  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+  const line = document.createElement('div');
+  line.className = `line ${name.toLowerCase()}`;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${name}: ${text}`;
+  document.getElementById('log').appendChild(line);
+  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
   
-  const chat = JSON.parse(localStorage.getItem('rbChat')||'[]');
-  chat.push({n:name,t:text,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
-  localStorage.setItem('rbChat',JSON.stringify(chat.slice(-200)));
+  // Save
+  const chat = JSON.parse(localStorage.getItem('termChat')||'[]');
+  chat.push({n:name,t:text,time:new Date().toLocaleTimeString()});
+  localStorage.setItem('termChat',JSON.stringify(chat.slice(-500)));
   
   input.value = '';
 }
 
-// Load chat
-JSON.parse(localStorage.getItem('rbChat')||'[]').forEach(m=>{
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `message ${m.n.toLowerCase()}`;
-  msgDiv.innerHTML = `${m.t}<div class="time">${m.time}</div>`;
-  document.getElementById('messages').appendChild(msgDiv);
+// Load old messages
+JSON.parse(localStorage.getItem('termChat')||'[]').forEach(m=>{
+  const line = document.createElement('div');
+  line.className = `line ${m.n.toLowerCase()}`;
+  line.textContent = `[${m.time}] ${m.n}: ${m.t}`;
+  document.getElementById('log').appendChild(line);
 });
-document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-
-// Photos & background
-if(localStorage.ryanPhoto) document.getElementById('ryanPhoto').src=localStorage.ryanPhoto;
-if(localStorage.brycePhoto) document.getElementById('brycePhoto').src=localStorage.brycePhoto;
-if(localStorage.chatBg) document.body.style.backgroundImage=`url(${localStorage.chatBg})`;
-
-// Upload photos
-document.getElementById('ryanPhoto').onclick=()=>document.getElementById('rp').click();
-document.getElementById('brycePhoto').onclick=()=>document.getElementById('bp').click();
-document.getElementById('rp').onchange=e=>upload(e,'ryanPhoto');
-document.getElementById('bp').onchange=e=>upload(e,'brycePhoto');
-document.body.onclick=e=>{if(e.target===document.body)document.getElementById('bg').click();}
-document.getElementById('bg').onchange=e=>upload(e,'body','backgroundImage');
-
-function upload(e,id,prop='src'){
-  const f=e.target.files[0];
-  if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    if(prop==='backgroundImage'){
-      document.body.style.backgroundImage=`url(${ev.target.result})`;
-      localStorage.chatBg=ev.target.result;
-    }else{
-      document.getElementById(id).src=ev.target.result;
-      localStorage[id]=ev.target.result;
-    }
-  };
-  r.readAsDataURL(f);
-}
+document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
 
 // Enter = send
-document.getElementById('msg').addEventListener('keypress',e=>{if(e.key==='Enter')send()});
-document.getElementById('sendBtn').onclick=send;
+document.getElementById('msg').focus();
+document.getElementById('msg').addEventListener('keypress', e=>{if(e.key==='Enter')send()});
 </script>
-
-<input type="file" id="rp" hidden accept="image/*">
-<input type="file" id="bp" hidden accept="image/*">
-<input type="file" id="bg" hidden accept="image/*">
 </body></html>
