@@ -1,150 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bestie • My Lifeline</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bestie • My Lifeline</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Elfsight platform (LOAD ONCE) -->
-  <script src="https://elfsightcdn.com/platform.js" async></script>
+<!-- Elfsight platform (LOAD ONCE) -->
+<script src="https://elfsightcdn.com/platform.js" async></script>
 
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
 
-    body{
-      background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
-      font-family:'Quicksand',sans-serif;
-      color:#333;
-      transition:.5s;
-      min-height:100vh;
-    }
+  body{
+    background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
+    font-family:'Quicksand',sans-serif;
+    color:#333;
+    transition:.5s;
+    min-height:100vh;
+  }
 
-    .hidden{display:none}
+  .hidden{display:none}
 
-    .login-box{
-      background:white;
-      padding:50px 30px;
-      border-radius:20px;
-      box-shadow:0 20px 50px rgba(0,0,0,.3);
-      text-align:center;
-      max-width:420px;
-      width:90%;
-      position:fixed;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      z-index:9999;
-    }
+  .login-box{
+    background:white;
+    padding:50px 30px;
+    border-radius:20px;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+    text-align:center;
+    max-width:420px;
+    width:90%;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+  }
 
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+  .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
 
-    .login-box input{
-      width:100%;
-      padding:16px;
-      margin:12px 0;
-      border:2px solid #87ceeb;
-      border-radius:12px;
-      font-size:1.1em;
-    }
+  .login-box input{
+    width:100%;
+    padding:16px;
+    margin:12px 0;
+    border:2px solid #87ceeb;
+    border-radius:12px;
+    font-size:1.1em;
+  }
 
-    .login-box button{
-      background:#00bcd4;
-      color:white;
-      padding:16px;
-      border-radius:50px;
-      font-size:1.3em;
-      width:100%;
-      border:none;
-      cursor:pointer;
-    }
+  .login-box button{
+    background:#00bcd4;
+    color:white;
+    padding:16px;
+    border-radius:50px;
+    font-size:1.3em;
+    width:100%;
+    border:none;
+    cursor:pointer;
+  }
 
-    .login-box button:hover{background:#0097a7}
+  .login-box button:hover{background:#0097a7}
 
-    nav{
-      position:fixed;
-      top:0;
-      width:100%;
-      background:#87ceeb;
-      padding:8px 0;
-      z-index:1000;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:6px;
-      box-shadow:0 2px 6px rgba(0,0,0,.1);
-    }
+  nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:#87ceeb;
+    padding:8px 0;
+    z-index:1000;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px;
+    box-shadow:0 2px 6px rgba(0,0,0,.1);
+  }
 
-    nav button{
-      background:white;
-      color:#00bcd4;
-      border:none;
-      padding:8px 14px;
-      border-radius:20px;
-      cursor:pointer;
-      font-weight:600;
-      font-size:.95em;
-      transition:.25s;
-    }
+  nav button{
+    background:white;
+    color:#00bcd4;
+    border:none;
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:.95em;
+    transition:.25s;
+  }
 
-    nav button:hover{background:#00bcd4;color:white}
+  nav button:hover{background:#00bcd4;color:white}
 
-    main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
+  main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
 
-    header{
-      background:#87ceeb;
-      color:white;
-      padding:35px;
-      text-align:center;
-      border-radius:15px;
-    }
+  header{
+    background:#87ceeb;
+    color:white;
+    padding:35px;
+    text-align:center;
+    border-radius:15px;
+  }
 
-    .view-toggle{
-      background:white;
-      padding:15px;
-      border-radius:12px;
-      margin:20px 0;
-      text-align:center;
-      box-shadow:0 4px 10px rgba(0,0,0,.1);
-    }
+  .view-toggle{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    margin:20px 0;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+  }
 
-    .view-toggle button{
-      margin:5px;
-      padding:12px 20px;
-      font-size:1.1em;
-      background:#00bcd4;
-      color:white;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-    }
+  .view-toggle button{
+    margin:5px;
+    padding:12px 20px;
+    font-size:1.1em;
+    background:#00bcd4;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+  }
 
-    .chat-container{
-      position:relative;
-      height:80vh;
-      margin:20px 0;
-      border-radius:15px;
-      overflow:hidden;
-      box-shadow:0 6px 20px rgba(0,0,0,.2);
-      background:#fff;
-    }
+  .chat-container{
+    position:relative;
+    height:80vh;
+    margin:20px 0;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,.2);
+    background:#fff;
+  }
 
-    body.mobile-mode .chat-container{height:70vh}
-    body.desktop-mode .chat-container{height:80vh}
-  </style>
+  body.mobile-mode .chat-container{height:70vh}
+  body.desktop-mode .chat-container{height:80vh}
+</style>
 </head>
 
 <body>
-
-<!-- 🔒 AUTH GUARD -->
-<script>
-  if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('loginScreen').classList.remove('hidden');
-    });
-  }
-</script>
 
 <!-- LOGIN -->
 <div id="loginScreen" class="hidden">
@@ -173,6 +164,8 @@
   <button onclick="location.href='goodthings.html'">Good Things</button>
   <button onclick="location.href='lofiroom.html'">Lofi Room</button>
   <button onclick="location.href='chatroom.html'">Chat Room</button>
+  <button onclick="location.href='personalized-motivation.html'">Motivation</button>
+  <button onclick="location.href='calmingroom.html'">Calming Room</button>
   <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
 </nav>
 
@@ -188,8 +181,14 @@
     <button onclick="setView('desktop')">🖥 Desktop</button>
   </div>
 
+  <!-- AI Chat Container -->
   <div class="chat-container">
     <div class="elfsight-app-a4a21978-316b-42c6-8a00-e38be645a03e" data-elfsight-app-lazy></div>
+  </div>
+
+  <!-- Math.ubgus.net Embedded -->
+  <div class="chat-container" style="margin-top:30px;">
+    <iframe src="https://math.ubgus.net" style="width:100%; height:80vh; border:none; border-radius:15px;"></iframe>
   </div>
 </main>
 </div>
