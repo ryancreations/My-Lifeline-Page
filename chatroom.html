@@ -144,21 +144,7 @@ input[type=file]{display:none}
 </head>
 
 <body>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="location.href='emergency.html'">Emergency</button>
-  <button onclick="location.href='mental.html'">Mental</button>
-  <button onclick="location.href='videos.html'">Videos</button>
-  <button onclick="location.href='music.html'">Music</button>
-  <button onclick="location.href='bestie.html'">Bestie</button>
-  <button onclick="location.href='letters.html'">Letters</button>
-  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
-  <button onclick="location.href='yourenough.html'">You’re Enough</button>
-  <button onclick="location.href='goodthings.html'">Good Things</button>
-  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
-  <button onclick="location.href='chatroom.html'">Chat Room</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
-</nav>
+
 <header id="header">Our Messages</header>
 
 <div id="messages"></div>
@@ -224,7 +210,7 @@ const saveProfileBtn = document.getElementById("saveProfile");
 const closeProfileBtn = document.getElementById("closeProfile");
 
 /* USER DATA */
-let name = localStorage.getItem("myName") || "Me";
+let name = localStorage.getItem("myName") || "Promise of Love";
 let photoURL = localStorage.getItem("myPhoto") || "https://via.placeholder.com/120/dbdbdb/000000?text=Photo";
 
 /* SET PROFILE INFO */
@@ -253,7 +239,7 @@ profileUpload.onchange = e => {
 
 /* SAVE PROFILE */
 saveProfileBtn.onclick = () => {
-  name = profileNameInput.value || "Me";
+  name = profileNameInput.value || "Promise of Love";
   photoURL = profilePhoto.src;
   localStorage.setItem("myName", name);
   localStorage.setItem("myPhoto", photoURL);
@@ -280,11 +266,11 @@ function sendMessage(){
 /* SEND PHOTO */
 photoBtn.onclick = () => photoUpload.click();
 
-photoUpload.onchange = e => {
+photoUpload.addEventListener("change", e => {
   const file = e.target.files[0];
   if(!file) return;
 
-  const ref = storage.ref("photos/" + Date.now() + "_" + file.name);
+  const ref = storage.ref("chat_photos/" + Date.now() + "_" + file.name);
   ref.put(file).then(() => {
     ref.getDownloadURL().then(url => {
       db.push({
@@ -296,7 +282,7 @@ photoUpload.onchange = e => {
       });
     });
   });
-};
+});
 
 /* RECEIVE MESSAGES */
 db.limitToLast(100).on("child_added", snap => {
