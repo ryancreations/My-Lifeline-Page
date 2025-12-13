@@ -8,277 +8,136 @@
   <meta name="theme-color" content="#87ceeb">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .login-box button:hover{background:#0097a7}
+    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:.5s}
     .hidden{display:none}
 
-    /* COMPACT NAVIGATION */
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
+    .login-box{
+      background:white;padding:50px 30px;border-radius:20px;
+      box-shadow:0 20px 50px rgba(0,0,0,.3);
+      text-align:center;max-width:420px;width:90%;
+      position:fixed;top:50%;left:50%;
+      transform:translate(-50%,-50%);z-index:9999
+    }
+    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+    .login-box input{
+      width:100%;padding:16px;margin:12px 0;
+      border:2px solid #87ceeb;border-radius:12px;font-size:1.1em
+    }
+    .login-box button{
+      background:#00bcd4;color:white;padding:16px;
+      border-radius:50px;font-size:1.3em;width:100%;
+      border:none;cursor:pointer
+    }
+    .login-box button:hover{background:#0097a7}
+
+    nav{
+      position:fixed;top:0;width:100%;background:#87ceeb;
+      padding:8px 0;z-index:1000;
+      display:flex;flex-wrap:wrap;justify-content:center;gap:6px
+    }
+    nav button{
+      background:white;color:#00bcd4;border:none;
+      padding:8px 14px;border-radius:20px;
+      font-weight:600;cursor:pointer
+    }
     nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
 
     main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
     header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
-    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:20px;margin:20px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
-    .section h2{color:#00bcd4;text-align:center;margin-bottom:15px}
-    #breathingCircle{width:120px;height:120px;background:#00bcd4;border-radius:50%;margin:20px auto;animation:breathe 12s infinite}
-    @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
-    button{background:#00bcd4;color:white;border:none;padding:12px 24px;border-radius:10px;cursor:pointer;margin:8px;font-size:1.1em;transition:.3s}
-    button:hover{background:#0097a7}
-    textarea{width:100%;padding:15px;border-radius:10px;border:1px solid #ccc;resize:vertical;font-family:inherit}
-    #floatAff{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:15px;border-radius:15px;z-index:999}
-    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-    .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em}
-    .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
-    canvas{background:white;border-radius:10px;padding:10px}
-    iframe{width:100%;height:315px;border:none;border-radius:10px}
-    @media(max-width:600px){iframe{height:200px}}
-
-    /* Mobile / Desktop Forced Styles */
-    body.mobile-mode nav button { padding: 6px 10px; font-size: 0.9em; }
-    body.mobile-mode main { margin-top: 70px; }
-    body.mobile-mode iframe { height: 200px; }
-    body.desktop-mode nav button { padding: 8px 14px; font-size: 0.95em; }
-    body.desktop-mode iframe { height: 315px; }
+    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:20px;margin:20px 0}
+    #floatAff{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:15px;border-radius:15px}
+    textarea{width:100%;padding:15px;border-radius:10px}
   </style>
 </head>
+
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <h1>My Lifeline</h1>
     <p>Enter your personal key</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
     <button onclick="checkLogin()">Enter Safe Space</button>
   </div>
 </div>
 
-<!-- MAIN DASHBOARD -->
+<!-- DASHBOARD -->
 <div id="mainContent" class="hidden">
-   <nav>
+
+<nav>
   <button onclick="location.href='index.html'">Dashboard</button>
   <button onclick="location.href='emergency.html'">Emergency</button>
   <button onclick="location.href='mental.html'">Mental</button>
   <button onclick="location.href='videos.html'">Videos</button>
   <button onclick="location.href='music.html'">Music</button>
-  <button onclick="location.href='bestie.html'">Ai Help</button>
+  <button onclick="location.href='bestie.html'">AI Help</button>
   <button onclick="location.href='letters.html'">Letters</button>
   <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
   <button onclick="location.href='yourenough.html'">You’re Enough</button>
   <button onclick="location.href='goodthings.html'">Good Things</button>
   <button onclick="location.href='lofiroom.html'">Lofi Room</button>
   <button onclick="location.href='chatroom.html'">Chat Room</button>
-  <button onclick="location.href='personalized-motivation.html'">Motivation</button>
-  <button onclick="location.href='calmingroom.html'">Calming Room</button>
-  <button onclick=“logout()” style=“background:#ff6b6b;color:white”>Log Out</button>
+  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
 </nav>
 
-  <main>
-    <header>
-      <h1>My Lifeline Page</h1>
-      <p>Your Safe Space • Created with love by Ryan Roland</p>
-      <p id="currentDate"></p>
-    </header>
+<main>
+  <header>
+    <h1>My Lifeline</h1>
+    <p>Your safe space • Made with love</p>
+    <p id="currentDate"></p>
+  </header>
 
-    <!-- View Mode Toggle -->
-    <div class="section view-toggle">
-      <h2>View Mode</h2>
-      <button onclick="setView('mobile')">📱 Mobile View</button>
-      <button onclick="setView('desktop')">🖥️ Desktop View</button>
-      <p>Switch anytime — best for your screen</p>
-    </div>
+  <div id="floatAff">You're still here. That matters.</div>
 
-    <div id="floatAff">You're still here. That matters.</div>
-    <p id="randomHugMessage" style="text-align:center;font-size:1.4em;color:#555;margin:20px"></p>
-
-    <div class="section">
-      <button onclick="panicMode()">Panic Button • Breathe With Me</button>
-      <button onclick="task()">Give Me Something To Do</button>
-    </div>
-
-    <div class="section">
-      <h2>Breathe With Me</h2>
-      <div id="breathingCircle"></div>
-      <p style="text-align:center;font-size:1.3em">Inhale... Hold... Exhale...</p>
-    </div>
-
-    <div class="section">
-      <h2>Your Daily Affirmation</h2>
-      <div class="quote-container">
-        <span class="open-quote">“</span>
-        <div id="dailyQuote">One moment...</div>
-        <span class="close-quote">”</span>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>How Are You Feeling?</h2>
-      <button onclick="saveMood('Happy')">Happy</button>
-      <button onclick="saveMood('Sad')">Sad</button>
-      <button onclick="saveMood('Anxious')">Anxious</button>
-      <button onclick="saveMood('Calm')">Calm</button>
-      <button onclick="saveMood('Tired')">Tired</button>
-      <canvas id="moodChart" height="200"></canvas>
-    </div>
-
-    <div class="section">
-      <h2>Write & Release</h2>
-      <textarea id="journal" rows="6" placeholder="Let it out... this is just for you."></textarea><br><br>
-      <button onclick="saveJournal()">Save Entry</button>
-      <button onclick="clearJournal()">Poof! Erase</button>
-      <button onclick="downloadJournal()">Download Journal</button>
-    </div>
-
-    <div class="section">
-      <h2>People Who Care</h2>
-      <button onclick="location.href='tel:9032494334'">Call Bryce</button>
-      <button onclick="alert('Text Mom: I need a check-in')">Mom</button>
-    </div>
-
-    <div class="section">
-      <h2>Milestone Countdown</h2>
-      <div id="countdown" style="font-size:1.6em;text-align:center"></div>
-    </div>
-
-    <div class="section">
-      <h2>Change Theme</h2>
-      <button onclick="setTheme('light')">Light</button>
-      <button onclick="setTheme('dark')">Dark Mode</button>
-      <button onclick="setTheme('ocean')">Ocean</button>
-      <button onclick="setTheme('forest')">Forest</button>
-    </div>
-  </main>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Login & Logout
-    function checkLogin() {
-      if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
-        localStorage.setItem('lifelineAuthenticated', 'true');
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-      } else {
-        alert("Incorrect username or password.");
-      }
-    }
-    function logout() {
-      localStorage.removeItem('lifelineAuthenticated');
-      location.reload();
-    }
-    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
-    }
-
-    // Mobile / Desktop View Toggle
-    function setView(mode) {
-      document.body.classList.remove('mobile-mode', 'desktop-mode');
-      if (mode === 'mobile') document.body.classList.add('mobile-mode');
-      else document.body.classList.add('desktop-mode');
-      localStorage.setItem('viewMode', mode);
-    }
-    const savedView = localStorage.getItem('viewMode');
-    if (savedView) setView(savedView);
-
-    // Current Date
-    document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-
-    // Floating Affirmation
-    setInterval(() => {
-      const el = document.getElementById("floatAff");
-      el.style.transform = `translate(${Math.random()*40-20}px, ${Math.random()*40-20}px)`;
-    }, 4000);
-
-    // Random Hug
-    const hugs = ["You're doing better than you think.","One breath at a time.","You are so loved.","It’s okay to rest.","You don’t have to be strong today."];
-    document.getElementById("randomHugMessage").textContent = hugs[Math.floor(Math.random()*hugs.length)];
-
-    // Panic Mode
-    function panicMode() {
-      document.body.style.background = '#000';
-      document.body.style.color = '#fff';
-      alert("You're safe. You're here. Just breathe with me.");
-    }
-
-    // Quick Task
-    const tasks = ["Drink water","Take 3 deep breaths","Stretch","Go outside for 1 minute","Listen to your favorite song"];
-    function task() {
-      alert(tasks[Math.floor(Math.random()*tasks.length)]);
-    }
-
-    // Mood Chart
-    const moods = JSON.parse(localStorage.getItem('moods') || '[]');
-    function saveMood(mood) {
-      const today = new Date().toLocaleDateString();
-      moods.push({date: today, mood});
-      localStorage.setItem('moods', JSON.stringify(moods.slice(-30)));
-      updateChart();
-    }
-    const ctx = document.getElementById('moodChart').getContext('2d');
-    const chart = new Chart(ctx, {
-      type: 'line',
-      data: { labels: [], datasets: [{ label: 'Mood Trend', data: [], borderColor: '#00bcd4', tension: 0.4 }] },
-      options: { scales: { y: { min: 0, max: 5 } } }
-    });
-    function updateChart() {
-      const last7 = moods.slice(-7);
-      chart.data.labels = last7.map(m => m.date.slice(5));
-      chart.data.datasets[0].data = last7.map(m => ['Sad','Anxious','Tired','Calm','Happy'].indexOf(m.mood)+1);
-      chart.update();
-    }
-    updateChart();
-
-    // Journal
-    document.getElementById('journal').value = localStorage.getItem('journal') || '';
-    function saveJournal() { localStorage.setItem('journal', document.getElementById('journal').value); alert('Saved'); }
-    function clearJournal() { if(confirm('Erase everything?')) { document.getElementById('journal').value = ''; localStorage.removeItem('journal'); } }
-    function downloadJournal() {
-      const text = document.getElementById('journal').value || "Your thoughts matter.";
-      const blob = new Blob([text], {type:'text/plain'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-lifeline-journal.txt'; a.click();
-    }
-
-    // Countdown
-    const target = new Date("2025-10-20T01:15:36");
-    function updateCountdown() {
-      const diff = target - new Date();
-      const el = document.getElementById("countdown");
-      if (diff <= 0) el.innerHTML = "You made it! Today is your day!";
-      else {
-        const d = Math.floor(diff / (1000*60*60*24));
-        const h = Math.floor((diff / (1000*60*60)) % 24);
-        el.innerHTML = `${d} days ${h} hours until your milestone`;
-      }
-    }
-    setInterval(updateCountdown, 1000); updateCountdown();
-
-    // Themes
-    function setTheme(theme) {
-      if (theme === 'dark') { document.body.style.background = '#0a0a0a'; document.body.style.color = 'white'; }
-      else if (theme === 'ocean') document.body.style.background = 'linear-gradient(to bottom,#001f3f,#87ceeb)';
-      else if (theme === 'forest') document.body.style.background = 'linear-gradient(to bottom,#1b4d3e,#a8e6cf)';
-      else document.body.style.background = 'linear-gradient(to bottom,#fff8f0,#e0f7ff)';
-      localStorage.setItem('theme', theme);
-    }
-    if (localStorage.getItem('theme')) setTheme(localStorage.getItem('theme'));
-
-    // Daily Affirmation (100 list)
-    const affirmations = ["You are worthy exactly as you are today.","Your feelings are valid. You are allowed to feel.","You have survived every hard day so far. That matters.","Healing is not linear, and that's okay.","You don't have to be productive to be worthy.","Your story is still being written — and it's beautiful.","It's okay to not be okay.","You are not a burden for needing help.","You are stronger than you feel right now.","One breath at a time is enough.","You deserve rest without guilt.","Your existence alone makes the world better.","You are allowed to take up space.","Progress looks different for everyone — yours counts.","You are doing better than you think.","Your past does not define your future.","You are loved even on your worst days.","Asking for help is a sign of strength.","You are not broken. You are healing.","Your pace is perfect for you.","You are enough. Right now. Exactly as you are.","It's okay to let go of what you can't control.","You are worthy of kindness — especially from yourself.","Your voice matters. Your truth matters.","You don't have to have it all figured out.","You are allowed to change your mind.","Your feelings will pass. You will not feel this way forever.","You are resilient beyond measure.","You are not alone in this.","Small steps are still steps forward.","You deserve peace.","Your needs are important.","You are capable of amazing things — even on quiet days.","It's okay to outgrow people and places.","You are allowed to say no.","Your boundaries are valid.","You are more than your struggles.","You are growing, even when it doesn't feel like it.","You are allowed to feel proud of yourself.","Your heart is kind. That matters.","You don't have to earn rest.","You are worthy of love without conditions.","Your pain does not make you weak.","You are allowed to take time for yourself.","You are doing your best — and that is enough.","Your journey is uniquely yours.","You are safe. You are here. You are breathing.","You are not too much.","Your emotions are messengers, not masters.","You deserve to be heard.","You are allowed to grieve.","You are allowed to celebrate small wins.","Your light still shines, even on cloudy days.","You are not behind.","You are worthy of second chances — from yourself.","You are allowed to be a work in progress.","Your presence is a gift.","You are brave for trying.","You are allowed to feel deeply.","Your scars tell a story of survival.","You are worthy of gentle days.","You don't have to explain your healing.","You are allowed to choose yourself.","Your softness is your strength.","You are worthy of joy.","You are allowed to dream again.","Your worth is not measured by productivity.","You are allowed to rest without apology.","You are healing in your own time.","You are not your worst moments.","You are allowed to be human.","Your heart knows the way.","You are worthy of forgiveness — especially from yourself.","You are allowed to start over.","You are enough, even on the days you don't feel it.","Your courage inspires.","You are allowed to feel safe.","You are worthy of calm.","You are growing through what you're going through.","You are allowed to be proud of how far you've come.","Your existence is resistance.","You are worthy of love that stays.","You are allowed to believe in better days.","You are not too sensitive.","Your feelings are real.","You are worthy of patience.","You are allowed to take your time.","You are healing, not broken.","You are worthy of hope.","You are allowed to be soft.","Your story matters.","You are worthy of peace.","You are allowed to be here.","You are loved beyond measure.","You are enough.","You are safe.","You are whole.","You are worthy.","You belong here.","You are going to be okay."];
-    function showDailyAffirmation() {
-      const today = new Date();
-      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-      const index = dayOfYear % affirmations.length;
-      document.getElementById("dailyQuote").textContent = affirmations[index];
-    }
-    showDailyAffirmation();
-  </script>
+  <div class="section">
+    <h2>Write & Release</h2>
+    <textarea id="journal" rows="6" placeholder="Let it out..."></textarea><br><br>
+    <button onclick="saveJournal()">Save</button>
+    <button onclick="clearJournal()">Clear</button>
+  </div>
+</main>
 </div>
+
+<script>
+  function checkLogin(){
+    if(username.value==="Ryan" && password.value==="ITSmf420"){
+      localStorage.setItem("lifelineAuth","true");
+      showDashboard();
+    } else alert("Wrong login");
+  }
+
+  function logout(){
+    localStorage.removeItem("lifelineAuth");
+    location.reload();
+  }
+
+  function showDashboard(){
+    loginScreen.classList.add("hidden");
+    mainContent.classList.remove("hidden");
+  }
+
+  function showLogin(){
+    loginScreen.classList.remove("hidden");
+    mainContent.classList.add("hidden");
+  }
+
+  if(localStorage.getItem("lifelineAuth")==="true") showDashboard();
+  else showLogin();
+
+  currentDate.textContent = new Date().toDateString();
+
+  journal.value = localStorage.getItem("journal") || "";
+  function saveJournal(){
+    localStorage.setItem("journal",journal.value);
+    alert("Saved");
+  }
+  function clearJournal(){
+    journal.value="";
+    localStorage.removeItem("journal");
+  }
+</script>
+
 </body>
 </html>
