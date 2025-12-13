@@ -1,1 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Campfire • My Lifeline</title>
+<style>
+body{background:#000;height:100vh;margin:0;overflow:hidden}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer}
+video{width:100%;height:100%;object-fit:cover}
+h1{position:absolute;top:20%;left:50%;transform:translateX(-50%);color:#fff;font-size:3em;text-shadow:0 0 20px #000}
+button{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);background:#ff9800;color:#fff;padding:15px 30px;border:none;border-radius:50px;font-size:1.3em;cursor:pointer}
+</style>
+</head><body>
 
+<nav>…your nav… <button onclick="location.href='campfire.html'">Campfire</button> <button onclick="logout()">Log Out</button></nav>
+
+<h1>Virtual Campfire</h1>
+<video autoplay loop muted playsinline>
+  <source src="https://archive.org/download/campfire-4k/campfire.mp4" type="video/mp4">
+</video>
+<audio autoplay loop><source src="https://archive.org/download/campfire-sounds/crackle.mp3"></audio>
+<button onclick="alert('Marshmallow roasted!')">Roast Marshmallow</button>
+
+</body></html>
