@@ -1,76 +1,115 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Our Messages</title>
+<title>Ryan ♡ Bryce</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#f5f5f5;font-family:'Segoe UI',sans-serif;color:#333;height:100vh;display:flex;flex-direction:column}
-header{background:#ff6b9d;color:#fff;padding:20px;text-align:center;font-size:1.8em;font-weight:600}
-#messages{flex:1;padding:20px;overflow-y:auto;background:#fff;display:flex;flex-direction:column;gap:12px}
-.message{max-width:80%;padding:14px 20px;border-radius:20px;line-height:1.5;align-self:flex-start}
-.you{background:#ff9a9e;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.them{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:4px}
-.time{font-size:0.8em;color:#999;margin-top:6px;text-align:right}
-#inputArea{background:#fff;border-top:1px solid #eee;padding:15px;display:flex;gap:10px}
-#msg{flex:1;padding:16px;border-radius:30px;border:1px solid #ddd;font-size:1.1em}
-#send{background:#ff6b9d;color:#fff;width:50px;height:50px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer}
+body{background:#f5f5f5;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#000;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{background:#fff;border-bottom:1px solid #dbdbdb;padding:12px;text-align:center;font-size:1.6em;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+#back{position:absolute;left:16px;top:12px;font-size:1.8em;cursor:pointer;color:#0095f6}
+#messages{flex:1;padding:20px 0;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.message{max-width:80%;padding:12px 16px;border-radius:22px;line-height:1.4;position:relative;word-wrap:break-word}
+.ryan{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:4px}
+.bryce{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.time{font-size:0.75em;color:#999;margin-top:4px;text-align:right;padding-right:10px}
+#inputArea{background:#fff;border-top:1px solid #dbdbdb;padding:10px;display:flex;gap:10px;align-items:center}
+#msg{flex:1;padding:12px 16px;border-radius:30px;background:#f1f1f1;font-size:1.05em;border:none;outline:none}
+#send{background:#0084ff;color:#fff;width:46px;height:46px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer;display:flex;align-items:center;justify-content:center}
+#profile{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px;z-index:9999;text-align:center}
+#profile h1{font-size:2.5em;margin:20px 0}
+#profile img{width:120px;height:120px;object-fit:cover;border-radius:50%;margin:20px 0;border:4px solid #dbdbdb}
+#profile input{margin:10px 0;padding:12px;width:80%;border:1px solid #dbdbdb;border-radius:10px;font-size:1.1em}
+#profile button{background:#0095f6;color:#fff;padding:14px 40px;border:none;border-radius:8px;font-size:1.2em;cursor:pointer;margin-top:20px}
+#close{position:absolute;top:20px;right:20px;font-size:1.8em;color:#999;cursor:pointer}
+.hidden{display:none}
 </style>
 </head><body>
- 
-<header>Our Messages</header>
- 
+
+<div id="chat">
+<header id="header">Ryan ♡ Bryce</header>
 <div id="messages"></div>
- 
 <div id="inputArea">
-  <input type="text" id="msg" placeholder="Type a message...">
+  <input id="msg" placeholder="iMessage">
   <button id="send">Send</button>
 </div>
- 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
- 
+</div>
+
+<div id="profile" class="hidden">
+  <span id="close" onclick="closeProfile()">×</span>
+  <h1>Profile</h1>
+  <img id="profilePhoto" src="https://via.placeholder.com/120/dbdbdb/000000?text=Photo">
+  <input type="text" id="profileName" placeholder="Name">
+  <input type="file" id="profileUpload" accept="image/*" style="display:none">
+  <button onclick="uploadProfile()">Change Photo</button>
+  <button onclick="saveProfile()">Save</button>
+</header>
+
 <script>
-// PASTE YOUR FIREBASE DATABASE URL HERE
-const firebaseConfig = {
-  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com"  // ← change this
-};
- 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database().ref("messages");
- 
-let name = localStorage.getItem('myName') || prompt("What's your name?", "Me");
-localStorage.setItem('myName', name);
- 
-function sendMessage(){
-  const text = document.getElementById('msg').value.trim();
-  if(!text) return;
-  
-  db.push({
-    name: name,
-    text: text,
-    time: new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
-  });
-  
-  document.getElementById('msg').value = '';
-}
- 
-function addMessage(data){
-  const m = data.val();
+// Who are you? (Ryan or Bryce)
+let name = localStorage.getItem('chatName') || prompt("Ryan or Bryce?", "Ryan");
+localStorage.setItem('chatName', name);
+document.getElementById('header').textContent = name === "Ryan" ? "Bryce" : "Ryan";
+
+// Send
+function send(){
+  const txt = document.getElementById('msg').value.trim();
+  if(!txt) return;
   const div = document.createElement('div');
-  div.className = `message ${m.name === name ? 'you' : 'them'}`;
-  div.innerHTML = `${m.text}<div class="time">${m.time}</div>`;
+  div.className = `message ${name.toLowerCase()}`;
+  div.innerHTML = `${txt}<div class="time">${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</div>`;
   document.getElementById('messages').appendChild(div);
   document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+  const chat = JSON.parse(localStorage.getItem('rbChat')||'[]');
+  chat.push({n:name,t:txt,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
+  localStorage.setItem('rbChat',JSON.stringify(chat.slice(-150)));
+  document.getElementById('msg').value = '';
 }
- 
-// Listen for new messages
-db.on('child_added', snapshot => addMessage(snapshot));
- 
-// Send on button or Enter
-document.getElementById('send').onclick = sendMessage;
-document.getElementById('msg').addEventListener('keypress', e => {
-  if(e.key === 'Enter') sendMessage();
+
+// Load chat
+JSON.parse(localStorage.getItem('rbChat')||'[]').forEach(m=>{
+  const div = document.createElement('div');
+  div.className = `message ${m.n.toLowerCase()}`;
+  div.innerHTML = `${m.t}<div class="time">${m.time}</div>`;
+  document.getElementById('messages').appendChild(div);
 });
+document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+
+// Enter = send
+document.getElementById('msg').addEventListener('keypress', e => {
+  if(e.key === 'Enter') send();
+});
+document.getElementById('send').onclick = send;
+
+// Profile
+document.getElementById('header').onclick = () => {
+  document.getElementById('profile').classList.remove('hidden');
+  const profileName = name === "Ryan" ? "Bryce" : "Ryan";
+  document.getElementById('profileName').value = localStorage.getItem('profileName') || profileName;
+  document.getElementById('profilePhoto').src = localStorage.getItem('profilePhoto') || "https://via.placeholder.com/120/dbdbdb/000000?text=Photo";
+};
+
+function closeProfile(){
+  document.getElementById('profile').classList.add('hidden');
+}
+
+function uploadProfile(){
+  document.getElementById('profileUpload').click();
+}
+
+document.getElementById('profileUpload').onchange = e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('profilePhoto').src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+};
+
+function saveProfile(){
+  localStorage.setItem('profileName', document.getElementById('profileName').value);
+  localStorage.setItem('profilePhoto', document.getElementById('profilePhoto').src);
+  closeProfile();
+}
 </script>
 </body></html>
