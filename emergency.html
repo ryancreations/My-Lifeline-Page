@@ -12,11 +12,15 @@
     h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
     input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
     button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    button:hover{background:#0097a7}
     .hidden{display:none}
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em}
+    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
     nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
+    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
+    main{margin-top:70px;padding:20px;text-align:center}
+    .hotline{background:#ff6b6b;color:white;padding:30px;border-radius:15px;margin:30px auto;max-width:600px;box-shadow:0 8px 20px rgba(255,107,107,0.3)}
+    .hotline button{background:white;color:#ff6b6b;padding:18px 35px;border:none;border-radius:50px;font-size:1.4em;margin:10px;cursor:pointer}
   </style>
 </head>
 <body>
@@ -39,42 +43,46 @@
     <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
   </nav>
 
-  <main style="margin-top:70px;padding:20px">
-    <h1 style="text-align:center;color:#d32f2f;font-size:2.5em">If you're thinking about harming yourself</h1>
-    <p style="text-align:center">Please pause and breathe. You matter. You’re not alone.</p>
+  <main>
+    <h1 style="font-size:3em;color:#d32f2f">You Are Not Alone</h1>
+    <p style="font-size:1.5em">Help is here. Right now.</p>
 
-    <div style="text-align:center;margin:30px 0">
-      <button onclick="location.href='tel:988'" style="background:#ff4444;padding:20px 40px;font-size:1.5em;border-radius:50px">Call 988</button>
-      <button onclick="location.href='tel:911'" style="background:#ff4444;padding:20px 40px;font-size:1.5em;border-radius:50px;margin-left:20px">Call 911</button>
-      <button onclick="location.href='tel:9032494334'" style="background:#ff4444;padding:20px 40px;font-size:1.5em;border-radius:50px;margin-top:20px;display:block;margin-left:auto;margin-right:auto">Call Bryce</button>
+    <div class="hotline">
+      <h2>988 • Suicide & Crisis Lifeline</h2>
+      <button onclick="location.href='tel:988'">Call 988 Now</button>
+      <button onclick="location.href='tel:911'">Call 911</button>
+      <button onclick="location.href='tel:9032494334'">Call Bryce</button>
     </div>
 
-    <ul style="list-style:none;padding:0;max-width:600px;margin:auto">
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://Google.com/snake" target="_blank">Google Snake</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://Youtube.com" target="_blank">Youtube Home</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://support.depression-chat-rooms.org/?#depression" target="_blank">Depression Chat-Room</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://open.spotify.com/playlist/37i9dQZF1DX3rxVfibe1L0" target="_blank">Listen to calming music</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://chatgpt.com/c/6837d16e-e854-800b-bf2d-c9ac61c89441" target="_blank">Talk to Bestie (me)</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Fluid Simulation!</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://neal.fun" target="_blank">Fidget Distractions!</a></li>
-      <li style="background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px"><a href="https://www.patatap.com" target="_blank">patatap!</a></li>
-    </ul>
+    <div class="section">
+      <h2>Quick Distractions</h2>
+      <ul style="list-style:none">
+        <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Fluid Simulation</a></li>
+        <li><a href="https://neal.fun" target="_blank">Fun Games</a></li>
+        <li><a href="https://www.patatap.com" target="_blank">Make Music</a></li>
+      </ul>
+    </div>
   </main>
-</div>
 
-<script>
-function checkLogin(){
-  if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
-    localStorage.setItem('lifelineAuthenticated','true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-  } else alert("Incorrect.");
-}
-function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
-if(localStorage.getItem('lifelineAuthenticated')==='true'){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('mainContent').classList.remove('hidden');
-}
-</script>
+  <script>
+    function checkLogin() {
+      if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
+        localStorage.setItem('lifelineAuthenticated', 'true');
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+      } else {
+        alert("Incorrect username or password.");
+      }
+    }
+    function logout() {
+      localStorage.removeItem('lifelineAuthenticated');
+      location.reload();
+    }
+    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+    }
+  </script>
+</div>
 </body>
 </html>
