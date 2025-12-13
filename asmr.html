@@ -1,1 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASMR Room • My Lifeline</title>
+<style>
+body{background:#2d1b3a;color:#fff;font-family:'Quicksand',sans-serif;text-align:center;padding-top:80px}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;padding:20px}
+.card{background:#3e2c4e;padding:20px;border-radius:20px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+card:hover{transform:scale(1.05)}
+iframe{width:100%;height:300px;border-radius:15px}
+</style>
+</head><body>
 
+<nav>…your nav… <button onclick="location.href='asmr.html'">ASMR</button> <button onclick="logout()">Log Out</button></nav>
+
+<main>
+  <h1>ASMR Room – Pick Your Tingles</h1>
+  <div class="grid">
+    <div class="card" onclick="play('https://www.youtube.com/embed/abc123')"><h2>Whispering</h2><iframe src="https://www.youtube.com/embed/abc123" allowfullscreen></iframe></div>
+    <div class="card" onclick="play('https://www.youtube.com/embed/tapping')"><h2>Tapping</h2><iframe src="https://www.youtube.com/embed/tapping" allowfullscreen></iframe></div>
+    <div class="card" onclick="play('https://www.youtube.com/embed/brushing')"><h2>Brushing</h2><iframe src="https://www.youtube.com/embed/brushing" allowfullscreen></iframe></div>
+    <!-- add more as you like -->
+  </div>
+</main>
+</body></html>
