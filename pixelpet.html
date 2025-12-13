@@ -1,1 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pixel Pet • My Lifeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e8f5e9;font-family:'Quicksand',sans-serif;text-align:center;padding-top:80px}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer}
+#pet{display:inline-block;font-size:100px;margin:40px;animation:float 3s infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+button{background:#00bcd4;color:#fff;padding:15px 30px;margin:10px;border:none;border-radius:50px;font-size:1.2em;cursor:pointer}
+</style>
+</head><body>
 
+<nav>…your nav… <button onclick="location.href='pixelpet.html'">Pixel Pet</button> <button onclick="logout()">Log Out</button></nav>
+
+<main>
+  <h1>Your Forever Pixel Pet</h1>
+  <div id="pet">🐈</div>
+  <p id="status">Happiness: <span id="happy">100</span>% | Hunger: <span id="hunger">0</span>%</p>
+  <button onclick="feed()">Feed</button>
+  <button onclick="play()">Play</button>
+  <button onclick="pet()">Pet</button>
+</main>
+
+<script>
+let pet = JSON.parse(localStorage.getItem('pixelPet')||'{"happy":100,"hunger":0,"lastVisit":Date.now()}');
+function save(){localStorage.setItem('pixelPet',JSON.stringify(pet))}
+function feed(){pet.hunger=Math.max(0,pet.hunger-20);pet.happy=Math.min(100,pet.happy+10);update()}
+function play(){pet.happy=Math.min(100,pet.happy+15);update()}
+function pet(){pet.happy=Math.min(100,pet.happy+25);update();alert('purrrrrr')}
+function update(){
+  document.getElementById('happy').textContent=pet.happy;
+  document.getElementById('hunger').textContent=pet.hunger;
+  document.getElementById('pet').textContent = pet.happy>70?'🐈':pet.happy>30?'🐱':'😿';
+  save();
+}
+setInterval(()=>{pet.hunger=Math.min(100,pet.hunger+5);pet.happy=Math.max(0,pet.happy-3);update()},60000);
+update();
+</script>
+</body></html>
