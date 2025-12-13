@@ -6,17 +6,7 @@
   <title>Videos • My Lifeline</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#87ceeb,#e0f7ff);font-family:'Quicksand',sans-serif;display:flex;align-items:center;justify-content:center;height:100vh}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%}
-    h1{font-size:3em;margin-bottom:10px;color:#00bcd4}
-    input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .hidden{display:none}
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em}
-    nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
+    /* Same login and nav as above */
   </style>
 </head>
 <body>
@@ -39,15 +29,13 @@
     <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
   </nav>
 
-  <main style="margin-top:70px;padding:20px">
-    <!-- Your full videos.html content here -->
+  <main>
+    <!-- Your full original videos content -->
   </main>
 </div>
 
 <script>
-function checkLogin(){if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){localStorage.setItem('lifelineAuthenticated','true');document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}else alert("Incorrect");}
-function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload();}
-if(localStorage.getItem('lifelineAuthenticated')==='true'){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('mainContent').classList.remove('hidden');}
+  // Same login/logout script
 </script>
 </body>
 </html>
