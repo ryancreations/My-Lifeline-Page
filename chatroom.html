@@ -144,7 +144,22 @@ input[type=file]{display:none}
 </head>
 
 <body>
-<header id="header">Promise of Love</header>
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="location.href='emergency.html'">Emergency</button>
+  <button onclick="location.href='mental.html'">Mental</button>
+  <button onclick="location.href='videos.html'">Videos</button>
+  <button onclick="location.href='music.html'">Music</button>
+  <button onclick="location.href='bestie.html'">Bestie</button>
+  <button onclick="location.href='letters.html'">Letters</button>
+  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
+  <button onclick="location.href='yourenough.html'">You’re Enough</button>
+  <button onclick="location.href='goodthings.html'">Good Things</button>
+  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
+  <button onclick="location.href='chatroom.html'">Chat Room</button>
+  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
+</nav>
+<header id="header">Our Messages</header>
 
 <div id="messages"></div>
 
@@ -173,7 +188,7 @@ input[type=file]{display:none}
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 <script>
-/* FIREBASE CONFIG */
+/* 🔥 FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyBBRAhMp-LMjS5hgzQNB48bz31AeBMAHDk",
   authDomain: "chatroom-3b44c.firebaseapp.com",
@@ -187,7 +202,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-/* REFERENCES */
+/* FIREBASE REFERENCES */
 const db = firebase.database().ref("messages");
 const storage = firebase.storage();
 
@@ -218,13 +233,16 @@ profilePhoto.src = photoURL;
 profileNameInput.value = name;
 
 /* HEADER CLICK → OPEN PROFILE */
-header.onclick = () => profile.style.display = "flex";
+header.onclick = () => {
+  profile.style.display = "flex";
+};
 
 /* CLOSE PROFILE */
 closeProfileBtn.onclick = () => profile.style.display = "none";
 
 /* CHANGE PROFILE PHOTO */
 changePhotoBtn.onclick = () => profileUpload.click();
+
 profileUpload.onchange = e => {
   const file = e.target.files[0];
   if(!file) return;
@@ -249,9 +267,9 @@ function sendMessage(){
   if(!text) return;
 
   db.push({
-    name,
+    name: name,
     type: "text",
-    text,
+    text: text,
     photo: photoURL,
     time: Date.now()
   });
@@ -261,6 +279,7 @@ function sendMessage(){
 
 /* SEND PHOTO */
 photoBtn.onclick = () => photoUpload.click();
+
 photoUpload.onchange = e => {
   const file = e.target.files[0];
   if(!file) return;
@@ -269,9 +288,9 @@ photoUpload.onchange = e => {
   ref.put(file).then(() => {
     ref.getDownloadURL().then(url => {
       db.push({
-        name,
+        name: name,
         type: "photo",
-        url,
+        url: url,
         photo: photoURL,
         time: Date.now()
       });
@@ -279,16 +298,45 @@ photoUpload.onchange = e => {
   });
 };
 
-/* RECEIVE MESSAGES - FAST LOADING */
-db.limitToLast(30).on("child_added", snap => {
+/* RECEIVE MESSAGES — optimized */
+db.limitToLast(30).once("value", snap => {
+  const fragment = document.createDocumentFragment();
+  snap.forEach(childSnap => {
+    const m = childSnap.val();
+    const div = document.createElement("div");
+    div.className = `message ${m.name === name ? "you" : "them"}`;
+
+    if(m.type === "photo"){
+      const img = document.createElement("img");
+      img.src = m.url;
+      img.loading = "lazy";
+      div.appendChild(img);
+    } else {
+      div.textContent = m.text;
+    }
+
+    const t = document.createElement("div");
+    t.className = "time";
+    t.textContent = new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+    div.appendChild(t);
+
+    fragment.appendChild(div);
+  });
+  messages.appendChild(fragment);
+  messages.scrollTop = messages.scrollHeight;
+});
+
+/* LISTEN FOR NEW MESSAGES */
+db.limitToLast(1).on("child_added", snap => {
   const m = snap.val();
   const div = document.createElement("div");
   div.className = `message ${m.name === name ? "you" : "them"}`;
 
   if(m.type === "photo"){
-    const img = new Image();
+    const img = document.createElement("img");
     img.src = m.url;
-    img.onload = () => div.appendChild(img);
+    img.loading = "lazy";
+    div.appendChild(img);
   } else {
     div.textContent = m.text;
   }
@@ -296,8 +344,8 @@ db.limitToLast(30).on("child_added", snap => {
   const t = document.createElement("div");
   t.className = "time";
   t.textContent = new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
-
   div.appendChild(t);
+
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 });
