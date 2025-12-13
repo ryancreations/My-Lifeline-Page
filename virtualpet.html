@@ -1,1 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Dog • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to bottom,#fff8f0,#e0f7ff);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 { color:#00bcd4; margin-bottom:10px; text-align:center; }
+    p { text-align:center; margin-bottom:15px; }
+
+    .pet-container {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.2);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .dog-img {
+      width: 200px;
+      height: 200px;
+      background: url('https://i.imgur.com/4AiXzf8.png') no-repeat center/contain;
+      margin: 0 auto 15px;
+      transition: transform 0.3s;
+    }
+
+    .dog-img.playing { transform: scale(1.1) rotate(10deg); }
+    .dog-img.eating { transform: scale(1.05); }
+    .dog-img.sleeping { transform: scale(0.9) rotate(-5deg); opacity:0.6; }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat p { margin-top:5px; font-weight:600; }
+
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap:10px;
+    }
+
+    .buttons button {
+      padding: 10px 15px;
+      border:none;
+      border-radius:12px;
+      background:#00bcd4;
+      color:white;
+      font-weight:600;
+      cursor:pointer;
+      flex:1 1 30%;
+      transition:.2s;
+    }
+
+    .buttons button:hover { background:#0097a7; }
+
+    footer { margin-top:30px; font-size:.85em; color:#777; text-align:center; }
+
+    @media(max-width:500px){ .dog-img{width:150px;height:150px;} }
+  </style>
+</head>
+<body>
+
+<h1>🐶 Virtual Dog</h1>
+<p>Take care of your dog! Feed, play, and let it rest.</p>
+
+<div class="pet-container">
+  <div class="dog-img" id="dog"></div>
+
+  <div class="stats">
+    <div class="stat">
+      <strong id="hunger">50</strong>
+      <p>Hunger</p>
+    </div>
+    <div class="stat">
+      <strong id="happiness">50</strong>
+      <p>Happiness</p>
+    </div>
+    <div class="stat">
+      <strong id="energy">50</strong>
+      <p>Energy</p>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button onclick="feedDog()">Feed 🍖</button>
+    <button onclick="playWithDog()">Play 🎾</button>
+    <button onclick="sleepDog()">Sleep 💤</button>
+  </div>
+</div>
+
+<footer>Virtual Pet • My Lifeline</footer>
+
+<script>
+  // Initial stats
+  let hunger = 50;
+  let happiness = 50;
+  let energy = 50;
+
+  const dog = document.getElementById('dog');
+  const hungerEl = document.getElementById('hunger');
+  const happinessEl = document.getElementById('happiness');
+  const energyEl = document.getElementById('energy');
+
+  // Update stats display
+  function updateStats() {
+    hungerEl.textContent = hunger;
+    happinessEl.textContent = happiness;
+    energyEl.textContent = energy;
+  }
+
+  // Feed dog
+  function feedDog() {
+    hunger = Math.max(0, hunger - 20);
+    happiness = Math.min(100, happiness + 5);
+    dog.className = 'dog-img eating';
+    updateStats();
+    setTimeout(()=>dog.className='dog-img', 1000);
+  }
+
+  // Play with dog
+  function playWithDog() {
+    if(energy < 20) {
+      alert("Your dog is too tired to play!");
+      return;
+    }
+    happiness = Math.min(100, happiness + 20);
+    energy = Math.max(0, energy - 15);
+    dog.className = 'dog-img playing';
+    updateStats();
+    setTimeout(()=>dog.className='dog-img', 1000);
+  }
+
+  // Dog sleeps
+  function sleepDog() {
+    energy = Math.min(100, energy + 30);
+    hunger = Math.min(100, hunger + 10); // sleeping makes it hungry
+    dog.className = 'dog-img sleeping';
+    updateStats();
+    setTimeout(()=>dog.className='dog-img', 2000);
+  }
+
+  // Auto decrease stats over time
+  setInterval(()=>{
+    hunger = Math.min(100, hunger + 1);
+    energy = Math.max(0, energy - 1);
+    happiness = Math.max(0, happiness - 1);
+    updateStats();
+  }, 5000); // every 5 seconds
+
+  updateStats();
+</script>
+
+</body>
+</html>
