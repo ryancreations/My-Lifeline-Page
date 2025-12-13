@@ -1,1 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sandbox • My Lifeline</title>
+<style>
+body{margin:0;height:100vh;background:#000}
+canvas{display:block}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer}
+</style>
+</head><body>
 
+<nav>…your nav… <button onclick="location.href='sandbox.html'">Sandbox</button> <button onclick="logout()">Log Out</button></nav>
+
+<canvas id="c"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/thisissand@1.0.0/dist/thisissand.min.js"></script>
+<script>
+const canvas = document.getElementById('c');
+const sand = new ThisIsSand(canvas, {colors:['#ff9a9e','#fad0c4','#ffecd2','#fciusa','#a1c4fd','#c2e9fb']});
+</script>
+</body></html>
