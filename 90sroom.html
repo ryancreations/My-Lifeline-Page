@@ -1,1 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>90s Room • My Lifeline</title>
+<style>
+body{background:url('https://i.imgur.com/2eQb9Zk.jpg') center/cover no-repeat;height:100vh;font-family:'Quicksand',sans-serif}
+nav{position:fixed;top:0;width:100%;background:rgba(135,206,235,0.9);padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer}
+.item{position:absolute;width:100px;height:100px;background:rgba(255,255,255,0.8);border-radius:15px;text-align:center;line-height:100px;font-size:3em;cursor:pointer}
+#tv{top:20%;left:10%}
+#gameboy{top:50%;left:60%}
+#tamagotchi{top:60%;left:20%}
+#radio{top:30%;right:15%}
+</style>
+</head><body>
 
+<nav>…your nav… <button onclick="location.href='90sroom.html'">90s Room</button> <button onclick="logout()">Log Out</button></nav>
+
+<div class="item" id="tv" onclick="alert('Now playing: Fresh Prince reruns')">📺</div>
+<div class="item" id="gameboy" onclick="location.href='https://archive.org/details/pokemon-red'">🎮</div>
+<div class="item" id="tamagotchi" onclick="alert('beep beep! Feed me!')">🥚</div>
+<div class="item" id="radio" onclick="new Audio('https://archive.org/download/90s-hits/90s.mp3').play()">📻</div>
+
+</body></html>
