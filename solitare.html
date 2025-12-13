@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Solitaire • My Lifeline</title>
+<style>
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: #0a0a1f;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  #game {
+    display: grid;
+    grid-template-columns: repeat(7, 100px);
+    gap: 10px;
+  }
+  .pile {
+    width: 100px;
+    height: 140px;
+    border-radius: 10px;
+    background: #1a1a2e;
+    position: relative;
+  }
+  .card {
+    width: 100px;
+    height: 140px;
+    border-radius: 10px;
+    background: white;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s;
+  }
+  .red { color: red; }
+  .dragging { opacity: 0.6; transform: scale(1.1); z-index: 1000; }
+</style>
+</head>
+<body>
+
+<div id="game"></div>
+
+<script>
+// === CARD SETUP ===
+const suits = ["♠", "♥", "♦", "♣"];
+const deck = [];
+
+for(let s of suits){
+  for(let i=1;i<=13;i++){
+    deck.push({value:i,suit:s,color:(s==="♥"||s==="♦")?"red":"black"});
+  }
+}
+
+// Shuffle
+function shuffle(array) {
+  for(let i=array.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+shuffle(deck);
+
+// === GAME BOARD ===
+const game = document.getElementById('game');
+const piles = [];
+
+for(let i=0;i<7;i++){
+  const pile = document.createElement('div');
+  pile.classList.add('pile');
+  game.appendChild(pile);
+  piles.push(pile);
+
+  for(let j=0;j<=i;j++){
+    const cardData = deck.pop();
+    const card = document.createElement('div');
+    card.classList.add('card');
+    if(cardData.color==="red") card.classList.add('red');
+    card.textContent = cardData.value + cardData.suit;
+    card.style.top = `${j*25}px`;
+    card.dataset.value = cardData.value;
+    card.dataset.suit = cardData.suit;
+    card.dataset.color = cardData.color;
+    pile.appendChild(card);
+
+    // Drag & Drop
+    card.onmousedown = dragStart;
+  }
+}
+
+// === DRAG & DROP ===
+let dragged = null;
+function dragStart(e){
+  dragged = e.target;
+  dragged.classList.add('dragging');
+
+  const onMove = (e) => {
+    dragged.style.transform = `translate(${e.pageX-50}px, ${e.pageY-70}px)`;
+  }
+  document.addEventListener('mousemove', onMove);
+
+  document.onmouseup = () => {
+    dragged.classList.remove('dragging');
+    dragged.style.transform = '';
+    document.removeEventListener('mousemove', onMove);
+    dragged = null;
+  }
+}
+</script>
+
+</body>
+</html>
