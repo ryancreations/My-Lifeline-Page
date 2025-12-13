@@ -1,1 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letters From Tomorrow • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
+    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+    .login-box button:hover{background:#0097a7}
+    .hidden{display:none}
+    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
+    nav button:hover{background:#00bcd4;color:white}
+    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
+    main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
+    header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
+    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:25px;margin:25px 0;box-shadow:0 6px 15px rgba(0,0,0,.08);text-align:center}
+    .section h2{color:#00bcd4;margin-bottom:20px}
+    textarea{width:100%;height:200px;padding:20px;border:2px solid #87ceeb;border-radius:12px;font-family:inherit;font-size:1.1em}
+    input[type=date]{padding:12px;border:2px solid #87ceeb;border-radius:10px;font-size:1.1em;margin:15px 0}
+    button{background:#00bcd4;color:white;border:none;padding:14px 30px;border-radius:50px;font-size:1.2em;margin:10px;cursor:pointer}
+    button:hover{background:#0097a7}
+    .envelope{background:#fff;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);max-width:600px;margin:30px auto;position:relative;cursor:pointer}
+    .envelope::before{content:"✉️";font-size:4em;display:block;margin-bottom:15px}
+    .envelope.closed::after{content:"Click to open your letter from past-you";color:#00bcd4;font-style:italic}
+    .letter-content{display:none;background:#fffef5;padding:30px;border-radius:12px;margin-top:20px;box-shadow:inset 0 4px 15px rgba(0,0,0,.1)}
+    .upcoming{background:#e0f7ff;padding:15px;border-radius:10px;margin:10px 0}
+    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+    .view-toggle button{margin:5px;padding:12px 20px;background:#00bcd4;color:white;border:none;border-radius:10px}
+  </style>
+</head>
+<body>
 
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>My Lifeline</h1>
+    <p>Enter your personal key</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="checkLogin()">Enter Safe Space</button>
+  </div>
+</div>
+
+<div id="mainContent" class="hidden">
+  <nav>
+    <button onclick="location.href='index.html'">Dashboard</button>
+    <button onclick="location.href='emergency.html'">Emergency</button>
+    <button onclick="location.href='mental.html'">Mental</button>
+    <button onclick="location.href='videos.html'">Videos</button>
+    <button onclick="location.href='music.html'">Music</button>
+    <button onclick="location.href='letters.html'">Letters</button>
+    <button onclick="logout()" style="background:#ff6b6b">Log Out</button>
+  </nav>
+
+  <main>
+    <header>
+      <h1>Letters From Tomorrow</h1>
+      <p>Write to future you — they’ll need these words one day</p>
+    </header>
+
+    <div class="view-toggle">
+      <h2>View Mode</h2>
+      <button onclick="setView('mobile')">Mobile View</button>
+      <button onclick="setView('desktop')">Desktop View</button>
+    </div>
+
+    <div id="dueLetter"></div>
+
+    <div class="section">
+      <h2>Write a letter to future you</h2>
+      <input type="date" id="deliveryDate">
+      <textarea id="letterText" placeholder="Hey future me... I want you to know..."></textarea><br>
+      <button onclick="saveLetter()">Seal & Send to Future Me</button>
+    </div>
+
+    <div class="section">
+      <h2>Upcoming Letters</h2>
+      <div id="upcomingList">Loading your letters...</div>
+    </div>
+  </main>
+
+  <script>
+    function checkLogin() {
+      if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
+        localStorage.setItem('lifelineAuthenticated', 'true');
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+      } else alert("Incorrect");
+    }
+    function logout() { localStorage.removeItem('lifelineAuthenticated'); location.reload(); }
+    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+    }
+
+    function setView(m) { document.body.classList.toggle('mobile-mode', m==='mobile'); document.body.classList.toggle('desktop-mode', m==='desktop'); localStorage.setItem('viewMode', m); }
+    if (localStorage.getItem('viewMode')) setView(localStorage.getItem('viewMode'));
+
+    const letters = JSON.parse(localStorage.getItem('futureLetters') || '[]');
+
+    function saveLetter() {
+      const date = document.getElementById('deliveryDate').value;
+      const text = document.getElementById('letterText').value.trim();
+      if (!date || !text) { alert("Add a date and message ❤️"); return; }
+      letters.push({date, text, sent: new Date().toLocaleDateString()});
+      localStorage.setItem('futureLetters', JSON.stringify(letters));
+      document.getElementById('letterText').value = '';
+      alert("Letter saved! It will arrive on ${date} 💌");
+      showUpcoming();
+    }
+
+    function showUpcoming() {
+      const list = document.getElementById('upcomingList');
+      list.innerHTML = '';
+      const future = letters.filter(l => new Date(l.date) > new Date());
+      if (future.length === 0) {
+        list.innerHTML = "<p>No letters waiting... write one? 💌</p>";
+        return;
+      }
+      future.sort((a,b) => new Date(a.date) - new Date(b.date));
+      future.forEach(l => {
+        const div = document.createElement('div');
+        div.className = 'upcoming';
+        div.innerHTML = `<strong>${new Date(l.date).toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</strong><br>${l.text.substring(0,80)}...`;
+        list.appendChild(div);
+      });
+    }
+
+    // Check for letter due today
+    const today = new Date().toISOString().split('T')[0];
+    const due = letters.find(l => l.date === today);
+    if (due) {
+      const env = document.createElement('div');
+      env.className = 'envelope closed';
+      env.innerHTML = `<h2>A letter from ${due.sent} has arrived...</h2>`;
+      env.onclick = () => {
+        env.classList.remove('closed');
+        env.innerHTML = `<div class="letter-content"><h3>From past-you on ${due.sent}:</h3><p style="font-size:1.3em;line-height:1.8">${due.text.replace(/\n/g,'<br>')}</p><br><p style="color:#00bcd4">You made it to this day. I'm so proud of you.</p></div>`;
+        confetti({particleCount:100,spread:70,origin:{y:0.6}});
+      };
+      document.getElementById('dueLetter').appendChild(env);
+      // Remove after reading (optional)
+      letters.splice(letters.indexOf(due),1);
+      localStorage.setItem('futureLetters', JSON.stringify(letters));
+    }
+
+    showUpcoming();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
