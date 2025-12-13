@@ -123,6 +123,10 @@
   </main>
 
   <script>
+  function logout() {
+    localStorage.removeItem('lifelineAuthenticated');
+    location.href = 'index.html';
+  }
     function checkLogin() {
       if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
         localStorage.setItem('lifelineAuthenticated', 'true');
