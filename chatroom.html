@@ -5,77 +5,60 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;color:#0f0;font-family:'Courier New',monospace;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{background:#111;padding:15px;text-align:center;font-size:1.5em}
+header{background:#111;padding:20px;text-align:center;font-size:1.8em}
 #log{flex:1;padding:20px;overflow-y:auto;font-size:1.2em;line-height:1.6}
-.line{margin:5px 0}
+.line{margin:6px 0}
 .ryan{color:#0f0}
 .bryce{color:#0ff}
 #input{background:#111;padding:15px;display:flex}
 #msg{flex:1;background:transparent;border:none;color:#0f0;font-size:1.2em;outline:none}
 #msg::placeholder{color:#060}
+button{background:#333;color:#0f0;padding:10px 20px;border:1px solid #0f0;font-size:1em;cursor:pointer}
 </style>
 </head><body>
 
 <header>Ryan ♡ Bryce</header>
 
 <div id="log">
-  <div class="line">Chat loading...</div>
+  <div class="line">Welcome back. Refresh to see new messages.</div>
 </div>
 
 <div id="input">
   <input id="msg" placeholder="type here...">
+  <button onclick="send()">Send</button>
 </div>
 
 <script>
-// CHANGE THIS TO YOUR RAW messages.txt URL
-const MESSAGES_URL = "https://raw.githubusercontent.com/ryancreations/My-Lifeline-Page/refs/heads/main/messages.txt"; // e.g. https://raw.githubusercontent.com/ryancreations/My-Lifeline-Page/main/messages.txt
-
-let name = localStorage.getItem('chatName') || prompt("Ryan or Bryce?", "Ryan");
+let name = localStorage.getItem('chatName') || prompt("Are you Ryan or Bryce?", "Ryan");
 localStorage.setItem('chatName', name);
 
 function send(){
   const text = document.getElementById('msg').value.trim();
   if(!text) return;
   
-  const line = `${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})} ${name}: ${text}`;
-  addLine(line, name);
+  const line = document.createElement('div');
+  line.className = `line ${name.toLowerCase()}`;
+  line.textContent = `${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})} ${name}: ${text}`;
+  document.getElementById('log').appendChild(line);
+  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
   
-  // Append to local "cache"
-  let chat = localStorage.getItem('localChat') || '';
-  chat += line + '\n';
-  localStorage.setItem('localChat', chat);
+  let chat = JSON.parse(localStorage.getItem('ourChat')||'[]');
+  chat.push({n:name,t:text,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
+  localStorage.setItem('ourChat',JSON.stringify(chat));
   
   document.getElementById('msg').value = '';
 }
 
-function addLine(text, sender){
-  const div = document.createElement('div');
-  div.className = `line ${sender.toLowerCase()}`;
-  div.textContent = text;
-  document.getElementById('log').appendChild(div);
-  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
-}
-
-// Load from shared file every 5 seconds
-setInterval(async () => {
-  try {
-    const res = await fetch(MESSAGES_URL + '?t=' + Date.now()); // cache bust
-    const text = await res.text();
-    document.getElementById('log').innerHTML = '<div class="line">Chat synced</div>';
-    text.split('\n').filter(l=>l.trim()).forEach(line => {
-      const parts = line.split(': ');
-      const sender = parts.shift().includes('Ryan') ? 'Ryan' : 'Bryce';
-      addLine(line, sender);
-    });
-  } catch(e) {
-    document.getElementById('log').innerHTML += '<div class="line">Sync failed — using local</div>';
-  }
-}, 5000);
-
-// Initial load
-document.getElementById('msg').focus();
-document.getElementById('msg').addEventListener('keypress', e => {
-  if(e.key==='Enter') send();
+// Load messages
+let chat = JSON.parse(localStorage.getItem('ourChat')||'[]');
+chat.forEach(m => {
+  const line = document.createElement('div');
+  line.className = `line ${m.n.toLowerCase()}`;
+  line.textContent = `${m.time} ${m.n}: ${m.t}`;
+  document.getElementById('log').appendChild(line);
 });
-</script>
-</body></html>
+document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
+
+// Enter = send
+document.getElementById('msg').focus();
+document
