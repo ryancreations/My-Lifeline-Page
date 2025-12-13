@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Today I Stayed • My Lifeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1a1a2e;font-family:'Quicksand',sans-serif;color:#eee;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.login-box,.hidden{display:none}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;font-weight:600;cursor:pointer}
+nav button:hover{background:#00bcd4;color:#fff}
+h1{font-size:4em;margin:20px;color:#00bcd4;text-shadow:0 0 20px #00bcd4}
+#streak{font-size:6em;margin:30px;color:#ff6b9d}
+#message{font-size:2em;margin:30px;max-width:800px}
+button#celebrate{background:#ff6b9d;color:#fff;padding:20px 50px;border:none;border-radius:50px;font-size:2em;cursor:pointer;margin-top:40px}
+button#celebrate:hover{transform:scale(1.1)}
+</style>
+</head><body>
 
+<div id="loginScreen" class="login-box">…your login code…</div>
+
+<div id="mainContent" class="hidden">
+<nav>…your full nav… <button onclick="location.href='todayistayed.html'">Today I Stayed</button> <button onclick="logout()" style="background:#ff6b6b">Log Out</button></nav>
+
+<h1>Today I Stayed</h1>
+<div id="streak">1</div>
+<div id="message">You made it through another day.<br>That’s not small. That’s everything.</div>
+<button id="celebrate">Celebrate Me</button>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+/* same login script as always */
+let streak = parseInt(localStorage.getItem('stayedStreak')||'0');
+const today = new Date().toDateString();
+if(localStorage.getItem('lastStayed')!==today){
+  streak++;
+  localStorage.setItem('stayedStreak',streak);
+  localStorage.setItem('lastStayed',today);
+}
+document.getElementById('streak').textContent = streak;
+document.getElementById('message').innerHTML = streak>1?`You’ve stayed <strong>${streak}</strong> days in a row.<br>I’m so proud of you.`:`You made it through today.<br>That’s huge.`;
+
+document.getElementById('celebrate').onclick=()=>{confetti({particleCount:200,spread:100,origin:{y:0.6}});}
+</script>
+</div>
+</body></html>
