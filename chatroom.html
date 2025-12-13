@@ -80,9 +80,10 @@ header{
   background:#f1f1f1;
   border:none;
   font-size:1.05em;
+  outline:none;
 }
 
-#send{
+#sendBtn{
   background:#0084ff;
   color:#fff;
   width:46px;
@@ -92,7 +93,7 @@ header{
   cursor:pointer;
 }
 
-/* PROFILE MODAL */
+/* PROFILE */
 #profile{
   position:fixed;
   inset:0;
@@ -113,7 +114,7 @@ header{
   margin:20px 0;
 }
 
-#profile input{
+#profile input, #profile select{
   width:80%;
   padding:12px;
   margin:10px 0;
@@ -153,7 +154,7 @@ header{
 
 <div id="inputArea">
   <input id="msg" placeholder="iMessage">
-  <button id="send">Send</button>
+  <button id="sendBtn">➤</button>
 </div>
 
 <!-- PROFILE -->
@@ -163,34 +164,51 @@ header{
   <img id="profilePhoto">
   <input id="profileName" placeholder="Your name">
   <input type="file" id="profileUpload" accept="image/*" hidden>
+
+  <select id="bgSelect">
+    <option value="#f5f5f5">Default</option>
+    <option value="#eaf4ff">Light Blue</option>
+    <option value="#ffeef2">Pink</option>
+    <option value="#111">Dark</option>
+    <option value="linear-gradient(135deg,#667eea,#764ba2)">Gradient</option>
+  </select>
+
   <button id="changePhoto">Change Photo</button>
   <button id="saveProfile">Save</button>
 </div>
 
 <script>
+/* ELEMENTS */
+const messages = document.getElementById('messages');
+const msgInput = document.getElementById('msg');
+const sendBtn = document.getElementById('sendBtn');
+
 /* USER */
 let name = localStorage.getItem('chatName') || 'Ryan';
 localStorage.setItem('chatName', name);
-
 const other = name === 'Ryan' ? 'Bryce' : 'Ryan';
 document.getElementById('header').firstChild.textContent = other;
 
-/* SEND */
-function send(){
-  const msg = document.getElementById('msg');
-  if(!msg.value.trim()) return;
+/* BACKGROUND LOAD */
+const savedBg = localStorage.getItem('chatBg');
+if(savedBg) document.body.style.background = savedBg;
+
+/* SEND MESSAGE */
+function sendMessage(){
+  const text = msgInput.value.trim();
+  if(!text) return;
 
   const time = new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
   const div = document.createElement('div');
   div.className = `message ${name.toLowerCase()}`;
-  div.innerHTML = `${msg.value}<div class="time">${time}</div>`;
+  div.innerHTML = `${text}<div class="time">${time}</div>`;
   messages.appendChild(div);
 
   const chat = JSON.parse(localStorage.getItem('rbChat')||'[]');
-  chat.push({n:name,t:msg.value,time});
+  chat.push({n:name,t:text,time});
   localStorage.setItem('rbChat',JSON.stringify(chat.slice(-150)));
 
-  msg.value='';
+  msgInput.value='';
   messages.scrollTop = messages.scrollHeight;
 }
 
@@ -201,31 +219,36 @@ function send(){
   div.innerHTML=`${m.t}<div class="time">${m.time}</div>`;
   messages.appendChild(div);
 });
+messages.scrollTop = messages.scrollHeight;
 
 /* EVENTS */
-send.onclick = send;
-msg.onkeypress = e => e.key === 'Enter' && send();
+sendBtn.addEventListener('click', sendMessage);
+msgInput.addEventListener('keydown', e => {
+  if(e.key === 'Enter') sendMessage();
+});
 
 /* PROFILE */
 profileBtn.onclick = () => {
   profile.style.display='flex';
   profileName.value = localStorage.getItem('profileName') || other;
   profilePhoto.src = localStorage.getItem('profilePhoto') || 'https://via.placeholder.com/120';
+  bgSelect.value = localStorage.getItem('chatBg') || '#f5f5f5';
 };
 
 close.onclick = () => profile.style.display='none';
-
 changePhoto.onclick = () => profileUpload.click();
 
 profileUpload.onchange = e => {
-  const reader=new FileReader();
-  reader.onload=ev=>profilePhoto.src=ev.target.result;
+  const reader = new FileReader();
+  reader.onload = ev => profilePhoto.src = ev.target.result;
   reader.readAsDataURL(e.target.files[0]);
 };
 
 saveProfile.onclick = () => {
-  localStorage.setItem('profileName',profileName.value);
-  localStorage.setItem('profilePhoto',profilePhoto.src);
+  localStorage.setItem('profileName', profileName.value);
+  localStorage.setItem('profilePhoto', profilePhoto.src);
+  localStorage.setItem('chatBg', bgSelect.value);
+  document.body.style.background = bgSelect.value;
   profile.style.display='none';
 };
 </script>
