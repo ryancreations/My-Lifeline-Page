@@ -28,6 +28,7 @@
       justify-content:center;
       gap:6px;
       z-index:1000;
+      box-shadow:0 2px 6px rgba(0,0,0,.1);
     }
 
     nav button{
@@ -39,6 +40,7 @@
       cursor:pointer;
       font-weight:600;
       font-size:.95em;
+      transition:.25s;
     }
 
     nav button:hover{
@@ -117,6 +119,13 @@
 </head>
 
 <body>
+
+<!-- 🔒 AUTH PROTECTION -->
+<script>
+  if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
+    location.href = 'index.html';
+  }
+</script>
 
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
@@ -204,11 +213,13 @@
 </footer>
 
 </main>
+
 <script>
-function logout() {
+  function logout() {
     localStorage.removeItem('lifelineAuthenticated');
     location.href = 'index.html';
   }
-  </script>
+</script>
+
 </body>
 </html>
