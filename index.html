@@ -132,7 +132,7 @@
   <button onclick="location.href='yourenough.html'">You’re Enough</button>
   <button onclick="location.href='goodthings.html'">Good Things</button>
   <button onclick="location.href='lofiroom.html'">Lofi Room</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;">Log Out</button>
+  <button onclick="location.href='chatroom.html'">Chat Room</button>
 </nav>
 
 <main>
@@ -143,6 +143,7 @@
 </header>
 
 <section class="grid">
+
   <div class="card" onclick="location.href='emergency.html'">
     <h2>🚨 Emergency</h2>
     <p>Immediate help, grounding tools, crisis resources.</p>
@@ -197,6 +198,7 @@
     <h2>💬 Chat Room</h2>
     <p>Connect. You’re not the only one.</p>
   </div>
+
 </section>
 
 <footer>
@@ -204,24 +206,6 @@
 </footer>
 
 </main>
-
-<script>
-  // 🔒 AUTH CHECK (SAFE + RELIABLE)
-  (function () {
-    try {
-      if (localStorage.getItem('lifelineAuthenticated') !== 'true') {
-        window.location.replace('index.html');
-      }
-    } catch (e) {
-      window.location.replace('index.html');
-    }
-  })();
-
-  function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    window.location.replace('index.html');
-  }
-</script>
 
 </body>
 </html>
