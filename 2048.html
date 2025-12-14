@@ -4,198 +4,239 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2048 • My Lifeline</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+
 <style>
-body {
-  font-family: 'Quicksand', sans-serif;
-  background: #0a0a1f;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
+body{
+  background:#faf8ef;
+  font-family:'Quicksand',sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   margin:0;
-  height: 100vh;
+  padding-top:80px;
 }
-h1 {
-  margin-bottom: 20px;
-  text-align: center;
+
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:#87ceeb;
+  padding:6px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  z-index:10;
 }
-#game-container {
-  display: grid;
-  grid-template-columns: repeat(4, 80px);
-  grid-template-rows: repeat(4, 80px);
-  gap: 10px;
-  background: #1a1a2e;
-  padding: 10px;
-  border-radius: 10px;
-  touch-action: none;
+
+nav button{
+  background:white;
+  border:none;
+  padding:6px 12px;
+  border-radius:18px;
+  font-weight:600;
+  cursor:pointer;
 }
-.tile {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #fff;
-  background: #333;
-  transition: all 0.2s ease;
+
+header{
+  width:320px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
-.tile-2 { background: #eee4da; color: #776e65; }
-.tile-4 { background: #ede0c8; color: #776e65; }
-.tile-8 { background: #f2b179; }
-.tile-16 { background: #f59563; }
-.tile-32 { background: #f67c5f; }
-.tile-64 { background: #f65e3b; }
-.tile-128 { background: #edcf72; color: #f9f6f2; }
-.tile-256 { background: #edcc61; color: #f9f6f2; }
-.tile-512 { background: #edc850; color: #f9f6f2; }
-.tile-1024 { background: #edc53f; color: #f9f6f2; }
-.tile-2048 { background: #edc22e; color: #f9f6f2; }
-#score {
-  margin: 15px;
-  font-size: 1.5em;
+
+h1{margin:0;color:#776e65}
+
+.score-box{
+  background:#bbada0;
+  color:white;
+  padding:10px 18px;
+  border-radius:8px;
+  font-size:1em;
 }
-button { margin-top: 20px; padding: 10px 20px; border:none; border-radius: 10px; font-size: 1.2em; cursor:pointer; background:#ff6b9d; color:white;}
-button:hover { background:#ff4c7a; }
+
+#board{
+  background:#bbada0;
+  padding:12px;
+  border-radius:12px;
+  display:grid;
+  grid-template-columns:repeat(4,70px);
+  grid-gap:12px;
+  touch-action:none;
+}
+
+.cell{
+  width:70px;
+  height:70px;
+  background:#cdc1b4;
+  border-radius:8px;
+}
+
+.tile{
+  position:absolute;
+  width:70px;
+  height:70px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.6em;
+  font-weight:bold;
+  transition:.18s ease-in-out;
+}
+
+.tile-2{background:#eee4da;color:#776e65}
+.tile-4{background:#ede0c8;color:#776e65}
+.tile-8{background:#f2b179;color:#fff}
+.tile-16{background:#f59563;color:#fff}
+.tile-32{background:#f67c5f;color:#fff}
+.tile-64{background:#f65e3b;color:#fff}
+.tile-128{background:#edcf72;color:#fff}
+.tile-256{background:#edcc61;color:#fff}
+.tile-512{background:#edc850;color:#fff}
+.tile-1024{background:#edc53f;color:#fff}
+.tile-2048{background:#edc22e;color:#fff}
+
+button.restart{
+  margin-top:20px;
+  padding:12px 24px;
+  border:none;
+  border-radius:25px;
+  background:#8f7a66;
+  color:white;
+  font-size:1.1em;
+  cursor:pointer;
+}
 </style>
 </head>
+
 <body>
+
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="location.href='emergency.html'">Emergency</button>
   <button onclick="location.href='mental.html'">Mental</button>
-  <button onclick="location.href='videos.html'">Videos</button>
-  <button onclick="location.href='music.html'">Music</button>
-  <button onclick="location.href='bestie.html'">AI Bestie</button>
-  <button onclick="location.href='letters.html'">Letters</button>
-  <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
-  <button onclick="location.href='yourenough.html'">You’re Enough</button>
-  <button onclick="location.href='goodthings.html'">Good Things</button>
-  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
-  <button onclick="location.href='chatroom.html'">Chat Room</button>
-  <button onclick="location.href='2048.html'">2048</button>
   <button onclick="location.href='reflect.html'">Reflect</button>
-  <button onclick="location.href='reframe.html'">Reframe</button>
 </nav>
-<h1>2048</h1>
-<div id="score">Score: 0</div>
-<div id="game-container"></div>
-<button onclick="startGame()">Restart</button>
+
+<header>
+  <h1>2048</h1>
+  <div class="score-box">Score: <span id="score">0</span></div>
+</header>
+
+<div id="board"></div>
+
+<button class="restart" onclick="init()">Restart</button>
 
 <script>
 const size = 4;
-let board = [];
-let score = 0;
+let board, score;
 
-function startGame(){
-  board = Array.from({length:size}, ()=>Array(size).fill(0));
+const boardEl = document.getElementById("board");
+const scoreEl = document.getElementById("score");
+
+function init(){
+  board = Array.from({length:size},()=>Array(size).fill(0));
   score = 0;
-  document.getElementById('score').textContent = "Score: " + score;
-  addRandom();
-  addRandom();
-  updateBoard();
+  boardEl.innerHTML='';
+  scoreEl.textContent = score;
+
+  for(let i=0;i<16;i++){
+    const cell = document.createElement("div");
+    cell.className="cell";
+    boardEl.appendChild(cell);
+  }
+
+  addTile(); addTile();
+  draw();
 }
 
-function addRandom(){
-  let empty = [];
-  for(let r=0;r<size;r++){
-    for(let c=0;c<size;c++){
-      if(board[r][c]===0) empty.push([r,c]);
-    }
-  }
-  if(empty.length===0) return;
-  const [r,c] = empty[Math.floor(Math.random()*empty.length)];
-  board[r][c] = Math.random()<0.9 ? 2 : 4;
+function addTile(){
+  let empty=[];
+  board.forEach((r,i)=>r.forEach((v,j)=>v===0&&empty.push([i,j])));
+  if(!empty.length) return;
+  const [r,c]=empty[Math.floor(Math.random()*empty.length)];
+  board[r][c]=Math.random()<0.9?2:4;
 }
 
-function updateBoard(){
-  const container = document.getElementById('game-container');
-  container.innerHTML='';
-  for(let r=0;r<size;r++){
-    for(let c=0;c<size;c++){
-      const tile = document.createElement('div');
-      tile.classList.add('tile');
-      if(board[r][c]) tile.classList.add('tile-'+board[r][c]);
-      tile.textContent = board[r][c] || '';
-      container.appendChild(tile);
-    }
-  }
-  document.getElementById('score').textContent = "Score: " + score;
+function draw(){
+  document.querySelectorAll(".tile").forEach(t=>t.remove());
+  board.forEach((row,r)=>{
+    row.forEach((v,c)=>{
+      if(v){
+        const tile=document.createElement("div");
+        tile.className=`tile tile-${v}`;
+        tile.textContent=v;
+        tile.style.transform=`translate(${c*82}px,${r*82}px)`;
+        boardEl.appendChild(tile);
+      }
+    });
+  });
+  scoreEl.textContent=score;
 }
 
 function slide(row){
-  let arr = row.filter(v=>v!==0);
-  for(let i=0;i<arr.length-1;i++){
-    if(arr[i]===arr[i+1]){
-      arr[i]*=2;
-      score += arr[i];
-      arr[i+1]=0;
+  row=row.filter(v=>v);
+  for(let i=0;i<row.length-1;i++){
+    if(row[i]===row[i+1]){
+      row[i]*=2;
+      score+=row[i];
+      row[i+1]=0;
     }
   }
-  arr = arr.filter(v=>v!==0);
-  while(arr.length<size) arr.push(0);
-  return arr;
+  row=row.filter(v=>v);
+  while(row.length<size) row.push(0);
+  return row;
 }
 
 function move(dir){
-  let rotated = false;
-  if(dir==='up'){ board = rotateLeft(board); rotated=true; }
-  if(dir==='down'){ board = rotateRight(board); rotated=true; }
-  if(dir==='right'){ board = board.map(r=>r.reverse()); }
+  let moved=false;
 
-  let moved = false;
+  const rotateLeft = m => m[0].map((_,i)=>m.map(r=>r[i])).reverse();
+  const rotateRight = m => rotateLeft(rotateLeft(rotateLeft(m)));
+
+  if(dir==="up") board=rotateLeft(board);
+  if(dir==="down") board=rotateRight(board);
+  if(dir==="right") board=board.map(r=>r.reverse());
+
   for(let r=0;r<size;r++){
-    const newRow = slide(board[r]);
-    if(!moved && newRow.some((v,i)=>v!==board[r][i])) moved=true;
-    board[r] = newRow;
+    const newRow=slide(board[r]);
+    if(newRow.some((v,i)=>v!==board[r][i])) moved=true;
+    board[r]=newRow;
   }
 
-  if(dir==='right'){ board = board.map(r=>r.reverse()); }
-  if(rotated && dir==='up') board = rotateRight(board);
-  if(rotated && dir==='down') board = rotateLeft(board);
+  if(dir==="right") board=board.map(r=>r.reverse());
+  if(dir==="up") board=rotateRight(board);
+  if(dir==="down") board=rotateLeft(board);
 
-  if(moved) addRandom();
-  updateBoard();
+  if(moved){ addTile(); draw(); }
 }
 
-function rotateLeft(mat){
-  return mat[0].map((_,i)=>mat.map(row=>row[i])).reverse();
-}
-
-function rotateRight(mat){
-  return mat[0].map((_,i)=>mat.map(row=>row[i])).reverse().map(r=>r.reverse());
-}
-
-document.addEventListener('keydown', e=>{
-  switch(e.key){
-    case 'ArrowUp': move('up'); break;
-    case 'ArrowDown': move('down'); break;
-    case 'ArrowLeft': move('left'); break;
-    case 'ArrowRight': move('right'); break;
-  }
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowUp") move("up");
+  if(e.key==="ArrowDown") move("down");
+  if(e.key==="ArrowLeft") move("left");
+  if(e.key==="ArrowRight") move("right");
 });
 
-// Touch support
-let touchStartX=0, touchStartY=0;
-document.addEventListener('touchstart', e=>{
-  touchStartX=e.touches[0].clientX;
-  touchStartY=e.touches[0].clientY;
+let sx,sy;
+boardEl.addEventListener("touchstart",e=>{
+  sx=e.touches[0].clientX;
+  sy=e.touches[0].clientY;
 });
-document.addEventListener('touchend', e=>{
-  let dx = e.changedTouches[0].clientX - touchStartX;
-  let dy = e.changedTouches[0].clientY - touchStartY;
+boardEl.addEventListener("touchend",e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  const dy=e.changedTouches[0].clientY-sy;
   if(Math.abs(dx)>Math.abs(dy)){
-    if(dx>0) move('right'); else move('left');
-  } else {
-    if(dy>0) move('down'); else move('up');
+    move(dx>0?"right":"left");
+  }else{
+    move(dy>0?"down":"up");
   }
 });
 
-startGame();
+init();
 </script>
 
 </body>
