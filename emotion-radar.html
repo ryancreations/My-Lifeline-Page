@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emotion Radar • My Lifeline</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Quicksand',sans-serif;
+  background:linear-gradient(to bottom,#eef7ff,#fef6ff);
+  margin:0;
+  padding:20px;
+  color:#333;
+  text-align:center;
+}
+
+h1{color:#6b5cff}
+p{max-width:600px;margin:10px auto}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  background:white;
+  padding:20px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+label{
+  display:flex;
+  justify-content:space-between;
+  margin:12px 0;
+  font-weight:600;
+}
+
+input[type=range]{
+  width:100%;
+}
+
+canvas{
+  margin-top:30px;
+  max-width:100%;
+}
+
+button{
+  margin-top:20px;
+  padding:12px 24px;
+  border:none;
+  border-radius:30px;
+  background:#6b5cff;
+  color:white;
+  font-size:1.1em;
+  cursor:pointer;
+}
+button:hover{opacity:.9}
+</style>
+</head>
+
+<body>
+
+<h1>Emotion Radar</h1>
+<p>Move the sliders to reflect how you feel right now.  
+This isn’t judgment — just awareness.</p>
+
+<div class="container">
+  <label>Anxiety <span id="aVal">3</span></label>
+  <input type="range" min="0" max="5" value="3" oninput="update()">
+
+  <label>Sadness <span id="sVal">2</span></label>
+  <input type="range" min="0" max="5" value="2" oninput="update()">
+
+  <label>Anger <span id="anVal">1</span></label>
+  <input type="range" min="0" max="5" value="1" oninput="update()">
+
+  <label>Calm <span id="cVal">3</span></label>
+  <input type="range" min="0" max="5" value="3" oninput="update()">
+
+  <label>Energy <span id="eVal">2</span></label>
+  <input type="range" min="0" max="5" value="2" oninput="update()">
+
+  <canvas id="radar" width="300" height="300"></canvas>
+
+  <button onclick="save()">Save Today’s Check-In</button>
+</div>
+
+<script>
+const ctx = document.getElementById("radar").getContext("2d");
+let values = [3,2,1,3,2];
+const labels = ["Anxiety","Sadness","Anger","Calm","Energy"];
+
+function update(){
+  document.querySelectorAll("input").forEach((el,i)=>{
+    values[i]=parseInt(el.value);
+  });
+  document.getElementById("aVal").textContent=values[0];
+  document.getElementById("sVal").textContent=values[1];
+  document.getElementById("anVal").textContent=values[2];
+  document.getElementById("cVal").textContent=values[3];
+  document.getElementById("eVal").textContent=values[4];
+  draw();
+}
+
+function draw(){
+  ctx.clearRect(0,0,300,300);
+  const center=150;
+  const radius=100;
+  ctx.strokeStyle="#ddd";
+
+  for(let i=1;i<=5;i++){
+    ctx.beginPath();
+    ctx.arc(center,center,(radius/5)*i,0,Math.PI*2);
+    ctx.stroke();
+  }
+
+  ctx.beginPath();
+  values.forEach((v,i)=>{
+    const angle=(Math.PI*2/5)*i - Math.PI/2;
+    const r=(v/5)*radius;
+    const x=center + Math.cos(angle)*r;
+    const y=center + Math.sin(angle)*r;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle="rgba(107,92,255,0.4)";
+  ctx.fill();
+  ctx.strokeStyle="#6b5cff";
+  ctx.stroke();
+}
+
+function save(){
+  localStorage.setItem("emotionRadar",JSON.stringify(values));
+  alert("Saved. You showed up today 💙");
+}
+
+update();
+</script>
+
+</body>
+</html>
