@@ -80,6 +80,10 @@ button:hover{opacity:.9}
 
 <button onclick="save()">Save My Week</button>
 
+<h2 style="text-align:center;margin-top:40px;color:#00bcd4">Past Self-Care Weeks</h2>
+<p style="text-align:center;color:#666">Proof you showed up for yourself.</p>
+
+<div id="pastWeeks" style="max-width:900px;margin:auto"></div>
 <script>
 const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 const planner=document.getElementById("planner");
@@ -108,9 +112,51 @@ function save(){
       mood:day.querySelector("select").value
     });
   });
-  localStorage.setItem("selfCareWeek",JSON.stringify(data));
+
+  const history = JSON.parse(localStorage.getItem("selfCareHistory") || "[]");
+
+  history.push({
+    date:new Date().toLocaleDateString(),
+    week:data
+  });
+
+  localStorage.setItem("selfCareHistory",JSON.stringify(history));
   alert("Saved. You’re taking care of yourself 🌱");
+  renderPast();
 }
+
+function renderPast(){
+  const container=document.getElementById("pastWeeks");
+  if(!container) return;
+
+  const history = JSON.parse(localStorage.getItem("selfCareHistory") || "[]");
+  if(history.length===0){
+    container.innerHTML="<p style='text-align:center;color:#777'>No past weeks yet.</p>";
+    return;
+  }
+
+  container.innerHTML="";
+
+  history.slice().reverse().forEach(entry=>{
+    const div=document.createElement("div");
+    div.style.background="white";
+    div.style.borderRadius="16px";
+    div.style.padding="15px";
+    div.style.margin="15px 0";
+    div.style.boxShadow="0 8px 20px rgba(0,0,0,.1)";
+
+    div.innerHTML=`<strong>${entry.date}</strong><ul style="margin-top:10px"></ul>`;
+    const ul=div.querySelector("ul");
+
+    entry.week.forEach((d,i)=>{
+      ul.innerHTML+=`<li><strong>${days[i]}:</strong> ${d.mood} — ${d.text || "—"}</li>`;
+    });
+
+    container.appendChild(div);
+  });
+}
+
+renderPast();
 </script>
 
 </body>
