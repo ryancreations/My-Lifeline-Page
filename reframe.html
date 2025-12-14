@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reframe • My Lifeline</title>
+<title>AI Reframe • My Lifeline</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 
 body{
-  background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
+  background:radial-gradient(circle at top,#1e3c72,#2a5298);
   font-family:'Quicksand',sans-serif;
   color:#fff;
   min-height:100vh;
@@ -56,7 +56,7 @@ header{
 }
 
 header h1{
-  font-size:2.8em;
+  font-size:3em;
   color:#b3e5fc;
 }
 
@@ -66,11 +66,11 @@ header p{
 }
 
 .card{
-  background:rgba(255,255,255,.1);
+  background:rgba(255,255,255,.12);
   border-radius:20px;
   padding:25px;
   margin-bottom:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
 label{
@@ -81,7 +81,7 @@ label{
 
 textarea{
   width:100%;
-  min-height:100px;
+  min-height:110px;
   border-radius:15px;
   border:none;
   padding:15px;
@@ -90,33 +90,41 @@ textarea{
   font-family:'Quicksand',sans-serif;
 }
 
+select{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  font-size:1em;
+}
+
 button.action{
   background:#ff6b9d;
   color:white;
   border:none;
-  padding:16px 30px;
-  border-radius:40px;
-  font-size:1.2em;
+  padding:18px 36px;
+  border-radius:50px;
+  font-size:1.3em;
   font-weight:600;
   cursor:pointer;
   display:block;
-  margin:25px auto 0;
+  margin:30px auto 0;
 }
 
-button.action:hover{transform:scale(1.05)}
+button.action:hover{transform:scale(1.06)}
 
 .output{
   margin-top:20px;
-  padding:20px;
-  background:rgba(0,0,0,.25);
+  padding:22px;
+  background:rgba(0,0,0,.35);
   border-radius:15px;
-  line-height:1.6;
+  line-height:1.7;
 }
 
 .fade{
   opacity:0;
-  transform:translateY(10px);
-  transition:.5s;
+  transform:translateY(15px);
+  transition:.6s;
 }
 
 .fade.show{
@@ -130,77 +138,100 @@ button.action:hover{transform:scale(1.05)}
 
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="location.href='emergency.html'">Emergency</button>
   <button onclick="location.href='mental.html'">Mental</button>
-  <button onclick="location.href='videos.html'">Videos</button>
-  <button onclick="location.href='music.html'">Music</button>
-  <button onclick="location.href='bestie.html'">AI Bestie</button>
-  <button onclick="location.href='letters.html'">Letters</button>
   <button onclick="location.href='todayistayed.html'">Today I Stayed</button>
-  <button onclick="location.href='yourenough.html'">You’re Enough</button>
   <button onclick="location.href='goodthings.html'">Good Things</button>
-  <button onclick="location.href='lofiroom.html'">Lofi Room</button>
-  <button onclick="location.href='chatroom.html'">Chat Room</button>
-  <button onclick="location.href='2048.html'">2048</button>
-  <button onclick="location.href='reflect.html'">Reflect</button>
-  <button onclick="location.href='reframe.html'">Reframe</button>
+  <button onclick="location.href='bestie.html'">AI Help</button>
 </nav>
 
 <main>
 
 <header>
-  <h1>Thought Reframe</h1>
-  <p>Slow down the spiral. Look at the thought from a safer angle.</p>
+  <h1>AI-Assisted Reframe</h1>
+  <p>Let the AI help untangle the thought — gently.</p>
 </header>
 
 <div class="card">
-  <label>What’s the thought that’s bothering you?</label>
-  <textarea id="negativeThought" placeholder="Example: I mess everything up and everyone hates me."></textarea>
+  <label>What thought is hurting right now?</label>
+  <textarea id="thought" placeholder="Example: I'm too broken for anyone to stay."></textarea>
 </div>
 
 <div class="card">
-  <label>What evidence supports this thought?</label>
-  <textarea id="evidenceFor" placeholder="What facts actually support it?"></textarea>
+  <label>How intense does it feel?</label>
+  <select id="intensity">
+    <option value="low">Low but lingering</option>
+    <option value="medium">Heavy and distracting</option>
+    <option value="high">Overwhelming / spiral</option>
+  </select>
 </div>
 
 <div class="card">
-  <label>What evidence goes against it?</label>
-  <textarea id="evidenceAgainst" placeholder="Times this thought wasn’t true."></textarea>
+  <label>What kind of support do you want?</label>
+  <select id="style">
+    <option value="gentle">Gentle & comforting</option>
+    <option value="realistic">Grounded & realistic</option>
+    <option value="firm">Firm but caring</option>
+  </select>
 </div>
 
-<button class="action" onclick="reframe()">Help Me Reframe</button>
+<button class="action" onclick="generateReframe()">Reframe With AI</button>
 
 <div id="result" class="card fade">
-  <h2>Gentler Reframe</h2>
-  <div id="reframeText" class="output"></div>
+  <h2>Your Reframe</h2>
+  <div id="output" class="output"></div>
 </div>
 
 </main>
 
 <script>
-function reframe(){
-  const neg = document.getElementById('negativeThought').value.trim();
-  const against = document.getElementById('evidenceAgainst').value.trim();
-  const result = document.getElementById('result');
-  const text = document.getElementById('reframeText');
+function generateReframe(){
+  const thought = document.getElementById("thought").value.trim();
+  const intensity = document.getElementById("intensity").value;
+  const style = document.getElementById("style").value;
+  const result = document.getElementById("result");
+  const output = document.getElementById("output");
 
-  if(!neg){
+  if(!thought){
     alert("Write the thought first.");
     return;
   }
 
-  let reframed = `
-    That thought feels real — but thoughts aren’t always facts.<br><br>
-    A more balanced way to look at this could be:<br><br>
-    <strong>“I’m struggling right now, but this moment doesn’t define me.”</strong>
-  `;
+  let opening = "";
+  let core = "";
+  let closing = "";
 
-  if(against){
-    reframed += `<br><br>Especially when you remember:<br><em>${against}</em>`;
+  if(style === "gentle"){
+    opening = "I hear how painful this feels. You're not weak for thinking this.";
+    core = "Thoughts like this often come from hurt, not truth.";
+    closing = "You’re allowed to be human and still worthy of care.";
   }
 
-  text.innerHTML = reframed;
-  result.classList.add('show');
+  if(style === "realistic"){
+    opening = "Let’s slow this down for a second.";
+    core = "This thought feels convincing, but feelings aren’t proof.";
+    closing = "Struggling doesn’t cancel your value.";
+  }
+
+  if(style === "firm"){
+    opening = "This thought is loud — but it’s not in charge.";
+    core = "Your brain is reacting to pain, not stating facts.";
+    closing = "You deserve patience, especially from yourself.";
+  }
+
+  if(intensity === "high"){
+    core += " When emotions spike, the mind goes into survival mode.";
+  }
+
+  output.innerHTML = `
+    <p>${opening}</p>
+    <p><strong>Original thought:</strong><br>${thought}</p>
+    <p>${core}</p>
+    <p><strong>Reframe:</strong><br>
+    “I’m hurting right now, but this moment doesn’t define my worth or my future.”</p>
+    <p>${closing}</p>
+  `;
+
+  result.classList.add("show");
 }
 </script>
 
