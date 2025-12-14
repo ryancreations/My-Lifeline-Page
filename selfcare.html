@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Care Wheel • My Lifeline</title>
+
+<style>
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: #0a0a1f;
+  color: white;
+  margin: 0;
+  padding: 15px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#wheel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.care {
+  background: #1a1a2e;
+  padding: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  font-size: 1.2em;
+}
+
+.care:hover {
+  transform: scale(1.05);
+  background: #26264a;
+}
+
+#plan {
+  margin-top: 25px;
+  background: #15152d;
+  padding: 20px;
+  border-radius: 15px;
+  min-height: 80px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 12px;
+  background: #ff6b9d;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ff4c7a;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+</nav>
+
+<h1>Self-Care Wheel</h1>
+<p>Tap what you need most right now.</p>
+
+<div id="wheel">
+  <div class="care" onclick="generate('body')">💤 Body</div>
+  <div class="care" onclick="generate('mind')">🧠 Mind</div>
+  <div class="care" onclick="generate('emotions')">❤️ Emotions</div>
+  <div class="care" onclick="generate('social')">👥 Social</div>
+  <div class="care" onclick="generate('creative')">🎨 Creativity</div>
+  <div class="care" onclick="generate('calm')">🌿 Calm</div>
+</div>
+
+<div id="plan">
+  Your self-care plan will appear here.
+</div>
+
+<button onclick="randomCare()">I don’t know what I need</button>
+
+<script>
+const plans = {
+  body: [
+    "Drink a glass of water.",
+    "Stretch for 2 minutes.",
+    "Lay down and breathe slowly.",
+    "Eat something gentle."
+  ],
+  mind: [
+    "Write one thought without judging it.",
+    "Do a puzzle or game for 5 minutes.",
+    "Read something comforting.",
+    "Turn off your brain for a moment."
+  ],
+  emotions: [
+    "Name what you’re feeling — no fixing it.",
+    "Cry if you need to.",
+    "Write a letter you won’t send.",
+    "Remind yourself: feelings pass."
+  ],
+  social: [
+    "Send a meme to someone safe.",
+    "Sit near others without talking.",
+    "Pet your dog or think of someone who cares.",
+    "Say hi to someone online."
+  ],
+  creative: [
+    "Doodle without purpose.",
+    "Write one messy sentence.",
+    "Make a playlist.",
+    "Change your phone background."
+  ],
+  calm: [
+    "Take 5 deep breaths.",
+    "Look around and name 3 things you see.",
+    "Close your eyes for 30 seconds.",
+    "Put on lofi or white noise."
+  ]
+};
+
+function generate(type) {
+  const options = plans[type];
+  const choice = options[Math.floor(Math.random() * options.length)];
+  document.getElementById("plan").textContent = choice;
+}
+
+function randomCare() {
+  const keys = Object.keys(plans);
+  const randomType = keys[Math.floor(Math.random() * keys.length)];
+  generate(randomType);
+}
+</script>
+
+</body>
+</html>
