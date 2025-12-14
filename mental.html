@@ -287,29 +287,45 @@ renderGroundingHistory();
       document.getElementById('taste').value = last.taste||'';
     }
 
-    // Breathing
-    let breathingInterval;
-    const prompts = ['Inhale deeply... (4s)', 'Hold... (4s)', 'Exhale slowly... (4s)', 'Great job. Repeat if needed.'];
-    let promptIndex = 0;
-    const circle = document.getElementById('breathCircle');
-    const promptEl = document.getElementById('breathPrompt');
-    const audio = document.getElementById('breathAudio');
-    function startBreathing() {
-      audio.play().catch(()=>{});
-      breathingInterval = setInterval(() => {
-        if (promptIndex === 0) circle.style.transform = 'scale(1.6)';
-        else if (promptIndex === 1) circle.style.transform = 'scale(1.2)';
-        else circle.style.transform = 'scale(1)';
-        promptEl.textContent = prompts[promptIndex];
-        promptIndex = (promptIndex + 1) % prompts.length;
-      }, 4000);
-    }
-    function stopBreathing() {
-      clearInterval(breathingInterval);
-      circle.style.transform = 'scale(1)';
-      promptEl.textContent = 'Click to begin';
-      audio.pause();
-    }
+    // Breathing (FIXED & STABLE)
+let breathingInterval = null;
+let promptIndex = 0;
+
+const prompts = [
+  { text: 'Inhale deeply…', scale: 1.6 },
+  { text: 'Hold…', scale: 1.6 },
+  { text: 'Exhale slowly…', scale: 1 },
+  { text: 'Pause…', scale: 1 }
+];
+
+const circle = document.getElementById('breathCircle');
+const promptEl = document.getElementById('breathPrompt');
+const audio = document.getElementById('breathAudio');
+
+function runBreathStep() {
+  const step = prompts[promptIndex];
+  promptEl.textContent = step.text;
+  circle.style.transform = `scale(${step.scale})`;
+  promptIndex = (promptIndex + 1) % prompts.length;
+}
+
+function startBreathing() {
+  if (breathingInterval) return; // prevent stacking
+  promptIndex = 0;
+  runBreathStep(); // show immediately
+  audio.currentTime = 0;
+  audio.play().catch(()=>{});
+
+  breathingInterval = setInterval(runBreathStep, 4000);
+}
+
+function stopBreathing() {
+  clearInterval(breathingInterval);
+  breathingInterval = null;
+  circle.style.transform = 'scale(1)';
+  promptEl.textContent = 'Click to begin';
+  audio.pause();
+}
 
     // Sensory Jar
     const sensoryIdeas = ["Feel the texture of your clothes","Smell something comforting","Listen to the quiet","Taste something slowly","Look at a calming color"];
