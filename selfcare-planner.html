@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Care Planner • My Lifeline</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Quicksand',sans-serif;
+  background:linear-gradient(to bottom,#fff8f0,#eef7ff);
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+
+h1{text-align:center;color:#00bcd4}
+p{text-align:center}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+  max-width:900px;
+  margin:auto;
+}
+
+.day{
+  background:white;
+  padding:15px;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.1);
+}
+
+.day h3{text-align:center;margin-bottom:10px}
+
+textarea{
+  width:100%;
+  min-height:70px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  padding:8px;
+  resize:none;
+}
+
+select{
+  width:100%;
+  padding:8px;
+  border-radius:10px;
+  margin-top:8px;
+}
+
+button{
+  display:block;
+  margin:30px auto;
+  padding:14px 30px;
+  background:#00bcd4;
+  color:white;
+  border:none;
+  border-radius:30px;
+  font-size:1.1em;
+  cursor:pointer;
+}
+button:hover{opacity:.9}
+</style>
+</head>
+
+<body>
+
+<h1>Self-Care Planner</h1>
+<p>Small intentions. No pressure. Just support.</p>
+
+<div class="grid" id="planner"></div>
+
+<button onclick="save()">Save My Week</button>
+
+<script>
+const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const planner=document.getElementById("planner");
+
+days.forEach((d,i)=>{
+  planner.innerHTML+=`
+    <div class="day">
+      <h3>${d}</h3>
+      <textarea placeholder="One gentle intention…"></textarea>
+      <select>
+        <option>🌿 Calm</option>
+        <option>💧 Hydration</option>
+        <option>☀️ Fresh air</option>
+        <option>🎧 Music</option>
+        <option>😴 Rest</option>
+        <option>🧠 Reflection</option>
+      </select>
+    </div>`;
+});
+
+function save(){
+  const data=[];
+  document.querySelectorAll(".day").forEach(day=>{
+    data.push({
+      text:day.querySelector("textarea").value,
+      mood:day.querySelector("select").value
+    });
+  });
+  localStorage.setItem("selfCareWeek",JSON.stringify(data));
+  alert("Saved. You’re taking care of yourself 🌱");
+}
+</script>
+
+</body>
+</html>
