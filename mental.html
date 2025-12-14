@@ -52,6 +52,19 @@
     body.desktop-mode nav button { padding: 8px 14px; font-size: 0.95em; }
     body.desktop-mode .section { padding: 25px; }
     @media(max-width:600px){#dailyQuote{font-size:1.25em;padding:30px 20px}}
+  
+  .grounding-record {
+  background:#ffffff;
+  border-left:6px solid #00bcd4;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  font-size:0.95em;
+}
+.grounding-record strong {
+  color:#00bcd4;
+}
   </style>
 </head>
 <body>
@@ -106,6 +119,20 @@
       <button onclick="saveGrounding()">Save Session</button>
       <button onclick="newGroundingSession()">New Session</button>
     </div>
+    <div class="section">
+  <h2>Past Grounding Sessions</h2>
+  <p style="text-align:center;color:#555;margin-bottom:15px">
+    Times you grounded yourself — proof you showed up.
+  </p>
+
+  <div id="groundingHistory"></div>
+
+  <div style="text-align:center;margin-top:15px">
+    <button onclick="clearGroundingHistory()" style="background:#ff6b6b">
+      Clear History
+    </button>
+  </div>
+</div>
 
     <div class="section">
       <h2>Guided Breathing</h2>
@@ -160,6 +187,43 @@
   </main>
 
   <script>
+function renderGroundingHistory(){
+  const container = document.getElementById('groundingHistory');
+  const sessions = JSON.parse(localStorage.getItem('groundingSessions') || '[]');
+
+  if(sessions.length === 0){
+    container.innerHTML = "<p style='text-align:center;color:#777'>No sessions yet — and that’s okay.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  sessions.slice().reverse().forEach(s => {
+    const div = document.createElement('div');
+    div.className = "grounding-record";
+    div.innerHTML = `
+      <strong>${s.date}</strong><br>
+      👀 <em>See:</em> ${s.see || "—"}<br>
+      ✋ <em>Touch:</em> ${s.touch || "—"}<br>
+      👂 <em>Hear:</em> ${s.hear || "—"}<br>
+      👃 <em>Smell:</em> ${s.smell || "—"}<br>
+      👅 <em>Taste:</em> ${s.taste || "—"}
+    `;
+    container.appendChild(div);
+  });
+}
+
+function clearGroundingHistory(){
+  if(confirm("Clear all grounding history?")){
+    localStorage.removeItem('groundingSessions');
+    renderGroundingHistory();
+  }
+}
+
+/* Load history on page load */
+renderGroundingHistory();
+
+  
   function logout() {
     localStorage.removeItem('lifelineAuthenticated');
     location.href = 'index.html';
