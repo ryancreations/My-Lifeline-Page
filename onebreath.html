@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>One Breath (5-7-5) • My Lifeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1f;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+.login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+.login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+.login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+.hidden{display:none}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;justify-content:center;gap:20px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:10px 20px;border-radius:20px;font-weight:600;cursor:pointer}
+h1{font-size:3em;margin:40px;color:#a8e6cf}
+#circle{width:320px;height:320px;background:#a8e6cf;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.8em;text-align:center;transition:transform 5s ease-in-out;box-shadow:0 0 80px #a8e6cf}
+#prompt{font-size:2.2em;margin:40px;line-height:1.5}
+button#start{background:#ff6b9d;color:#fff;padding:20px 60px;border:none;border-radius:50px;font-size:1.8em;cursor:pointer;margin:20px}
+button#stop{background:#666;color:#fff;padding:16px 40px;border:none;border-radius:50px;font-size:1.4em;cursor:pointer}
+</style>
+</head><body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-box">
+  <h1>My Lifeline</h1>
+  <p>Enter your personal key</p>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter Safe Space</button>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="mainContent" class="hidden">
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
+</nav>
+
+<h1>One Breath</h1>
+<div id="circle">Breathe with me</div>
+<div id="prompt">Click Start for 5-7-5 breathing<br>(inhale 5 • hold 7 • exhale 5)</div>
+<button id="start" onclick="start()">Start</button>
+<button id="stop" onclick="stop()">Stop</button>
+</div>
+
+<script>
+function checkLogin(){
+  if(document.getElementById('username').value==="Ryan" && document.getElementById('password').value==="ITSmf420"){
+    localStorage.setItem('lifelineAuthenticated','true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  } else {
+    alert("Incorrect username or password.");
+  }
+}
+function logout(){
+  localStorage.removeItem('lifelineAuthenticated');
+  location.reload();
+}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
+}
+
+let interval;
+const circle = document.getElementById('circle');
+const prompt = document.getElementById('prompt');
+
+const steps = [
+  {text: "Inhale...<br>5 seconds", scale: 1.8, time: 5000},
+  {text: "Hold...<br>7 seconds", scale: 1.8, time: 7000},
+  {text: "Exhale...<br>5 seconds", scale: 1, time: 5000},
+  {text: "Beautiful.<br>One more?", scale: 1, time: 3000}
+];
+
+function start(){
+  let i = 0;
+  function cycle(){
+    prompt.innerHTML = steps[i].text;
+    circle.style.transform = `scale(${steps[i].scale})`;
+    i = (i + 1) % steps.length;
+    interval = setTimeout(cycle, steps[(i-1+steps.length)%steps.length].time);
+  }
+  cycle();
+}
+
+function stop(){
+  clearTimeout(interval);
+  circle.style.transform = 'scale(1)';
+  prompt.innerHTML = 'Click Start for 5-7-5 breathing<br>(inhale 5 • hold 7 • exhale 5)';
+}
+</script>
+</body></html>
