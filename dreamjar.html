@@ -6,26 +6,34 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a001f;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.login-box,.hidden{display:none}
+.login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+.login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+.login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+.login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+.login-box button:hover{background:#0097a7}
+.hidden{display:none}
 nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;justify-content:center;gap:20px}
 nav button{background:#fff;color:#00bcd4;border:none;padding:10px 20px;border-radius:20px;font-weight:600;cursor:pointer}
 main{margin-top:70px;padding:20px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center}
 h1{font-size:3em;color:#d4a5ff;margin:30px}
 .jar{background:#1a0033;width:320px;height:500px;margin:auto;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;position:relative;overflow:hidden;box-shadow:0 0 60px #d4a5ff}
-.firefly{position:absolute;width:10px;height:10px;background:#ffeb3b;border-radius:50%;box-shadow:0 0 20px #ffeb3b;animation:drift 15s infinite linear}
-@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(calc(100vw - 320px + var(--x)),calc(100vh - 500px + var(--y)))}
+.firefly{position:absolute;width:12px;height:12px;background:#ffeb3b;border-radius:50%;box-shadow:0 0 25px #ffeb3b;font-size:0.8em;text-align:center;line-height:12px;animation:drift 20s infinite linear}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(var(--x),var(--y))}}
 textarea{width:90%;max-width:500px;height:120px;padding:20px;margin:20px 0;border:3px solid #d4a5ff;border-radius:20px;background:#1a0033;color:#fff;font-size:1.2em}
 button{background:#d4a5ff;color:#0a001f;padding:18px 50px;border:none;border-radius:50px;font-size:1.6em;cursor:pointer}
 </style>
 </head><body>
 
+<!-- LOGIN SCREEN -->
 <div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1><p>Enter your personal key</p>
+  <h1>My Lifeline</h1>
+  <p>Enter your personal key</p>
   <input type="text" id="username" placeholder="Username">
   <input type="password" id="password" placeholder="Password">
   <button onclick="checkLogin()">Enter Safe Space</button>
 </div>
 
+<!-- MAIN PAGE -->
 <div id="mainContent" class="hidden">
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
@@ -43,13 +51,18 @@ button{background:#d4a5ff;color:#0a001f;padding:18px 50px;border:none;border-rad
 
 <script>
 function checkLogin(){
-  if(document.getElementById('username').value==="Ryan"&&document.getElementById('password').value==="ITSmf420"){
+  if(document.getElementById('username').value==="Ryan" && document.getElementById('password').value==="ITSmf420"){
     localStorage.setItem('lifelineAuthenticated','true');
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('mainContent').classList.remove('hidden');
-  }else alert("Incorrect");
+  } else {
+    alert("Incorrect username or password.");
+  }
 }
-function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload()}
+function logout(){
+  localStorage.removeItem('lifelineAuthenticated');
+  location.reload();
+}
 if(localStorage.getItem('lifelineAuthenticated')==='true'){
   document.getElementById('loginScreen').classList.add('hidden');
   document.getElementById('mainContent').classList.remove('hidden');
@@ -69,13 +82,16 @@ function addDream(){
 function createFirefly(text){
   const f = document.createElement('div');
   f.className='firefly';
-  f.textContent = text.substring(0,20);
-  f.style.setProperty('--x', Math.random()*200 - 100 + 'px');
-  f.style.setProperty('--y', Math.random()*300 - 150 + 'px');
-  f.style.animationDuration = 10 + Math.random()*20 + 's';
+  f.textContent = text.length > 15 ? text.substring(0,15)+'...' : text;
+  f.style.left = Math.random()*80 + 10 + '%';
+  f.style.top = Math.random()*80 + 10 + '%';
+  f.style.setProperty('--x', (Math.random()*200 - 100) + 'px');
+  f.style.setProperty('--y', (Math.random()*300 - 150) + 'px');
+  f.style.animationDuration = (15 + Math.random()*15) + 's';
   document.getElementById('jar').appendChild(f);
 }
 
-dreams.forEach(d=>createFirefly(d));
+// Load existing dreams
+dreams.forEach(d => createFirefly(d));
 </script>
 </body></html>
