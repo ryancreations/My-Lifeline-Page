@@ -1,204 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Our Messages</title>
-
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ryan ♡ Bryce</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{
-  background:#f5f5f5;
-  font-family:'Segoe UI',sans-serif;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px;
-  padding:5px;
-  background:#fff;
-  border-bottom:1px solid #eee;
-}
-nav button{
-  flex:1 1 48%;
-  padding:10px;
-  font-size:0.9em;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  background:#0095f6;
-  color:white;
-}
-nav button:last-child{
-  background:#ff6b6b;
-}
-header{
-  background:#ff6b9d;
-  color:#fff;
-  padding:15px;
-  text-align:center;
-  font-size:1.6em;
-  font-weight:600;
-}
-#messages{
-  flex:1;
-  padding:10px;
-  overflow-y:auto;
-  background:#fff;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.message{
-  max-width:90%;
-  padding:10px 14px;
-  border-radius:18px;
-  line-height:1.4;
-  word-wrap: break-word;
-}
-.you{
-  background:#ff9a9e;
-  color:#fff;
-  align-self:flex-end;
-  border-bottom-right-radius:4px;
-}
-.them{
-  background:#e0e0e0;
-  color:#000;
-  align-self:flex-start;
-  border-bottom-left-radius:4px;
-}
-.time{
-  font-size:.7em;
-  color:#555;
-  margin-top:4px;
-  text-align:right;
-}
-#inputArea{
-  background:#fff;
-  border-top:1px solid #eee;
-  padding:10px;
-  display:flex;
-  gap:8px;
-  align-items:center;
-}
-#msg{
-  flex:1;
-  padding:12px;
-  border-radius:25px;
-  border:1px solid #ddd;
-  font-size:1em;
-}
-#send{
-  background:#ff6b9d;
-  color:#fff;
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  border:none;
-  font-size:1.4em;
-  cursor:pointer;
-}
-
-/* MEDIA QUERIES FOR SMALL DEVICES */
-@media (max-width:480px){
-  header{
-    font-size:1.3em;
-    padding:12px;
-  }
-  nav button{
-    flex:1 1 48%;
-    font-size:0.8em;
-    padding:8px;
-  }
-  #send{
-    width:45px;
-    height:45px;
-    font-size:1.2em;
-  }
-  #msg{
-    font-size:0.95em;
-  }
-}
+body{background:#f5f5f5;font-family:'Quicksand',sans-serif;color:#333;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+header{background:#fff;border-bottom:1px solid #ddd;padding:16px;text-align:center;font-size:1.8em;font-weight:600;position:relative;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+#callBtn{position:absolute;right:16px;top:12px;background:#ff6b9d;color:#fff;padding:10px 20px;border-radius:30px;font-size:0.9em;cursor:pointer}
+#messages{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:#f9f9f9}
+.message{max-width:80%;padding:14px 18px;border-radius:25px;line-height:1.5;align-self:flex-start}
+.you{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.them{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:5px}
+.time{font-size:0.8em;color:#888;margin-top:6px;text-align:right}
+#inputArea{background:#fff;border-top:1px solid #ddd;padding:12px;display:flex;gap:10px;align-items:center}
+#msg{flex:1;padding:16px;border-radius:30px;border:1px solid #ddd;background:#fff;font-size:1.1em}
+#sendBtn{background:#0084ff;color:#fff;width:50px;height:50px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer}
+#videoCall{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:999}
+#remoteVideo{width:100%;height:80%;object-fit:cover}
+#localVideo{width:150px;height:200px;position:absolute;bottom:100px;right:20px;border-radius:15px;object-fit:cover;border:4px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+#callControls{background:#111;padding:20px;display:flex;justify-content:center;gap:30px}
+#hangup{background:#ff4444;color:#fff;padding:16px 40px;border-radius:50px;font-size:1.2em;cursor:pointer}
 </style>
-</head>
+</head><body>
 
-<body>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-</nav>
+<header>Ryan ♡ Bryce</header>
+<button id="callBtn" onclick="startCall()">Video Call</button>
 
-<header id="header">Our Messages</header>
 <div id="messages"></div>
 
 <div id="inputArea">
-  <input type="text" id="msg" placeholder="Type a message…">
-  <button id="send">➤</button>
+  <input type="text" id="msg" placeholder="Type a message...">
+  <button id="sendBtn">Send</button>
 </div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<div id="videoCall" class="hidden">
+  <video id="remoteVideo" autoplay playsinline></video>
+  <video id="localVideo" autoplay playsinline muted></video>
+  <div id="callControls">
+    <button id="hangup" onclick="endCall()">End Call</button>
+  </div>
+</div>
+
+<!-- Simple Peer for WebRTC -->
+<script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
 
 <script>
-function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    location.href = 'index.html';
-  }
-/* FIREBASE CONFIG */
-const firebaseConfig = {
-  apiKey: "AIzaSyBBRAhMp-LMjS5hgzQNB48bz31AeBMAHDk",
-  authDomain: "chatroom-3b44c.firebaseapp.com",
-  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com",
-  projectId: "chatroom-3b44c",
-  storageBucket: "chatroom-3b44c.firebasestorage.app",
-  messagingSenderId: "222445358770",
-  appId: "1:222445358770:web:c7fc0e4245308a8be943ab",
-  measurementId: "G-NJVE8C8SZQ"
-};
+let name = localStorage.getItem('chatName') || prompt("Ryan or Bryce?", "Ryan");
+localStorage.setItem('chatName', name);
 
-firebase.initializeApp(firebaseConfig);
+// Simple localStorage chat (no Firebase for simplicity)
+let chat = JSON.parse(localStorage.getItem('rbChat')||'[]');
 
-/* DATABASE REFERENCE */
-const db = firebase.database().ref("messages");
-
-/* ELEMENTS */
-const messages = document.getElementById("messages");
-const msgInput = document.getElementById("msg");
-const sendBtn = document.getElementById("send");
-
-/* USER DATA */
-let name = localStorage.getItem("myName") || "Promise of Love";
-
-/* SEND TEXT */
-function sendMessage(){
-  const text = msgInput.value.trim();
+function send(){
+  const text = document.getElementById('msg').value.trim();
   if(!text) return;
-  db.push({ name, type:"text", text, time: Date.now() });
-  msgInput.value="";
+  addMessage(text, name);
+  chat.push({n:name,t:text,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
+  localStorage.setItem('rbChat',JSON.stringify(chat.slice(-200)));
+  document.getElementById('msg').value = '';
 }
 
-/* RECEIVE MESSAGES */
-db.limitToLast(50).on("child_added", snap => {
-  const m = snap.val();
-  const div = document.createElement("div");
-  div.className = `message ${m.name===name?"you":"them"}`;
-  div.textContent = m.text;
-  const t = document.createElement("div");
-  t.className="time";
-  t.textContent = new Date(m.time).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
-  div.appendChild(t);
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
+function addMessage(text, sender){
+  const div = document.createElement('div');
+  div.className = `message ${sender===name ? 'you' : 'them'}`;
+  div.innerHTML = `${text}<div class="time">${new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</div>`;
+  document.getElementById('messages').appendChild(div);
+  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+}
+
+// Load chat
+chat.forEach(m => addMessage(m.t, m.n));
+
+// Enter = send
+document.getElementById('msg').addEventListener('keypress', e => {
+  if(e.key === 'Enter') send();
 });
+document.getElementById('sendBtn').onclick = send;
 
-/* EVENTS */
-sendBtn.onclick = sendMessage;
-msgInput.addEventListener("keydown", e => { if(e.key==="Enter") sendMessage(); });
+// WebRTC Video Call (peer-to-peer, no server)
+let peer = null;
+let localStream = null;
+
+async function startCall(){
+  localStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+  document.getElementById('localVideo').srcObject = localStream;
+
+  peer = new SimplePeer({initiator:true, stream:localStream, trickle:false});
+
+  peer.on('signal', data => {
+    prompt("Copy this code and send to Bryce:", JSON.stringify(data));
+  });
+
+  peer.on('stream', stream => {
+    document.getElementById('remoteVideo').srcObject = stream;
+    document.getElementById('videoCall').classList.remove('hidden');
+  });
+}
+
+function endCall(){
+  if(peer) peer.destroy();
+  if(localStream) localStream.getTracks().forEach(track => track.stop());
+  document.getElementById('videoCall').classList.add('hidden');
+}
+
+// For Bryce to join: paste the code from Ryan
+if(confirm("Do you have a call code from Ryan/Bryce?")){
+  const code = prompt("Paste the code:");
+  if(code){
+    localStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+    document.getElementById('localVideo').srcObject = localStream;
+
+    peer = new SimplePeer({initiator:false, stream:localStream, trickle:false});
+    peer.signal(JSON.parse(code));
+
+    peer.on('signal', data => {
+      alert("Send this code back: " + JSON.stringify(data));
+    });
+
+    peer.on('stream', stream => {
+      document.getElementById('remoteVideo').srcObject = stream;
+      document.getElementById('videoCall').classList.remove('hidden');
+    });
+  }
+}
 </script>
-
-</body>
-</html>
+</body></html>
