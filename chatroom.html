@@ -24,7 +24,7 @@ header{background:#fff;border-bottom:1px solid #dbdbdb;padding:16px;text-align:c
 </head><body>
 
 <header>Ryan ♡ Bryce</header>
-<button id="videoBtn" onclick="startVideo()">Video Call</button>
+<button id="videoBtn" onclick="startVideoCall()">Video Call</button>
 
 <div id="messages"></div>
 
@@ -37,16 +37,19 @@ header{background:#fff;border-bottom:1px solid #dbdbdb;padding:16px;text-align:c
   <video id="remoteVideo" autoplay playsinline></video>
   <video id="localVideo" autoplay playsinline muted></video>
   <div id="callControls">
-    <button id="hangup" onclick="endVideo()">End Call</button>
+    <button id="hangup" onclick="endVideoCall()">End Call</button>
   </div>
 </div>
 
-<!-- Firebase -->
+<!-- Firebase for text chat -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
+<!-- SimplePeer for video call -->
+<script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
+
 <script>
-// Your Firebase URL
+// Firebase setup (your project)
 const firebaseConfig = {
   databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com/"
 };
@@ -83,50 +86,60 @@ document.getElementById('msg').addEventListener('keypress', e => {
   if(e.key === 'Enter') send();
 });
 
-// Video Call (simple peer-to-peer)
+// Video Call
 let localStream;
 let peer;
 
-async function startVideo(){
+async function startVideoCall(){
   try {
-    localStream = await navigator.mediaDevices.getUserMedia({video:true, audio:true});
+    localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
     document.getElementById('localVideo').srcObject = localStream;
 
-    peer = new SimplePeer({initiator: true, stream: localStream, trickle: false});
+    peer = new SimplePeer({
+      initiator: true,
+      stream: localStream,
+      trickle: false
+    });
 
     peer.on('signal', data => {
       const code = JSON.stringify(data);
-      prompt("Copy this code and send to Bryce:", code);
+      prompt("Copy this code and send to Bryce (he pastes it when he opens the page):", code);
     });
 
     peer.on('stream', stream => {
       document.getElementById('remoteVideo').srcObject = stream;
       document.getElementById('videoCall').style.display = 'flex';
     });
-  } catch(err) {
-    alert("Camera/mic access denied or not available");
+
+  } catch (err) {
+    alert("Camera or mic not available — check permissions");
   }
 }
 
-function endVideo(){
+function endVideoCall(){
   if(peer) peer.destroy();
   if(localStream) localStream.getTracks().forEach(t => t.stop());
   document.getElementById('videoCall').style.display = 'none';
 }
 
-// If receiving a call code
-if(confirm("Do you have a video call code from Bryce/Ryan?")){
-  const code = prompt("Paste the code:");
+// If the other person sent you a code
+if(confirm("Did Bryce send you a video call code?")){
+  const code = prompt("Paste the code here:");
   if(code){
     navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(stream => {
       localStream = stream;
       document.getElementById('localVideo').srcObject = stream;
 
-      peer = new SimplePeer({initiator: false, stream: stream, trickle: false});
+      peer = new SimplePeer({
+        initiator: false,
+        stream: stream,
+        trickle: false
+      });
+
       peer.signal(JSON.parse(code));
 
       peer.on('signal', data => {
-        prompt("Send this code back:", JSON.stringify(data));
+        prompt("Send this code back to Bryce:", JSON.stringify(data));
       });
 
       peer.on('stream', stream => {
@@ -137,5 +150,4 @@ if(confirm("Do you have a video call code from Bryce/Ryan?")){
   }
 }
 </script>
-<script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
 </body></html>
