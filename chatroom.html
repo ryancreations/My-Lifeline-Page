@@ -1,30 +1,33 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ryan ♡ Bryce</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#f5f5f5;font-family:system-ui,-apple-system,sans-serif;color:#000;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{background:#fff;border-bottom:1px solid #dbdbdb;padding:16px;text-align:center;font-size:1.6em;font-weight:600;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-#videoBtn{position:absolute;right:16px;top:12px;background:#ff6b9d;color:#fff;padding:10px 20px;border-radius:30px;font-size:0.9em;cursor:pointer}
-#messages{flex:1;padding:20px 0;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-.message{max-width:80%;padding:12px 16px;border-radius:22px;line-height:1.4;position:relative;word-wrap:break-word}
-.you{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-.them{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:4px}
-.time{font-size:0.75em;color:#999;margin-top:6px;text-align:right;padding-right:10px}
-#inputArea{background:#fff;border-top:1px solid #dbdbdb;padding:10px;display:flex;align-items:center;gap:10px}
-#msg{flex:1;padding:12px 16px;border-radius:30px;background:#f1f1f1;font-size:1.05em;border:none;outline:none}
-#send{background:#0095f6;color:#fff;width:46px;height:46px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer;display:flex;align-items:center;justify-content:center}
-#videoCall{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:999}
-#remoteVideo{width:100%;height:100%;object-fit:cover}
-#localVideo{width:150px;height:200px;position:absolute;bottom:20px;right:20px;border-radius:15px;object-fit:cover;border:4px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.5)}
-#callControls{background:rgba(0,0,0,.7);position:absolute;bottom:0;width:100%;padding:20px;display:flex;justify-content:center}
-#hangup{background:#ff4444;color:#fff;padding:16px 40px;border-radius:50px;font-size:1.2em;cursor:pointer}
-</style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ryan ♡ Bryce</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#f5f5f5;font-family:system-ui,-apple-system,sans-serif;color:#000;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+    header{background:#fff;border-bottom:1px solid #dbdbdb;padding:16px;text-align:center;font-size:1.6em;font-weight:600;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+    #startBtn{position:absolute;right:16px;top:12px;background:#ff6b9d;color:#fff;padding:10px 20px;border-radius:30px;font-size:0.9em;cursor:pointer}
+    #messages{flex:1;padding:20px 0;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+    .message{max-width:80%;padding:12px 16px;border-radius:22px;line-height:1.4;position:relative;word-wrap:break-word}
+    .you{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+    .them{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:4px}
+    .time{font-size:0.75em;color:#999;margin-top:6px;text-align:right;padding-right:10px}
+    #inputArea{background:#fff;border-top:1px solid #dbdbdb;padding:10px;display:flex;align-items:center;gap:10px}
+    #msg{flex:1;padding:12px 16px;border-radius:30px;background:#f1f1f1;font-size:1.05em;border:none;outline:none}
+    #send{background:#0095f6;color:#fff;width:46px;height:46px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    #videoCall{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:999}
+    #remoteVideo{width:100%;height:100%;object-fit:cover}
+    #localVideo{width:150px;height:200px;position:absolute;bottom:20px;right:20px;border-radius:15px;object-fit:cover;border:4px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+    #callControls{background:rgba(0,0,0,.7);position:absolute;bottom:0;width:100%;padding:20px;display:flex;justify-content:center}
+    #hangup{background:#ff4444;color:#fff;padding:16px 40px;border-radius:50px;font-size:1.2em;cursor:pointer}
+    #skip{background:#ff4444;color:#fff;padding:16px 40px;border-radius:50px;font-size:1.2em;cursor:pointer;margin-right:20px}
+  </style>
 </head><body>
 
 <header>Ryan ♡ Bryce</header>
-<button id="videoBtn" onclick="startVideoCall()">Video Call</button>
+<button id="startBtn" onclick="startVideoCall()">Start Video</button>
 
 <div id="messages"></div>
 
@@ -37,19 +40,20 @@ header{background:#fff;border-bottom:1px solid #dbdbdb;padding:16px;text-align:c
   <video id="remoteVideo" autoplay playsinline></video>
   <video id="localVideo" autoplay playsinline muted></video>
   <div id="callControls">
+    <button id="skip" onclick="skipCall()">Skip</button>
     <button id="hangup" onclick="endVideoCall()">End Call</button>
   </div>
 </div>
 
-<!-- Firebase for text chat -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-<!-- SimplePeer for video call -->
+<!-- SimplePeer for video -->
 <script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
 
 <script>
-// Firebase setup (your project)
+// Firebase setup
 const firebaseConfig = {
   databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com/"
 };
@@ -103,17 +107,21 @@ async function startVideoCall(){
 
     peer.on('signal', data => {
       const code = JSON.stringify(data);
-      prompt("Copy this code and send to Bryce (he pastes it when he opens the page):", code);
+      prompt("Copy this code and send to Bryce:", code);
     });
 
     peer.on('stream', stream => {
       document.getElementById('remoteVideo').srcObject = stream;
       document.getElementById('videoCall').style.display = 'flex';
     });
-
   } catch (err) {
     alert("Camera or mic not available — check permissions");
   }
+}
+
+function skipCall(){
+  if(peer) peer.destroy();
+  startVideoCall(); // Find new (but since private, use code exchange)
 }
 
 function endVideoCall(){
@@ -122,9 +130,9 @@ function endVideoCall(){
   document.getElementById('videoCall').style.display = 'none';
 }
 
-// If the other person sent you a code
-if(confirm("Did Bryce send you a video call code?")){
-  const code = prompt("Paste the code here:");
+// If receiving a code
+if(confirm("Do you have a video code from Bryce/Ryan?")){
+  const code = prompt("Paste the code:");
   if(code){
     navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(stream => {
       localStream = stream;
@@ -139,7 +147,7 @@ if(confirm("Did Bryce send you a video call code?")){
       peer.signal(JSON.parse(code));
 
       peer.on('signal', data => {
-        prompt("Send this code back to Bryce:", JSON.stringify(data));
+        prompt("Send this code back:", JSON.stringify(data));
       });
 
       peer.on('stream', stream => {
