@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Memory Lanterns • My Lifeline</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f001f;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
+.login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
+.login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
+.login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
+.hidden{display:none}
+nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;justify-content:center;gap:20px}
+nav button{background:#fff;color:#00bcd4;border:none;padding:10px 20px;border-radius:20px;font-weight:600;cursor:pointer}
+main{margin-top:70px;padding:20px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center}
+h1{font-size:3em;color:#ffd700;margin:30px}
+.jar{background:#1a0033;width:340px;height:520px;margin:auto;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;position:relative;overflow:hidden;box-shadow:0 0 80px #ffd700}
+.lantern{position:absolute;width:40px;height:60px;background:linear-gradient(#fff700, #ffeb3b);border-radius:50% 50% 20% 20%;box-shadow:0 0 30px #fff700;animation:float 12s infinite linear;text-align:center;line-height:60px;font-size:0.9em}
+@keyframes float{0%{transform:translateY(0) rotate(0deg)}100%{transform:translate(var(--x),var(--y)) rotate(360deg)}}
+textarea{width:90%;max-width:500px;height:120px;padding:20px;margin:20px 0;border:3px solid #ffd700;border-radius:20px;background:#1a0033;color:#fff;font-size:1.2em}
+button{background:#ffd700;color:#0f001f;padding:18px 50px;border:none;border-radius:50px;font-size:1.6em;cursor:pointer}
+</style>
+</head><body>
+
+<div id="loginScreen" class="login-box">
+  <h1>My Lifeline</h1>
+  <p>Enter your personal key</p>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="checkLogin()">Enter Safe Space</button>
+</div>
+
+<div id="mainContent" class="hidden">
+<nav>
+  <button onclick="location.href='index.html'">Dashboard</button>
+  <button onclick="logout()" style="background:#ff6b6b;color:white">Log Out</button>
+</nav>
+
+<main>
+  <h1>Memory Lanterns</h1>
+  <p style="font-size:1.4em;margin:20px">Write a memory — it will glow forever</p>
+  <div class="jar" id="jar"></div>
+  <textarea id="memory" placeholder="A memory, big or small..."></textarea>
+  <button onclick="addMemory()">Light a Lantern</button>
+</main>
+</div>
+
+<script>
+function checkLogin(){
+  if(document.getElementById('username').value==="Ryan" && document.getElementById('password').value==="ITSmf420"){
+    localStorage.setItem('lifelineAuthenticated','true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  } else alert("Incorrect");
+}
+function logout(){localStorage.removeItem('lifelineAuthenticated');location.reload()}
+if(localStorage.getItem('lifelineAuthenticated')==='true'){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainContent').classList.remove('hidden');
+}
+
+let memories = JSON.parse(localStorage.getItem('memoryLanterns')||'[]');
+
+function addMemory(){
+  const text = document.getElementById('memory').value.trim();
+  if(!text) return;
+  memories.push(text);
+  localStorage.setItem('memoryLanterns',JSON.stringify(memories));
+  document.getElementById('memory').value='';
+  createLantern(text);
+}
+
+function createLantern(text){
+  const l = document.createElement('div');
+  l.className='lantern';
+  l.textContent = text.length > 20 ? text.substring(0,17)+'...' : text;
+  l.style.left = Math.random()*80 + 10 + '%';
+  l.style.top = Math.random()*80 + 10 + '%';
+  l.style.setProperty('--x', (Math.random()*400 - 200) + 'px');
+  l.style.setProperty('--y', (Math.random()*600 - 300) + 'px');
+  l.style.animationDuration = (10 + Math.random()*15) + 's';
+  document.getElementById('jar').appendChild(l);
+}
+
+memories.forEach(m => createLantern(m));
+</script>
+</body></html>
