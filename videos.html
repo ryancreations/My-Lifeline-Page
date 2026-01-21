@@ -113,15 +113,25 @@
     localStorage.removeItem('lifelineAuthenticated');
     location.href = 'index.html';
   }
-    function checkLogin() {
-      if (document.getElementById('username').value === "Ryan" && document.getElementById('password').value === "ITSmf420") {
-        localStorage.setItem('lifelineAuthenticated', 'true');
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-      } else {
-        alert("Incorrect username or password.");
-      }
-    }
+    function checkLogin(){
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
+
+  // Main account + all guest options (case-insensitive for username)
+  if(
+    (user.toLowerCase() === "ryan" && pass === "ITSmf420") ||
+    (user.toLowerCase() === "guest" && pass === "guest") ||
+    (user.toLowerCase() === "visitor" && pass === "welcome") ||
+    (user.toLowerCase() === "friend" && pass === "lifeline") ||
+    (user.toLowerCase() === "nc" && pass === "boone")
+  ){
+    localStorage.setItem('lifelineAuthenticated', 'true');
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+  } else {
+    alert("Incorrect username or password.");
+  }
+}
     function logout() {
       localStorage.removeItem('lifelineAuthenticated');
       location.reload();
