@@ -3,108 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lifeline Chatroom - Ryan's Safe Space</title>
+  <title>Lifeline Chatroom • Ryan's Safe Space</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       margin: 0;
       padding: 20px;
-      background: #1a1a2e;
-      color: #e0e0e0;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
     }
-    h2 {
-      color: #00d4ff;
-      text-align: center;
+    #auth-box, #chat-box {
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #161b22;
+      border-radius: 12px;
+      border: 1px solid #30363d;
     }
-    #nickname {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #nickname input {
-      padding: 10px;
-      width: 220px;
-      border: 1px solid #444;
-      border-radius: 6px;
-      background: #0f0f1a;
+    h2 { color: #58a6ff; text-align: center; }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      background: #0d1117;
       color: white;
     }
-    #nickname button {
-      padding: 10px 16px;
-      background: #00d4ff;
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 20px;
       border: none;
-      border-radius: 6px;
-      color: #000;
       cursor: pointer;
+      font-weight: bold;
     }
+    #login-btn { background: #58a6ff; color: #000; }
+    #signup-btn { background: #238636; color: white; }
+    #logout-btn { background: #ff6b6b; color: white; }
+    #auth-error { color: #ff6b6b; text-align: center; margin-top: 12px; }
+    #chat-box { display: none; } /* Hidden until logged in */
     #messages {
-      height: 60vh;
+      height: 50vh;
       overflow-y: auto;
-      border: 1px solid #333;
-      padding: 15px;
-      background: #0f0f1a;
+      border: 1px solid #30363d;
       border-radius: 10px;
-      margin-bottom: 15px;
+      padding: 16px;
+      background: #0d1117;
+      margin: 16px 0;
     }
     .message {
       margin: 10px 0;
       padding: 10px 14px;
-      border-radius: 18px;
-      max-width: 75%;
-      word-wrap: break-word;
+      border-radius: 16px;
+      max-width: 80%;
     }
-    .message.sent {
-      background: #00d4ff;
-      color: #000;
-      margin-left: auto;
-    }
-    .message.received {
-      background: #333;
-      margin-right: auto;
-    }
-    #input-area {
-      display: flex;
-      gap: 10px;
-    }
+    .message.sent { background: #238636; color: white; margin-left: auto; }
+    .message.received { background: #21262d; margin-right: auto; }
+    #input-area { display: flex; gap: 10px; }
     #message-input {
       flex: 1;
       padding: 12px;
-      border: 1px solid #444;
       border-radius: 20px;
-      background: #0f0f1a;
+      border: none;
+      background: #21262d;
       color: white;
     }
-    button#send-btn {
-      padding: 12px 24px;
-      background: #00d4ff;
-      color: #000;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-    button:hover {
-      opacity: 0.9;
-    }
+    #send-btn { background: #58a6ff; color: #000; }
+    .tagline { text-align: center; color: #8b949e; margin-bottom: 20px; }
   </style>
 </head>
 <body>
 
-  <h2>Lifeline Chatroom 💬</h2>
-  <p style="text-align:center; color:#aaa;">You're not alone. Talk here whenever you need.</p>
-
-  <div id="nickname">
-    <input type="text" id="name-input" placeholder="Your nickname..." value="Guest"/>
-    <button onclick="saveNickname()">Set Name</button>
+  <!-- Auth Box -->
+  <div id="auth-box">
+    <h2>Login to Lifeline 💙</h2>
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button id="login-btn" onclick="login()">Login</button>
+    <button id="signup-btn" onclick="signup()">Sign Up</button>
+    <p id="auth-error"></p>
   </div>
 
-  <div id="messages"></div>
+  <!-- Chat Box (hidden until logged in) -->
+  <div id="chat-box">
+    <h2>Lifeline Chatroom 💬</h2>
+    <p class="tagline">You're safe here. Everyone's going through something.</p>
+    <p style="text-align:center;">Logged in as: <span id="user-display"></span></p>
+    <button id="logout-btn" onclick="logout()" style="width:auto; padding:8px 16px; margin:0 auto 16px; display:block;">Logout</button>
 
-  <div id="input-area">
-    <input type="text" id="message-input" placeholder="Type a message and press Enter or Send..." />
-    <button id="send-btn" onclick="sendMessage()">Send</button>
+    <div id="messages"></div>
+
+    <div id="input-area">
+      <input type="text" id="message-input" placeholder="Type here and hit Enter or Send..." />
+      <button id="send-btn" onclick="sendMessage()">Send</button>
+    </div>
   </div>
 
   <script type="module">
-    // Your Firebase config – looks correct from earlier
     const firebaseConfig = {
       apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
       authDomain: "chatroomnew-739f4.firebaseapp.com",
@@ -118,57 +116,77 @@
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const auth = getAuth(app);
 
-    const messagesRef = ref(db, 'lifeline-messages');  // Changed path so it doesn't mix with old data if any
+    const messagesRef = ref(db, 'lifeline-chat');
 
-    let myNickname = localStorage.getItem("lifelineNickname") || "Guest";
-    document.getElementById("name-input").value = myNickname;
-
-    window.saveNickname = function() {
-      myNickname = document.getElementById("name-input").value.trim() || "Guest";
-      localStorage.setItem("lifelineNickname", myNickname);
-      alert("Nickname set to: " + myNickname);
-    };
-
-    window.sendMessage = function() {
-      const input = document.getElementById("message-input");
-      const text = input.value.trim();
-      if (!text) return;
-
-      push(messagesRef, {
-        name: myNickname,
-        text: text,
-        timestamp: serverTimestamp()
-      }).then(() => {
-        input.value = "";
-      }).catch((error) => {
-        console.error("Send failed:", error);
-        alert("Couldn't send – check console (F12) for details");
-      });
-    };
-
-    onChildAdded(messagesRef, (snapshot) => {
-      const msg = snapshot.val();
-      if (!msg || !msg.text) return;
-      
-      const div = document.createElement("div");
-      div.className = "message " + (msg.name === myNickname ? "sent" : "received");
-      div.innerHTML = `<strong>${msg.name || "Someone"}:</strong> ${msg.text}`;
-      document.getElementById("messages").appendChild(div);
-      div.scrollIntoView({ behavior: "smooth" });
+    // Auth state listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById('auth-box').style.display = 'none';
+        document.getElementById('chat-box').style.display = 'block';
+        document.getElementById('user-display').textContent = user.email || 'User';
+        loadMessages();
+      } else {
+        document.getElementById('auth-box').style.display = 'block';
+        document.getElementById('chat-box').style.display = 'none';
+      }
     });
 
-    // Crucial fix: Prevent Enter from submitting/reloading
-    document.getElementById("message-input").addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();   // Stops form-like submit behavior
+    window.login = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      signInWithEmailAndPassword(auth, email, password)
+        .catch(err => document.getElementById('auth-error').textContent = err.message);
+    };
+
+    window.signup = () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .catch(err => document.getElementById('auth-error').textContent = err.message);
+    };
+
+    window.logout = () => signOut(auth);
+
+    window.sendMessage = () => {
+      const input = document.getElementById('message-input');
+      const text = input.value.trim();
+      if (!text || !auth.currentUser) return;
+
+      push(messagesRef, {
+        name: auth.currentUser.email.split('@')[0] || 'User',  // Use part of email as name
+        text,
+        timestamp: serverTimestamp(),
+        uid: auth.currentUser.uid
+      }).then(() => input.value = '')
+        .catch(err => console.error(err));
+    };
+
+    function loadMessages() {
+      onChildAdded(messagesRef, (snapshot) => {
+        const msg = snapshot.val();
+        if (!msg?.text) return;
+        const div = document.createElement('div');
+        const isSent = msg.uid === auth.currentUser?.uid;
+        div.className = `message ${isSent ? 'sent' : 'received'}`;
+        div.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
+        document.getElementById('messages').appendChild(div);
+        div.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // Enter key send
+    document.getElementById('message-input')?.addEventListener('keypress', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
         sendMessage();
       }
     });
   </script>
-
 </body>
 </html>
