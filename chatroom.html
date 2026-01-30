@@ -42,9 +42,18 @@
     }
     #login-btn { background: #58a6ff; color: #000; }
     #signup-btn { background: #238636; color: white; }
-    #logout-btn { background: #ff6b6b; color: white; }
+    #google-signin-btn {
+      background: #ffffff;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    #google-signin-btn img { width: 20px; height: 20px; }
+    #logout-btn { background: #ff6b6b; color: white; width: auto; padding: 8px 16px; margin: 0 auto 16px; display: block; }
     #auth-error { color: #ff6b6b; text-align: center; margin-top: 12px; }
-    #chat-box { display: none; } /* Hidden until logged in */
+    #chat-box { display: none; }
     #messages {
       height: 50vh;
       overflow-y: auto;
@@ -80,10 +89,19 @@
   <!-- Auth Box -->
   <div id="auth-box">
     <h2>Login to Lifeline 💙</h2>
+
+    <!-- Email/Password (fallback) -->
     <input id="email" type="email" placeholder="Email" />
     <input id="password" type="password" placeholder="Password" />
     <button id="login-btn" onclick="login()">Login</button>
     <button id="signup-btn" onclick="signup()">Sign Up</button>
+
+    <!-- Google Sign-In Button -->
+    <button id="google-signin-btn" onclick="signInWithGoogle()">
+      <img src="https://www.google.com/favicon.ico" alt="Google">
+      Sign in with Google
+    </button>
+
     <p id="auth-error"></p>
   </div>
 
@@ -92,7 +110,7 @@
     <h2>Lifeline Chatroom 💬</h2>
     <p class="tagline">You're safe here. Everyone's going through something.</p>
     <p style="text-align:center;">Logged in as: <span id="user-display"></span></p>
-    <button id="logout-btn" onclick="logout()" style="width:auto; padding:8px 16px; margin:0 auto 16px; display:block;">Logout</button>
+    <button id="logout-btn" onclick="logout()">Logout</button>
 
     <div id="messages"></div>
 
@@ -116,7 +134,7 @@
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -124,12 +142,12 @@
 
     const messagesRef = ref(db, 'lifeline-chat');
 
-    // Auth state listener
+    // Auth state listener – show chat when logged in
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById('auth-box').style.display = 'none';
         document.getElementById('chat-box').style.display = 'block';
-        document.getElementById('user-display').textContent = user.email || 'User';
+        document.getElementById('user-display').textContent = user.displayName || user.email.split('@')[0] || 'User';
         loadMessages();
       } else {
         document.getElementById('auth-box').style.display = 'block';
@@ -137,6 +155,24 @@
       }
     });
 
+    // Google Sign-In
+    window.signInWithGoogle = async () => {
+      const provider = new GoogleAuthProvider();
+      // Optional: force account selection
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // Success – auth state listener handles UI update
+      } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        document.getElementById('auth-error').textContent = errorMessage || 'Google sign-in failed. Try again.';
+        console.error('Google Sign-In Error:', errorCode, errorMessage);
+      }
+    };
+
+    // Email/Password Login
     window.login = () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
@@ -144,6 +180,7 @@
         .catch(err => document.getElementById('auth-error').textContent = err.message);
     };
 
+    // Sign Up with Email/Password
     window.signup = () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
@@ -151,22 +188,25 @@
         .catch(err => document.getElementById('auth-error').textContent = err.message);
     };
 
+    // Logout
     window.logout = () => signOut(auth);
 
+    // Send Message
     window.sendMessage = () => {
       const input = document.getElementById('message-input');
       const text = input.value.trim();
       if (!text || !auth.currentUser) return;
 
       push(messagesRef, {
-        name: auth.currentUser.email.split('@')[0] || 'User',  // Use part of email as name
+        name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || 'User',
         text,
         timestamp: serverTimestamp(),
         uid: auth.currentUser.uid
       }).then(() => input.value = '')
-        .catch(err => console.error(err));
+        .catch(err => console.error('Send error:', err));
     };
 
+    // Load & listen for messages
     function loadMessages() {
       onChildAdded(messagesRef, (snapshot) => {
         const msg = snapshot.val();
@@ -180,7 +220,7 @@
       });
     }
 
-    // Enter key send
+    // Enter key to send
     document.getElementById('message-input')?.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
