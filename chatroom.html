@@ -1,164 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ryan ♡ Bryce</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lifeline Chatroom - Ryan's Safe Space</title>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:#f5f5f5;font-family:system-ui,-apple-system,sans-serif;color:#000;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-    header{background:#fff;border-bottom:1px solid #dbdbdb;padding:16px;text-align:center;font-size:1.6em;font-weight:600;position:relative;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-    #startBtn{position:absolute;right:16px;top:12px;background:#ff6b9d;color:#fff;padding:10px 20px;border-radius:30px;font-size:0.9em;cursor:pointer}
-    #messages{flex:1;padding:20px 0;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-    .message{max-width:80%;padding:12px 16px;border-radius:22px;line-height:1.4;position:relative;word-wrap:break-word}
-    .you{background:#0084ff;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-    .them{background:#e0e0e0;color:#000;align-self:flex-start;border-bottom-left-radius:4px}
-    .time{font-size:0.75em;color:#999;margin-top:6px;text-align:right;padding-right:10px}
-    #inputArea{background:#fff;border-top:1px solid #dbdbdb;padding:10px;display:flex;align-items:center;gap:10px}
-    #msg{flex:1;padding:12px 16px;border-radius:30px;background:#f1f1f1;font-size:1.05em;border:none;outline:none}
-    #send{background:#0095f6;color:#fff;width:46px;height:46px;border-radius:50%;border:none;font-size:1.6em;cursor:pointer;display:flex;align-items:center;justify-content:center}
-    #videoCall{position:fixed;inset:0;background:#000;display:none;flex-direction:column;z-index:999}
-    #remoteVideo{width:100%;height:100%;object-fit:cover}
-    #localVideo{width:150px;height:200px;position:absolute;bottom:20px;right:20px;border-radius:15px;object-fit:cover;border:4px solid #fff;box-shadow:0 6px 20px rgba(0,0,0,.5)}
-    #callControls{background:rgba(0,0,0,.7);position:absolute;bottom:0;width:100%;padding:20px;display:flex;justify-content:center}
-    #hangup{background:#ff4444;color:#fff;padding:16px 40px;border-radius:50px;font-size:1.2em;cursor:pointer}
-    #skip{background:#ff4444;color:#fff;padding:16px 40px;border-radius:50px;font-size:1.2em;cursor:pointer;margin-right:20px}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #1a1a2e;
+      color: #e0e0e0;
+    }
+    h2 {
+      color: #00d4ff;
+      text-align: center;
+    }
+    #nickname {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #nickname input {
+      padding: 10px;
+      width: 220px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background: #0f0f1a;
+      color: white;
+    }
+    #nickname button {
+      padding: 10px 16px;
+      background: #00d4ff;
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      cursor: pointer;
+    }
+    #messages {
+      height: 60vh;
+      overflow-y: auto;
+      border: 1px solid #333;
+      padding: 15px;
+      background: #0f0f1a;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 10px 14px;
+      border-radius: 18px;
+      max-width: 75%;
+      word-wrap: break-word;
+    }
+    .message.sent {
+      background: #00d4ff;
+      color: #000;
+      margin-left: auto;
+    }
+    .message.received {
+      background: #333;
+      margin-right: auto;
+    }
+    #input-area {
+      display: flex;
+      gap: 10px;
+    }
+    #message-input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #444;
+      border-radius: 20px;
+      background: #0f0f1a;
+      color: white;
+    }
+    button#send-btn {
+      padding: 12px 24px;
+      background: #00d4ff;
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
   </style>
-</head><body>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
-<header>Ryan ♡ Bryce</header>
-<button id="startBtn" onclick="startVideoCall()">Start Video</button>
+</head>
+<body>
 
-<div id="messages"></div>
+  <h2>Lifeline Chatroom 💬</h2>
+  <p style="text-align:center; color:#aaa;">You're not alone. Talk here whenever you need.</p>
 
-<div id="inputArea">
-  <input type="text" id="msg" placeholder="iMessage">
-  <button onclick="send()">Send</button>
-</div>
-
-<div id="videoCall">
-  <video id="remoteVideo" autoplay playsinline></video>
-  <video id="localVideo" autoplay playsinline muted></video>
-  <div id="callControls">
-    <button id="skip" onclick="skipCall()">Skip</button>
-    <button id="hangup" onclick="endVideoCall()">End Call</button>
+  <div id="nickname">
+    <input type="text" id="name-input" placeholder="Your nickname..." value="Guest"/>
+    <button onclick="saveNickname()">Set Name</button>
   </div>
-</div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <div id="messages"></div>
 
-<!-- SimplePeer for video -->
-<script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
+  <div id="input-area">
+    <input type="text" id="message-input" placeholder="Type a message and press Enter or Send..." />
+    <button id="send-btn" onclick="sendMessage()">Send</button>
+  </div>
 
-<script>
-// Firebase setup
-const firebaseConfig = {
-  databaseURL: "https://chatroom-3b44c-default-rtdb.firebaseio.com/"
-};
+  <script type="module">
+    // Your Firebase config – looks correct from earlier
+    const firebaseConfig = {
+      apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
+      authDomain: "chatroomnew-739f4.firebaseapp.com",
+      databaseURL: "https://chatroomnew-739f4-default-rtdb.firebaseio.com",
+      projectId: "chatroomnew-739f4",
+      storageBucket: "chatroomnew-739f4.firebasestorage.app",
+      messagingSenderId: "552292977529",
+      appId: "1:552292977529:web:b04e2bc662668847ba7da8",
+      measurementId: "G-SCWPR39FCD"
+    };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database().ref("messages");
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
-let myName = localStorage.getItem('myName') || prompt("Your name (Ryan or Bryce)?", "Ryan");
-localStorage.setItem('myName', myName);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-function send(){
-  const text = document.getElementById('msg').value.trim();
-  if(!text) return;
-  db.push({
-    name: myName,
-    text: text,
-    time: new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})
-  });
-  document.getElementById('msg').value = '';
-}
+    const messagesRef = ref(db, 'lifeline-messages');  // Changed path so it doesn't mix with old data if any
 
-function addMessage(m){
-  const div = document.createElement('div');
-  div.className = `message ${m.name === myName ? 'you' : 'them'}`;
-  div.innerHTML = `${m.text}<div class="time">${m.time}</div>`;
-  document.getElementById('messages').appendChild(div);
-  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
-}
+    let myNickname = localStorage.getItem("lifelineNickname") || "Guest";
+    document.getElementById("name-input").value = myNickname;
 
-db.on('child_added', snapshot => addMessage(snapshot.val()));
+    window.saveNickname = function() {
+      myNickname = document.getElementById("name-input").value.trim() || "Guest";
+      localStorage.setItem("lifelineNickname", myNickname);
+      alert("Nickname set to: " + myNickname);
+    };
 
-// Enter = send
-document.getElementById('msg').addEventListener('keypress', e => {
-  if(e.key === 'Enter') send();
-});
+    window.sendMessage = function() {
+      const input = document.getElementById("message-input");
+      const text = input.value.trim();
+      if (!text) return;
 
-// Video Call
-let localStream;
-let peer;
+      push(messagesRef, {
+        name: myNickname,
+        text: text,
+        timestamp: serverTimestamp()
+      }).then(() => {
+        input.value = "";
+      }).catch((error) => {
+        console.error("Send failed:", error);
+        alert("Couldn't send – check console (F12) for details");
+      });
+    };
 
-async function startVideoCall(){
-  try {
-    localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-    document.getElementById('localVideo').srcObject = localStream;
-
-    peer = new SimplePeer({
-      initiator: true,
-      stream: localStream,
-      trickle: false
+    onChildAdded(messagesRef, (snapshot) => {
+      const msg = snapshot.val();
+      if (!msg || !msg.text) return;
+      
+      const div = document.createElement("div");
+      div.className = "message " + (msg.name === myNickname ? "sent" : "received");
+      div.innerHTML = `<strong>${msg.name || "Someone"}:</strong> ${msg.text}`;
+      document.getElementById("messages").appendChild(div);
+      div.scrollIntoView({ behavior: "smooth" });
     });
 
-    peer.on('signal', data => {
-      const code = JSON.stringify(data);
-      prompt("Copy this code and send to Bryce:", code);
+    // Crucial fix: Prevent Enter from submitting/reloading
+    document.getElementById("message-input").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();   // Stops form-like submit behavior
+        sendMessage();
+      }
     });
+  </script>
 
-    peer.on('stream', stream => {
-      document.getElementById('remoteVideo').srcObject = stream;
-      document.getElementById('videoCall').style.display = 'flex';
-    });
-  } catch (err) {
-    alert("Camera or mic not available — check permissions");
-  }
-}
-
-function skipCall(){
-  if(peer) peer.destroy();
-  startVideoCall(); // Find new (but since private, use code exchange)
-}
-
-function endVideoCall(){
-  if(peer) peer.destroy();
-  if(localStream) localStream.getTracks().forEach(t => t.stop());
-  document.getElementById('videoCall').style.display = 'none';
-}
-
-// If receiving a code
-if(confirm("Do you have a video code from Bryce/Ryan?")){
-  const code = prompt("Paste the code:");
-  if(code){
-    navigator.mediaDevices.getUserMedia({video:true, audio:true}).then(stream => {
-      localStream = stream;
-      document.getElementById('localVideo').srcObject = stream;
-
-      peer = new SimplePeer({
-        initiator: false,
-        stream: stream,
-        trickle: false
-      });
-
-      peer.signal(JSON.parse(code));
-
-      peer.on('signal', data => {
-        prompt("Send this code back:", JSON.stringify(data));
-      });
-
-      peer.on('stream', stream => {
-        document.getElementById('remoteVideo').srcObject = stream;
-        document.getElementById('videoCall').style.display = 'flex';
-      });
-    }).catch(err => alert("Camera/mic access denied"));
-  }
-}
-</script>
-</body></html>
+</body>
+</html>
