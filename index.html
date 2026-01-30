@@ -252,6 +252,50 @@
 </footer>
 
 </main>
+<!-- JavaScript for Login -->
+<script>
+  // Simple hardcoded credentials (change these!)
+  const VALID_USERNAME = "ryan";      // ← Change to whatever you want
+  const VALID_PASSWORD = "lifeline123"; // ← Make this stronger in real use
+
+  // Check if already logged in
+  window.onload = function() {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("mainNav").style.display = "flex";
+      document.getElementById("mainContent").style.display = "block";
+    }
+  };
+
+  function checkLogin() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const errorEl = document.getElementById("loginError");
+
+    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+      localStorage.setItem("isLoggedIn", "true");
+      document.getElementById("loginScreen").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("mainNav").style.display = "flex";
+        document.getElementById("mainContent").style.display = "block";
+      }, 500);
+      errorEl.textContent = "";
+    } else {
+      errorEl.textContent = "Incorrect username or password. Try again.";
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("isLoggedIn");
+    document.getElementById("mainNav").style.display = "none";
+    document.getElementById("mainContent").style.display = "none";
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("loginScreen").style.opacity = "1";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+  }
+</script>
 
 </body>
 </html>
