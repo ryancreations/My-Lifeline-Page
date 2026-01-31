@@ -13,7 +13,7 @@
       color: #c9d1d9;
       min-height: 100vh;
     }
-    #auth-box, #chat-box {
+    #auth-box, #signup-box, #chat-box {
       max-width: 400px;
       margin: 40px auto;
       padding: 24px;
@@ -41,7 +41,7 @@
       font-weight: bold;
     }
     #login-btn { background: #58a6ff; color: #000; }
-    #signup-btn { background: #238636; color: white; }
+    #signup-submit-btn { background: #238636; color: white; }
     #google-signin-btn {
       background: #ffffff;
       color: #000;
@@ -52,8 +52,9 @@
     }
     #google-signin-btn img { width: 20px; height: 20px; }
     #logout-btn { background: #ff6b6b; color: white; width: auto; padding: 8px 16px; margin: 0 auto 16px; display: block; }
-    #auth-error { color: #ff6b6b; text-align: center; margin-top: 12px; }
+    #auth-error, #signup-error { color: #ff6b6b; text-align: center; margin-top: 12px; }
     #chat-box { display: none; }
+    #signup-box { display: none; }
     #messages {
       height: 50vh;
       overflow-y: auto;
@@ -82,19 +83,20 @@
     }
     #send-btn { background: #58a6ff; color: #000; }
     .tagline { text-align: center; color: #8b949e; margin-bottom: 20px; }
+    .back-link { text-align: center; margin-top: 16px; color: #58a6ff; cursor: pointer; }
   </style>
 </head>
 <body>
 
-  <!-- Auth Box -->
+  <!-- Auth Box (Login) -->
   <div id="auth-box">
     <h2>Login to Lifeline 💙</h2>
 
     <!-- Email/Password (fallback) -->
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
+    <input id="login-email" type="email" placeholder="Email" />
+    <input id="login-password" type="password" placeholder="Password" />
     <button id="login-btn" onclick="login()">Login</button>
-    <button id="signup-btn" onclick="signup()">Sign Up</button>
+    <button id="signup-btn" onclick="showSignup()">Sign Up</button>
 
     <!-- Google Sign-In Button -->
     <button id="google-signin-btn" onclick="signInWithGoogle()">
@@ -103,6 +105,20 @@
     </button>
 
     <p id="auth-error"></p>
+  </div>
+
+  <!-- Signup Box -->
+  <div id="signup-box">
+    <h2>Sign Up for Lifeline 💙</h2>
+
+    <input id="nickname" type="text" placeholder="Choose your nickname (at least 3 characters)" />
+    <input id="signup-email" type="email" placeholder="Email" />
+    <input id="signup-password" type="password" placeholder="Password (at least 6 characters)" />
+    <input id="confirm-password" type="password" placeholder="Confirm Password" />
+    <button id="signup-submit-btn" onclick="signup()">Sign Up</button>
+
+    <p id="signup-error"></p>
+    <p class="back-link" onclick="showLogin()">Back to Login</p>
   </div>
 
   <!-- Chat Box (hidden until logged in) -->
@@ -134,7 +150,7 @@
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -146,14 +162,28 @@
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById('auth-box').style.display = 'none';
+        document.getElementById('signup-box').style.display = 'none';
         document.getElementById('chat-box').style.display = 'block';
         document.getElementById('user-display').textContent = user.displayName || user.email.split('@')[0] || 'User';
         loadMessages();
       } else {
         document.getElementById('auth-box').style.display = 'block';
+        document.getElementById('signup-box').style.display = 'none';
         document.getElementById('chat-box').style.display = 'none';
       }
     });
+
+    // Show Signup Form
+    window.showSignup = () => {
+      document.getElementById('auth-box').style.display = 'none';
+      document.getElementById('signup-box').style.display = 'block';
+    };
+
+    // Show Login Form
+    window.showLogin = () => {
+      document.getElementById('auth-box').style.display = 'block';
+      document.getElementById('signup-box').style.display = 'none';
+    };
 
     // Google Sign-In
     window.signInWithGoogle = async () => {
@@ -174,18 +204,54 @@
 
     // Email/Password Login
     window.login = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
       signInWithEmailAndPassword(auth, email, password)
         .catch(err => document.getElementById('auth-error').textContent = err.message);
     };
 
-    // Sign Up with Email/Password
-    window.signup = () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      createUserWithEmailAndPassword(auth, email, password)
-        .catch(err => document.getElementById('auth-error').textContent = err.message);
+    // Sign Up with Email/Password and Nickname
+    window.signup = async () => {
+      const nickname = document.getElementById('nickname').value.trim();
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const errorEl = document.getElementById('signup-error');
+
+      errorEl.textContent = ''; // Clear previous errors
+
+      if (nickname.length < 3) {
+        errorEl.textContent = 'Nickname must be at least 3 characters.';
+        return;
+      }
+      if (password !== confirmPassword) {
+        errorEl.textContent = 'Passwords do not match!';
+        return;
+      }
+      if (password.length < 6) {
+        errorEl.textContent = 'Password must be at least 6 characters.';
+        return;
+      }
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Set nickname as displayName
+        await updateProfile(user, { displayName: nickname });
+
+        // Success – auth state listener handles UI update
+      } catch (err) {
+        let msg = err.message;
+        if (err.code === 'auth/email-already-in-use') {
+          msg = 'Email already in use.';
+        } else if (err.code === 'auth/weak-password') {
+          msg = 'Password should be at least 6 characters.';
+        } else if (err.code === 'auth/invalid-email') {
+          msg = 'Invalid email format.';
+        }
+        errorEl.textContent = msg;
+      }
     };
 
     // Logout
