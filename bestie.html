@@ -69,14 +69,14 @@
 <main>
     <header>
         <h1>🫂 Hey Bestie!</h1>
-        <p>I'm here for poems, advice, vent sessions, or to create images for you 💕</p>
+        <p>I'm here for poems, advice, or to create images for you 💕</p>
     </header>
 
     <div class="chat-container">
         <div class="messages" id="messages"></div>
         
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="Talk to me... (e.g. write a poem about hope or draw a cozy sunset)" 
+            <input type="text" id="userInput" placeholder="Talk to me... (e.g. write a gentle poem or draw a cozy sunset)" 
                    onkeypress="if(event.key === 'Enter') sendMessage()">
             <button onclick="sendMessage()">↑</button>
         </div>
@@ -84,11 +84,10 @@
 </main>
 
 <script>
-// Your xAI API Key
-const API_KEY = "xai-BpSrtirmVFb4lBtV1hGnSmupfnKi32cLxlVzJqCGT3KSOhkf7GQZPQwqhfAem0W54F9Nq5vxCy4eiChl";
-
 const CHAT_URL = "https://api.x.ai/v1/chat/completions";
 const IMAGE_URL = "https://api.x.ai/v1/images/generations";
+
+let API_KEY = localStorage.getItem('bestieApiKey') || '';
 
 function checkLogin() {
     if (localStorage.getItem("lifelineAuthenticated") !== "true") {
@@ -96,7 +95,7 @@ function checkLogin() {
         if (entered === "ITSmf420") {
             localStorage.setItem("lifelineAuthenticated", "true");
         } else {
-            alert("Incorrect key. Going back to dashboard.");
+            alert("Incorrect key. Going back.");
             location.href = "index.html";
         }
     }
@@ -119,7 +118,7 @@ function addMessage(content, sender, isImage = false) {
     }
 
     if (isImage && content.startsWith('http')) {
-        div.innerHTML += `<div class="image-container"><img src="${content}" alt="Bestie created this for you"></div>`;
+        div.innerHTML += `<div class="image-container"><img src="${content}" alt="Bestie created this"></div>`;
     }
 
     msgDiv.appendChild(div);
@@ -139,7 +138,7 @@ function showTyping() {
 
 function wantsImage(text) {
     const lower = text.toLowerCase();
-    return /(draw|generate|make|create).*?(image|picture|photo|drawing|art|sticker)/.test(lower) ||
+    return /(draw|generate|make|create).*?(image|picture|photo|art|sticker)/.test(lower) || 
            lower.includes("draw me") || lower.includes("image of");
 }
 
@@ -151,58 +150,48 @@ async function sendMessage() {
     addMessage(prompt, 'user');
     input.value = '';
 
+    if (!API_KEY) {
+        API_KEY = prompt("❤️ Paste your NEW xAI API key from https://console.x.ai (it will be saved only in your browser):");
+        if (API_KEY) {
+            localStorage.setItem('bestieApiKey', API_KEY);
+        } else {
+            addMessage("I need a valid API key to work, love 💕", 'bestie');
+            return;
+        }
+    }
+
     const typing = showTyping();
 
     try {
         if (wantsImage(prompt)) {
-            // Image Generation
+            // Image generation
             const res = await fetch(IMAGE_URL, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "grok-imagine-image",
-                    prompt: prompt,
-                    n: 1
-                })
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${API_KEY}` },
+                body: JSON.stringify({ model: "grok-imagine-image", prompt: prompt, n: 1 })
             });
 
-            if (!res.ok) {
-                const errText = await res.text();
-                console.error("Image Error:", res.status, errText);
-                throw new Error("Image generation failed");
-            }
+            if (!res.ok) throw new Error(`Image failed: ${res.status}`);
 
             const data = await res.json();
-            const imageUrl = data.data && data.data[0] ? data.data[0].url : null;
+            const imageUrl = data.data?.[0]?.url;
 
             typing.remove();
-
             if (imageUrl) {
                 addMessage(imageUrl, 'bestie', true);
-                setTimeout(() => {
-                    addMessage("Here you go, love! 🥰 How does it feel? Want any changes?", 'bestie');
-                }, 800);
+                setTimeout(() => addMessage("Here you go sweetie! 🥰 How does it feel?", 'bestie'), 800);
             } else {
-                addMessage("I tried to create the image but ran into a glitch 💭 Try again?", 'bestie');
+                addMessage("Couldn't create the image this time 💭 Try again?", 'bestie');
             }
         } else {
-            // Normal Chat
+            // Chat
             const res = await fetch(CHAT_URL, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${API_KEY}`
-                },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${API_KEY}` },
                 body: JSON.stringify({
-                    model: "grok-4-0709",
+                    model: "grok-4-0709",   // fallback to "grok-4.20" or "grok-beta" if this fails
                     messages: [
-                        {
-                            role: "system",
-                            content: "You are Bestie, a warm, supportive, and fun AI best friend focused on mental health. Be empathetic, encouraging, and use lots of emojis. You love writing poems, giving gentle advice, and creating images when asked."
-                        },
+                        { role: "system", content: "You are Bestie — a warm, supportive, fun AI best friend for mental health. Be empathetic, use emojis, write poems when asked, give gentle advice." },
                         { role: "user", content: prompt }
                     ],
                     temperature: 0.85
@@ -211,7 +200,7 @@ async function sendMessage() {
 
             if (!res.ok) {
                 const errText = await res.text();
-                console.error("Chat Error:", res.status, errText);
+                console.error("API Error:", res.status, errText);
                 throw new Error("Chat failed");
             }
 
@@ -222,18 +211,17 @@ async function sendMessage() {
             addMessage(reply, 'bestie');
         }
     } catch (err) {
-        console.error("Full error:", err);
+        console.error(err);
         typing.remove();
-        addMessage("Sorry sweetie, Bestie hit a small snag 💭 Check the console (F12) and tell me what error you see, or try again!", 'bestie');
+        addMessage("Sorry love, Bestie hit a snag 💭 (Check console F12 for details). Try a new API key if it's blocked again.", 'bestie');
     }
 }
 
-// On load
 window.onload = () => {
     checkLogin();
     const messagesDiv = document.getElementById('messages');
     if (messagesDiv.children.length === 0) {
-        addMessage("Hi love! 🫂 I'm your AI Bestie. What's on your heart today? Want a poem, some advice, or shall I draw something beautiful for you? 💕", 'bestie');
+        addMessage("Hi my friend! 🫂 I'm your Bestie. What's on your mind? Poems, advice, or want me to draw something special? 💕", 'bestie');
     }
 };
 </script>
