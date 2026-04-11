@@ -87,6 +87,13 @@ if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('da
 </div>
 
 <script>
+body.dark-mode {
+    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
+    color: #ddd;
+}
+body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
+    background: #2c3e50;
+}
 function checkLogin(){
   if(document.getElementById('username').value==="Ryan" && document.getElementById('password').value==="ITSmf420"){
     localStorage.setItem('lifelineAuthenticated','true');
