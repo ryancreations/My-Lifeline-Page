@@ -14,17 +14,17 @@
             min-height: 100vh;
         }
         nav {
-            position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 10px 0;
-            display: flex; justify-content: center; gap: 10px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0;
+            display: flex; justify-content: center; gap: 12px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         nav button {
-            background: white; color: #00bcd4; border: none; padding: 10px 18px; border-radius: 25px;
+            background: white; color: #00bcd4; border: none; padding: 10px 20px; border-radius: 25px;
             font-weight: 600; cursor: pointer; transition: all 0.3s;
         }
         nav button:hover { background: #00bcd4; color: white; }
-        main { margin-top: 80px; max-width: 920px; margin: 80px auto 20px; padding: 20px; }
+        main { margin-top: 85px; max-width: 920px; margin: 85px auto 20px; padding: 20px; }
         header {
-            background: #87ceeb; color: white; padding: 25px; text-align: center;
+            background: #87ceeb; color: white; padding: 28px; text-align: center;
             border-radius: 20px; margin-bottom: 25px;
         }
         .chat-container {
@@ -32,31 +32,31 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden;
         }
         .messages {
-            flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+            flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
         }
         .message {
-            max-width: 82%; padding: 14px 18px; border-radius: 18px; line-height: 1.45;
+            max-width: 80%; padding: 14px 18px; border-radius: 18px; line-height: 1.5;
         }
         .user { align-self: flex-end; background: #00bcd4; color: white; border-bottom-right-radius: 4px; }
         .bestie { align-self: flex-start; background: #f0f8ff; color: #333; border-bottom-left-radius: 4px; display: flex; gap: 10px; }
         .bestie-avatar {
-            width: 42px; height: 42px; background: #ff9ff3; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+            width: 44px; height: 44px; background: #ff9ff3; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;
         }
         .image-container img {
-            max-width: 100%; border-radius: 12px; margin-top: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            max-width: 100%; border-radius: 14px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .input-area {
-            padding: 16px; background: #f8f8f8; display: flex; gap: 10px; border-top: 1px solid #ddd;
+            padding: 18px; background: #f8f8f8; display: flex; gap: 10px; border-top: 1px solid #ddd;
         }
         .input-area input {
-            flex: 1; padding: 16px 20px; border: 2px solid #87ceeb; border-radius: 30px; font-size: 1.05em; outline: none;
+            flex: 1; padding: 16px 22px; border: 2px solid #87ceeb; border-radius: 30px; font-size: 1.05em; outline: none;
         }
         .input-area button {
-            background: #00bcd4; color: white; border: none; width: 58px; height: 58px;
-            border-radius: 50%; font-size: 1.8em; cursor: pointer;
+            background: #00bcd4; color: white; border: none; width: 60px; height: 60px;
+            border-radius: 50%; font-size: 1.9em; cursor: pointer;
         }
-        .typing { align-self: flex-start; background: #f0f8ff; padding: 12px 18px; border-radius: 18px; font-style: italic; color: #666; }
+        .typing { align-self: flex-start; background: #f0f8ff; padding: 12px 20px; border-radius: 18px; font-style: italic; color: #666; }
     </style>
 </head>
 <body>
@@ -68,15 +68,15 @@
 
 <main>
     <header>
-        <h1>🫂 Your AI Bestie is here!</h1>
-        <p>Talk to me about anything — poems, advice, or ask me to create images 💕</p>
+        <h1>🫂 Hey Bestie!</h1>
+        <p>I'm here for poems, advice, vent sessions, or to create images for you 💕</p>
     </header>
 
     <div class="chat-container">
         <div class="messages" id="messages"></div>
         
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="Hey Bestie... (try: write a poem or draw a cozy scene)" 
+            <input type="text" id="userInput" placeholder="Talk to me... (e.g. write a poem about hope or draw a cozy sunset)" 
                    onkeypress="if(event.key === 'Enter') sendMessage()">
             <button onclick="sendMessage()">↑</button>
         </div>
@@ -84,7 +84,7 @@
 </main>
 
 <script>
-// === YOUR API KEY ===
+// Your xAI API Key
 const API_KEY = "xai-BpSrtirmVFb4lBtV1hGnSmupfnKi32cLxlVzJqCGT3KSOhkf7GQZPQwqhfAem0W54F9Nq5vxCy4eiChl";
 
 const CHAT_URL = "https://api.x.ai/v1/chat/completions";
@@ -92,11 +92,11 @@ const IMAGE_URL = "https://api.x.ai/v1/images/generations";
 
 function checkLogin() {
     if (localStorage.getItem("lifelineAuthenticated") !== "true") {
-        const key = prompt("Enter your personal key to access Bestie ❤️");
-        if (key === "ITSmf420") {
+        const entered = prompt("Enter your personal key to access Bestie ❤️");
+        if (entered === "ITSmf420") {
             localStorage.setItem("lifelineAuthenticated", "true");
         } else {
-            alert("Wrong key. Returning to dashboard.");
+            alert("Incorrect key. Going back to dashboard.");
             location.href = "index.html";
         }
     }
@@ -107,39 +107,40 @@ function logout() {
     location.href = "index.html";
 }
 
-function addMessage(text, sender, isImage = false) {
-    const messagesDiv = document.getElementById('messages');
+function addMessage(content, sender, isImage = false) {
+    const msgDiv = document.getElementById('messages');
     const div = document.createElement('div');
     div.className = `message ${sender}`;
-    
+
     if (sender === 'bestie') {
-        div.innerHTML = `<div class="bestie-avatar">🫂</div><div>${text}</div>`;
+        div.innerHTML = `<div class="bestie-avatar">🫂</div><div>${content}</div>`;
     } else {
-        div.textContent = text;
+        div.textContent = content;
     }
-    
-    if (isImage && typeof text === 'string' && text.startsWith('http')) {
-        div.innerHTML += `<div class="image-container"><img src="${text}" alt="Generated by Bestie"></div>`;
+
+    if (isImage && content.startsWith('http')) {
+        div.innerHTML += `<div class="image-container"><img src="${content}" alt="Bestie created this for you"></div>`;
     }
-    
-    messagesDiv.appendChild(div);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    msgDiv.appendChild(div);
+    msgDiv.scrollTop = msgDiv.scrollHeight;
 }
 
 function showTyping() {
-    const messagesDiv = document.getElementById('messages');
+    const msgDiv = document.getElementById('messages');
     const typing = document.createElement('div');
+    typing.id = 'typing';
     typing.className = 'typing';
-    typing.id = 'typingIndicator';
     typing.textContent = 'Bestie is thinking... 💭';
-    messagesDiv.appendChild(typing);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    msgDiv.appendChild(typing);
+    msgDiv.scrollTop = msgDiv.scrollHeight;
     return typing;
 }
 
-function wantsImage(prompt) {
-    const lower = prompt.toLowerCase();
-    return /draw|generate.*image|make.*image|create.*picture|picture of|image of|draw me/i.test(lower);
+function wantsImage(text) {
+    const lower = text.toLowerCase();
+    return /(draw|generate|make|create).*?(image|picture|photo|drawing|art|sticker)/.test(lower) ||
+           lower.includes("draw me") || lower.includes("image of");
 }
 
 async function sendMessage() {
@@ -154,8 +155,7 @@ async function sendMessage() {
 
     try {
         if (wantsImage(prompt)) {
-            console.log("Attempting image generation with prompt:", prompt);
-            
+            // Image Generation
             const res = await fetch(IMAGE_URL, {
                 method: "POST",
                 headers: {
@@ -170,26 +170,26 @@ async function sendMessage() {
             });
 
             if (!res.ok) {
-                const errorText = await res.text();
-                console.error("Image API error:", res.status, errorText);
-                throw new Error(`Image API failed: ${res.status}`);
+                const errText = await res.text();
+                console.error("Image Error:", res.status, errText);
+                throw new Error("Image generation failed");
             }
 
             const data = await res.json();
-            console.log("Image response:", data);
-            
-            // xAI usually returns data[0].url
             const imageUrl = data.data && data.data[0] ? data.data[0].url : null;
 
             typing.remove();
+
             if (imageUrl) {
                 addMessage(imageUrl, 'bestie', true);
-                setTimeout(() => addMessage("Here you go, love! 🥰 What do you think?", 'bestie'), 600);
+                setTimeout(() => {
+                    addMessage("Here you go, love! 🥰 How does it feel? Want any changes?", 'bestie');
+                }, 800);
             } else {
-                addMessage("I tried to make an image but something went weird 💭 Try again?", 'bestie');
+                addMessage("I tried to create the image but ran into a glitch 💭 Try again?", 'bestie');
             }
         } else {
-            // Normal chat
+            // Normal Chat
             const res = await fetch(CHAT_URL, {
                 method: "POST",
                 headers: {
@@ -197,11 +197,11 @@ async function sendMessage() {
                     "Authorization": `Bearer ${API_KEY}`
                 },
                 body: JSON.stringify({
-                    model: "grok-4-0709",   // try "grok-beta" if this doesn't work
+                    model: "grok-4-0709",
                     messages: [
                         {
                             role: "system",
-                            content: "You are Bestie — a warm, funny, caring AI best friend for mental health. Be empathetic, use emojis, write poems when asked, give gentle advice. Never judge."
+                            content: "You are Bestie, a warm, supportive, and fun AI best friend focused on mental health. Be empathetic, encouraging, and use lots of emojis. You love writing poems, giving gentle advice, and creating images when asked."
                         },
                         { role: "user", content: prompt }
                     ],
@@ -210,8 +210,8 @@ async function sendMessage() {
             });
 
             if (!res.ok) {
-                const err = await res.text();
-                console.error("Chat API error:", res.status, err);
+                const errText = await res.text();
+                console.error("Chat Error:", res.status, errText);
                 throw new Error("Chat failed");
             }
 
@@ -224,16 +224,16 @@ async function sendMessage() {
     } catch (err) {
         console.error("Full error:", err);
         typing.remove();
-        addMessage("Sorry sweetie, Bestie hit a little snag 💭 Tell me what happened or try again!", 'bestie');
+        addMessage("Sorry sweetie, Bestie hit a small snag 💭 Check the console (F12) and tell me what error you see, or try again!", 'bestie');
     }
 }
 
-// Welcome
+// On load
 window.onload = () => {
     checkLogin();
     const messagesDiv = document.getElementById('messages');
     if (messagesDiv.children.length === 0) {
-        addMessage("Hey love! 🫂 I'm your Bestie. Want a poem, some advice, or shall I draw something special for you today? 💕", 'bestie');
+        addMessage("Hi love! 🫂 I'm your AI Bestie. What's on your heart today? Want a poem, some advice, or shall I draw something beautiful for you? 💕", 'bestie');
     }
 };
 </script>
