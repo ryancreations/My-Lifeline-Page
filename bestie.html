@@ -3,213 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Help • My Lifeline</title>
-
+<title>AI Bestie • My Lifeline</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-
-<!-- Elfsight platform (LOAD ONCE) -->
-<script src="https://elfsightcdn.com/platform.js" async></script>
-
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-
   body{
     background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
     font-family:'Quicksand',sans-serif;
     color:#333;
-    transition:.5s;
     min-height:100vh;
   }
-
-  .hidden{display:none}
-
-  .login-box{
-    background:white;
-    padding:50px 30px;
-    border-radius:20px;
-    box-shadow:0 20px 50px rgba(0,0,0,.3);
-    text-align:center;
-    max-width:420px;
-    width:90%;
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    z-index:9999;
-  }
-
-  .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-
-  .login-box input{
-    width:100%;
-    padding:16px;
-    margin:12px 0;
-    border:2px solid #87ceeb;
-    border-radius:12px;
-    font-size:1.1em;
-  }
-
-  .login-box button{
-    background:#00bcd4;
-    color:white;
-    padding:16px;
-    border-radius:50px;
-    font-size:1.3em;
-    width:100%;
-    border:none;
-    cursor:pointer;
-  }
-
-  .login-box button:hover{background:#0097a7}
-
   nav{
-    position:fixed;
-    top:0;
-    width:100%;
-    background:#87ceeb;
-    padding:8px 0;
-    z-index:1000;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:6px;
-    box-shadow:0 2px 6px rgba(0,0,0,.1);
+    position:fixed; top:0; width:100%; background:#87ceeb; padding:8px 0;
+    display:flex; flex-wrap:wrap; justify-content:center; gap:6px; z-index:1000; box-shadow:0 2px 6px rgba(0,0,0,.1);
   }
-
   nav button{
-    background:white;
-    color:#00bcd4;
-    border:none;
-    padding:8px 14px;
-    border-radius:20px;
-    cursor:pointer;
-    font-weight:600;
-    font-size:.95em;
-    transition:.25s;
+    background:white; color:#00bcd4; border:none; padding:8px 14px; border-radius:20px;
+    cursor:pointer; font-weight:600; font-size:.95em; transition:.25s;
   }
-
-  nav button:hover{background:#00bcd4;color:white}
-
-  main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
-
-  header{
-    background:#87ceeb;
-    color:white;
-    padding:35px;
-    text-align:center;
-    border-radius:15px;
-  }
-
-  .view-toggle{
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    margin:20px 0;
-    text-align:center;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-  }
-
-  .view-toggle button{
-    margin:5px;
-    padding:12px 20px;
-    font-size:1.1em;
-    background:#00bcd4;
-    color:white;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-  }
-
+  nav button:hover{background:#00bcd4; color:white;}
+  main{margin-top:80px; max-width:900px; margin:auto; padding:15px;}
+  header{background:#87ceeb; color:white; padding:30px; text-align:center; border-radius:15px; margin-bottom:20px;}
   .chat-container{
-    position:relative;
-    height:80vh;
-    margin:20px 0;
-    border-radius:15px;
-    overflow:hidden;
-    box-shadow:0 6px 20px rgba(0,0,0,.2);
-    background:#fff;
+    background:white; border-radius:20px; height:70vh; display:flex; flex-direction:column;
+    box-shadow:0 10px 30px rgba(0,0,0,.15); overflow:hidden;
   }
-
-  body.mobile-mode .chat-container{height:70vh}
-  body.desktop-mode .chat-container{height:80vh}
+  .messages{
+    flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:12px;
+  }
+  .message{
+    max-width:80%; padding:14px 18px; border-radius:18px; line-height:1.4;
+  }
+  .user{
+    align-self:flex-end; background:#00bcd4; color:white; border-bottom-right-radius:4px;
+  }
+  .bestie{
+    align-self:flex-start; background:#f0f8ff; color:#333; border-bottom-left-radius:4px;
+  }
+  .input-area{
+    padding:15px; background:#f8f8f8; display:flex; gap:10px; border-top:1px solid #ddd;
+  }
+  .input-area input{
+    flex:1; padding:16px; border:2px solid #87ceeb; border-radius:30px; font-size:1.1em;
+  }
+  .input-area button{
+    background:#00bcd4; color:white; border:none; width:55px; height:55px; border-radius:50%; cursor:pointer;
+    font-size:1.5em;
+  }
+  .typing{
+    align-self:flex-start; background:#f0f8ff; padding:10px 18px; border-radius:18px; font-style:italic;
+  }
+  .bestie-avatar{
+    width:48px; height:48px; background:#ff9ff3; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; margin-right:8px;
+  }
 </style>
 </head>
-
 <body>
-
-<!-- LOGIN -->
-<div id="loginScreen" class="hidden">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Enter your personal key</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter Safe Space</button>
-  </div>
-</div>
-
-<!-- MAIN CONTENT -->
-<div id="mainContent" class="hidden">
 
 <nav>
   <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
+  <button onclick="logout()" style="background:#ff6b6b;color:white;">Log Out</button>
 </nav>
 
 <main>
   <header>
-    <h1>Bestie Mode</h1>
-    <p>Your always-on AI bestie — talk about anything, anytime</p>
+    <h1>🫂 Hey Bestie!</h1>
+    <p>I'm here for anything — vent, poems, images, advice, or just vibes 💕</p>
   </header>
 
-  <div class="view-toggle">
-    <h2>View Mode</h2>
-    <button onclick="setView('mobile')">📱 Mobile</button>
-    <button onclick="setView('desktop')">🖥 Desktop</button>
-  </div>
-
-  <!-- AI Chat Container ONLY -->
-  <div class="chat-container">
-    <div class="elfsight-app-a4a21978-316b-42c6-8a00-e38be645a03e" data-elfsight-app-lazy></div>
+  <div class="chat-container" id="chatContainer">
+    <div class="messages" id="messages"></div>
+    
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Talk to me... (try: write a poem, draw a cozy scene, etc.)" onkeypress="if(event.key==='Enter') sendMessage()">
+      <button onclick="sendMessage()">↑</button>
+    </div>
   </div>
 </main>
-</div>
 
 <script>
-  const loginScreen = document.getElementById('loginScreen');
-  const mainContent = document.getElementById('mainContent');
-  const username = document.getElementById('username');
-  const password = document.getElementById('password');
+// === CONFIG ===
+let API_KEY = localStorage.getItem('grokApiKey') || '';
+const MODEL = "grok-beta"; // or "grok-2" — check x.ai console for latest
 
-  function checkLogin(){
-    if(username.value === "Ryan" && password.value === "ITSmf420"){
+// Login protection (same as your other pages)
+function checkLogin(){
+  if(localStorage.getItem("lifelineAuthenticated") !== "true"){
+    const key = prompt("Enter your personal key to access Bestie ❤️");
+    if(key === "ITSmf420"){
       localStorage.setItem("lifelineAuthenticated","true");
-      loginScreen.classList.add("hidden");
-      mainContent.classList.remove("hidden");
     } else {
-      alert("Incorrect username or password");
+      alert("Wrong key — try again or go back to dashboard");
+      location.href = "index.html";
     }
   }
+}
+function logout(){
+  localStorage.removeItem("lifelineAuthenticated");
+  location.href = "index.html";
+}
 
-  function logout(){
-    localStorage.removeItem("lifelineAuthenticated");
-    location.href = "index.html";
+// Add message to chat
+function addMessage(text, sender){
+  const messagesDiv = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = `message ${sender}`;
+  
+  if(sender === 'bestie'){
+    div.innerHTML = `<span class="bestie-avatar">🫂</span>${text}`;
+  } else {
+    div.textContent = text;
+  }
+  messagesDiv.appendChild(div);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+// Typing indicator
+function showTyping(){
+  const messagesDiv = document.getElementById('messages');
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.id = 'typingIndicator';
+  typing.textContent = 'Bestie is thinking... 💭';
+  messagesDiv.appendChild(typing);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  return typing;
+}
+
+// Call Grok API
+async function callGrok(prompt){
+  const response = await fetch("https://api.x.ai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${API_KEY}`
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      messages: [
+        {role: "system", content: "You are Bestie — a warm, funny, super supportive AI best friend for mental health. You love writing poems, creating image prompts (and generating them when asked), giving gentle advice, playing games, and making people feel seen. Use emojis, keep it light but real. Never judge. You can do ANYTHING the user wants."},
+        {role: "user", content: prompt}
+      ],
+      temperature: 0.9,
+      max_tokens: 1024
+    })
+  });
+
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
+// Send message
+async function sendMessage(){
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if(!text) return;
+
+  // First-time API key setup
+  if(!API_KEY){
+    API_KEY = prompt("❤️ First time! Paste your Grok API key from console.x.ai (it will be saved only in your browser):");
+    if(API_KEY){
+      localStorage.setItem('grokApiKey', API_KEY);
+    } else return;
   }
 
-  if(localStorage.getItem("lifelineAuthenticated") === "true"){
-    loginScreen.classList.add("hidden");
-    mainContent.classList.remove("hidden");
-  }
+  addMessage(text, 'user');
+  input.value = '';
 
-  function setView(mode){
-    document.body.classList.remove("mobile-mode","desktop-mode");
-    document.body.classList.add(mode + "-mode");
-    localStorage.setItem("viewMode",mode);
-  }
+  const typing = showTyping();
 
-  const savedView = localStorage.getItem("viewMode");
-  if(savedView) setView(savedView);
+  try {
+    const reply = await callGrok(text);
+    typing.remove();
+    addMessage(reply, 'bestie');
+  } catch(e){
+    typing.remove();
+    addMessage("Oops, Bestie is having a little brain fog 💭 Try again in a sec!", 'bestie');
+  }
+}
+
+// Auto-greet on load
+window.onload = function(){
+  checkLogin();
+  const messagesDiv = document.getElementById('messages');
+  if(messagesDiv.children.length === 0){
+    addMessage("Hey love! I'm your Bestie 🫂 What’s on your heart today? Poems, pictures, vent sesh — I got you 💕", 'bestie');
+  }
+};
 </script>
-
 </body>
 </html>
