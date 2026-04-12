@@ -136,22 +136,56 @@ if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('da
 // Your Gemini API Key (saved safely)
 const API_KEY = "AIzaSyAmnO7xQZNV2vpia84bKrqNBI-OZfYTSBc";
 
+<script>
+// Multi-user login system
+const users = {
+    "Ryan": { password: "ITSmf420", role: "owner" },
+    // Add Eli here:
+    "Eli": { password: "EliBestie2026", role: "friend" }   // ← Change this password to something only you and Eli know
+    // You can add more friends later: "Sarah": { password: "..." }
+};
+
 function checkLogin() {
-    if (localStorage.getItem("lifelineAuthenticated") !== "true") {
-        const entered = prompt("Enter your personal key to access Bestie ❤️");
-        if (entered === "ITSmf420") {
-            localStorage.setItem("lifelineAuthenticated", "true");
-        } else {
-            alert("Incorrect key. Going back.");
-            location.href = "index.html";
-        }
+    if (localStorage.getItem("lifelineAuthenticated") === "true") {
+        return; // already logged in
+    }
+
+    const username = prompt("Enter your username:");
+    if (!username) {
+        alert("Username is required.");
+        location.href = "index.html";
+        return;
+    }
+
+    const user = users[username];
+    if (!user) {
+        alert("Username not found.");
+        location.href = "index.html";
+        return;
+    }
+
+    const enteredPassword = prompt(`Enter password for ${username}:`);
+    if (enteredPassword === user.password) {
+        localStorage.setItem("lifelineAuthenticated", "true");
+        localStorage.setItem("currentUser", username);   // optional: remember who is logged in
+        alert(`Welcome, ${username}! ❤️`);
+    } else {
+        alert("Incorrect password.");
+        location.href = "index.html";
     }
 }
 
 function logout() {
     localStorage.removeItem("lifelineAuthenticated");
+    localStorage.removeItem("currentUser");
     location.href = "index.html";
 }
+
+// Optional: Show who is logged in
+function getCurrentUser() {
+    return localStorage.getItem("currentUser") || "Guest";
+}
+</script>
 
 function addMessage(content, sender, isImage = false) {
     const msgDiv = document.getElementById('messages');
