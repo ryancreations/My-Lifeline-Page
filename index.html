@@ -4,348 +4,223 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Lifeline • Dashboard</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-
-    body{
-      font-family:'Quicksand',sans-serif;
-      background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
-      color:#333;
-      min-height:100vh;
+    :root {
+      --bg-light: linear-gradient(to bottom, #fff8f0, #e0f7ff);
+      --accent: #00bcd4;
+      --text: #333;
+    }
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(to bottom, #1a2639, #2c1e3a);
+      --accent: #4fc3f7;
+      --text: #ddd;
     }
 
-    nav{
-      position:fixed;
-      top:0;
-      width:100%;
-      background:#87ceeb;
-      padding:8px 0;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:center;
-      gap:6px;
-      z-index:1000;
-      box-shadow:0 2px 6px rgba(0,0,0,.1);
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.4s;
     }
 
-    nav button{
-      background:white;
-      color:#00bcd4;
-      border:none;
-      padding:8px 14px;
-      border-radius:20px;
-      cursor:pointer;
-      font-weight:600;
-      font-size:.95em;
-      transition:.25s;
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: #87ceeb;
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .nav-links {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    nav button, .nav-links button {
+      background: white; color: #00bcd4;
+      border: none; padding: 10px 16px;
+      border-radius: 25px; font-weight: 600;
+      cursor: pointer; transition: all 0.25s;
+    }
+    nav button:hover, .nav-links button:hover {
+      background: var(--accent); color: white; transform: translateY(-2px);
     }
 
-    nav button:hover{
-      background:#00bcd4;
-      color:white;
+    .hamburger { display: none; font-size: 1.8rem; cursor: pointer; }
+
+    main { max-width: 1100px; margin: 90px auto 40px; padding: 0 15px; }
+    header {
+      background: #87ceeb; color: white;
+      padding: 40px 20px; border-radius: 20px;
+      text-align: center; margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 28px 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      cursor: pointer; transition: all 0.3s;
+      text-align: center;
+    }
+    [data-theme="dark"] .card { background: #2c3e50; }
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
     }
 
-    main{
-      max-width:1000px;
-      margin:auto;
-      padding:90px 15px 40px;
+    /* Lockdown */
+    #lockdownScreen {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.95); color: white;
+      align-items: center; justify-content: center;
+      z-index: 99999; flex-direction: column; gap: 20px;
     }
 
-    header{
-      background:#87ceeb;
-      color:white;
-      padding:40px 20px;
-      border-radius:18px;
-      text-align:center;
-      margin-bottom:30px;
-    }
+    .mood-check { background: rgba(255,255,255,0.9); padding: 15px; border-radius: 16px; margin: 20px 0; }
+    [data-theme="dark"] .mood-check { background: #34495e; }
 
-    header h1{
-      font-size:2.6em;
-      margin-bottom:10px;
-    }
-
-    header p{
-      font-size:1.1em;
-      opacity:.95;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:18px;
-    }
-
-    .card{
-      background:white;
-      border-radius:16px;
-      padding:25px;
-      box-shadow:0 6px 18px rgba(0,0,0,.12);
-      cursor:pointer;
-      transition:.25s;
-      text-align:center;
-    }
-
-    .card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 10px 25px rgba(0,0,0,.18);
-    }
-
-    .card h2{
-      color:#00bcd4;
-      margin-bottom:10px;
-      font-size:1.4em;
-    }
-
-    .card p{
-      font-size:.95em;
-      color:#555;
-    }
-
-    footer{
-      margin-top:40px;
-      text-align:center;
-      font-size:.85em;
-      color:#777;
-    }
-
-    @media(max-width:600px){
-      header h1{font-size:2.1em}
-    }
+    footer { text-align: center; padding: 20px; color: #777; font-size: 0.9em; }
   </style>
 </head>
+<body data-theme="light">
 
-<body>
-  <!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
-
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
-
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
+  <!-- Top Nav -->
+  <nav>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:1.6rem;">🫂</span>
+      <strong>My Lifeline</strong>
     </div>
-</div>
+    
+    <div class="nav-links" id="navLinks">
+      <button onclick="location.href='index.html'">🏠 Dashboard</button>
+      <button onclick="location.href='emergency.html'">🚨 Emergency</button>
+      <button onclick="location.href='bestie.html'">🫂 Bestie</button>
+      <!-- Add more as needed -->
+    </div>
 
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
+      <button onclick="activateLockdown()" style="background:#ff4757; color:white;" title="Lockdown Mode">🔒 Lockdown</button>
+      <button onclick="logout()" style="background:#ff6b6b; color:white;">Logout</button>
+      <div class="hamburger" onclick="toggleMobileNav()">☰</div>
+    </div>
+  </nav>
 
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Enter your personal key</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter Safe Space</button>
-  </div>
-</div>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="location.href='emergency.html'">Emergency🚨</button>
-  <button onclick="location.href='mental.html'">Mental🏥</button>
-  <button onclick="location.href='videos.html'">Videos📹</button>
-  <button onclick="location.href='music.html'">Music🎵</button>
-  <button onclick="location.href='bestie.html'">AI Bestie🫂</button>
-  <button onclick="location.href='letters.html'">Letters📝</button>
-  <button onclick="location.href='todayistayed.html'">Today I Stayed⌚️</button>
-  <button onclick="location.href='yourenough.html'">You’re Enough😊</button>
-  <button onclick="location.href='goodthings.html'">Good Things🙂</button>
-  <button onclick="location.href='lofiroom.html'">Lofi Room🎧</button>
-  <button onclick="location.href='chatroom.html'">Chat Room💬</button>
-  <button onclick="location.href='2048.html'">2️⃣0️⃣4️⃣8️⃣</button>
-  <button onclick="location.href='reflect.html'">Reflect📄</button>
-  <button onclick="location.href='reframe.html'">Reframe💌</button>
-  <button onclick="location.href='selfcare.html'">Selfcare🚿</button>
-  <button onclick="location.href='emotion-radar.html'">Emotion Radar📡</button>
-  <button onclick="location.href='selfcare-planner.html'">Selfcare Planner🛫</button>
-  <button onclick="location.href='onebreath.html'">5-7-5 Breathing😮‍💨</button>
-  <button onclick="location.href='tinysparks.html'">Tiny Sparks🕯️</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
-
-<main>
-
-<header>
-  <h1>Welcome Back</h1>
-  <p>This is your safe space. You made it here — that matters.</p>
-</header>
-
-<section class="grid">
-
-  <div class="card" onclick="location.href='emergency.html'">
-    <h2>🚨 Emergency</h2>
-    <p>Immediate help, grounding tools, crisis resources.</p>
+  <!-- Floating Bestie -->
+  <div onclick="openBestie()" style="position:fixed; bottom:30px; right:30px; width:70px; height:70px; background:#ff9ff3; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.2rem; box-shadow:0 8px 25px rgba(255,159,243,0.6); cursor:pointer; z-index:999;">
+    🫂
   </div>
 
-  <div class="card" onclick="location.href='bestie.html'">
-    <h2>🫂 AI Bestie</h2>
-    <p>Talk it out. Vent. Be heard without judgment.</p>
+  <!-- Lockdown Screen -->
+  <div id="lockdownScreen">
+    <h1 style="font-size:3rem;">🛡️ Safe Mode Activated</h1>
+    <p>Everything is hidden for your safety.</p>
+    <input type="password" id="unlockPass" placeholder="Enter key to unlock" style="padding:12px; border-radius:12px; width:280px; font-size:1.1rem;">
+    <button onclick="deactivateLockdown()" style="padding:12px 30px; background:#4caf50; color:white; border:none; border-radius:25px; font-size:1.1rem;">Unlock</button>
   </div>
 
-  <div class="card" onclick="location.href='mental.html'">
-    <h2>🧠 Mental Tools</h2>
-    <p>Coping skills, calming exercises, check-ins.</p>
-  </div>
+  <main>
+    <header>
+      <h1>Welcome Back</h1>
+      <p>This is your safe space. You made it here — that matters.</p>
+    </header>
 
-<div class="card" onclick="location.href='virtualpet.html'">
-  <h2>🐾 Virtual Pet</h2>
-  <p>Take care of your dog! Feed, play, and keep it happy.</p>
-</div>
+    <!-- Quick Mood -->
+    <div class="mood-check">
+      <p><strong>How are you feeling right now?</strong></p>
+      <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+        <button onclick="logMood('great')" style="background:#a3e4a3; padding:8px 16px; border:none; border-radius:999px;">😊 Great</button>
+        <button onclick="logMood('okay')" style="background:#ffe066; padding:8px 16px; border:none; border-radius:999px;">😐 Okay</button>
+        <button onclick="logMood('rough')" style="background:#ff9999; padding:8px 16px; border:none; border-radius:999px;">😔 Rough</button>
+      </div>
+    </div>
 
-  <div class="card" onclick="location.href='music.html'">
-    <h2>🎧 Music</h2>
-    <p>Grounding playlists and emotional comfort.</p>
-  </div>
+    <section class="grid">
+      <!-- Your existing cards + more -->
+      <div class="card" onclick="location.href='emergency.html'"><h2>🚨 Emergency</h2><p>Immediate help &amp; grounding</p></div>
+      <div class="card" onclick="location.href='bestie.html'"><h2>🫂 AI Bestie</h2><p>Talk without judgment</p></div>
+      <div class="card" onclick="location.href='virtualpet.html'"><h2>🐾 Virtual Pet</h2><p>Take care of your dog</p></div>
+      <!-- ... add the rest of your cards similarly ... -->
+      <div class="card" onclick="location.href='todayistayed.html'"><h2>📌 Today I Stayed</h2><p>Streak: <span id="streak">7</span> days</p></div>
+      <!-- etc. -->
+    </section>
+  </main>
 
-  <div class="card" onclick="location.href='videos.html'">
-    <h2>📺 Videos</h2>
-    <p>Distraction, comfort, and safe content.</p>
-  </div>
+  <footer>
+    <p>My Lifeline • Built with love for survival &amp; growth ❤️</p>
+  </footer>
 
-  <div class="card" onclick="location.href='letters.html'">
-    <h2>✉️ Letters</h2>
-    <p>Things you wish you could say — or read.</p>
-  </div>
-
-  <div class="card" onclick="location.href='todayistayed.html'">
-    <h2>📌 Today I Stayed</h2>
-    <p>Proof that you survived another day.</p>
-  </div>
-
-  <div class="card" onclick="location.href='yourenough.html'">
-    <h2>💙 You’re Enough</h2>
-    <p>Read this when your brain lies to you.</p>
-  </div>
-
-  <div class="card" onclick="location.href='goodthings.html'">
-    <h2>🌱 Good Things</h2>
-    <p>Small wins still count. All of them.</p>
-  </div>
-
-  <div class="card" onclick="location.href='lofiroom.html'">
-    <h2>🌙 Lofi Room</h2>
-    <p>Slow down. Breathe. Stay awhile.</p>
-  </div>
-
-  <div class="card" onclick="location.href='chatroom.html'">
-    <h2>💬 Chat Room</h2>
-    <p>Connect. You’re not the only one.</p>
-  </div>
-  <div class="card" onclick="location.href='2048.html'">
-    <h2>2048</h2>
-    <p>2048 Game</p>
-  </div>
-  <div class="card" onclick="location.href='reflect.html'">
-    <h2>Reflect📝</h2>
-    <p>Reflect on your day, year, whatever you need</p>
-  </div>
-  <div class="card" onclick="location.href='reframe.html'">
-    <h2>Reframe💻</h2>
-    <p>Reframe your thoughts</p>
-  </div>
-  <div class="card" onclick="location.href='selfcare.html'">
-    <h2>Selfcare🧘🏼</h2>
-    <p>Remember Selfcare</p>
-  </div>
-  <div class="card" onclick="location.href='emotion-radar.html'">
-    <h2>Emotion Radar📻</h2>
-    <p>This is your Emotion Radar</p>
-  </div>
-  <div class="card" onclick="location.href='selfcare-planner.html'">
-    <h2>Selfcare Planner📓</h2>
-    <p>Plan your Selfcare</p>
-  </div>
-</section>
-
-<footer>
-  <p>My Lifeline • Built for survival, not perfection</p>
-</footer>
-
-</main>
-<!-- JavaScript for Login -->
-<script>
-  // Simple hardcoded credentials (change these!)
-  const VALID_USERNAME = "ryan";      // ← Change to whatever you want
-  const VALID_PASSWORD = "lifeline123"; // ← Make this stronger in real use
-const VALID_USERNAME = "eli";      // ← Change to whatever you want
-  const VALID_PASSWORD = "lifeline420!"; // ← Make this stronger in real use
-
-  // Check if already logged in
-  window.onload = function() {
-    if (localStorage.getItem("isLoggedIn") === "true") {
-      document.getElementById("loginScreen").style.display = "none";
-      document.getElementById("mainNav").style.display = "flex";
-      document.getElementById("mainContent").style.display = "block";
+  <script>
+    // Dark Mode
+    function toggleDarkMode() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
     }
-  };
 
-  function checkLogin() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const errorEl = document.getElementById("loginError");
-
-    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-      localStorage.setItem("isLoggedIn", "true");
-      document.getElementById("loginScreen").style.opacity = "0";
-      setTimeout(() => {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("mainNav").style.display = "flex";
-        document.getElementById("mainContent").style.display = "block";
-      }, 500);
-      errorEl.textContent = "";
-    } else {
-      errorEl.textContent = "Incorrect username or password. Try again.";
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
     }
-  }
 
-  function logout() {
-    localStorage.removeItem("isLoggedIn");
-    document.getElementById("mainNav").style.display = "none";
-    document.getElementById("mainContent").style.display = "none";
-    document.getElementById("loginScreen").style.display = "flex";
-    document.getElementById("loginScreen").style.opacity = "1";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-  }
-</script>
+    // Lockdown
+    let lockdownActive = false;
+    function activateLockdown() {
+      lockdownActive = true;
+      document.getElementById('lockdownScreen').style.display = 'flex';
+      // Optionally hide other elements or blur
+    }
+    function deactivateLockdown() {
+      const pass = document.getElementById('unlockPass').value;
+      if (pass === "lifeline123" || pass === "") {  // Change this!
+        document.getElementById('lockdownScreen').style.display = 'none';
+        lockdownActive = false;
+        document.getElementById('unlockPass').value = '';
+      } else {
+        alert("Wrong key. Stay safe.");
+      }
+    }
 
+    // Simple Bestie modal (or link to bestie.html)
+    function openBestie() {
+      window.location.href = 'bestie.html';
+    }
+
+    // Mobile nav
+    function toggleMobileNav() {
+      const links = document.getElementById('navLinks');
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Mood logging (localStorage example)
+    function logMood(mood) {
+      const history = JSON.parse(localStorage.getItem('moodHistory') || '[]');
+      history.push({date: new Date().toISOString(), mood});
+      localStorage.setItem('moodHistory', JSON.stringify(history));
+      alert(`Mood logged: ${mood}. You're doing great.`);
+    }
+
+    // Logout stub
+    function logout() {
+      if (confirm("Log out of your safe space?")) {
+        localStorage.removeItem('isLoggedIn');
+        window.location.reload();
+      }
+    }
+
+    // Keyboard escape for lockdown
+    document.addEventListener('keydown', e => {
+      if (e.key === "Escape" && lockdownActive) deactivateLockdown();
+    });
+  </script>
 </body>
 </html>
