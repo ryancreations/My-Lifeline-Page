@@ -10,55 +10,73 @@
     :root {
       --primary: #00bcd4;
       --accent: #ff9ff3;
-      --bg: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
-      --card: white;
-      --text: #333;
+      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+      --card: #ffffff;
+      --text: #2c3e50;
+      --shadow: rgba(0,0,0,0.12);
     }
     [data-theme="dark"] {
-      --bg: linear-gradient(135deg, #1a2639 0%, #2c1e3a 100%);
+      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
       --card: #2c3e50;
-      --text: #eee;
+      --text: #e0f2f1;
       --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --shadow: rgba(0,0,0,0.4);
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
-      background: var(--bg);
+      background: var(--bg-light);
       color: var(--text);
       min-height: 100vh;
-      transition: background 0.5s ease;
+      transition: background 0.6s ease;
     }
 
-    /* Top Navigation */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(135, 206, 235, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(135, 206, 235, 0.97);
+      backdrop-filter: blur(12px);
       z-index: 1000;
-      padding: 12px 20px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px var(--shadow);
     }
-    [data-theme="dark"] nav { background: rgba(30, 50, 80, 0.95); }
+    [data-theme="dark"] nav { background: rgba(26, 38, 57, 0.97); }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 1.5rem;
+      font-size: 1.75rem;
       font-weight: 700;
       color: var(--text);
     }
 
     .nav-menu {
       display: flex;
-      gap: 8px;
-      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 11px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+    .nav-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(0,188,212,0.3);
     }
 
     .dropdown {
@@ -67,138 +85,114 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      background: var(--card);
-      min-width: 220px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      border-radius: 12px;
-      overflow: hidden;
       top: 100%;
       left: 0;
+      background: var(--card);
+      min-width: 260px;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px var(--shadow);
+      overflow: hidden;
       z-index: 1001;
+      padding: 8px 0;
     }
     .dropdown:hover .dropdown-content { display: block; }
-
-    .dropdown-content a, .nav-btn {
+    .dropdown-content a {
       display: block;
-      padding: 12px 18px;
+      padding: 14px 22px;
       color: var(--text);
       text-decoration: none;
-      transition: background 0.2s;
+      transition: all 0.25s;
     }
     .dropdown-content a:hover {
       background: var(--primary);
       color: white;
+      padding-left: 28px;
     }
 
-    .nav-btn {
-      background: white;
-      border: none;
-      border-radius: 30px;
-      padding: 10px 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .nav-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,188,212,0.3); }
-
-    /* Main Content */
-    main {
-      max-width: 1200px;
-      margin: 90px auto 60px;
-      padding: 0 20px;
-    }
-
+    main { max-width: 1280px; margin: 110px auto 80px; padding: 0 24px; }
     header {
       text-align: center;
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), #81d4fa);
       color: white;
-      padding: 50px 30px;
-      border-radius: 24px;
-      margin-bottom: 40px;
-      box-shadow: 0 10px 30px rgba(0,188,212,0.3);
+      padding: 70px 40px;
+      border-radius: 28px;
+      margin-bottom: 50px;
+      box-shadow: 0 15px 40px rgba(0,188,212,0.25);
     }
+    header h1 { font-size: 2.8rem; margin-bottom: 12px; }
+    header p { font-size: 1.25rem; max-width: 680px; margin: 0 auto; opacity: 0.95; }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
     }
-
     .card {
       background: var(--card);
-      border-radius: 20px;
-      padding: 32px 24px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
+      border-radius: 22px;
+      padding: 36px 28px;
       text-align: center;
+      box-shadow: 0 10px 30px var(--shadow);
+      transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: pointer;
     }
     .card:hover {
-      transform: translateY(-12px) scale(1.03);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+      transform: translateY(-16px) scale(1.04);
+      box-shadow: 0 25px 50px var(--shadow);
     }
-    .card i { font-size: 3rem; margin-bottom: 16px; color: var(--primary); }
-
-    /* Lockdown */
-    #lockdown {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.97);
-      color: white;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      gap: 30px;
-    }
+    .card i { font-size: 3.2rem; margin-bottom: 20px; color: var(--primary); }
 
     .floating-bestie {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 75px;
-      height: 75px;
+      bottom: 32px;
+      right: 32px;
+      width: 82px;
+      height: 82px;
       background: var(--accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.5rem;
-      box-shadow: 0 10px 30px rgba(255,159,243,0.5);
+      font-size: 2.9rem;
+      box-shadow: 0 12px 35px rgba(255,159,243,0.55);
       cursor: pointer;
       z-index: 999;
-      transition: transform 0.3s;
+      transition: all 0.4s;
     }
-    .floating-bestie:hover { transform: scale(1.15) rotate(15deg); }
+    .floating-bestie:hover { transform: scale(1.18) rotate(12deg); }
 
-    footer {
+    #lockdown {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.98);
+      color: white;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      gap: 40px;
       text-align: center;
-      padding: 30px;
-      opacity: 0.8;
-      font-size: 0.95rem;
     }
+
+    footer { text-align: center; padding: 50px 20px; color: #777; font-size: 1rem; }
 
     @media (max-width: 768px) {
-      .nav-menu { display: none; }
-      .hamburger { display: block; font-size: 1.8rem; cursor: pointer; }
+      .nav-menu { gap: 8px; }
+      header h1 { font-size: 2.3rem; }
     }
   </style>
 </head>
 <body data-theme="light">
 
-  <!-- Navigation -->
   <nav>
     <div class="logo">
-      <span>🫂</span>
-      <span>My Lifeline</span>
+      <span>🫂</span> My Lifeline
     </div>
 
     <div class="nav-menu">
-      <!-- Dashboard -->
       <button class="nav-btn" onclick="navigateTo('index.html')">🏠 Dashboard</button>
 
-      <!-- Dropdown: Support -->
       <div class="dropdown">
         <button class="nav-btn">🛡️ Support</button>
         <div class="dropdown-content">
@@ -208,20 +202,18 @@
         </div>
       </div>
 
-      <!-- Dropdown: Tools -->
       <div class="dropdown">
         <button class="nav-btn">🧠 Tools</button>
         <div class="dropdown-content">
           <a href="mental.html">Mental Tools</a>
-          <a href="reflect.html">Reflect</a>
-          <a href="reframe.html">Reframe Thoughts</a>
-          <a href="emotion-radar.html">Emotion Radar</a>
-          <a href="selfcare.html">Selfcare</a>
-          <a href="selfcare-planner.html">Planner</a>
+          <a href="reflect.html">📝 Reflect</a>
+          <a href="reframe.html">💭 Reframe</a>
+          <a href="emotion-radar.html">📡 Emotion Radar</a>
+          <a href="selfcare.html">🧘 Selfcare</a>
+          <a href="selfcare-planner.html">📓 Planner</a>
         </div>
       </div>
 
-      <!-- Dropdown: Comfort -->
       <div class="dropdown">
         <button class="nav-btn">🌈 Comfort</button>
         <div class="dropdown-content">
@@ -232,7 +224,6 @@
         </div>
       </div>
 
-      <!-- Dropdown: Journal -->
       <div class="dropdown">
         <button class="nav-btn">📖 Journal</button>
         <div class="dropdown-content">
@@ -240,141 +231,78 @@
           <a href="goodthings.html">🌱 Good Things</a>
           <a href="todayistayed.html">📌 Today I Stayed</a>
           <a href="yourenough.html">💙 You're Enough</a>
+          <a href="memorylanterns.html">🪔 Memory Lanterns</a>
         </div>
       </div>
 
-      <!-- Games & Extras -->
       <button class="nav-btn" onclick="navigateTo('2048.html')">🎮 2048</button>
       <button class="nav-btn" onclick="navigateTo('chatroom.html')">💬 Chat Room</button>
     </div>
 
     <div style="display:flex; gap:12px; align-items:center;">
-      <button onclick="toggleDarkMode()" class="nav-btn" title="Dark Mode" style="padding:10px 14px;">🌙</button>
-      <button onclick="activateLockdown()" class="nav-btn" style="background:#ff4757; color:white;" title="Lockdown">🔒</button>
-      <button onclick="logout()" class="nav-btn" style="background:#ff6b6b; color:white;">Logout</button>
+      <button onclick="toggleDarkMode()" class="nav-btn" title="Dark Mode">🌗</button>
+      <button onclick="activateLockdown()" class="nav-btn" style="background:#e74c3c;color:white;">🔒 Lockdown</button>
+      <button onclick="logout()" class="nav-btn" style="background:#ff6b6b;color:white;">Logout</button>
     </div>
   </nav>
 
-  <!-- Floating Bestie -->
-  <div class="floating-bestie" onclick="navigateTo('bestie.html')" title="Talk to Bestie">
-    🫂
-  </div>
+  <div class="floating-bestie" onclick="navigateTo('bestie.html')">🫂</div>
 
-  <!-- Lockdown Screen -->
   <div id="lockdown">
-    <h1 style="font-size:3.5rem;">🔒 Safe Lockdown</h1>
-    <p style="font-size:1.3rem; max-width:400px; text-align:center;">Everything hidden. Breathe. You're safe.</p>
-    <input type="password" id="unlockInput" placeholder="Enter your key" style="padding:16px; width:320px; border-radius:999px; border:none; font-size:1.1rem; text-align:center;">
-    <button onclick="tryUnlock()" style="padding:14px 40px; font-size:1.2rem; background:#2ed573; color:white; border:none; border-radius:999px; cursor:pointer;">Unlock</button>
+    <h1 style="font-size:3.6rem;">🛡️ Lockdown Active</h1>
+    <p style="max-width:420px;">Take a breath. You are safe. Everything is hidden.</p>
+    <input id="unlockKey" type="password" placeholder="Enter key to return" style="padding:18px 24px;width:340px;border-radius:999px;border:none;font-size:1.1rem;text-align:center;">
+    <button onclick="deactivateLockdown()" style="padding:16px 48px;font-size:1.2rem;background:#27ae60;color:white;border:none;border-radius:999px;cursor:pointer;">Return</button>
   </div>
 
   <main>
     <header>
       <h1>Welcome Back</h1>
-      <p style="font-size:1.25rem; max-width:600px; margin:20px auto 0;">This is your safe space. You made it here — that matters more than you know.</p>
+      <p>This is your safe space. You made it here — that matters more than you know.</p>
     </header>
 
     <div class="grid">
-      <div class="card" onclick="navigateTo('emergency.html')">
-        <i class="fas fa-heartbeat"></i>
-        <h2>🚨 Emergency</h2>
-        <p>Immediate help, grounding, crisis resources</p>
-      </div>
-      <div class="card" onclick="navigateTo('bestie.html')">
-        <i class="fas fa-comments"></i>
-        <h2>🫂 AI Bestie</h2>
-        <p>Vent. Be heard. No judgment ever.</p>
-      </div>
-      <div class="card" onclick="navigateTo('virtualpet.html')">
-        <i class="fas fa-dog"></i>
-        <h2>🐾 Virtual Pet</h2>
-        <p>Care for your dog. Build routine.</p>
-      </div>
-      <div class="card" onclick="navigateTo('music.html')">
-        <i class="fas fa-music"></i>
-        <h2>🎧 Music</h2>
-        <p>Playlists that hold you gently</p>
-      </div>
-      <div class="card" onclick="navigateTo('lofiroom.html')">
-        <i class="fas fa-moon"></i>
-        <h2>🌙 Lofi Room</h2>
-        <p>Ambient sounds. Breathe. Stay.</p>
-      </div>
-      <div class="card" onclick="navigateTo('todayistayed.html')">
-        <i class="fas fa-calendar-check"></i>
-        <h2>📌 Today I Stayed</h2>
-        <p>Celebrate survival. Build streaks.</p>
-      </div>
-      <div class="card" onclick="navigateTo('yourenough.html')">
-        <i class="fas fa-heart"></i>
-        <h2>💙 You're Enough</h2>
-        <p>Counter the lies your brain tells</p>
-      </div>
-      <div class="card" onclick="navigateTo('goodthings.html')">
-        <i class="fas fa-seedling"></i>
-        <h2>🌱 Good Things</h2>
-        <p>Record tiny wins. They matter.</p>
-      </div>
-      <div class="card" onclick="navigateTo('reflect.html')">
-        <i class="fas fa-pen"></i>
-        <h2>Reflect</h2>
-        <p>Journal your day, your year</p>
-      </div>
-      <div class="card" onclick="navigateTo('selfcare-planner.html')">
-        <i class="fas fa-calendar-alt"></i>
-        <h2>Selfcare Planner</h2>
-        <p>Plan gentle days ahead</p>
-      </div>
+      <div class="card" onclick="navigateTo('emergency.html')"><i class="fas fa-heartbeat"></i><h2>Emergency</h2><p>Immediate help & grounding</p></div>
+      <div class="card" onclick="navigateTo('bestie.html')"><i class="fas fa-comments"></i><h2>AI Bestie</h2><p>Talk without judgment</p></div>
+      <div class="card" onclick="navigateTo('virtualpet.html')"><i class="fas fa-dog"></i><h2>Virtual Pet</h2><p>Care for your companion</p></div>
+      <div class="card" onclick="navigateTo('music.html')"><i class="fas fa-music"></i><h2>Music</h2><p>Playlists that heal</p></div>
+      <div class="card" onclick="navigateTo('lofiroom.html')"><i class="fas fa-moon"></i><h2>Lofi Room</h2><p>Ambient calm space</p></div>
+      <div class="card" onclick="navigateTo('todayistayed.html')"><i class="fas fa-hand-holding-heart"></i><h2>Today I Stayed</h2><p>Celebrate survival</p></div>
+      <div class="card" onclick="navigateTo('yourenough.html')"><i class="fas fa-heart"></i><h2>You're Enough</h2><p>Counter negative thoughts</p></div>
+      <div class="card" onclick="navigateTo('goodthings.html')"><i class="fas fa-seedling"></i><h2>Good Things</h2><p>Record tiny wins</p></div>
+      <div class="card" onclick="navigateTo('reflect.html')"><i class="fas fa-pen"></i><h2>Reflect</h2><p>Journal freely</p></div>
+      <div class="card" onclick="navigateTo('selfcare-planner.html')"><i class="fas fa-calendar-alt"></i><h2>Selfcare Planner</h2><p>Plan gentle days</p></div>
     </div>
   </main>
 
   <footer>
-    <p>My Lifeline — Built as a safe harbor • Version with love ❤️</p>
+    <p>My Lifeline — Built with love as your safe harbor ❤️</p>
   </footer>
 
   <script>
-    // Theme
     function toggleDarkMode() {
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('lifeline-theme', next);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark');
     }
+    if (localStorage.getItem('lifeline-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
-    // Load theme
-    if (localStorage.getItem('lifeline-theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-
-    // Navigation helper
     function navigateTo(page) {
       window.location.href = page;
     }
 
-    // Lockdown
     function activateLockdown() {
       document.getElementById('lockdown').style.display = 'flex';
     }
 
-    function tryUnlock() {
-      const input = document.getElementById('unlockInput').value.trim();
-      if (input === 'lifeline' || input === '') {  // Change this key!
+    function deactivateLockdown() {
+      const key = document.getElementById('unlockKey').value.trim();
+      if (key.length > 0) {
         document.getElementById('lockdown').style.display = 'none';
-        document.getElementById('unlockInput').value = '';
-      } else {
-        alert("That's not the right key. Take a deep breath.");
+        document.getElementById('unlockKey').value = '';
       }
     }
 
-    // Close lockdown with ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const ld = document.getElementById('lockdown');
-        if (ld.style.display === 'flex') ld.style.display = 'none';
-      }
-    });
-
-    // Logout
     function logout() {
       if (confirm("Leave your safe space?")) {
         localStorage.clear();
@@ -382,10 +310,10 @@
       }
     }
 
-    // Keyboard shortcuts
-    document.addEventListener('keypress', (e) => {
-      if (e.key === '?' && document.activeElement.tagName !== "INPUT") {
-        alert("Keyboard shortcuts coming soon!\n\nESC = close lockdown");
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const ld = document.getElementById('lockdown');
+        if (ld.style.display === 'flex') ld.style.display = 'none';
       }
     });
   </script>
