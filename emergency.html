@@ -4,196 +4,206 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Emergency • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .login-box button:hover{background:#0097a7}
-    .hidden{display:none}
+    :root {
+      --primary: #00bcd4;
+      --accent: #ff9ff3;
+      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+      --card: #ffffff;
+      --text: #2c3e50;
+      --shadow: rgba(0,0,0,0.12);
+    }
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
+      --card: #2c3e50;
+      --text: #e0f2f1;
+      --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --shadow: rgba(0,0,0,0.4);
+    }
 
-    /* COMPACT NAVIGATION */
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
-    nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.6s;
+    }
 
-    main{margin-top:70px;max-width:900px;margin:auto;padding:20px;text-align:center}
-    header{background:#87ceeb;color:white;padding:35px;border-radius:15px;margin-bottom:30px}
-    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:25px;margin:30px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
-    .hotline{background:#ff6b6b;color:white;padding:30px;border-radius:15px;margin:30px auto;max-width:600px;box-shadow:0 8px 20px rgba(255,107,107,0.3)}
-    .hotline button{background:white;color:#ff6b6b;padding:18px 35px;border:none;border-radius:50px;font-size:1.4em;margin:10px;cursor:pointer}
-    ul{list-style:none;padding:0}
-    ul li{background:#e0f7ff;padding:15px;margin:10px 0;border-radius:10px}
-    ul li a{color:#00bcd4;text-decoration:none;font-weight:600}
-    #breathCircle{width:120px;height:120px;background:#00bcd4;border-radius:50%;margin:30px auto;animation:breathe 12s infinite}
-    @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.6)}}
-    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-    .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
-    .view-toggle button:hover{background:#0097a7}
-    .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
+    nav { position:fixed; top:0; left:0; right:0; background:rgba(135,206,235,0.97); backdrop-filter:blur(12px); z-index:1000; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 6px 20px var(--shadow); }
+    [data-theme="dark"] nav { background:rgba(26,38,57,0.97); }
 
-    /* Mobile / Desktop Forced Styles */
-    body.mobile-mode nav button { padding: 6px 10px; font-size: 0.9em; }
-    body.mobile-mode main { margin-top: 70px; }
-    body.mobile-mode .section { padding: 15px; }
-    body.desktop-mode nav button { padding: 8px 14px; font-size: 0.95em; }
-    body.desktop-mode .section { padding: 25px; }
+    .logo { font-size:1.6rem; font-weight:700; display:flex; align-items:center; gap:10px; }
+    .nav-btn { background:white; color:var(--primary); border:none; padding:10px 18px; border-radius:30px; font-weight:600; cursor:pointer; }
+
+    main { max-width:900px; margin:100px auto 60px; padding:0 20px; }
+    header { text-align:center; background:linear-gradient(135deg,#e74c3c,#ff6b6b); color:white; padding:60px 30px; border-radius:28px; margin-bottom:40px; }
+
+    .section { background:var(--card); border-radius:22px; padding:32px; margin-bottom:30px; box-shadow:0 10px 30px var(--shadow); }
+
+    .emergency-btn {
+      display:block; width:100%; padding:18px; margin:12px 0;
+      background:#e74c3c; color:white; border:none; border-radius:16px;
+      font-size:1.25rem; cursor:pointer; transition:all 0.3s;
+    }
+    .emergency-btn:hover { transform:scale(1.03); }
+
+    .timer {
+      font-size: 2.4rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 30px 0;
+      min-height: 80px;
+      color: var(--primary);
+    }
+
+    .floating-bestie {
+      position:fixed; bottom:30px; right:30px; width:78px; height:78px;
+      background:var(--accent); border-radius:50%; display:flex; align-items:center;
+      justify-content:center; font-size:2.8rem; box-shadow:0 12px 35px rgba(255,159,243,0.55);
+      cursor:pointer; z-index:999;
+    }
   </style>
 </head>
-<body>
-  <!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
+<body data-theme="light">
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
+  <nav>
+    <div class="logo"><span>🫂</span> My Lifeline</div>
+    <button class="nav-btn" onclick="location.href='index.html'">← Dashboard</button>
+  </nav>
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
-
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Enter your personal key</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter Safe Space</button>
-  </div>
-</div>
-
-<!-- MAIN EMERGENCY PAGE -->
-<div id="mainContent" class="hidden">
- <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
+  <div class="floating-bestie" onclick="location.href='bestie.html'">🫂</div>
 
   <main>
     <header>
-      <h1>You Are Not Alone</h1>
-      <p>Help is here. Right now.</p>
+      <h1>🚨 You Are Not Alone</h1>
+      <p>Help is here right now.</p>
     </header>
 
-    <!-- View Mode Toggle -->
-    <div class="section view-toggle">
-      <h2>View Mode</h2>
-      <button onclick="setView('mobile')">📱 Mobile View</button>
-      <button onclick="setView('desktop')">🖥️ Desktop View</button>
-      <p>Switch anytime — best for your screen</p>
-    </div>
-
-    <div class="hotline">
-      <h2>988 • Suicide & Crisis Lifeline</h2>
-      <button onclick="location.href='tel:8283877854'">Call Mom💗</button>
-      <button onclick="location.href='tel:8283876248'">Call Granny❤️</button>
-      <button onclick="location.href='tel:8285042659'">Call Ryan</button>
+    <div class="section">
+      <h2>📞 Crisis Lines</h2>
+      <a href="tel:988" class="emergency-btn">📱 Call/Text 988</a>
+      <a href="tel:911" class="emergency-btn">🚨 Call 911</a>
     </div>
 
     <div class="section">
-      <h2>Quick Breath</h2>
-      <div id="breathCircle"></div>
-      <p style="font-size:1.3em">Inhale... Hold... Exhale...</p>
+      <h2>❤️ Personal Anchors</h2>
+      <div id="anchorsList"></div>
+      <input type="text" id="newName" placeholder="Name" style="width:48%;padding:12px;margin-right:4%;">
+      <input type="tel" id="newPhone" placeholder="Phone" style="width:48%;padding:12px;">
+      <button onclick="addAnchor()" style="width:100%;margin-top:10px;padding:14px;background:var(--primary);color:white;border:none;border-radius:16px;">+ Add Anchor</button>
     </div>
 
     <div class="section">
-      <h2>Quick Distractions</h2>
-      <ul>
-        <li><a href="https://paveldogreat.github.io/WebGL-Fluid-Simulation/" target="_blank">Fluid Simulation</a></li>
-        <li><a href="https://neal.fun" target="_blank">Fun Games</a></li>
-        <li><a href="https://www.patatap.com" target="_blank">Make Music</a></li>
-        <li><a href="https://quickdraw.withgoogle.com/" target="_blank">Quick, Draw!</a></li>
-        <li><a href="https://play2048.co/" target="_blank">2048 Game</a></li>
-      </ul>
+      <h2>🫁 Guided Breathing (4-4-6)</h2>
+      <div id="breathTimer" class="timer">Press Start</div>
+      <button onclick="startBreathing()" class="emergency-btn" style="background:#00bcd4;">Start Exercise</button>
+      <button onclick="resetBreathing()" style="background:none;border:none;color:#777;margin-top:10px;cursor:pointer;">Reset</button>
+    </div>
+
+    <div class="section">
+      <h2>🌱 5-4-3-2-1 Grounding</h2>
+      <div id="groundingSteps"></div>
+      <button onclick="startGrounding()" class="emergency-btn" style="background:#00bcd4;">Begin Grounding</button>
     </div>
   </main>
 
   <script>
-  function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    location.href = 'index.html';
-  }
-function checkLogin(){
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
+    if (localStorage.getItem('lifeline-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
 
-  // Main account + all guest options (case-insensitive for username)
-  if(
-    (user.toLowerCase() === "ryan" && pass === "ITSmf420") ||
-    (user.toLowerCase() === "guest" && pass === "guest") ||
-    (user.toLowerCase() === "visitor" && pass === "welcome") ||
-    (user.toLowerCase() === "friend" && pass === "lifeline") ||
-    (user.toLowerCase() === "nc" && pass === "boone")
-  ){
-    localStorage.setItem('lifelineAuthenticated', 'true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-  } else {
-    alert("Incorrect username or password.");
-  }
-}
-    function logout() {
-      localStorage.removeItem('lifelineAuthenticated');
-      location.reload();
+    // Personal Anchors
+    let anchors = JSON.parse(localStorage.getItem('personalAnchors') || '[]');
+    function renderAnchors() {
+      const list = document.getElementById('anchorsList');
+      list.innerHTML = anchors.map((a,i) => `
+        <div style="background:rgba(0,188,212,0.1);padding:12px;border-radius:12px;margin:8px 0;display:flex;justify-content:space-between;">
+          <div><strong>${a.name}</strong><br>${a.phone}</div>
+          <button onclick="removeAnchor(${i})" style="background:none;border:none;color:#e74c3c;">✕</button>
+        </div>
+      `).join('');
     }
-    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
+    function addAnchor() {
+      const name = document.getElementById('newName').value.trim();
+      const phone = document.getElementById('newPhone').value.trim();
+      if (name) {
+        anchors.push({name, phone: phone || '—'});
+        localStorage.setItem('personalAnchors', JSON.stringify(anchors));
+        renderAnchors();
+        document.getElementById('newName').value = '';
+        document.getElementById('newPhone').value = '';
+      }
+    }
+    function removeAnchor(i) {
+      if (confirm("Remove this anchor?")) {
+        anchors.splice(i,1);
+        localStorage.setItem('personalAnchors', JSON.stringify(anchors));
+        renderAnchors();
+      }
+    }
+    renderAnchors();
+
+    // Fixed Guided Breathing
+    let breathInterval = null;
+    function startBreathing() {
+      resetBreathing();
+      const timerEl = document.getElementById('breathTimer');
+      const sequence = [
+        {action: "Inhale", secs: 4},
+        {action: "Hold", secs: 4},
+        {action: "Exhale", secs: 6}
+      ];
+      let step = 0;
+      let count = sequence[step].secs;
+
+      const update = () => {
+        timerEl.textContent = `${sequence[step].action}... ${count}`;
+        count--;
+        if (count < 0) {
+          step = (step + 1) % sequence.length;
+          count = sequence[step].secs;
+        }
+      };
+
+      update();
+      breathInterval = setInterval(update, 1000);
     }
 
-    // Mobile / Desktop View Toggle
-    function setView(mode) {
-      document.body.classList.remove('mobile-mode', 'desktop-mode');
-      if (mode === 'mobile') document.body.classList.add('mobile-mode');
-      else document.body.classList.add('desktop-mode');
-      localStorage.setItem('viewMode', mode);
+    function resetBreathing() {
+      if (breathInterval) clearInterval(breathInterval);
+      document.getElementById('breathTimer').textContent = "Press Start";
     }
-    const savedView = localStorage.getItem('viewMode');
-    if (savedView) setView(savedView);
+
+    // 5-4-3-2-1 Grounding
+    function startGrounding() {
+      const container = document.getElementById('groundingSteps');
+      const steps = [
+        {n:5, label:"things you can SEE right now"},
+        {n:4, label:"things you can TOUCH"},
+        {n:3, label:"things you can HEAR"},
+        {n:2, label:"things you can SMELL"},
+        {n:1, label:"thing you can TASTE"}
+      ];
+
+      let html = `<p style="margin-bottom:20px;">Take your time with each step.</p>`;
+      steps.forEach(s => {
+        html += `
+          <div style="margin:18px 0;">
+            <strong>${s.n} ${s.label}</strong>
+            <input type="text" class="input-box" placeholder="Write one or more..." style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--primary);border-radius:12px;">
+          </div>
+        `;
+      });
+      html += `<button onclick="finishGrounding()" style="width:100%;padding:16px;background:#27ae60;color:white;border:none;border-radius:16px;margin-top:20px;">I feel more present</button>`;
+      container.innerHTML = html;
+    }
+
+    function finishGrounding() {
+      alert("You're doing amazing. Come back anytime you need this space ❤️");
+      document.getElementById('groundingSteps').innerHTML = '';
+    }
   </script>
-</div>
 </body>
 </html>
