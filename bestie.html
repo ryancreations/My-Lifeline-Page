@@ -1,298 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Bestie • My Lifeline</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(to bottom, #e0f7ff, #fff8f0);
-            color: #333;
-            min-height: 100vh;
-        }
-        nav {
-            position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0;
-            display: flex; justify-content: center; gap: 12px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        nav button {
-            background: white; color: #00bcd4; border: none; padding: 10px 20px; border-radius: 25px;
-            font-weight: 600; cursor: pointer; transition: all 0.3s;
-        }
-        nav button:hover { background: #00bcd4; color: white; }
-        main { margin-top: 85px; max-width: 920px; margin: 85px auto 20px; padding: 20px; }
-        header {
-            background: #87ceeb; color: white; padding: 28px; text-align: center;
-            border-radius: 20px; margin-bottom: 25px;
-        }
-        .chat-container {
-            background: white; border-radius: 20px; height: 72vh; display: flex; flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden;
-        }
-        .messages {
-            flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
-        }
-        .message {
-            max-width: 80%; padding: 14px 18px; border-radius: 18px; line-height: 1.5;
-        }
-        .user { align-self: flex-end; background: #00bcd4; color: white; border-bottom-right-radius: 4px; }
-        .bestie { align-self: flex-start; background: #f0f8ff; color: #333; border-bottom-left-radius: 4px; display: flex; gap: 10px; }
-        .bestie-avatar {
-            width: 44px; height: 44px; background: #ff9ff3; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0;
-        }
-        .image-container img {
-            max-width: 100%; border-radius: 14px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .input-area {
-            padding: 18px; background: #f8f8f8; display: flex; gap: 10px; border-top: 1px solid #ddd;
-        }
-        .input-area input {
-            flex: 1; padding: 16px 22px; border: 2px solid #87ceeb; border-radius: 30px; font-size: 1.05em; outline: none;
-        }
-        .input-area button {
-            background: #00bcd4; color: white; border: none; width: 60px; height: 60px;
-            border-radius: 50%; font-size: 1.9em; cursor: pointer;
-        }
-        .typing { align-self: flex-start; background: #f0f8ff; padding: 12px 20px; border-radius: 18px; font-style: italic; color: #666; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Bestie • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family:'Quicksand',sans-serif; margin:0; background:linear-gradient(135deg,#fff8f0,#e0f7ff); min-height:100vh; }
+    [data-theme="dark"] body { background:linear-gradient(135deg,#1a2639,#2c1e3a); color:#eee; }
+
+    .chat-container {
+      max-width:820px; margin:80px auto 20px; background:rgba(255,255,255,0.95);
+      border-radius:24px; box-shadow:0 15px 50px rgba(0,0,0,0.15); overflow:hidden;
+      height:calc(100vh - 110px); display:flex; flex-direction:column;
+    }
+    [data-theme="dark"] .chat-container { background:#2c3e50; }
+
+    .header { background:#00bcd4; color:white; padding:20px; text-align:center; font-size:1.5rem; }
+    .messages { flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; }
+    .message { max-width:80%; padding:16px 20px; border-radius:20px; line-height:1.5; }
+    .user { align-self:flex-end; background:#00bcd4; color:white; border-bottom-right-radius:6px; }
+    .bestie { align-self:flex-start; background:#f1f1f1; color:#333; border-bottom-left-radius:6px; }
+    [data-theme="dark"] .bestie { background:#34495e; }
+
+    .input-area { padding:20px; display:flex; gap:12px; background:white; }
+    [data-theme="dark"] .input-area { background:#2c3e50; }
+    input { flex:1; padding:16px 24px; border:2px solid #00bcd4; border-radius:999px; font-size:1.1rem; }
+    button { padding:0 32px; background:#00bcd4; color:white; border:none; border-radius:999px; cursor:pointer; }
+  </style>
 </head>
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
+<body data-theme="light">
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
+  <nav style="position:fixed;top:0;width:100%;background:rgba(135,206,235,0.97);padding:14px 20px;z-index:1000;">
+    <button onclick="location.href='index.html'" style="background:white;color:#00bcd4;border:none;padding:10px 20px;border-radius:30px;">← Dashboard</button>
+  </nav>
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
+  <div class="chat-container">
+    <div class="header">🫂 Your AI Bestie</div>
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Tell me anything... I'm here for you" onkeypress="if(event.key==='Enter') sendMessage()">
+      <button onclick="sendMessage()">Send</button>
     </div>
-</div>
+  </div>
 
-<script>
+  <script>
+    const messages = document.getElementById('messages');
+    let chatHistory = JSON.parse(localStorage.getItem('bestieRealHistory') || '[]');
 
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<nav>
-    <button onclick="location.href='index.html'">← Dashboard</button>
-    <button onclick="logout()" style="background:#ff6b6b;color:white;">Log Out</button>
-</nav>
-
-<main>
-    <header>
-        <h1>🫂 Hey Bestie!</h1>
-        <p>I'm here for poems, advice, or to create beautiful images for you 💕</p>
-    </header>
-
-    <div class="chat-container">
-        <div class="messages" id="messages"></div>
-        
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="Talk to me... (e.g. write a gentle poem or draw a cozy sunset)" 
-                   onkeypress="if(event.key === 'Enter') sendMessage()">
-            <button onclick="sendMessage()">↑</button>
-        </div>
-    </div>
-</main>
-
-<script>
-// Your Gemini API Key (saved safely)
-const API_KEY = "AIzaSyAmnO7xQZNV2vpia84bKrqNBI-OZfYTSBc";
-
-<script>
-// Multi-user login system
-const users = {
-    "Ryan": { password: "ITSmf420", role: "owner" },
-    // Add Eli here:
-    "Eli": { password: "EliBestie2026", role: "friend" }   // ← Change this password to something only you and Eli know
-    // You can add more friends later: "Sarah": { password: "..." }
-};
-
-function checkLogin() {
-    if (localStorage.getItem("lifelineAuthenticated") === "true") {
-        return; // already logged in
+    function addMessage(text, isUser) {
+      const div = document.createElement('div');
+      div.className = `message ${isUser ? 'user' : 'bestie'}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
     }
 
-    const username = prompt("Enter your username:");
-    if (!username) {
-        alert("Username is required.");
-        location.href = "index.html";
-        return;
+    function loadHistory() {
+      messages.innerHTML = '';
+      chatHistory.forEach(m => addMessage(m.content, m.role === 'user'));
     }
 
-    const user = users[username];
-    if (!user) {
-        alert("Username not found.");
-        location.href = "index.html";
-        return;
-    }
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
 
-    const enteredPassword = prompt(`Enter password for ${username}:`);
-    if (enteredPassword === user.password) {
-        localStorage.setItem("lifelineAuthenticated", "true");
-        localStorage.setItem("currentUser", username);   // optional: remember who is logged in
-        alert(`Welcome, ${username}! ❤️`);
-    } else {
-        alert("Incorrect password.");
-        location.href = "index.html";
-    }
-}
+      addMessage(text, true);
+      chatHistory.push({role: "user", content: text});
+      input.value = '';
 
-function logout() {
-    localStorage.removeItem("lifelineAuthenticated");
-    localStorage.removeItem("currentUser");
-    location.href = "index.html";
-}
+      // Show "thinking"
+      const thinking = document.createElement('div');
+      thinking.className = 'message bestie';
+      thinking.textContent = "Thinking...";
+      messages.appendChild(thinking);
+      messages.scrollTop = messages.scrollHeight;
 
-// Optional: Show who is logged in
-function getCurrentUser() {
-    return localStorage.getItem("currentUser") || "Guest";
-}
-</script>
-
-function addMessage(content, sender, isImage = false) {
-    const msgDiv = document.getElementById('messages');
-    const div = document.createElement('div');
-    div.className = `message ${sender}`;
-
-    if (sender === 'bestie') {
-        div.innerHTML = `<div class="bestie-avatar">🫂</div><div>${content}</div>`;
-    } else {
-        div.textContent = content;
-    }
-
-    if (isImage && content && (content.startsWith('http') || content.startsWith('data:'))) {
-        div.innerHTML += `<div class="image-container"><img src="${content}" alt="Bestie created this for you"></div>`;
-    }
-
-    msgDiv.appendChild(div);
-    msgDiv.scrollTop = msgDiv.scrollHeight;
-}
-
-function showTyping() {
-    const msgDiv = document.getElementById('messages');
-    const typing = document.createElement('div');
-    typing.id = 'typing';
-    typing.className = 'typing';
-    typing.textContent = 'Bestie is thinking... 💭';
-    msgDiv.appendChild(typing);
-    msgDiv.scrollTop = msgDiv.scrollHeight;
-    return typing;
-}
-
-function wantsImage(text) {
-    const lower = text.toLowerCase();
-    return /(draw|generate|make|create|imagine).*?(image|picture|photo|art|sticker|drawing)/.test(lower) ||
-           lower.includes("draw me") || lower.includes("image of");
-}
-
-async function sendMessage() {
-    const input = document.getElementById('userInput');
-    const promptText = input.value.trim();
-    if (!promptText) return;
-
-    addMessage(promptText, 'user');
-    input.value = '';
-
-    const typing = showTyping();
-
-    try {
-        const isImageRequest = wantsImage(promptText);
-        const model = isImageRequest ? "gemini-2.5-flash-preview-image" : "gemini-2.5-flash";
-
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
-
-        const res = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: promptText }] }]
-            })
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer gsk_...' // ← You need to put your free Groq key here
+          },
+          body: JSON.stringify({
+            model: "llama3-8b-8192",
+            messages: [
+              {role: "system", content: "You are a warm, empathetic, non-judgmental best friend. Be supportive, gentle, and caring. Use emojis sometimes."},
+              ...chatHistory
+            ],
+            temperature: 0.8,
+            max_tokens: 300
+          })
         });
 
-        if (!res.ok) {
-            const errorText = await res.text();
-            console.error("Gemini Error:", res.status, errorText);
-            throw new Error("API request failed");
-        }
-
         const data = await res.json();
-        typing.remove();
+        const reply = data.choices[0].message.content;
 
-        let replyText = "";
-        let imageUrl = null;
+        thinking.remove();
+        addMessage(reply, false);
+        chatHistory.push({role: "assistant", content: reply});
 
-        if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) {
-            for (let part of data.candidates[0].content.parts) {
-                if (part.text) replyText += part.text + " ";
-                if (part.inlineData) {
-                    imageUrl = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-                }
-            }
-        }
-
-        if (imageUrl) {
-            addMessage(imageUrl, 'bestie', true);
-            setTimeout(() => {
-                addMessage("Here you go, love! 🥰 How does this feel? Want me to change anything?", 'bestie');
-            }, 800);
-        } else if (replyText.trim()) {
-            addMessage(replyText.trim(), 'bestie');
-        } else {
-            addMessage("I got a little confused there 💭 Can you try again?", 'bestie');
-        }
-    } catch (err) {
-        console.error("Full error:", err);
-        typing.remove();
-        addMessage("Sorry sweetie, Bestie had a tiny connection glitch 💭 Try again in a moment!", 'bestie');
+        if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+        localStorage.setItem('bestieRealHistory', JSON.stringify(chatHistory));
+      } catch(e) {
+        thinking.textContent = "Sorry love, I'm having trouble connecting right now. Try again in a moment ❤️";
+      }
     }
-}
 
-// Welcome message
-window.onload = () => {
-    checkLogin();
-    const messagesDiv = document.getElementById('messages');
-    if (messagesDiv.children.length === 0) {
-        addMessage("Hey love! 🫂 I'm your Bestie, now powered by Gemini. What's on your heart today? Poems, advice, or want me to draw something special for you? 💕", 'bestie');
-    }
-};
-</script>
+    loadHistory();
+  </script>
 </body>
 </html>
