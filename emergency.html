@@ -1,209 +1,2259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Emergency • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    :root {
-      --primary: #00bcd4;
-      --accent: #ff9ff3;
-      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
-      --card: #ffffff;
-      --text: #2c3e50;
-      --shadow: rgba(0,0,0,0.12);
-    }
-    [data-theme="dark"] {
-      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
-      --card: #2c3e50;
-      --text: #e0f2f1;
-      --primary: #4fc3f7;
-      --accent: #ff79c6;
-      --shadow: rgba(0,0,0,0.4);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Quicksand', sans-serif;
-      background: var(--bg-light);
-      color: var(--text);
-      min-height: 100vh;
-      transition: background 0.6s;
-    }
+<title>Mental Tools • My Lifeline</title>
 
-    nav { position:fixed; top:0; left:0; right:0; background:rgba(135,206,235,0.97); backdrop-filter:blur(12px); z-index:1000; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 6px 20px var(--shadow); }
-    [data-theme="dark"] nav { background:rgba(26,38,57,0.97); }
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .logo { font-size:1.6rem; font-weight:700; display:flex; align-items:center; gap:10px; }
-    .nav-btn { background:white; color:var(--primary); border:none; padding:10px 18px; border-radius:30px; font-weight:600; cursor:pointer; }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    main { max-width:900px; margin:100px auto 60px; padding:0 20px; }
-    header { text-align:center; background:linear-gradient(135deg,#e74c3c,#ff6b6b); color:white; padding:60px 30px; border-radius:28px; margin-bottom:40px; }
+<style>
 
-    .section { background:var(--card); border-radius:22px; padding:32px; margin-bottom:30px; box-shadow:0 10px 30px var(--shadow); }
+:root {
+  --primary:#00bcd4;
+  --accent:#ff9ff3;
+  --bg-light:linear-gradient(135deg,#fff8f0 0%,#e0f7ff 100%);
+  --card:#ffffff;
+  --text:#2c3e50;
+  --shadow:rgba(0,0,0,0.12);
+}
 
-    .emergency-btn {
-      display:block; width:100%; padding:18px; margin:12px 0;
-      background:#e74c3c; color:white; border:none; border-radius:16px;
-      font-size:1.25rem; cursor:pointer; transition:all 0.3s;
-    }
-    .emergency-btn:hover { transform:scale(1.03); }
+[data-theme="dark"] {
+  --bg-light:linear-gradient(135deg,#0f1c2e 0%,#2c1e3a 100%);
+  --card:#2c3e50;
+  --text:#e0f2f1;
+  --primary:#4fc3f7;
+  --accent:#ff79c6;
+  --shadow:rgba(0,0,0,0.4);
+}
 
-    .timer {
-      font-size: 2.4rem;
-      font-weight: 700;
-      text-align: center;
-      margin: 30px 0;
-      min-height: 80px;
-      color: var(--primary);
-    }
 
-    .floating-bestie {
-      position:fixed; bottom:30px; right:30px; width:78px; height:78px;
-      background:var(--accent); border-radius:50%; display:flex; align-items:center;
-      justify-content:center; font-size:2.8rem; box-shadow:0 12px 35px rgba(255,159,243,0.55);
-      cursor:pointer; z-index:999;
-    }
-  </style>
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+
+body {
+
+  font-family:'Quicksand',sans-serif;
+  background:var(--bg-light);
+  color:var(--text);
+  min-height:100vh;
+  transition:background .6s ease;
+
+}
+
+
+/* NAVIGATION */
+
+nav {
+
+position:fixed;
+top:0;
+left:0;
+right:0;
+
+background:rgba(135,206,235,.97);
+
+backdrop-filter:blur(12px);
+
+z-index:1000;
+
+padding:14px 20px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+box-shadow:0 6px 20px var(--shadow);
+
+}
+
+
+[data-theme="dark"] nav {
+
+background:rgba(26,38,57,.97);
+
+}
+
+
+.logo {
+
+display:flex;
+align-items:center;
+gap:10px;
+
+font-size:1.65rem;
+
+font-weight:700;
+
+}
+
+
+.nav-menu {
+
+display:flex;
+gap:12px;
+align-items:center;
+flex-wrap:wrap;
+
+}
+
+
+.nav-menu.hidden {
+
+display:none;
+
+}
+
+
+.nav-btn {
+
+background:white;
+
+color:var(--primary);
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:0 4px 12px var(--shadow);
+
+}
+
+
+.nav-btn:hover {
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 20px rgba(0,188,212,.3);
+
+}
+
+
+
+/* DROPDOWNS */
+
+
+.dropdown {
+
+position:relative;
+
+}
+
+
+.dropdown-content {
+
+display:none;
+
+position:absolute;
+
+top:100%;
+
+left:0;
+
+background:var(--card);
+
+min-width:240px;
+
+border-radius:16px;
+
+box-shadow:0 15px 35px var(--shadow);
+
+overflow:hidden;
+
+padding:8px 0;
+
+}
+
+
+.dropdown:hover .dropdown-content {
+
+display:block;
+
+}
+
+
+.dropdown-content a {
+
+display:block;
+
+padding:14px 22px;
+
+color:var(--text);
+
+text-decoration:none;
+
+}
+
+
+.dropdown-content a:hover {
+
+background:var(--primary);
+
+color:white;
+
+}
+
+
+
+/* MOBILE */
+
+.hamburger {
+
+display:none;
+
+font-size:1.8rem;
+
+cursor:pointer;
+
+}
+
+
+
+main {
+
+max-width:1280px;
+
+margin:100px auto 80px;
+
+padding:0 20px;
+
+}
+
+
+
+/* HEADER */
+
+
+header {
+
+text-align:center;
+
+background:linear-gradient(135deg,var(--primary),#81d4fa);
+
+color:white;
+
+padding:60px 30px;
+
+border-radius:28px;
+
+margin-bottom:50px;
+
+box-shadow:0 15px 40px rgba(0,188,212,.25);
+
+}
+
+
+header h1 {
+
+font-size:2.6rem;
+
+margin-bottom:12px;
+
+}
+
+
+header p {
+
+font-size:1.2rem;
+
+}
+
+
+
+/* CARDS */
+
+
+.grid {
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:24px;
+
+}
+
+
+.card {
+
+background:var(--card);
+
+border-radius:22px;
+
+padding:32px 24px;
+
+box-shadow:0 10px 30px var(--shadow);
+
+transition:.4s;
+
+}
+
+
+.card:hover {
+
+transform:translateY(-10px) scale(1.02);
+
+}
+
+
+.card i {
+
+font-size:3rem;
+
+color:var(--primary);
+
+margin-bottom:18px;
+
+}
+
+
+
+.section {
+
+background:var(--card);
+
+border-radius:22px;
+
+padding:32px;
+
+margin-bottom:30px;
+
+box-shadow:0 10px 30px var(--shadow);
+
+}
+
+
+
+/* FLOATING BESTIE */
+
+
+.floating-bestie {
+
+position:fixed;
+
+bottom:28px;
+
+right:28px;
+
+width:78px;
+
+height:78px;
+
+background:var(--accent);
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:2.8rem;
+
+box-shadow:0 12px 35px rgba(255,159,243,.55);
+
+cursor:pointer;
+
+z-index:999;
+
+transition:.4s;
+
+}
+
+
+.floating-bestie:hover {
+
+transform:scale(1.15) rotate(12deg);
+
+}
+
+
+
+/* LOCKDOWN */
+
+
+#lockdown {
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+background:rgba(15,23,42,.98);
+
+color:white;
+
+z-index:99999;
+
+align-items:center;
+
+justify-content:center;
+
+flex-direction:column;
+
+gap:30px;
+
+text-align:center;
+
+padding:20px;
+
+}
+
+
+
+footer {
+
+text-align:center;
+
+padding:40px 20px;
+
+color:#777;
+
+}
+
+
+
+@media(max-width:768px){
+
+
+.hamburger {
+
+display:block;
+
+}
+
+
+.nav-menu {
+
+position:absolute;
+
+top:100%;
+
+left:0;
+
+right:0;
+
+background:rgba(135,206,235,.98);
+
+flex-direction:column;
+
+padding:20px;
+
+}
+
+
+[data-theme="dark"] .nav-menu {
+
+background:rgba(26,38,57,.98);
+
+}
+
+
+.nav-btn {
+
+width:100%;
+
+}
+
+
+.dropdown-content {
+
+position:static;
+
+}
+
+
+header h1 {
+
+font-size:2.1rem;
+
+}
+
+
+}
+
+
+</style>
 </head>
+
+
 <body data-theme="light">
 
-  <nav>
-    <div class="logo"><span>🫂</span> My Lifeline</div>
-    <button class="nav-btn" onclick="location.href='index.html'">← Dashboard</button>
-  </nav>
 
-  <div class="floating-bestie" onclick="location.href='bestie.html'">🫂</div>
+<nav>
 
-  <main>
-    <header>
-      <h1>🚨 You Are Not Alone</h1>
-      <p>Help is here right now.</p>
-    </header>
 
-    <div class="section">
-      <h2>📞 Crisis Lines</h2>
-      <a href="tel:988" class="emergency-btn">📱 Call/Text 988</a>
-      <a href="tel:911" class="emergency-btn">🚨 Call 911</a>
-    </div>
+<div class="logo">
+🫂 My Lifeline
+</div>
 
-    <div class="section">
-      <h2>❤️ Personal Anchors</h2>
-      <div id="anchorsList"></div>
-      <input type="text" id="newName" placeholder="Name" style="width:48%;padding:12px;margin-right:4%;">
-      <input type="tel" id="newPhone" placeholder="Phone" style="width:48%;padding:12px;">
-      <button onclick="addAnchor()" style="width:100%;margin-top:10px;padding:14px;background:var(--primary);color:white;border:none;border-radius:16px;">+ Add Anchor</button>
-    </div>
 
-    <div class="section">
-      <h2>🫁 Guided Breathing (4-4-6)</h2>
-      <div id="breathTimer" class="timer">Press Start</div>
-      <button onclick="startBreathing()" class="emergency-btn" style="background:#00bcd4;">Start Exercise</button>
-      <button onclick="resetBreathing()" style="background:none;border:none;color:#777;margin-top:10px;cursor:pointer;">Reset</button>
-    </div>
+<div class="nav-menu" id="navMenu">
 
-    <div class="section">
-      <h2>🌱 5-4-3-2-1 Grounding</h2>
-      <div id="groundingSteps"></div>
-      <button onclick="startGrounding()" class="emergency-btn" style="background:#00bcd4;">Begin Grounding</button>
-    </div>
-  </main>
 
-  <script>
-    if (localStorage.getItem('lifeline-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+<button class="nav-btn" onclick="navigateTo('index.html')">
+🏠 Dashboard
+</button>
 
-    // Personal Anchors
-    let anchors = JSON.parse(localStorage.getItem('personalAnchors') || '[]');
-    function renderAnchors() {
-      const list = document.getElementById('anchorsList');
-      list.innerHTML = anchors.map((a,i) => `
-        <div style="background:rgba(0,188,212,0.1);padding:12px;border-radius:12px;margin:8px 0;display:flex;justify-content:space-between;">
-          <div><strong>${a.name}</strong><br>${a.phone}</div>
-          <button onclick="removeAnchor(${i})" style="background:none;border:none;color:#e74c3c;">✕</button>
-        </div>
-      `).join('');
-    }
-    function addAnchor() {
-      const name = document.getElementById('newName').value.trim();
-      const phone = document.getElementById('newPhone').value.trim();
-      if (name) {
-        anchors.push({name, phone: phone || '—'});
-        localStorage.setItem('personalAnchors', JSON.stringify(anchors));
-        renderAnchors();
-        document.getElementById('newName').value = '';
-        document.getElementById('newPhone').value = '';
-      }
-    }
-    function removeAnchor(i) {
-      if (confirm("Remove this anchor?")) {
-        anchors.splice(i,1);
-        localStorage.setItem('personalAnchors', JSON.stringify(anchors));
-        renderAnchors();
-      }
-    }
-    renderAnchors();
 
-    // Fixed Guided Breathing
-    let breathInterval = null;
-    function startBreathing() {
-      resetBreathing();
-      const timerEl = document.getElementById('breathTimer');
-      const sequence = [
-        {action: "Inhale", secs: 4},
-        {action: "Hold", secs: 4},
-        {action: "Exhale", secs: 6}
-      ];
-      let step = 0;
-      let count = sequence[step].secs;
+<div class="dropdown">
 
-      const update = () => {
-        timerEl.textContent = `${sequence[step].action}... ${count}`;
-        count--;
-        if (count < 0) {
-          step = (step + 1) % sequence.length;
-          count = sequence[step].secs;
-        }
-      };
+<button class="nav-btn">
+🛡️ Support
+</button>
 
-      update();
-      breathInterval = setInterval(update, 1000);
-    }
+<div class="dropdown-content">
 
-    function resetBreathing() {
-      if (breathInterval) clearInterval(breathInterval);
-      document.getElementById('breathTimer').textContent = "Press Start";
-    }
+<a href="emergency.html">🚨 Emergency</a>
 
-    // 5-4-3-2-1 Grounding
-    function startGrounding() {
-      const container = document.getElementById('groundingSteps');
-      const steps = [
-        {n:5, label:"things you can SEE right now"},
-        {n:4, label:"things you can TOUCH"},
-        {n:3, label:"things you can HEAR"},
-        {n:2, label:"things you can SMELL"},
-        {n:1, label:"thing you can TASTE"}
-      ];
+<a href="bestie.html">🫂 AI Bestie</a>
 
-      let html = `<p style="margin-bottom:20px;">Take your time with each step.</p>`;
-      steps.forEach(s => {
-        html += `
-          <div style="margin:18px 0;">
-            <strong>${s.n} ${s.label}</strong>
-            <input type="text" class="input-box" placeholder="Write one or more..." style="width:100%;padding:12px;margin-top:6px;border:2px solid var(--primary);border-radius:12px;">
-          </div>
-        `;
-      });
-      html += `<button onclick="finishGrounding()" style="width:100%;padding:16px;background:#27ae60;color:white;border:none;border-radius:16px;margin-top:20px;">I feel more present</button>`;
-      container.innerHTML = html;
-    }
+<a href="onebreath.html">😮‍💨 Breathing</a>
 
-    function finishGrounding() {
-      alert("You're doing amazing. Come back anytime you need this space ❤️");
-      document.getElementById('groundingSteps').innerHTML = '';
-    }
-  </script>
+</div>
+
+</div>
+
+
+
+<div class="dropdown">
+
+<button class="nav-btn">
+🧠 Tools
+</button>
+
+<div class="dropdown-content">
+
+<a href="mental.html">🧠 Mental Tools</a>
+
+<a href="reflect.html">📝 Reflect</a>
+
+<a href="reframe.html">💭 Reframe</a>
+
+<a href="emotion-radar.html">📡 Emotion Radar</a>
+
+<a href="selfcare.html">🧘 Selfcare</a>
+
+<a href="selfcare-planner.html">📓 Planner</a>
+
+</div>
+
+</div><!-- CONTINUED NAVIGATION -->
+
+<div class="dropdown">
+
+<button class="nav-btn">
+🌈 Comfort
+</button>
+
+<div class="dropdown-content">
+
+<a href="music.html">🎵 Music</a>
+
+<a href="lofiroom.html">🌙 Lofi Room</a>
+
+<a href="videos.html">📺 Videos</a>
+
+<a href="virtualpet.html">🐾 Virtual Pet</a>
+
+</div>
+
+</div>
+
+
+
+<div class="dropdown">
+
+<button class="nav-btn">
+📖 Journal
+</button>
+
+<div class="dropdown-content">
+
+<a href="letters.html">✉️ Letters</a>
+
+<a href="goodthings.html">🌱 Good Things</a>
+
+<a href="todayistayed.html">📌 Today I Stayed</a>
+
+<a href="yourenough.html">💙 You're Enough</a>
+
+</div>
+
+</div>
+
+
+
+<button class="nav-btn" onclick="navigateTo('2048.html')">
+🎮 2048
+</button>
+
+
+<button class="nav-btn" onclick="navigateTo('chatroom.html')">
+💬 Chat Room
+</button>
+
+
+</div>
+
+
+<div style="display:flex;gap:10px;align-items:center;">
+
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌗
+</button>
+
+
+<button class="nav-btn" onclick="activateLockdown()" style="background:#e74c3c;color:white;">
+🔒
+</button>
+
+
+<button class="nav-btn" onclick="logout()" style="background:#ff6b6b;color:white;">
+Logout
+</button>
+
+
+<span class="hamburger" onclick="toggleMobileMenu()">
+☰
+</span>
+
+
+</div>
+
+
+</nav>
+
+
+
+<!-- FLOATING BESTIE -->
+
+
+<div class="floating-bestie" onclick="navigateTo('bestie.html')">
+🫂
+</div>
+
+
+
+<!-- LOCKDOWN -->
+
+
+<div id="lockdown">
+
+
+<h1 style="font-size:3rem;">
+🛡️ Lockdown Active
+</h1>
+
+
+<p>
+Everything hidden. You are safe.
+</p>
+
+
+<input 
+id="unlockKey"
+type="password"
+placeholder="Enter key"
+style="
+padding:16px 24px;
+width:90%;
+max-width:340px;
+border-radius:999px;
+border:none;
+font-size:1.1rem;
+text-align:center;
+">
+
+
+<button 
+onclick="deactivateLockdown()"
+style="
+padding:14px 40px;
+background:#27ae60;
+color:white;
+border:none;
+border-radius:999px;
+cursor:pointer;
+">
+
+Return
+
+</button>
+
+
+</div>
+
+
+
+
+
+<main>
+
+
+
+<header>
+
+<h1>
+🧠 Mental Tools
+</h1>
+
+
+<p>
+A safe place to check in, reflect, prepare, and take care of yourself.
+</p>
+
+
+</header>
+
+
+
+
+
+<!-- MOOD CHECK -->
+
+
+<div class="section">
+
+
+<h2>
+😊 Mood Check-In
+</h2>
+
+
+<p style="margin:12px 0;">
+How are you feeling right now?
+</p>
+
+
+
+<div class="grid">
+
+
+<div class="card" onclick="saveMood('Great 😊')">
+
+<i class="fas fa-face-smile"></i>
+
+<h3>
+Great
+</h3>
+
+<p>
+Feeling good
+</p>
+
+</div>
+
+
+
+<div class="card" onclick="saveMood('Okay 🙂')">
+
+<i class="fas fa-face-meh"></i>
+
+<h3>
+Okay
+</h3>
+
+<p>
+Taking it day by day
+</p>
+
+</div>
+
+
+
+
+<div class="card" onclick="saveMood('Rough 😔')">
+
+<i class="fas fa-face-frown"></i>
+
+<h3>
+Rough
+</h3>
+
+<p>
+Need some support
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- MOOD JOURNAL -->
+
+
+<div class="section">
+
+
+<h2>
+📝 Mood Journal
+</h2>
+
+
+
+<input 
+id="moodInput"
+placeholder="Write how you are feeling..."
+style="
+width:100%;
+padding:15px;
+border-radius:15px;
+border:2px solid var(--primary);
+font-family:inherit;
+font-size:1rem;
+"
+>
+
+
+
+<div style="margin-top:12px;">
+
+
+<button 
+class="nav-btn"
+onclick="saveMoodJournal()"
+>
+
+💾 Save Entry
+
+</button>
+
+
+
+<button 
+class="nav-btn"
+onclick="exportMoodJournal()"
+>
+
+📤 Export
+
+</button>
+
+
+</div>
+
+
+
+
+<div id="moodHistory" style="margin-top:25px;">
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- MOOD STATS -->
+
+
+<div class="section">
+
+
+<h2>
+📊 Mood Progress
+</h2>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<i class="fas fa-calendar-check"></i>
+
+<h3 id="moodCount">
+0
+</h3>
+
+<p>
+Mood Entries
+</p>
+
+</div>
+
+
+
+<div class="card">
+
+<i class="fas fa-heart"></i>
+
+<h3 id="lastMood">
+None
+</h3>
+
+<p>
+Last Check-In
+</p>
+
+</div>
+
+
+</div>
+
+
+</div><!-- THERAPY PREP -->
+
+
+<div class="section">
+
+
+<h2>
+💙 Therapy Prep Notes
+</h2>
+
+
+<p style="margin:12px 0;">
+Things you want to remember to talk about.
+</p>
+
+
+
+<textarea 
+id="therapyInput"
+placeholder="Write notes for therapy..."
+style="
+width:100%;
+height:150px;
+padding:15px;
+border-radius:15px;
+border:2px solid var(--primary);
+font-family:inherit;
+font-size:1rem;
+resize:vertical;
+"
+></textarea>
+
+
+
+<div style="margin-top:12px;">
+
+
+<button 
+class="nav-btn"
+onclick="saveTherapyNote()"
+>
+💾 Save Note
+</button>
+
+
+
+<button 
+class="nav-btn"
+onclick="exportTherapyNotes()"
+>
+📤 Export
+</button>
+
+
+</div>
+
+
+
+<input
+id="therapySearch"
+oninput="searchTherapy()"
+placeholder="🔍 Search therapy notes..."
+style="
+width:100%;
+margin-top:20px;
+padding:14px;
+border-radius:15px;
+border:2px solid var(--primary);
+font-family:inherit;
+"
+>
+
+
+
+<div id="therapyHistory" style="margin-top:25px;">
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- COPING TOOLS -->
+
+
+<div class="section">
+
+
+<h2>
+🌱 Coping Tools
+</h2>
+
+
+
+<div class="grid">
+
+
+<div class="card" onclick="startBreathing()">
+
+<i class="fas fa-wind"></i>
+
+<h3>
+😮‍💨 Breathing
+</h3>
+
+<p>
+Slow down and reset
+</p>
+
+</div>
+
+
+
+<div class="card" onclick="startGrounding()">
+
+<i class="fas fa-earth-americas"></i>
+
+<h3>
+🌎 Grounding
+</h3>
+
+<p>
+Come back to the present
+</p>
+
+</div>
+
+
+
+
+<div class="card" onclick="newAffirmation()">
+
+<i class="fas fa-star"></i>
+
+<h3>
+✨ Affirmation
+</h3>
+
+<p>
+A kind reminder
+</p>
+
+</div>
+
+
+
+<div class="card" onclick="randomCoping()">
+
+<i class="fas fa-lightbulb"></i>
+
+<h3>
+💡 Coping Idea
+</h3>
+
+<p>
+Find something helpful
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+<div 
+id="copingResult"
+style="
+margin-top:25px;
+text-align:center;
+font-size:1.2rem;
+font-weight:600;
+"
+>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- SELF CARE -->
+
+
+<div class="section">
+
+
+<h2>
+🧘 Self-Care Checklist
+</h2>
+
+
+
+<div id="selfCareList">
+
+
+<label style="display:block;margin:15px 0;">
+<input type="checkbox" class="careItem">
+ Drink water 💧
+</label>
+
+
+
+<label style="display:block;margin:15px 0;">
+<input type="checkbox" class="careItem">
+ Eat something 🍎
+</label>
+
+
+
+<label style="display:block;margin:15px 0;">
+<input type="checkbox" class="careItem">
+ Take medication if needed 💊
+</label>
+
+
+
+<label style="display:block;margin:15px 0;">
+<input type="checkbox" class="careItem">
+ Shower / hygiene 🚿
+</label>
+
+
+
+<label style="display:block;margin:15px 0;">
+<input type="checkbox" class="careItem">
+ Stretch or move 🌱
+</label>
+
+
+
+<label style="display:block;margin:15px 0;">
+<input type="checkbox" class="careItem">
+ Do something comforting ❤️
+</label>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- GRATITUDE -->
+
+
+<div class="section">
+
+
+<h2>
+🌻 Good Things Today
+</h2>
+
+
+<textarea
+id="gratitudeInput"
+placeholder="Write something good, even something small..."
+style="
+width:100%;
+height:120px;
+padding:15px;
+border-radius:15px;
+border:2px solid var(--primary);
+font-family:inherit;
+"
+></textarea>
+
+
+
+<button 
+class="nav-btn"
+onclick="saveGratitude()"
+style="margin-top:12px;"
+>
+
+🌱 Save Good Thing
+
+</button>
+
+
+
+<div id="gratitudeHistory" style="margin-top:20px;">
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- DAILY AFFIRMATION -->
+
+
+<div class="section" style="text-align:center;">
+
+
+<h2>
+💙 Daily Reminder
+</h2>
+
+
+
+<p 
+id="affirmationText"
+style="
+font-size:1.3rem;
+margin:25px 0;
+font-weight:600;
+"
+>
+
+You are doing better than you think.
+
+</p>
+
+
+
+<button 
+class="nav-btn"
+onclick="newAffirmation()"
+>
+
+✨ New Reminder
+
+</button>
+
+
+</div><script>
+
+
+/* THEME */
+
+
+if(localStorage.getItem("lifeline-theme")==="dark"){
+
+document.documentElement.setAttribute("data-theme","dark");
+
+}
+
+
+
+function toggleDarkMode(){
+
+let dark =
+document.documentElement.getAttribute("data-theme")==="dark";
+
+
+document.documentElement.setAttribute(
+"data-theme",
+dark ? "light":"dark"
+);
+
+
+localStorage.setItem(
+"lifeline-theme",
+dark ? "light":"dark"
+);
+
+
+}
+
+
+
+
+
+/* NAVIGATION */
+
+
+function navigateTo(page){
+
+window.location.href=page;
+
+}
+
+
+
+function toggleMobileMenu(){
+
+document
+.getElementById("navMenu")
+.classList.toggle("hidden");
+
+}
+
+
+
+
+
+/* LOCKDOWN */
+
+
+function activateLockdown(){
+
+document.getElementById("lockdown").style.display="flex";
+
+}
+
+
+
+function deactivateLockdown(){
+
+let key=document.getElementById("unlockKey").value;
+
+
+if(key.length>0){
+
+document.getElementById("lockdown").style.display="none";
+
+document.getElementById("unlockKey").value="";
+
+}
+
+}
+
+
+
+function logout(){
+
+if(confirm("Leave your safe space?")){
+
+localStorage.clear();
+
+location.reload();
+
+}
+
+}
+
+
+
+
+
+
+
+
+/* MOOD TRACKER */
+
+
+let moods =
+JSON.parse(localStorage.getItem("moods") || "[]");
+
+
+
+function saveMood(mood){
+
+
+moods.unshift({
+
+mood:mood,
+
+date:new Date().toLocaleString()
+
+});
+
+
+localStorage.setItem(
+"moods",
+JSON.stringify(moods)
+);
+
+
+document.getElementById("lastMood").innerHTML=mood;
+
+
+document.getElementById("moodCount").innerHTML=moods.length;
+
+
+}
+
+
+
+
+
+
+
+/* MOOD JOURNAL */
+
+
+let moodJournal =
+JSON.parse(localStorage.getItem("moodJournal") || "[]");
+
+
+
+function saveMoodJournal(){
+
+
+let input=document.getElementById("moodInput");
+
+
+if(input.value.trim()==="") return;
+
+
+
+moodJournal.unshift({
+
+id:Date.now(),
+
+text:input.value,
+
+date:new Date().toLocaleString()
+
+});
+
+
+
+localStorage.setItem(
+"moodJournal",
+JSON.stringify(moodJournal)
+);
+
+
+
+input.value="";
+
+
+renderMoodJournal();
+
+}
+
+
+
+
+function renderMoodJournal(){
+
+
+let box=document.getElementById("moodHistory");
+
+
+box.innerHTML="";
+
+
+moodJournal.forEach((entry,index)=>{
+
+
+box.innerHTML+=`
+
+<div class="card" style="margin-top:15px;text-align:left;">
+
+
+<small>${entry.date}</small>
+
+
+<p style="margin:15px 0;">
+${entry.text}
+</p>
+
+
+
+<button class="nav-btn"
+onclick="editMood(${index})">
+
+✏️ Edit
+
+</button>
+
+
+<button class="nav-btn"
+style="background:#e74c3c;color:white;"
+onclick="deleteMood(${index})">
+
+🗑 Delete
+
+</button>
+
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("moodCount").innerHTML=
+moodJournal.length;
+
+
+}
+
+
+
+
+
+function editMood(index){
+
+let newText=
+prompt(
+"Edit your entry:",
+moodJournal[index].text
+);
+
+
+if(newText){
+
+moodJournal[index].text=newText;
+
+
+localStorage.setItem(
+"moodJournal",
+JSON.stringify(moodJournal)
+);
+
+
+renderMoodJournal();
+
+}
+
+}
+
+
+
+
+function deleteMood(index){
+
+
+if(confirm("Delete this entry?")){
+
+
+moodJournal.splice(index,1);
+
+
+localStorage.setItem(
+"moodJournal",
+JSON.stringify(moodJournal)
+);
+
+
+renderMoodJournal();
+
+
+}
+
+
+}
+
+
+
+
+
+
+function exportMoodJournal(){
+
+
+let text=moodJournal
+.map(e=>`${e.date}\n${e.text}\n\n`)
+.join("");
+
+
+
+let blob=new Blob(
+[text],
+{type:"text/plain"}
+);
+
+
+
+let a=document.createElement("a");
+
+
+a.href=URL.createObjectURL(blob);
+
+
+a.download="Mood-Journal.txt";
+
+
+a.click();
+
+
+}
+
+
+
+
+
+
+
+
+
+/* THERAPY NOTES */
+
+
+let therapyNotes =
+JSON.parse(localStorage.getItem("therapyNotes") || "[]");
+
+
+
+
+function saveTherapyNote(){
+
+
+let input=document.getElementById("therapyInput");
+
+
+
+if(input.value.trim()==="") return;
+
+
+
+therapyNotes.unshift({
+
+id:Date.now(),
+
+text:input.value,
+
+date:new Date().toLocaleString()
+
+});
+
+
+
+localStorage.setItem(
+"therapyNotes",
+JSON.stringify(therapyNotes)
+);
+
+
+input.value="";
+
+
+renderTherapy();
+
+}
+
+
+
+
+
+
+
+function renderTherapy(){
+
+
+let box=document.getElementById("therapyHistory");
+
+
+box.innerHTML="";
+
+
+therapyNotes.forEach((note,index)=>{
+
+
+box.innerHTML+=`
+
+<div class="card" style="margin-top:15px;text-align:left;">
+
+
+<small>${note.date}</small>
+
+
+<p style="margin:15px 0;">
+${note.text}
+</p>
+
+
+
+<button class="nav-btn"
+onclick="editTherapy(${index})">
+
+✏️ Edit
+
+</button>
+
+
+
+<button class="nav-btn"
+style="background:#e74c3c;color:white;"
+onclick="deleteTherapy(${index})">
+
+🗑 Delete
+
+</button>
+
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+
+
+function editTherapy(index){
+
+
+let change=
+prompt(
+"Edit note:",
+therapyNotes[index].text
+);
+
+
+if(change){
+
+
+therapyNotes[index].text=change;
+
+
+localStorage.setItem(
+"therapyNotes",
+JSON.stringify(therapyNotes)
+);
+
+
+renderTherapy();
+
+
+}
+
+
+}
+
+
+
+
+function deleteTherapy(index){
+
+
+if(confirm("Delete this note?")){
+
+
+therapyNotes.splice(index,1);
+
+
+localStorage.setItem(
+"therapyNotes",
+JSON.stringify(therapyNotes)
+);
+
+
+renderTherapy();
+
+
+}
+
+}
+
+
+
+
+
+function searchTherapy(){
+
+
+let search=
+document
+.getElementById("therapySearch")
+.value
+.toLowerCase();
+
+
+
+document
+.querySelectorAll("#therapyHistory .card")
+.forEach(card=>{
+
+
+card.style.display =
+card.innerText.toLowerCase().includes(search)
+?
+"block"
+:
+"none";
+
+
+});
+
+
+}
+
+
+
+
+
+function exportTherapyNotes(){
+
+
+let text=
+therapyNotes
+.map(n=>`${n.date}\n${n.text}\n\n`)
+.join("");
+
+
+
+let blob=new Blob(
+[text],
+{type:"text/plain"}
+);
+
+
+let a=document.createElement("a");
+
+a.href=URL.createObjectURL(blob);
+
+a.download="Therapy-Notes.txt";
+
+a.click();
+
+
+}/* BREATHING */
+
+
+let breathTimer=null;
+
+
+function startBreathing(){
+
+
+let result=document.getElementById("copingResult");
+
+
+let steps=[
+
+"Inhale slowly... 🌬️",
+
+"Hold... 💙",
+
+"Exhale slowly... 😮‍💨"
+
+];
+
+
+let index=0;
+
+
+result.innerHTML=steps[index];
+
+
+clearInterval(breathTimer);
+
+
+
+breathTimer=setInterval(()=>{
+
+
+index++;
+
+
+if(index>=steps.length){
+
+index=0;
+
+}
+
+
+result.innerHTML=steps[index];
+
+
+},4000);
+
+
+}
+
+
+
+
+
+
+
+/* GROUNDING */
+
+
+function startGrounding(){
+
+
+let result=document.getElementById("copingResult");
+
+
+result.innerHTML=`
+
+<h3>🌎 5-4-3-2-1 Grounding</h3>
+
+<p style="margin:15px;">
+Name:
+<br>
+5 things you can see 👀
+</p>
+
+<p>
+4 things you can touch ✋
+</p>
+
+<p>
+3 things you can hear 👂
+</p>
+
+<p>
+2 things you can smell 👃
+</p>
+
+<p>
+1 thing you can taste 👅
+</p>
+
+`;
+
+
+}
+
+
+
+
+
+
+
+/* AFFIRMATIONS */
+
+
+let affirmations=[
+
+"You are doing better than you think. 💙",
+
+"Small steps still count. 🌱",
+
+"You made it through hard moments before. ❤️",
+
+"You deserve kindness, including from yourself. 🫂",
+
+"Today matters because you are here. ✨",
+
+"You don't have to be perfect to make progress."
+
+];
+
+
+
+function newAffirmation(){
+
+
+let random =
+affirmations[
+Math.floor(Math.random()*affirmations.length)
+];
+
+
+document.getElementById(
+"affirmationText"
+).innerHTML=random;
+
+
+
+}
+
+
+
+
+
+
+
+/* COPING IDEAS */
+
+
+let copingIdeas=[
+
+"Listen to a favorite song 🎵",
+
+"Drink some water 💧",
+
+"Take a short walk 🚶",
+
+"Write down what you feel 📝",
+
+"Watch something comforting 📺",
+
+"Spend time with a pet 🐾",
+
+"Take some deep breaths 😮‍💨"
+
+];
+
+
+
+function randomCoping(){
+
+
+let idea=
+copingIdeas[
+Math.floor(Math.random()*copingIdeas.length)
+];
+
+
+document.getElementById(
+"copingResult"
+).innerHTML=
+"💡 Try this: "+idea;
+
+
+}
+
+
+
+
+
+
+
+
+/* GRATITUDE */
+
+
+let gratitude=
+JSON.parse(localStorage.getItem("gratitude")||"[]");
+
+
+
+function saveGratitude(){
+
+
+let input=
+document.getElementById("gratitudeInput");
+
+
+
+if(input.value.trim()==="") return;
+
+
+
+gratitude.unshift({
+
+text:input.value,
+
+date:new Date().toLocaleString()
+
+});
+
+
+localStorage.setItem(
+"gratitude",
+JSON.stringify(gratitude)
+);
+
+
+input.value="";
+
+
+renderGratitude();
+
+
+}
+
+
+
+
+function renderGratitude(){
+
+
+let box=
+document.getElementById("gratitudeHistory");
+
+
+if(!box) return;
+
+
+box.innerHTML="";
+
+
+gratitude.forEach(item=>{
+
+
+box.innerHTML+=`
+
+<div class="card" style="margin-top:15px;text-align:left;">
+
+<small>${item.date}</small>
+
+<p>${item.text}</p>
+
+</div>
+
+`;
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+
+/* SELF CARE */
+
+
+let careItems=
+JSON.parse(localStorage.getItem("careItems")||"[]");
+
+
+
+function loadCare(){
+
+
+document
+.querySelectorAll(".careItem")
+.forEach((item,index)=>{
+
+
+item.checked =
+careItems[index] || false;
+
+
+
+item.addEventListener(
+"change",
+()=>{
+
+
+careItems[index]=item.checked;
+
+
+localStorage.setItem(
+"careItems",
+JSON.stringify(careItems)
+);
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+/* LOAD EVERYTHING */
+
+
+renderMoodJournal();
+
+renderTherapy();
+
+renderGratitude();
+
+loadCare();
+
+
+
+if(moods.length>0){
+
+document.getElementById("lastMood").innerHTML=
+moods[0].mood;
+
+document.getElementById("moodCount").innerHTML=
+moods.length;
+
+}
+
+
+
+
+
+
+
+/* ESCAPE LOCKDOWN */
+
+
+document.addEventListener(
+"keydown",
+function(e){
+
+
+if(e.key==="Escape"){
+
+
+document.getElementById(
+"lockdown"
+).style.display="none";
+
+
+}
+
+
+});
+
+
+
+</script>
+
+
+
+
+
+<footer>
+
+<p>
+My Lifeline — Your safe harbor ❤️
+</p>
+
+</footer>
+
+
+
 </body>
+
 </html>
