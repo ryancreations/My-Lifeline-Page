@@ -7,110 +7,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { font-family:'Quicksand',sans-serif; margin:0; background:linear-gradient(135deg,#fff8f0,#e0f7ff); min-height:100vh; }
+    body { font-family:'Quicksand',sans-serif; background:linear-gradient(135deg,#fff8f0,#e0f7ff); margin:0; min-height:100vh; color:#333; }
     [data-theme="dark"] body { background:linear-gradient(135deg,#1a2639,#2c1e3a); color:#eee; }
 
-    .chat-container {
-      max-width:820px; margin:80px auto 20px; background:rgba(255,255,255,0.95);
-      border-radius:24px; box-shadow:0 15px 50px rgba(0,0,0,0.15); overflow:hidden;
-      height:calc(100vh - 110px); display:flex; flex-direction:column;
-    }
+    .chat-container { max-width:820px; margin:80px auto 30px; background:rgba(255,255,255,0.95); border-radius:24px; box-shadow:0 15px 50px rgba(0,0,0,0.15); height:calc(100vh - 120px); display:flex; flex-direction:column; overflow:hidden; }
     [data-theme="dark"] .chat-container { background:#2c3e50; }
 
     .header { background:#00bcd4; color:white; padding:20px; text-align:center; font-size:1.5rem; }
-    .messages { flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; }
-    .message { max-width:80%; padding:16px 20px; border-radius:20px; line-height:1.5; }
+    .messages { flex:1; padding:24px; overflow-y:auto; display:flex; flex-direction:column; gap:18px; }
+    .message { max-width:80%; padding:16px 22px; border-radius:22px; line-height:1.55; }
     .user { align-self:flex-end; background:#00bcd4; color:white; border-bottom-right-radius:6px; }
-    .bestie { align-self:flex-start; background:#f1f1f1; color:#333; border-bottom-left-radius:6px; }
-    [data-theme="dark"] .bestie { background:#34495e; }
+    .bestie { align-self:flex-start; background:#f0f0f0; color:#333; border-bottom-left-radius:6px; }
+    [data-theme="dark"] .bestie { background:#34495e; color:#eee; }
 
-    .input-area { padding:20px; display:flex; gap:12px; background:white; }
+    .input-area { padding:20px; background:white; border-top:1px solid #ddd; display:flex; gap:12px; }
     [data-theme="dark"] .input-area { background:#2c3e50; }
     input { flex:1; padding:16px 24px; border:2px solid #00bcd4; border-radius:999px; font-size:1.1rem; }
-    button { padding:0 32px; background:#00bcd4; color:white; border:none; border-radius:999px; cursor:pointer; }
+    button { padding:0 32px; background:#00bcd4; color:white; border:none; border-radius:999px; cursor:pointer; font-weight:600; }
   </style>
 </head>
 <body data-theme="light">
 
-  <nav style="position:fixed;top:0;width:100%;background:rgba(135,206,235,0.97);padding:14px 20px;z-index:1000;">
+  <nav style="position:fixed;top:0;left:0;right:0;background:rgba(135,206,235,0.97);padding:14px 20px;z-index:1000;">
     <button onclick="location.href='index.html'" style="background:white;color:#00bcd4;border:none;padding:10px 20px;border-radius:30px;">← Dashboard</button>
   </nav>
 
   <div class="chat-container">
-    <div class="header">🫂 Your AI Bestie</div>
+    <div class="header">🫂 Real AI Bestie</div>
     <div class="messages" id="messages"></div>
     <div class="input-area">
-      <input type="text" id="userInput" placeholder="Tell me anything... I'm here for you" onkeypress="if(event.key==='Enter') sendMessage()">
+      <input type="text" id="userInput" placeholder="Tell me anything... I'm here for you 💕" onkeypress="if(event.key==='Enter') sendMessage()">
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
-    const messages = document.getElementById('messages');
-    let chatHistory = JSON.parse(localStorage.getItem('bestieRealHistory') || '[]');
-
-    function addMessage(text, isUser) {
-      const div = document.createElement('div');
-      div.className = `message ${isUser ? 'user' : 'bestie'}`;
-      div.textContent = text;
-      messages.appendChild(div);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    function loadHistory() {
-      messages.innerHTML = '';
-      chatHistory.forEach(m => addMessage(m.content, m.role === 'user'));
-    }
-
-    async function sendMessage() {
-      const input = document.getElementById('userInput');
-      const text = input.value.trim();
-      if (!text) return;
-
-      addMessage(text, true);
-      chatHistory.push({role: "user", content: text});
-      input.value = '';
-
-      // Show "thinking"
-      const thinking = document.createElement('div');
-      thinking.className = 'message bestie';
-      thinking.textContent = "Thinking...";
-      messages.appendChild(thinking);
-      messages.scrollTop = messages.scrollHeight;
-
-      try {
-        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer gsk_...' // ← You need to put your free Groq key here
-          },
-          body: JSON.stringify({
-            model: "llama3-8b-8192",
-            messages: [
-              {role: "system", content: "You are a warm, empathetic, non-judgmental best friend. Be supportive, gentle, and caring. Use emojis sometimes."},
-              ...chatHistory
-            ],
-            temperature: 0.8,
-            max_tokens: 300
-          })
-        });
-
-        const data = await res.json();
-        const reply = data.choices[0].message.content;
-
-        thinking.remove();
-        addMessage(reply, false);
-        chatHistory.push({role: "assistant", content: reply});
-
-        if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
-        localStorage.setItem('bestieRealHistory', JSON.stringify(chatHistory));
-      } catch(e) {
-        thinking.textContent = "Sorry love, I'm having trouble connecting right now. Try again in a moment ❤️";
-      }
-    }
-
-    loadHistory();
-  </script>
-</body>
-</html>
+    const messagesEl = document.get
