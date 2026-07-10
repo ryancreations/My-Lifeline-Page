@@ -1,141 +1,555 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>One Breath (5-7-5) • My Lifeline</title>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>One Breath • My Lifeline</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a1f;font-family:'Quicksand',sans-serif;color:#fff;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
-.login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-.login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-.login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-.hidden{display:none}
-nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px;z-index:1000;display:flex;justify-content:center;gap:20px}
-nav button{background:#fff;color:#00bcd4;border:none;padding:10px 20px;border-radius:20px;font-weight:600;cursor:pointer}
-h1{font-size:3em;margin:40px;color:#a8e6cf}
-#circle{width:320px;height:320px;background:#a8e6cf;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.8em;text-align:center;transition:transform 5s ease-in-out;box-shadow:0 0 80px #a8e6cf}
-#prompt{font-size:2.2em;margin:40px;line-height:1.5}
-button#start{background:#ff6b9d;color:#fff;padding:20px 60px;border:none;border-radius:50px;font-size:1.8em;cursor:pointer;margin:20px}
-button#stop{background:#666;color:#fff;padding:16px 40px;border:none;border-radius:50px;font-size:1.4em;cursor:pointer}
+
+:root {
+  --primary:#00bcd4;
+  --accent:#ff9ff3;
+  --bg-light:linear-gradient(135deg,#fff8f0 0%,#e0f7ff 100%);
+  --card:#ffffff;
+  --text:#2c3e50;
+  --shadow:rgba(0,0,0,0.12);
+}
+
+[data-theme="dark"] {
+  --bg-light:linear-gradient(135deg,#0f1c2e 0%,#2c1e3a 100%);
+  --card:#2c3e50;
+  --text:#e0f2f1;
+  --primary:#4fc3f7;
+  --accent:#ff79c6;
+  --shadow:rgba(0,0,0,0.4);
+}
+
+
+* {
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+
+body {
+ font-family:'Quicksand',sans-serif;
+ background:var(--bg-light);
+ color:var(--text);
+ min-height:100vh;
+ transition:.5s;
+}
+
+
+/* Navigation */
+
+nav {
+ position:fixed;
+ top:0;
+ left:0;
+ right:0;
+ background:rgba(135,206,235,.97);
+ backdrop-filter:blur(12px);
+ z-index:1000;
+ padding:14px 20px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ box-shadow:0 6px 20px var(--shadow);
+}
+
+
+[data-theme="dark"] nav {
+ background:rgba(26,38,57,.97);
+}
+
+
+.logo {
+ display:flex;
+ align-items:center;
+ gap:10px;
+ font-size:1.6rem;
+ font-weight:700;
+}
+
+
+.nav-btn {
+ background:white;
+ color:var(--primary);
+ border:none;
+ padding:10px 18px;
+ border-radius:30px;
+ cursor:pointer;
+ font-weight:600;
+ box-shadow:0 4px 12px var(--shadow);
+}
+
+
+/* Main */
+
+main {
+ max-width:900px;
+ margin:110px auto 70px;
+ padding:0 20px;
+}
+
+
+header {
+ text-align:center;
+ background:linear-gradient(135deg,var(--primary),#81d4fa);
+ color:white;
+ padding:55px 30px;
+ border-radius:28px;
+ margin-bottom:40px;
+ box-shadow:0 15px 40px rgba(0,188,212,.25);
+}
+
+
+header h1 {
+ font-size:2.5rem;
+ margin-bottom:10px;
+}
+
+
+/* Cards */
+
+.section {
+ background:var(--card);
+ border-radius:22px;
+ padding:32px;
+ margin-bottom:30px;
+ box-shadow:0 10px 30px var(--shadow);
+ text-align:center;
+}
+
+
+/* Breathing Circle */
+
+.breath-area {
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ margin:35px 0;
+}
+
+
+#circle {
+
+ width:220px;
+ height:220px;
+ border-radius:50%;
+
+ background:linear-gradient(
+ 135deg,
+ #a8e6cf,
+ #00bcd4
+ );
+
+ display:flex;
+ justify-content:center;
+ align-items:center;
+
+ color:white;
+ font-size:1.8rem;
+ font-weight:700;
+ text-align:center;
+
+ box-shadow:0 0 60px rgba(0,188,212,.5);
+
+ transform:scale(1);
+
+ transition:transform 5s ease-in-out;
+
+}
+
+
+/* Timer Text */
+
+#prompt {
+
+ font-size:1.5rem;
+ line-height:1.5;
+ margin:20px;
+
+}
+
+
+/* Buttons */
+
+.action-btn {
+
+ border:none;
+ padding:15px 35px;
+ border-radius:40px;
+ margin:8px;
+
+ font-size:1.1rem;
+ font-weight:600;
+
+ cursor:pointer;
+ color:white;
+
+ background:var(--primary);
+
+ transition:.3s;
+
+}
+
+
+.action-btn:hover {
+ transform:translateY(-3px);
+}
+
+
+.stop-btn {
+ background:#e74c3c;
+}
+
+
+/* Floating Bestie */
+
+.floating-bestie {
+
+ position:fixed;
+ bottom:28px;
+ right:28px;
+
+ width:78px;
+ height:78px;
+
+ background:var(--accent);
+
+ border-radius:50%;
+
+ display:flex;
+ justify-content:center;
+ align-items:center;
+
+ font-size:2.8rem;
+
+ box-shadow:0 12px 35px rgba(255,159,243,.55);
+
+ cursor:pointer;
+
+ z-index:999;
+
+}
+
+
+footer {
+
+ text-align:center;
+ padding:30px;
+ color:#777;
+
+}
+
+
+/* Mobile */
+
+@media(max-width:700px){
+
+ nav {
+  padding:12px;
+ }
+
+ .logo {
+  font-size:1.2rem;
+ }
+
+ header h1 {
+  font-size:2rem;
+ }
+
+ #circle {
+  width:180px;
+  height:180px;
+ }
+
+}
+
 </style>
-</head><body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
+</head>
+<body data-theme="light">
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
-
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<!-- LOGIN -->
-<div id="loginScreen" class="login-box">
-  <h1>My Lifeline</h1>
-  <p>Enter your personal key</p>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="checkLogin()">Enter Safe Space</button>
-</div>
-
-<!-- MAIN PAGE -->
-<div id="mainContent" class="hidden">
 <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
 
-<h1>One Breath</h1>
-<div id="circle">Breathe with me</div>
-<div id="prompt">Click Start for 5-7-5 breathing<br>(inhale 5 • hold 7 • exhale 5)</div>
-<button id="start" onclick="start()">Start</button>
-<button id="stop" onclick="stop()">Stop</button>
+<div class="logo">
+🫂 My Lifeline
 </div>
 
-<script>
-function checkLogin(){
-  if(document.getElementById('username').value==="Ryan" && document.getElementById('password').value==="ITSmf420"){
-    localStorage.setItem('lifelineAuthenticated','true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-  } else {
-    alert("Incorrect username or password.");
-  }
-}
-function logout(){
-  localStorage.removeItem('lifelineAuthenticated');
-  location.reload();
-}
-if(localStorage.getItem('lifelineAuthenticated')==='true'){
-  document.getElementById('loginScreen').classList.add('hidden');
-  document.getElementById('mainContent').classList.remove('hidden');
+
+<div>
+
+<button class="nav-btn" onclick="location.href='index.html'">
+🏠 Dashboard
+</button>
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌗
+</button>
+
+</div>
+
+</nav>
+
+
+<div class="floating-bestie" onclick="location.href='bestie.html'">
+🫂
+</div><main>
+
+<header>
+<h1>😮‍💨 One Breath</h1>
+<p>A calm breathing space to slow down, reset, and take things one breath at a time.</p>
+</header>
+
+
+<div class="section">
+
+<h2>🌱 5 - 7 - 5 Breathing</h2>
+
+<p>
+Breathe along with the circle:
+<br>
+<strong>Inhale 5 seconds • Hold 7 seconds • Exhale 5 seconds</strong>
+</p>
+
+
+<div class="breath-area">
+
+<div id="circle">
+Breathe
+</div>
+
+</div>
+
+
+<div id="prompt">
+Press Start when you're ready 💙
+</div>
+
+
+<button class="action-btn" onclick="startBreathing()">
+▶ Start
+</button>
+
+
+<button class="action-btn stop-btn" onclick="stopBreathing()">
+⏹ Stop
+</button>
+
+
+<button class="action-btn" onclick="resetBreathing()">
+↻ Reset
+</button>
+
+
+</div>
+
+
+
+<div class="section">
+
+<h2>💙 Remember</h2>
+
+<p>
+There is no rush. You don't have to fix everything at once.
+<br><br>
+Just focus on this moment and this breath.
+</p>
+
+</div>
+
+
+
+<div class="section">
+
+<h2>🫁 Other Breathing Options</h2>
+
+<p>
+You can also try:
+</p>
+
+<br>
+
+<p>
+🌊 Slow breathing<br>
+🌿 Box breathing<br>
+☁️ Deep calming breaths
+</p>
+
+</div>
+
+
+</main>
+
+
+<footer>
+My Lifeline — Your safe harbor ❤️
+</footer><script>
+
+// Match My Lifeline dark mode
+function toggleDarkMode() {
+
+  const current =
+    document.documentElement.getAttribute("data-theme");
+
+  const next =
+    current === "dark" ? "light" : "dark";
+
+  document.documentElement.setAttribute(
+    "data-theme",
+    next
+  );
+
+  localStorage.setItem(
+    "lifeline-theme",
+    next
+  );
 }
 
-let interval;
-const circle = document.getElementById('circle');
-const prompt = document.getElementById('prompt');
+
+// Load saved theme
+if(localStorage.getItem("lifeline-theme") === "dark"){
+
+ document.documentElement.setAttribute(
+   "data-theme",
+   "dark"
+ );
+
+}
+
+
+
+// Breathing System
+
+let breathingTimer = null;
+
+const circle =
+document.getElementById("circle");
+
+const prompt =
+document.getElementById("prompt");
+
 
 const steps = [
-  {text: "Inhale...<br>5 seconds", scale: 1.8, time: 5000},
-  {text: "Hold...<br>7 seconds", scale: 1.8, time: 7000},
-  {text: "Exhale...<br>5 seconds", scale: 1, time: 5000},
-  {text: "Beautiful.<br>One more?", scale: 1, time: 3000}
+
+ {
+  text:"🌬️ Inhale<br>5 seconds",
+  scale:1.35,
+  time:5000
+ },
+
+ {
+  text:"⏸️ Hold<br>7 seconds",
+  scale:1.35,
+  time:7000
+ },
+
+ {
+  text:"💨 Exhale<br>5 seconds",
+  scale:1,
+  time:5000
+ },
+
+ {
+  text:"💙 Good job<br>Keep going",
+  scale:1,
+  time:3000
+ }
+
 ];
 
-function start(){
-  let i = 0;
-  function cycle(){
-    prompt.innerHTML = steps[i].text;
-    circle.style.transform = `scale(${steps[i].scale})`;
-    i = (i + 1) % steps.length;
-    interval = setTimeout(cycle, steps[(i-1+steps.length)%steps.length].time);
+
+function startBreathing(){
+
+ stopBreathing();
+
+ let step = 0;
+
+
+ function runStep(){
+
+  prompt.innerHTML =
+  steps[step].text;
+
+
+  circle.style.transform =
+  `scale(${steps[step].scale})`;
+
+
+  breathingTimer =
+  setTimeout(
+    runStep,
+    steps[step].time
+  );
+
+
+  step++;
+
+  if(step >= steps.length){
+    step = 0;
   }
-  cycle();
+
+ }
+
+
+ runStep();
+
 }
 
-function stop(){
-  clearTimeout(interval);
-  circle.style.transform = 'scale(1)';
-  prompt.innerHTML = 'Click Start for 5-7-5 breathing<br>(inhale 5 • hold 7 • exhale 5)';
+
+
+function stopBreathing(){
+
+ if(breathingTimer){
+
+  clearTimeout(breathingTimer);
+
+ }
+
+ circle.style.transform =
+ "scale(1)";
+
 }
+
+
+
+function resetBreathing(){
+
+ stopBreathing();
+
+ prompt.innerHTML =
+ "Press Start when you're ready 💙";
+
+ circle.innerHTML =
+ "Breathe";
+
+}
+
+
+
+// Keyboard shortcut
+document.addEventListener(
+"keydown",
+function(event){
+
+ if(event.key === "Escape"){
+
+  stopBreathing();
+
+ }
+
+});
+
+
 </script>
-</body></html>
+
+</body>
+</html>
