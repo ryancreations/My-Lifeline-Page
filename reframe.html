@@ -1,283 +1,886 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>AI Reframe • My Lifeline</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+
+ --primary:#00bcd4;
+ --pink:#ff6b9d;
+ --purple:#9b59b6;
+ --bg:linear-gradient(135deg,#d1f0ff,#ffe6f2);
+ --card:white;
+ --text:#333;
+ --box:#f8f9fa;
+ --shadow:rgba(0,0,0,.15);
+
+}
+
+
+
+[data-theme="dark"]{
+
+ --bg:linear-gradient(135deg,#101c33,#2c1e3a);
+ --card:#263545;
+ --text:#eee;
+ --box:#34495e;
+ --shadow:rgba(0,0,0,.4);
+
+}
+
+
+
+*{
+
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+
+}
+
+
 
 body{
-  background:radial-gradient(circle at top,#1e3c72,#2a5298);
-  font-family:'Quicksand',sans-serif;
-  color:#fff;
-  min-height:100vh;
+
+ font-family:'Quicksand',sans-serif;
+
+ background:var(--bg);
+
+ color:var(--text);
+
+ min-height:100vh;
+
+ transition:.4s;
+
 }
+
+
+
+
+/* Navigation */
 
 nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#87ceeb;
-  padding:8px;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:6px;
-  z-index:1000;
+
+ position:fixed;
+
+ top:0;
+
+ left:0;
+
+ width:100%;
+
+
+ background:rgba(135,206,235,.95);
+
+ padding:12px;
+
+
+ display:flex;
+
+ justify-content:center;
+
+ flex-wrap:wrap;
+
+ gap:12px;
+
+
+ z-index:1000;
+
+
+ box-shadow:0 5px 20px var(--shadow);
+
 }
 
-nav button{
-  background:white;
-  color:#00bcd4;
-  border:none;
-  padding:8px 14px;
-  border-radius:20px;
-  font-weight:600;
-  cursor:pointer;
+
+
+[data-theme="dark"] nav{
+
+ background:rgba(25,40,60,.95);
+
 }
 
-nav button:hover{background:#00bcd4;color:white}
+
+
+.nav-btn{
+
+ background:white;
+
+ color:var(--primary);
+
+ border:none;
+
+ padding:10px 18px;
+
+ border-radius:30px;
+
+ font-weight:600;
+
+ cursor:pointer;
+
+ transition:.3s;
+
+}
+
+
+.nav-btn:hover{
+
+ transform:translateY(-2px);
+
+}
+
+
+
+
+/* Floating Bestie */
+
+.bestie-float{
+
+ position:fixed;
+
+ right:25px;
+
+ bottom:25px;
+
+
+ width:75px;
+
+ height:75px;
+
+
+ background:#ff9ff3;
+
+ border-radius:50%;
+
+
+ display:flex;
+
+ justify-content:center;
+
+ align-items:center;
+
+
+ font-size:2.5rem;
+
+
+ cursor:pointer;
+
+
+ z-index:9999;
+
+
+ box-shadow:0 10px 30px rgba(255,159,243,.5);
+
+}
+
+
+
+
+/* Main */
 
 main{
-  margin-top:80px;
-  padding:20px;
-  max-width:900px;
-  margin-left:auto;
-  margin-right:auto;
+
+ max-width:900px;
+
+ margin:auto;
+
+ padding:110px 20px 60px;
+
 }
 
-header{
-  text-align:center;
-  margin-bottom:30px;
+
+
+.hero{
+
+ text-align:center;
+
+ background:linear-gradient(135deg,#00bcd4,#9b59b6);
+
+ color:white;
+
+ padding:45px 25px;
+
+ border-radius:30px;
+
+ margin-bottom:35px;
+
+
+ box-shadow:0 15px 40px rgba(0,188,212,.3);
+
 }
 
-header h1{
-  font-size:3em;
-  color:#b3e5fc;
+
+
+.hero h1{
+
+ font-size:2.6rem;
+
+ margin-bottom:12px;
+
 }
 
-header p{
-  opacity:.9;
-  margin-top:10px;
-}
+
+
 
 .card{
-  background:rgba(255,255,255,.12);
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:25px;
-  box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+ background:var(--card);
+
+ padding:30px;
+
+ border-radius:25px;
+
+ margin-bottom:25px;
+
+ box-shadow:0 10px 30px var(--shadow);
+
 }
+
+
 
 label{
-  display:block;
-  font-weight:600;
-  margin-bottom:10px;
+
+ display:block;
+
+ font-weight:700;
+
+ margin-bottom:12px;
+
+ font-size:1.1rem;
+
 }
+
+
 
 textarea{
-  width:100%;
-  min-height:110px;
-  border-radius:15px;
-  border:none;
-  padding:15px;
-  font-size:1em;
-  resize:vertical;
-  font-family:'Quicksand',sans-serif;
+
+ width:100%;
+
+ min-height:140px;
+
+ border-radius:18px;
+
+ border:2px solid #87ceeb;
+
+ padding:18px;
+
+ font-family:'Quicksand',sans-serif;
+
+ font-size:1.05rem;
+
+ resize:none;
+
 }
+
+
 
 select{
-  width:100%;
-  padding:14px;
-  border-radius:12px;
-  border:none;
-  font-size:1em;
+
+ width:100%;
+
+ padding:15px;
+
+ border-radius:15px;
+
+ border:2px solid #87ceeb;
+
+ font-family:'Quicksand',sans-serif;
+
+ font-size:1rem;
+
 }
 
-button.action{
-  background:#ff6b9d;
-  color:white;
-  border:none;
-  padding:18px 36px;
-  border-radius:50px;
-  font-size:1.3em;
-  font-weight:600;
-  cursor:pointer;
-  display:block;
-  margin:30px auto 0;
+
+
+
+.action-btn{
+
+ display:block;
+
+ margin:25px auto;
+
+ padding:16px 38px;
+
+
+ background:var(--pink);
+
+ color:white;
+
+ border:none;
+
+ border-radius:50px;
+
+
+ font-size:1.2rem;
+
+ font-weight:700;
+
+
+ cursor:pointer;
+
+ transition:.3s;
+
 }
 
-button.action:hover{transform:scale(1.06)}
+
+
+.action-btn:hover{
+
+ transform:scale(1.05);
+
+}
+
+
+
 
 .output{
-  margin-top:20px;
-  padding:22px;
-  background:rgba(0,0,0,.35);
-  border-radius:15px;
-  line-height:1.7;
+
+ background:var(--box);
+
+ padding:22px;
+
+ border-radius:18px;
+
+ line-height:1.7;
+
 }
 
-.fade{
-  opacity:0;
-  transform:translateY(15px);
-  transition:.6s;
+
+
+.history-item{
+
+ background:var(--box);
+
+ padding:20px;
+
+ border-radius:18px;
+
+ margin-top:15px;
+
 }
 
-.fade.show{
-  opacity:1;
-  transform:translateY(0);
+
+
+.delete-btn{
+
+ background:#ff6b6b;
+
+ color:white;
+
+ border:none;
+
+ border-radius:20px;
+
+ padding:7px 14px;
+
+ cursor:pointer;
+
+ margin-top:12px;
+
 }
+
+
+
+@media(max-width:600px){
+
+ .hero h1{
+
+  font-size:2rem;
+
+ }
+
+}
+
+
 </style>
+
 </head>
 
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
+<body data-theme="light">
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
 
-<script>
-  body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
 <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
+
+<button class="nav-btn" onclick="location.href='index.html'">
+🏠 Dashboard
+</button>
+
+
+<button class="nav-btn" onclick="location.href='bestie.html'">
+🫂 Bestie
+</button>
+
+
+<button class="nav-btn" onclick="location.href='pet.html'">
+🐶 Pet
+</button>
+
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌙
+</button>
+
+
 </nav>
 
-<main>
 
-<header>
-  <h1>AI-Assisted Reframe</h1>
-  <p>Let the AI help untangle the thought — gently.</p>
-</header>
+<div class="bestie-float" onclick="location.href='bestie.html'">
+🫂
+</div><main>
 
-<div class="card">
-  <label>What thought is hurting right now?</label>
-  <textarea id="thought" placeholder="Example: I'm too broken for anyone to stay."></textarea>
+
+<section class="hero">
+
+<h1>🧠 AI Reframe</h1>
+
+<p>
+Turn painful thoughts into a more balanced perspective.
+</p>
+
+</section>
+
+
+
+
+<section class="card">
+
+<label>
+💭 What thought is hurting right now?
+</label>
+
+
+<textarea 
+id="thought"
+placeholder="Write the thought that's weighing on you...">
+</textarea>
+
+
+</section>
+
+
+
+
+<section class="card">
+
+<label>
+🌊 How intense does it feel?
+</label>
+
+
+<select id="intensity">
+
+<option value="low">
+Low but lingering
+</option>
+
+<option value="medium">
+Heavy and distracting
+</option>
+
+<option value="high">
+Overwhelming / spiraling
+</option>
+
+</select>
+
+
+</section>
+
+
+
+
+<section class="card">
+
+<label>
+💙 What kind of support would help?
+</label>
+
+
+<select id="style">
+
+<option value="gentle">
+Gentle & comforting
+</option>
+
+
+<option value="realistic">
+Grounded & realistic
+</option>
+
+
+<option value="firm">
+Firm but caring
+</option>
+
+
+</select>
+
+
+</section>
+
+
+
+
+<button class="action-btn" onclick="generateReframe()">
+
+✨ Reframe Thought
+
+</button>
+
+
+
+
+
+<section class="card" id="result" style="display:none;">
+
+
+<h2>
+🌱 Your Reframe
+</h2>
+
+
+<div class="output" id="output">
+
 </div>
 
-<div class="card">
-  <label>How intense does it feel?</label>
-  <select id="intensity">
-    <option value="low">Low but lingering</option>
-    <option value="medium">Heavy and distracting</option>
-    <option value="high">Overwhelming / spiral</option>
-  </select>
+
+</section>
+
+
+
+
+
+<section class="card">
+
+<h2>
+📖 Past Reframes
+</h2>
+
+
+<p>
+Saved privately on this device.
+</p>
+
+
+<div id="history">
+
 </div>
 
-<div class="card">
-  <label>What kind of support do you want?</label>
-  <select id="style">
-    <option value="gentle">Gentle & comforting</option>
-    <option value="realistic">Grounded & realistic</option>
-    <option value="firm">Firm but caring</option>
-  </select>
-</div>
 
-<button class="action" onclick="generateReframe()">Reframe With AI</button>
+</section>
 
-<div id="result" class="card fade">
-  <h2>Your Reframe</h2>
-  <div id="output" class="output"></div>
-</div>
+
 
 </main>
 
-<script>
-function generateReframe(){
-  const thought = document.getElementById("thought").value.trim();
-  const intensity = document.getElementById("intensity").value;
-  const style = document.getElementById("style").value;
-  const result = document.getElementById("result");
-  const output = document.getElementById("output");
 
-  if(!thought){
-    alert("Write the thought first.");
-    return;
-  }
 
-  let opening = "";
-  let core = "";
-  let closing = "";
+<footer style="text-align:center;padding:30px;opacity:.7;">
+My Lifeline • A different way to look at the moment 💙
+</footer><script>
 
-  if(style === "gentle"){
-    opening = "I hear how painful this feels. You're not weak for thinking this.";
-    core = "Thoughts like this often come from hurt, not truth.";
-    closing = "You’re allowed to be human and still worthy of care.";
-  }
 
-  if(style === "realistic"){
-    opening = "Let’s slow this down for a second.";
-    core = "This thought feels convincing, but feelings aren’t proof.";
-    closing = "Struggling doesn’t cancel your value.";
-  }
+// Dark Mode
 
-  if(style === "firm"){
-    opening = "This thought is loud — but it’s not in charge.";
-    core = "Your brain is reacting to pain, not stating facts.";
-    closing = "You deserve patience, especially from yourself.";
-  }
+function toggleDarkMode(){
 
-  if(intensity === "high"){
-    core += " When emotions spike, the mind goes into survival mode.";
-  }
+ const current =
+ document.documentElement.getAttribute("data-theme");
 
-  output.innerHTML = `
-    <p>${opening}</p>
-    <p><strong>Original thought:</strong><br>${thought}</p>
-    <p>${core}</p>
-    <p><strong>Reframe:</strong><br>
-    “I’m hurting right now, but this moment doesn’t define my worth or my future.”</p>
-    <p>${closing}</p>
-  `;
 
-  result.classList.add("show");
+ const next =
+ current === "dark" ? "light" : "dark";
+
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  next
+ );
+
+
+ localStorage.setItem(
+  "lifeline-theme",
+  next
+ );
+
 }
+
+
+
+if(localStorage.getItem("lifeline-theme")==="dark"){
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  "dark"
+ );
+
+}
+
+
+
+
+
+// Reframe History
+
+let reframes =
+JSON.parse(
+ localStorage.getItem("lifelineReframes") || "[]"
+);
+
+
+
+const historyBox =
+document.getElementById("history");
+
+
+
+function generateReframe(){
+
+
+ const thought =
+ document.getElementById("thought").value.trim();
+
+
+ const intensity =
+ document.getElementById("intensity").value;
+
+
+ const style =
+ document.getElementById("style").value;
+
+
+
+ if(!thought){
+
+  alert("Write the thought first 💙");
+
+  return;
+
+ }
+
+
+
+ let opening="";
+ let middle="";
+ let closing="";
+
+
+
+ if(style==="gentle"){
+
+  opening =
+  "I hear how heavy this feels. A painful thought can feel completely true when emotions are strong.";
+
+
+  middle =
+  "This thought may be coming from hurt, fear, or exhaustion. Having this thought does not mean it is a fact.";
+
+
+  closing =
+  "You deserve the same kindness you would give someone else who was struggling.";
+
+ }
+
+
+
+ if(style==="realistic"){
+
+  opening =
+  "Let's look at this thought from a calmer angle.";
+
+
+  middle =
+  "Feelings are important, but they are not always accurate evidence. There may be more than one way to understand this situation.";
+
+
+  closing =
+  "One difficult moment does not define your entire story.";
+
+ }
+
+
+
+ if(style==="firm"){
+
+  opening =
+  "This thought is loud, but loud does not mean true.";
+
+
+  middle =
+  "Your brain may be trying to protect you while you're hurting. You can acknowledge the pain without accepting every negative thought as reality.";
+
+
+  closing =
+  "You are allowed to challenge thoughts that make you feel hopeless.";
+
+ }
+
+
+
+ if(intensity==="high"){
+
+  middle +=
+  " When emotions are intense, slowing down before believing a thought can help.";
+
+ }
+
+
+
+ const reframe = `
+
+ <p>${opening}</p>
+
+ <p><strong>Original thought:</strong><br>
+ ${escapeHTML(thought)}
+ </p>
+
+
+ <p>${middle}</p>
+
+
+ <p><strong>New perspective:</strong><br>
+ "I am having a hard moment, but this moment does not define my worth or my future."
+ </p>
+
+
+ <p>${closing}</p>
+
+ `;
+
+
+
+ document.getElementById("output").innerHTML =
+ reframe;
+
+
+
+ document.getElementById("result").style.display =
+ "block";
+
+
+
+ const saved = {
+
+  thought:thought,
+
+  text:reframe,
+
+  date:new Date().toLocaleString()
+
+ };
+
+
+ reframes.unshift(saved);
+
+
+ localStorage.setItem(
+  "lifelineReframes",
+  JSON.stringify(reframes)
+ );
+
+
+ displayHistory();
+
+
+}
+
+
+
+
+function escapeHTML(text){
+
+ return text
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
+
+}
+
+
+
+
+
+function displayHistory(){
+
+ historyBox.innerHTML="";
+
+
+ reframes.forEach((item,index)=>{
+
+
+ const div =
+ document.createElement("div");
+
+
+ div.className="history-item";
+
+
+ div.innerHTML = `
+
+ <small>📅 ${item.date}</small>
+
+ <p><strong>
+ Thought:
+ </strong><br>
+ ${escapeHTML(item.thought)}
+ </p>
+
+
+ <button class="delete-btn"
+ onclick="deleteReframe(${index})">
+ Delete
+ </button>
+
+ `;
+
+
+ historyBox.appendChild(div);
+
+
+ });
+
+
+}
+
+
+
+
+function deleteReframe(index){
+
+ reframes.splice(index,1);
+
+
+ localStorage.setItem(
+  "lifelineReframes",
+  JSON.stringify(reframes)
+ );
+
+
+ displayHistory();
+
+}
+
+
+
+
+displayHistory();
+
+
+
 </script>
+
 
 </body>
 </html>
