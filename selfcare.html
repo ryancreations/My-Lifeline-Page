@@ -1,195 +1,924 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Self-Care Wheel • My Lifeline</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
 <style>
-body {
-  font-family: 'Quicksand', sans-serif;
-  background: #0a0a1f;
-  color: white;
-  margin: 0;
-  padding: 15px;
-  text-align: center;
+
+:root{
+
+--primary:#00bcd4;
+--pink:#ff6b9d;
+--green:#a8e6cf;
+--purple:#9b59b6;
+
+--bg:linear-gradient(135deg,#eefcff,#ffeaf3);
+
+--card:white;
+
+--text:#333;
+
+--box:#f7f7ff;
+
+--shadow:rgba(0,0,0,.15);
+
 }
 
-h1 {
-  margin-bottom: 10px;
+
+
+[data-theme="dark"]{
+
+--bg:linear-gradient(135deg,#101c33,#2c1e3a);
+
+--card:#263545;
+
+--text:#eee;
+
+--box:#34495e;
+
+--shadow:rgba(0,0,0,.45);
+
 }
 
-#wheel {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  max-width: 500px;
-  margin: 20px auto;
+
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
 }
 
-.care {
-  background: #1a1a2e;
-  padding: 20px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.2s;
-  font-size: 1.2em;
+
+
+body{
+
+font-family:'Quicksand',sans-serif;
+
+background:var(--bg);
+
+color:var(--text);
+
+min-height:100vh;
+
+transition:.4s;
+
 }
 
-.care:hover {
-  transform: scale(1.05);
-  background: #26264a;
+
+
+
+/* Navigation */
+
+nav{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+
+background:rgba(135,206,235,.95);
+
+padding:12px;
+
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:12px;
+
+
+z-index:1000;
+
+
+box-shadow:0 5px 20px var(--shadow);
+
 }
 
-#plan {
-  margin-top: 25px;
-  background: #15152d;
-  padding: 20px;
-  border-radius: 15px;
-  min-height: 80px;
+
+
+[data-theme="dark"] nav{
+
+background:rgba(30,50,70,.95);
+
 }
 
-button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 1.1em;
-  border: none;
-  border-radius: 12px;
-  background: #ff6b9d;
-  color: white;
-  cursor: pointer;
+
+
+.nav-btn{
+
+background:white;
+
+color:var(--primary);
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
 }
 
-button:hover {
-  background: #ff4c7a;
+
+
+.nav-btn:hover{
+
+background:var(--primary);
+
+color:white;
+
 }
+
+
+
+
+
+/* Floating Bestie */
+
+.bestie-float{
+
+position:fixed;
+
+right:25px;
+
+bottom:25px;
+
+
+width:75px;
+
+height:75px;
+
+
+background:#ff9ff3;
+
+border-radius:50%;
+
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+
+font-size:2.5rem;
+
+
+cursor:pointer;
+
+
+z-index:9999;
+
+
+box-shadow:0 10px 30px rgba(255,159,243,.5);
+
+}
+
+
+
+
+
+main{
+
+max-width:950px;
+
+margin:auto;
+
+padding:110px 20px 60px;
+
+}
+
+
+
+
+.hero{
+
+background:linear-gradient(135deg,#00bcd4,#a8e6cf);
+
+color:white;
+
+padding:45px 25px;
+
+border-radius:30px;
+
+text-align:center;
+
+margin-bottom:30px;
+
+
+box-shadow:0 15px 40px rgba(0,188,212,.3);
+
+}
+
+
+
+.hero h1{
+
+font-size:2.7rem;
+
+margin-bottom:10px;
+
+}
+
+
+
+
+.card{
+
+background:var(--card);
+
+padding:30px;
+
+border-radius:25px;
+
+margin-bottom:25px;
+
+box-shadow:0 10px 30px var(--shadow);
+
+}
+
+
+
+
+#wheel{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:18px;
+
+}
+
+
+
+
+.care{
+
+background:var(--box);
+
+padding:25px;
+
+border-radius:22px;
+
+text-align:center;
+
+font-size:1.25rem;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+
+
+.care:hover{
+
+transform:scale(1.05);
+
+background:#dff7ff;
+
+}
+
+
+
+
+
+.plan-box{
+
+background:var(--box);
+
+padding:25px;
+
+border-radius:20px;
+
+line-height:1.6;
+
+font-size:1.1rem;
+
+}
+
+
+
+
+.action-btn{
+
+display:block;
+
+margin:20px auto;
+
+padding:15px 35px;
+
+border:none;
+
+border-radius:50px;
+
+background:var(--pink);
+
+color:white;
+
+font-size:1.1rem;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+
+
+.action-btn:hover{
+
+transform:scale(1.05);
+
+}
+
+
+
+
+.history-item{
+
+background:var(--box);
+
+padding:18px;
+
+border-radius:18px;
+
+margin-top:15px;
+
+}
+
+
+
+.delete-btn{
+
+background:#ff6b6b;
+
+color:white;
+
+border:none;
+
+padding:8px 15px;
+
+border-radius:20px;
+
+cursor:pointer;
+
+margin-top:10px;
+
+}
+
+
+
+
+@media(max-width:600px){
+
+#wheel{
+
+grid-template-columns:1fr;
+
+}
+
+
+.hero h1{
+
+font-size:2rem;
+
+}
+
+}
+
+
+
 </style>
+
 </head>
 
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
+<body data-theme="light">
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
 
-<script>
-  body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
 <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
+
+<button class="nav-btn" onclick="location.href='index.html'">
+🏠 Dashboard
+</button>
+
+
+<button class="nav-btn" onclick="location.href='bestie.html'">
+🫂 Bestie
+</button>
+
+
+<button class="nav-btn" onclick="location.href='pet.html'">
+🐶 Pet
+</button>
+
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌙
+</button>
+
+
 </nav>
 
-<h1>Self-Care Wheel</h1>
-<p>Tap what you need most right now.</p>
+
+
+<div class="bestie-float" onclick="location.href='bestie.html'">
+
+🫂
+
+</div><main>
+
+
+<section class="hero">
+
+<h1>🌱 Self-Care Wheel</h1>
+
+<p>
+Choose what you need right now. There is no wrong choice.
+</p>
+
+</section>
+
+
+
+
+<section class="card">
+
+<h2 style="text-align:center;margin-bottom:20px;">
+💙 What area needs attention?
+</h2>
+
 
 <div id="wheel">
-  <div class="care" onclick="generate('body')">💤 Body</div>
-  <div class="care" onclick="generate('mind')">🧠 Mind</div>
-  <div class="care" onclick="generate('emotions')">❤️ Emotions</div>
-  <div class="care" onclick="generate('social')">👥 Social</div>
-  <div class="care" onclick="generate('creative')">🎨 Creativity</div>
-  <div class="care" onclick="generate('calm')">🌿 Calm</div>
+
+
+<div class="care" onclick="generate('body')">
+💤<br>
+Body
 </div>
 
-<div id="plan">
-  Your self-care plan will appear here.
+
+
+<div class="care" onclick="generate('mind')">
+🧠<br>
+Mind
 </div>
 
-<button onclick="randomCare()">I don’t know what I need</button>
 
-<script>
+
+<div class="care" onclick="generate('emotions')">
+❤️<br>
+Emotions
+</div>
+
+
+
+<div class="care" onclick="generate('social')">
+👥<br>
+Social
+</div>
+
+
+
+<div class="care" onclick="generate('creative')">
+🎨<br>
+Creativity
+</div>
+
+
+
+<div class="care" onclick="generate('calm')">
+🌿<br>
+Calm
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="card">
+
+
+<h2>
+✨ Your Self-Care Plan
+</h2>
+
+
+
+<div id="plan" class="plan-box">
+
+Tap an area above and your plan will appear here.
+
+</div>
+
+
+
+<button class="action-btn" onclick="randomCare()">
+
+🤷 I Don’t Know What I Need
+
+</button>
+
+
+
+<button class="action-btn" onclick="savePlan()">
+
+💙 Save This Plan
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+<section class="card">
+
+
+<h2>
+📖 Saved Self-Care Plans
+</h2>
+
+
+<p>
+Your saved ideas stay on this device.
+</p>
+
+
+
+<div id="history">
+
+</div>
+
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+<footer style="text-align:center;padding:30px;opacity:.7;">
+
+My Lifeline • Taking care of yourself matters 💙
+
+</footer><script>
+
+
+// Dark Mode
+
+function toggleDarkMode(){
+
+ const current =
+ document.documentElement.getAttribute("data-theme");
+
+
+ const next =
+ current === "dark" ? "light" : "dark";
+
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  next
+ );
+
+
+ localStorage.setItem(
+  "lifeline-theme",
+  next
+ );
+
+}
+
+
+
+if(localStorage.getItem("lifeline-theme")==="dark"){
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  "dark"
+ );
+
+}
+
+
+
+
+
+// Self Care Ideas
+
 const plans = {
-  body: [
-    "Drink a glass of water.",
-    "Stretch for 2 minutes.",
-    "Lay down and breathe slowly.",
-    "Eat something gentle."
-  ],
-  mind: [
-    "Write one thought without judging it.",
-    "Do a puzzle or game for 5 minutes.",
-    "Read something comforting.",
-    "Turn off your brain for a moment."
-  ],
-  emotions: [
-    "Name what you’re feeling — no fixing it.",
-    "Cry if you need to.",
-    "Write a letter you won’t send.",
-    "Remind yourself: feelings pass."
-  ],
-  social: [
-    "Send a meme to someone safe.",
-    "Sit near others without talking.",
-    "Pet your dog or think of someone who cares.",
-    "Say hi to someone online."
-  ],
-  creative: [
-    "Doodle without purpose.",
-    "Write one messy sentence.",
-    "Make a playlist.",
-    "Change your phone background."
-  ],
-  calm: [
-    "Take 5 deep breaths.",
-    "Look around and name 3 things you see.",
-    "Close your eyes for 30 seconds.",
-    "Put on lofi or white noise."
-  ]
+
+
+body:[
+
+"💧 Drink some water and take care of your body.",
+
+"🧘 Stretch for two minutes and release some tension.",
+
+"🍎 Eat something that helps you feel steady.",
+
+"😴 Give yourself permission to rest."
+
+],
+
+
+
+mind:[
+
+"📝 Write down one thought without judging it.",
+
+"🧩 Do a small puzzle or calming activity.",
+
+"📚 Read or watch something comforting.",
+
+"🌤 Step away from overthinking for a few minutes."
+
+],
+
+
+
+emotions:[
+
+"❤️ Name what you are feeling without trying to fix it immediately.",
+
+"✍️ Write your feelings out somewhere safe.",
+
+"🎵 Listen to a song that matches your mood.",
+
+"💙 Remind yourself that feelings can change."
+
+],
+
+
+
+social:[
+
+"💬 Send a message to someone you trust.",
+
+🐶 "Spend time with a pet or something comforting.",
+
+"👥 Sit near someone even if you don't talk.",
+
+"🌎 Connect with a safe community."
+
+],
+
+
+
+creative:[
+
+"🎨 Draw something just for fun.",
+
+"🎵 Make or listen to a playlist.",
+
+"✍️ Write a few sentences about anything.",
+
+"📱 Change something small like your wallpaper."
+
+],
+
+
+
+calm:[
+
+"🌿 Take slow breaths and notice your surroundings.",
+
+"🕯 Sit quietly for a minute.",
+
+"🌊 Listen to calming sounds.",
+
+"✨ Find five things around you that you can see."
+
+]
+
+
 };
 
-function generate(type) {
-  const options = plans[type];
-  const choice = options[Math.floor(Math.random() * options.length)];
-  document.getElementById("plan").textContent = choice;
+
+
+let currentPlan = "";
+
+
+
+function generate(type){
+
+
+const options = plans[type];
+
+
+currentPlan =
+options[Math.floor(Math.random()*options.length)];
+
+
+
+document.getElementById("plan").textContent =
+currentPlan;
+
+
 }
 
-function randomCare() {
-  const keys = Object.keys(plans);
-  const randomType = keys[Math.floor(Math.random() * keys.length)];
-  generate(randomType);
+
+
+
+function randomCare(){
+
+
+const keys =
+Object.keys(plans);
+
+
+
+const randomType =
+keys[Math.floor(Math.random()*keys.length)];
+
+
+
+generate(randomType);
+
+
 }
+
+
+
+
+
+// Saved Plans
+
+
+let history =
+JSON.parse(
+localStorage.getItem("selfCareHistory") || "[]"
+);
+
+
+
+function savePlan(){
+
+
+if(!currentPlan){
+
+alert("Choose a self-care idea first 💙");
+
+return;
+
+}
+
+
+
+const item={
+
+text:currentPlan,
+
+date:new Date().toLocaleString()
+
+};
+
+
+
+history.unshift(item);
+
+
+
+localStorage.setItem(
+"selfCareHistory",
+JSON.stringify(history)
+);
+
+
+
+displayHistory();
+
+
+alert("Self-care plan saved 💙");
+
+}
+
+
+
+
+
+function displayHistory(){
+
+
+const box =
+document.getElementById("history");
+
+
+box.innerHTML="";
+
+
+
+history.forEach((item,index)=>{
+
+
+const div =
+document.createElement("div");
+
+
+div.className="history-item";
+
+
+div.innerHTML = `
+
+<p>
+📅 ${item.date}
+</p>
+
+
+<p>
+${item.text}
+</p>
+
+
+<button class="delete-btn"
+onclick="deletePlan(${index})">
+Delete
+</button>
+
+`;
+
+
+
+box.appendChild(div);
+
+
+});
+
+
+}
+
+
+
+
+function deletePlan(index){
+
+
+history.splice(index,1);
+
+
+
+localStorage.setItem(
+"selfCareHistory",
+JSON.stringify(history)
+);
+
+
+
+displayHistory();
+
+
+}
+
+
+
+displayHistory();
+
+
+
 </script>
 
+
 </body>
+
 </html>
