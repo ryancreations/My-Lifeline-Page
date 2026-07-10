@@ -1,215 +1,822 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Letters From Tomorrow • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .login-box button:hover{background:#0097a7}
-    .hidden{display:none}
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
-    nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}main{margin-top:70px}}
-    main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
-    header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
-    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:25px;margin:25px 0;box-shadow:0 6px 15px rgba(0,0,0,.08);text-align:center}
-    .section h2{color:#00bcd4;margin-bottom:20px}
-    textarea{width:100%;height:200px;padding:20px;border:2px solid #87ceeb;border-radius:12px;font-family:inherit;font-size:1.1em}
-    input[type=date]{padding:12px;border:2px solid #87ceeb;border-radius:10px;font-size:1.1em;margin:15px 0}
-    button{background:#00bcd4;color:white;border:none;padding:14px 30px;border-radius:50px;font-size:1.2em;margin:10px;cursor:pointer}
-    button:hover{background:#0097a7}
-    .envelope{background:#fff;padding:30px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.2);max-width:600px;margin:30px auto;position:relative;cursor:pointer}
-    .envelope::before{content:"✉️";font-size:4em;display:block;margin-bottom:15px}
-    .envelope.closed::after{content:"Click to open your letter from past-you";color:#00bcd4;font-style:italic}
-    .letter-content{display:none;background:#fffef5;padding:30px;border-radius:12px;margin-top:20px;box-shadow:inset 0 4px 15px rgba(0,0,0,.1)}
-    .upcoming{background:#e0f7ff;padding:15px;border-radius:10px;margin:10px 0}
-    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-    .view-toggle button{margin:5px;padding:12px 20px;background:#00bcd4;color:white;border:none;border-radius:10px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Letters From Tomorrow • My Lifeline</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Quicksand',sans-serif;
+  background:linear-gradient(135deg,#fff8f0,#e0f7ff);
+  color:#333;
+  min-height:100vh;
+  transition:.4s;
+}
+
+/* DARK MODE */
+body.dark-mode{
+  background:linear-gradient(135deg,#1a2639,#2c1e3a);
+  color:#eee;
+}
+
+body.dark-mode .section,
+body.dark-mode .view-toggle,
+body.dark-mode .envelope,
+body.dark-mode .login-box{
+  background:#2c3e50;
+  color:white;
+}
+
+body.dark-mode textarea,
+body.dark-mode input{
+  background:#34495e;
+  color:white;
+}
+
+/* LOGIN */
+
+.login-box{
+  background:white;
+  padding:45px 30px;
+  border-radius:25px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+  text-align:center;
+  max-width:420px;
+  width:90%;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:9999;
+}
+
+.login-box h1{
+  color:#00bcd4;
+  font-size:3em;
+  margin-bottom:15px;
+}
+
+.login-box input{
+  width:100%;
+  padding:15px;
+  margin:10px 0;
+  border:2px solid #87ceeb;
+  border-radius:12px;
+  font-size:1em;
+}
+
+.login-box button{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:50px;
+  background:#00bcd4;
+  color:white;
+  font-size:1.2em;
+  cursor:pointer;
+}
+
+.hidden{
+  display:none;
+}
+
+
+/* NAV */
+
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:#87ceeb;
+  padding:10px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
+  z-index:1000;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+nav button{
+  background:white;
+  color:#00bcd4;
+  border:none;
+  padding:10px 18px;
+  border-radius:25px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+
+/* FLOATING BESTIE */
+
+.bestie-orb{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  width:65px;
+  height:65px;
+  background:#ff9ff3;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(255,159,243,.5);
+  z-index:9999;
+}
+
+
+/* MODAL */
+
+#bestieModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:10000;
+  align-items:center;
+  justify-content:center;
+}
+
+.bestie-window{
+  width:90%;
+  max-width:800px;
+  height:85%;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.bestie-header{
+  background:#87ceeb;
+  color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.bestie-window iframe{
+  width:100%;
+  height:calc(100% - 60px);
+  border:none;
+}
+
+
+/* MAIN */
+
+main{
+  padding:90px 20px 40px;
+  max-width:900px;
+  margin:auto;
+}
+
+header{
+  background:#87ceeb;
+  color:white;
+  padding:35px;
+  border-radius:20px;
+  text-align:center;
+}
+
+header h1{
+  font-size:2.8em;
+}
+
+
+.section,
+.view-toggle{
+  background:white;
+  margin-top:25px;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 8px 25px rgba(0,0,0,.12);
+  text-align:center;
+}
+
+
+.section h2,
+.view-toggle h2{
+  color:#00bcd4;
+  margin-bottom:15px;
+}
+
+
+textarea{
+  width:100%;
+  height:200px;
+  padding:20px;
+  border-radius:15px;
+  border:2px solid #87ceeb;
+  font-family:inherit;
+  font-size:1.1em;
+}
+
+input[type=date]{
+  padding:12px;
+  border-radius:10px;
+  border:2px solid #87ceeb;
+  margin:15px;
+}
+
+
+.action-btn{
+  background:#00bcd4;
+  color:white;
+  border:none;
+  padding:14px 30px;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:1.1em;
+}
+
+
+</style>
 </head>
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
+
+<body><!-- TOP NAV -->
+<nav>
+  <button onclick="location.href='index.html'">🏠 Dashboard</button>
+  <button onclick="location.href='bestie.html'">🫂 Bestie</button>
+  <button onclick="location.href='pet.html'">🐶 Virtual Pet</button>
+  <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
 </nav>
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
+
+<!-- FLOATING BESTIE -->
+<div class="bestie-orb" onclick="openBestieModal()">
+  🫂
 </div>
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
+
+<!-- BESTIE POPUP -->
+<div id="bestieModal">
+  <div class="bestie-window">
+
+    <div class="bestie-header">
+      <h3>🫂 Talking to Bestie...</h3>
+      <button onclick="closeBestieModal()">✕</button>
     </div>
-</div>
 
-<script>
-  body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
+    <iframe src="bestie.html"></iframe>
 
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Enter your personal key</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter Safe Space</button>
   </div>
 </div>
 
+
+
+<!-- LOGIN -->
+<div id="loginScreen">
+
+  <div class="login-box">
+
+    <h1>My Lifeline</h1>
+
+    <p>Enter your personal key</p>
+
+    <input 
+      type="text" 
+      id="username" 
+      placeholder="Username">
+
+    <input 
+      type="password" 
+      id="password" 
+      placeholder="Password">
+
+    <button onclick="checkLogin()">
+      Enter Safe Space
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- MAIN CONTENT -->
+
 <div id="mainContent" class="hidden">
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
 
-  <main>
-    <header>
-      <h1>Letters From Tomorrow</h1>
-      <p>Write to future you — they’ll need these words one day</p>
-    </header>
 
-    <div class="view-toggle">
-      <h2>View Mode</h2>
-      <button onclick="setView('mobile')">Mobile View</button>
-      <button onclick="setView('desktop')">Desktop View</button>
-    </div>
+<main>
 
-    <div id="dueLetter"></div>
 
-    <div class="section">
-      <h2>Write a letter to future you</h2>
-      <input type="date" id="deliveryDate">
-      <textarea id="letterText" placeholder="Hey future me... I want you to know..."></textarea><br>
-      <button onclick="saveLetter()">Seal & Send to Future Me</button>
-    </div>
+<header>
 
-    <div class="section">
-      <h2>Upcoming Letters</h2>
-      <div id="upcomingList">Loading your letters...</div>
-    </div>
-  </main>
+<h1>💌 Letters From Tomorrow</h1>
 
-  <script>
-  function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    location.href = 'index.html';
-  }
-    function checkLogin(){
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
+<p>
+Write something future-you may need to hear someday.
+</p>
 
-  // Main account + all guest options (case-insensitive for username)
-  if(
-    (user.toLowerCase() === "ryan" && pass === "ITSmf420") ||
-    (user.toLowerCase() === "guest" && pass === "guest") ||
-    (user.toLowerCase() === "visitor" && pass === "welcome") ||
-    (user.toLowerCase() === "friend" && pass === "lifeline") ||
-    (user.toLowerCase() === "nc" && pass === "boone")
-  ){
-    localStorage.setItem('lifelineAuthenticated', 'true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-  } else {
-    alert("Incorrect username or password.");
-  }
+</header>
+
+
+
+<div class="view-toggle">
+
+<h2>View Mode</h2>
+
+<button class="action-btn" onclick="setView('mobile')">
+📱 Mobile View
+</button>
+
+<button class="action-btn" onclick="setView('desktop')">
+💻 Desktop View
+</button>
+
+</div>
+
+
+
+
+<div id="dueLetter"></div>
+
+
+
+
+<div class="section">
+
+<h2>
+Write a letter to future you
+</h2>
+
+
+<input 
+type="date" 
+id="deliveryDate">
+
+
+<textarea 
+id="letterText"
+placeholder="Hey future me... I want you to remember...">
+</textarea>
+
+
+<br>
+
+
+<button class="action-btn" onclick="saveLetter()">
+💌 Seal & Send
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<h2>
+Upcoming Letters
+</h2>
+
+
+<div id="upcomingList">
+Loading letters...
+</div>
+
+
+</div>
+
+
+</main>
+
+
+</div><script>
+
+
+// DARK MODE
+
+function toggleDarkMode(){
+
+  document.body.classList.toggle("dark-mode");
+
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark-mode")
+  );
+
 }
-    function logout() { localStorage.removeItem('lifelineAuthenticated'); location.reload(); }
-    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
-    }
 
-    function setView(m) { document.body.classList.toggle('mobile-mode', m==='mobile'); document.body.classList.toggle('desktop-mode', m==='desktop'); localStorage.setItem('viewMode', m); }
-    if (localStorage.getItem('viewMode')) setView(localStorage.getItem('viewMode'));
 
-    const letters = JSON.parse(localStorage.getItem('futureLetters') || '[]');
+if(localStorage.getItem("darkMode")==="true"){
+  document.body.classList.add("dark-mode");
+}
 
-    function saveLetter() {
-      const date = document.getElementById('deliveryDate').value;
-      const text = document.getElementById('letterText').value.trim();
-      if (!date || !text) { alert("Add a date and message ❤️"); return; }
-      letters.push({date, text, sent: new Date().toLocaleDateString()});
-      localStorage.setItem('futureLetters', JSON.stringify(letters));
-      document.getElementById('letterText').value = '';
-      alert("Letter saved! It will arrive on ${date} 💌");
-      showUpcoming();
-    }
 
-    function showUpcoming() {
-      const list = document.getElementById('upcomingList');
-      list.innerHTML = '';
-      const future = letters.filter(l => new Date(l.date) > new Date());
-      if (future.length === 0) {
-        list.innerHTML = "<p>No letters waiting... write one? 💌</p>";
-        return;
-      }
-      future.sort((a,b) => new Date(a.date) - new Date(b.date));
-      future.forEach(l => {
-        const div = document.createElement('div');
-        div.className = 'upcoming';
-        div.innerHTML = `<strong>${new Date(l.date).toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</strong><br>${l.text.substring(0,80)}...`;
-        list.appendChild(div);
-      });
-    }
 
-    // Check for letter due today
-    const today = new Date().toISOString().split('T')[0];
-    const due = letters.find(l => l.date === today);
-    if (due) {
-      const env = document.createElement('div');
-      env.className = 'envelope closed';
-      env.innerHTML = `<h2>A letter from ${due.sent} has arrived...</h2>`;
-      env.onclick = () => {
-        env.classList.remove('closed');
-        env.innerHTML = `<div class="letter-content"><h3>From past-you on ${due.sent}:</h3><p style="font-size:1.3em;line-height:1.8">${due.text.replace(/\n/g,'<br>')}</p><br><p style="color:#00bcd4">You made it to this day. I'm so proud of you.</p></div>`;
-        confetti({particleCount:100,spread:70,origin:{y:0.6}});
-      };
-      document.getElementById('dueLetter').appendChild(env);
-      // Remove after reading (optional)
-      letters.splice(letters.indexOf(due),1);
-      localStorage.setItem('futureLetters', JSON.stringify(letters));
-    }
+// BESTIE MODAL
 
-    showUpcoming();
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+function openBestieModal(){
+
+  document.getElementById("bestieModal").style.display="flex";
+
+}
+
+
+function closeBestieModal(){
+
+  document.getElementById("bestieModal").style.display="none";
+
+}
+
+
+
+// LOGIN
+
+function checkLogin(){
+
+  const user =
+  document.getElementById("username").value.trim().toLowerCase();
+
+  const pass =
+  document.getElementById("password").value.trim();
+
+
+  if(
+    (user==="ryan" && pass==="ITSmf420") ||
+    (user==="guest" && pass==="guest") ||
+    (user==="visitor" && pass==="welcome") ||
+    (user==="friend" && pass==="lifeline") ||
+    (user==="nc" && pass==="boone")
+  ){
+
+    localStorage.setItem(
+      "lifelineAuthenticated",
+      "true"
+    );
+
+    document
+    .getElementById("loginScreen")
+    .classList.add("hidden");
+
+
+    document
+    .getElementById("mainContent")
+    .classList.remove("hidden");
+
+
+  }else{
+
+    alert("Incorrect username or password.");
+
+  }
+
+}
+
+
+
+function logout(){
+
+  localStorage.removeItem(
+    "lifelineAuthenticated"
+  );
+
+  location.reload();
+
+}
+
+
+
+if(
+localStorage.getItem("lifelineAuthenticated")==="true"
+){
+
+document
+.getElementById("loginScreen")
+.classList.add("hidden");
+
+
+document
+.getElementById("mainContent")
+.classList.remove("hidden");
+
+}
+
+
+
+
+// VIEW MODE
+
+function setView(mode){
+
+ document.body.classList.remove(
+ "mobile-mode",
+ "desktop-mode"
+ );
+
+
+ document.body.classList.add(
+ mode+"-mode"
+ );
+
+
+ localStorage.setItem(
+ "viewMode",
+ mode
+ );
+
+}
+
+
+
+const savedView =
+localStorage.getItem("viewMode");
+
+
+if(savedView){
+
+ setView(savedView);
+
+}
+
+
+
+
+// LETTER SYSTEM
+
+
+let letters =
+JSON.parse(
+localStorage.getItem("futureLetters") || "[]"
+);
+
+
+
+
+function saveLetter(){
+
+
+const date =
+document.getElementById("deliveryDate").value;
+
+
+const text =
+document.getElementById("letterText").value.trim();
+
+
+
+if(!date || !text){
+
+ alert("Add a date and message ❤️");
+
+ return;
+
+}
+
+
+
+letters.push({
+
+ date:date,
+
+ text:text,
+
+ sent:new Date().toLocaleDateString()
+
+});
+
+
+
+localStorage.setItem(
+"futureLetters",
+JSON.stringify(letters)
+);
+
+
+
+document.getElementById("letterText").value="";
+
+
+
+alert(
+"Letter saved! It will arrive on "
++
+date
++
+" 💌"
+);
+
+
+
+showUpcoming();
+
+
+}
+
+
+
+
+
+function showUpcoming(){
+
+
+const list =
+document.getElementById("upcomingList");
+
+
+list.innerHTML="";
+
+
+
+const future =
+letters.filter(
+letter =>
+new Date(letter.date) > new Date()
+);
+
+
+
+if(future.length===0){
+
+list.innerHTML=
+"<p>No letters waiting... write one? 💌</p>";
+
+return;
+
+}
+
+
+
+future.sort(
+(a,b)=>
+new Date(a.date)-new Date(b.date)
+);
+
+
+
+future.forEach(letter=>{
+
+
+const div =
+document.createElement("div");
+
+
+div.className="section";
+
+
+div.innerHTML=
+
+`
+<strong>
+${new Date(letter.date)
+.toLocaleDateString(
+"en-US",
+{
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+}
+)}
+</strong>
+
+<br><br>
+
+${letter.text.substring(0,100)}...
+
+`;
+
+
+
+list.appendChild(div);
+
+
+
+});
+
+
+}
+
+
+
+
+// OPEN LETTER WHEN DATE ARRIVES
+
+
+const today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+
+
+const arriving =
+letters.find(
+letter =>
+letter.date===today
+);
+
+
+
+if(arriving){
+
+
+const envelope =
+document.createElement("div");
+
+
+envelope.className="envelope";
+
+
+envelope.innerHTML=
+
+`
+
+<h2>
+💌 A letter from past-you arrived
+</h2>
+
+<p>
+Click to open
+</p>
+
+`;
+
+
+
+envelope.onclick=function(){
+
+
+envelope.innerHTML=
+
+`
+
+<h2>
+From past-you:
+</h2>
+
+<p style="
+font-size:1.2em;
+line-height:1.7;
+">
+
+${arriving.text.replace(/\n/g,"<br>")}
+
+</p>
+
+<br>
+
+<p style="
+color:#00bcd4;
+font-weight:bold;
+">
+
+You made it to this day 💙
+
+</p>
+
+`;
+
+
+
+};
+
+
+
+document
+.getElementById("dueLetter")
+.appendChild(envelope);
+
+
+
+letters =
+letters.filter(
+l=>l!==arriving
+);
+
+
+localStorage.setItem(
+"futureLetters",
+JSON.stringify(letters)
+);
+
+
+}
+
+
+
+showUpcoming();
+
+
+</script>
+
+
 </body>
 </html>
