@@ -1,322 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Letters From Tomorrow • My Lifeline</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
 <style>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+/* =========================
+   MY LIFELINE THEME SYSTEM
+========================= */
+
+:root{
+
+--primary:#00bcd4;
+--accent:#ff9ff3;
+
+--background:
+linear-gradient(135deg,#fff8f0,#e0f7ff);
+
+--card:#ffffff;
+
+--text:#2c3e50;
+
+--shadow:rgba(0,0,0,.12);
+
 }
+
+
+[data-theme="dark"]{
+
+--background:
+linear-gradient(135deg,#0f1c2e,#2c1e3a);
+
+--card:#2c3e50;
+
+--text:#e0f2f1;
+
+--primary:#4fc3f7;
+
+--accent:#ff79c6;
+
+--shadow:rgba(0,0,0,.45);
+
+}
+
+
+
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+
 
 body{
-  font-family:'Quicksand',sans-serif;
-  background:linear-gradient(135deg,#fff8f0,#e0f7ff);
-  color:#333;
-  min-height:100vh;
-  transition:.4s;
-}
 
-/* DARK MODE */
-body.dark-mode{
-  background:linear-gradient(135deg,#1a2639,#2c1e3a);
-  color:#eee;
-}
+font-family:'Quicksand',sans-serif;
 
-body.dark-mode .section,
-body.dark-mode .view-toggle,
-body.dark-mode .envelope,
-body.dark-mode .login-box{
-  background:#2c3e50;
-  color:white;
-}
+background:var(--background);
 
-body.dark-mode textarea,
-body.dark-mode input{
-  background:#34495e;
-  color:white;
-}
+color:var(--text);
 
-/* LOGIN */
+min-height:100vh;
 
-.login-box{
-  background:white;
-  padding:45px 30px;
-  border-radius:25px;
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
-  text-align:center;
-  max-width:420px;
-  width:90%;
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  z-index:9999;
-}
+transition:.5s;
 
-.login-box h1{
-  color:#00bcd4;
-  font-size:3em;
-  margin-bottom:15px;
-}
-
-.login-box input{
-  width:100%;
-  padding:15px;
-  margin:10px 0;
-  border:2px solid #87ceeb;
-  border-radius:12px;
-  font-size:1em;
-}
-
-.login-box button{
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:50px;
-  background:#00bcd4;
-  color:white;
-  font-size:1.2em;
-  cursor:pointer;
-}
-
-.hidden{
-  display:none;
 }
 
 
-/* NAV */
+
+/* =========================
+NAV
+========================= */
+
 
 nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:#87ceeb;
-  padding:10px;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:10px;
-  z-index:1000;
-  box-shadow:0 4px 12px rgba(0,0,0,.15);
-}
 
-nav button{
-  background:white;
-  color:#00bcd4;
-  border:none;
-  padding:10px 18px;
-  border-radius:25px;
-  font-weight:600;
-  cursor:pointer;
-}
+position:fixed;
 
+top:0;
 
-/* FLOATING BESTIE */
+left:0;
 
-.bestie-orb{
-  position:fixed;
-  bottom:25px;
-  right:25px;
-  width:65px;
-  height:65px;
-  background:#ff9ff3;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:32px;
-  cursor:pointer;
-  box-shadow:0 6px 20px rgba(255,159,243,.5);
-  z-index:9999;
+right:0;
+
+background:rgba(135,206,235,.97);
+
+padding:14px 20px;
+
+display:flex;
+
+justify-content:center;
+
+gap:12px;
+
+flex-wrap:wrap;
+
+z-index:1000;
+
+box-shadow:
+0 6px 20px var(--shadow);
+
 }
 
 
-/* MODAL */
+[data-theme="dark"] nav{
+
+background:
+rgba(26,38,57,.97);
+
+}
+
+
+
+.nav-btn{
+
+background:white;
+
+color:var(--primary);
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+
+.nav-btn:hover{
+
+transform:translateY(-3px);
+
+}
+
+
+
+
+/* =========================
+BESTIE FLOATING BUTTON
+========================= */
+
+
+.floating-bestie{
+
+position:fixed;
+
+bottom:28px;
+
+right:28px;
+
+width:78px;
+
+height:78px;
+
+background:var(--accent);
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:2.8rem;
+
+cursor:pointer;
+
+z-index:9999;
+
+box-shadow:
+0 12px 35px rgba(255,159,243,.55);
+
+transition:.3s;
+
+}
+
+
+.floating-bestie:hover{
+
+transform:
+scale(1.15)
+rotate(10deg);
+
+}
+
+
+
+
+/* =========================
+BESTIE WINDOW
+========================= */
+
 
 #bestieModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  z-index:10000;
-  align-items:center;
-  justify-content:center;
+
+display:none;
+
+position:fixed;
+
+inset:0;
+
+background:
+rgba(0,0,0,.7);
+
+z-index:10000;
+
+align-items:center;
+
+justify-content:center;
+
 }
+
+
 
 .bestie-window{
-  width:90%;
-  max-width:800px;
-  height:85%;
-  background:white;
-  border-radius:20px;
-  overflow:hidden;
+
+width:90%;
+
+max-width:800px;
+
+height:85%;
+
+background:white;
+
+border-radius:25px;
+
+overflow:hidden;
+
 }
+
+
 
 .bestie-header{
-  background:#87ceeb;
-  color:white;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
+
+background:#87ceeb;
+
+color:white;
+
+padding:15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
 }
+
+
+
+.bestie-header button{
+
+background:none;
+
+border:none;
+
+color:white;
+
+font-size:25px;
+
+cursor:pointer;
+
+}
+
+
 
 .bestie-window iframe{
-  width:100%;
-  height:calc(100% - 60px);
-  border:none;
+
+width:100%;
+
+height:calc(100% - 60px);
+
+border:none;
+
 }
 
 
-/* MAIN */
-
-main{
-  padding:90px 20px 40px;
-  max-width:900px;
-  margin:auto;
-}
-
-header{
-  background:#87ceeb;
-  color:white;
-  padding:35px;
-  border-radius:20px;
-  text-align:center;
-}
-
-header h1{
-  font-size:2.8em;
-}
 
 
-.section,
-.view-toggle{
-  background:white;
-  margin-top:25px;
-  padding:25px;
-  border-radius:20px;
-  box-shadow:0 8px 25px rgba(0,0,0,.12);
-  text-align:center;
-}
+
+/* =========================
+LOGIN
+========================= */
 
 
-.section h2,
-.view-toggle h2{
-  color:#00bcd4;
-  margin-bottom:15px;
-}
+.login-box{
 
+position:fixed;
 
-textarea{
-  width:100%;
-  height:200px;
-  padding:20px;
-  border-radius:15px;
-  border:2px solid #87ceeb;
-  font-family:inherit;
-  font-size:1.1em;
-}
+top:50%;
 
-input[type=date]{
-  padding:12px;
-  border-radius:10px;
-  border:2px solid #87ceeb;
-  margin:15px;
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+background:var(--card);
+
+color:var(--text);
+
+width:90%;
+
+max-width:420px;
+
+padding:45px 30px;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:
+0 20px 50px var(--shadow);
+
+z-index:99999;
+
 }
 
 
-.action-btn{
-  background:#00bcd4;
-  color:white;
-  border:none;
-  padding:14px 30px;
-  border-radius:50px;
-  cursor:pointer;
-  font-size:1.1em;
+
+.login-box h1{
+
+font-size:3rem;
+
+color:var(--primary);
+
+margin-bottom:15px;
+
 }
+
+
+
+.login-box input{
+
+width:100%;
+
+padding:15px;
+
+margin:10px 0;
+
+border-radius:12px;
+
+border:2px solid #87ceeb;
+
+font-size:1rem;
+
+background:white;
+
+}
+
+
+
+[data-theme="dark"] .login-box input{
+
+background:#34495e;
+
+color:white;
+
+}
+
+
+
+.main-btn{
+
+background:var(--primary);
+
+color:white;
+
+border:none;
+
+padding:15px 35px;
+
+border-radius:50px;
+
+font-size:1.1rem;
+
+cursor:pointer;
+
+margin-top:15px;
+
+}
+
+
+.hidden{
+
+display:none;
+
+}
+
 
 
 </style>
+
 </head>
 
-<body><!-- TOP NAV -->
+
+<body data-theme="light">
+
+
+<!-- NAV -->
+
 <nav>
-  <button onclick="location.href='index.html'">🏠 Dashboard</button>
-  <button onclick="location.href='bestie.html'">🫂 Bestie</button>
-  <button onclick="location.href='pet.html'">🐶 Virtual Pet</button>
-  <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+
+<button class="nav-btn"
+onclick="location.href='index.html'">
+
+🏠 Dashboard
+
+</button>
+
+
+<button class="nav-btn"
+onclick="location.href='bestie.html'">
+
+🫂 Bestie
+
+</button>
+
+
+<button class="nav-btn"
+onclick="location.href='virtualpet.html'">
+
+🐶 Virtual Pet
+
+</button>
+
+
+<button class="nav-btn"
+onclick="toggleDarkMode()">
+
+🌗 Theme
+
+</button>
+
+
 </nav>
 
 
+
 <!-- FLOATING BESTIE -->
-<div class="bestie-orb" onclick="openBestieModal()">
-  🫂
+
+
+<div class="floating-bestie"
+onclick="openBestieModal()">
+
+🫂
+
 </div>
 
 
-<!-- BESTIE POPUP -->
+
+<!-- BESTIE MODAL -->
+
+
 <div id="bestieModal">
-  <div class="bestie-window">
 
-    <div class="bestie-header">
-      <h3>🫂 Talking to Bestie...</h3>
-      <button onclick="closeBestieModal()">✕</button>
-    </div>
 
-    <iframe src="bestie.html"></iframe>
+<div class="bestie-window">
 
-  </div>
+
+<div class="bestie-header">
+
+<h3>
+🫂 Talking to Bestie...
+</h3>
+
+
+<button onclick="closeBestieModal()">
+
+✕
+
+</button>
+
+
 </div>
+
+
+<iframe src="bestie.html"></iframe>
+
+
+</div>
+
+</div>
+
 
 
 
 <!-- LOGIN -->
+
+
 <div id="loginScreen">
 
-  <div class="login-box">
 
-    <h1>My Lifeline</h1>
+<div class="login-box">
 
-    <p>Enter your personal key</p>
 
-    <input 
-      type="text" 
-      id="username" 
-      placeholder="Username">
+<h1>
+🫂 My Lifeline
+</h1>
 
-    <input 
-      type="password" 
-      id="password" 
-      placeholder="Password">
 
-    <button onclick="checkLogin()">
-      Enter Safe Space
-    </button>
+<p>
+Enter your personal key
+</p>
 
-  </div>
+
+
+<input 
+id="username"
+placeholder="Username">
+
+
+
+<input 
+id="password"
+type="password"
+placeholder="Password">
+
+
+
+<button class="main-btn"
+onclick="checkLogin()">
+
+Enter Safe Space
+
+</button>
+
+
+
+</div>
 
 </div>
 
 
 
-<!-- MAIN CONTENT -->
-
-<div id="mainContent" class="hidden">
+<!-- MAIN CONTENT STARTS PART 2 -->
 
 
-<main>
+<div id="mainContent" class="hidden"><main>
 
+<header style="
+background:linear-gradient(135deg,var(--primary),#81d4fa);
+color:white;
+padding:60px 30px;
+border-radius:28px;
+text-align:center;
+box-shadow:0 15px 40px var(--shadow);
+">
 
-<header>
-
-<h1>💌 Letters From Tomorrow</h1>
+<h1>
+💌 Letters From Tomorrow
+</h1>
 
 <p>
 Write something future-you may need to hear someday.
@@ -326,73 +575,118 @@ Write something future-you may need to hear someday.
 
 
 
-<div class="view-toggle">
+<section class="card">
 
-<h2>View Mode</h2>
-
-<button class="action-btn" onclick="setView('mobile')">
-📱 Mobile View
-</button>
-
-<button class="action-btn" onclick="setView('desktop')">
-💻 Desktop View
-</button>
-
-</div>
-
-
-
-
-<div id="dueLetter"></div>
-
-
-
-
-<div class="section">
-
-<h2>
-Write a letter to future you
+<h2 style="color:var(--primary);">
+✉️ Write a Letter
 </h2>
 
 
+<p>
+Choose a day for your message to arrive.
+</p>
+
+
 <input 
-type="date" 
-id="deliveryDate">
+type="date"
+id="deliveryDate"
+style="
+padding:14px;
+border-radius:12px;
+border:2px solid #87ceeb;
+margin:15px;
+font-family:inherit;
+">
 
 
-<textarea 
+
+<textarea
 id="letterText"
-placeholder="Hey future me... I want you to remember...">
+placeholder="Hey future me... I want you to remember..."
+style="
+width:100%;
+height:220px;
+padding:20px;
+border-radius:18px;
+border:2px solid #87ceeb;
+font-family:inherit;
+font-size:1.1rem;
+margin-top:15px;
+background:var(--card);
+color:var(--text);
+">
 </textarea>
 
 
 <br>
 
 
-<button class="action-btn" onclick="saveLetter()">
-💌 Seal & Send
+<button class="main-btn"
+onclick="saveLetter()">
+
+💌 Seal & Send Letter
+
 </button>
 
 
-</div>
+</section>
 
 
 
 
 
-<div class="section">
+<section class="card">
 
-<h2>
-Upcoming Letters
+<h2 style="color:var(--primary);">
+📬 Letters Waiting
 </h2>
 
 
 <div id="upcomingList">
+
 Loading letters...
+
 </div>
 
 
-</div>
+</section>
+
+
+
+
+<section id="dueLetter"></section>
+
+
+
+<section class="card">
+
+
+<h2 style="color:var(--primary);">
+🌱 Why write letters?
+</h2>
+
+
+<p>
+Sometimes future-you needs proof that past-you kept going.
+</p>
+
+
+<p style="
+margin-top:15px;
+font-weight:600;
+">
+
+Every letter is a reminder:
+<br>
+"You made it here."
+
+💙
+
+</p>
+
+
+</section>
+
 
 
 </main>
@@ -400,83 +694,111 @@ Loading letters...
 
 </div><script>
 
-
-// DARK MODE
+// =============================
+// THEME SYNC WITH INDEX
+// =============================
 
 function toggleDarkMode(){
 
-  document.body.classList.toggle("dark-mode");
+    const current =
+    document.documentElement.getAttribute("data-theme");
 
-  localStorage.setItem(
-    "darkMode",
-    document.body.classList.contains("dark-mode")
-  );
+    const newTheme =
+    current === "dark" ? "light" : "dark";
 
+    document.documentElement.setAttribute(
+        "data-theme",
+        newTheme
+    );
+
+    localStorage.setItem(
+        "lifeline-theme",
+        newTheme
+    );
 }
 
 
-if(localStorage.getItem("darkMode")==="true"){
-  document.body.classList.add("dark-mode");
+if(localStorage.getItem("lifeline-theme") === "dark"){
+    document.documentElement.setAttribute(
+        "data-theme",
+        "dark"
+    );
 }
 
 
 
-// BESTIE MODAL
+
+// =============================
+// BESTIE BUTTON
+// =============================
 
 function openBestieModal(){
 
-  document.getElementById("bestieModal").style.display="flex";
+document.getElementById("bestieModal")
+.style.display="flex";
 
 }
 
 
 function closeBestieModal(){
 
-  document.getElementById("bestieModal").style.display="none";
+document.getElementById("bestieModal")
+.style.display="none";
 
 }
 
 
 
+
+// =============================
 // LOGIN
+// =============================
 
 function checkLogin(){
 
-  const user =
-  document.getElementById("username").value.trim().toLowerCase();
-
-  const pass =
-  document.getElementById("password").value.trim();
-
-
-  if(
-    (user==="ryan" && pass==="ITSmf420") ||
-    (user==="guest" && pass==="guest") ||
-    (user==="visitor" && pass==="welcome") ||
-    (user==="friend" && pass==="lifeline") ||
-    (user==="nc" && pass==="boone")
-  ){
-
-    localStorage.setItem(
-      "lifelineAuthenticated",
-      "true"
-    );
-
-    document
-    .getElementById("loginScreen")
-    .classList.add("hidden");
+const user =
+document.getElementById("username")
+.value.trim()
+.toLowerCase();
 
 
-    document
-    .getElementById("mainContent")
-    .classList.remove("hidden");
+const pass =
+document.getElementById("password")
+.value.trim();
 
 
-  }else{
 
-    alert("Incorrect username or password.");
+if(
+(user==="ryan" && pass==="ITSmf420") ||
+(user==="guest" && pass==="guest") ||
+(user==="visitor" && pass==="welcome") ||
+(user==="friend" && pass==="lifeline") ||
+(user==="nc" && pass==="boone")
+){
 
-  }
+
+localStorage.setItem(
+"lifelineAuthenticated",
+"true"
+);
+
+
+document
+.getElementById("loginScreen")
+.classList.add("hidden");
+
+
+document
+.getElementById("mainContent")
+.classList.remove("hidden");
+
+
+}
+else{
+
+alert("Incorrect username or password.");
+
+}
 
 }
 
@@ -484,18 +806,19 @@ function checkLogin(){
 
 function logout(){
 
-  localStorage.removeItem(
-    "lifelineAuthenticated"
-  );
+localStorage.removeItem(
+"lifelineAuthenticated"
+);
 
-  location.reload();
+location.reload();
 
 }
 
 
 
 if(
-localStorage.getItem("lifelineAuthenticated")==="true"
+localStorage.getItem("lifelineAuthenticated")
+==="true"
 ){
 
 document
@@ -512,45 +835,47 @@ document
 
 
 
+// =============================
 // VIEW MODE
+// =============================
 
 function setView(mode){
 
- document.body.classList.remove(
- "mobile-mode",
- "desktop-mode"
- );
+document.body.classList.remove(
+"mobile-mode",
+"desktop-mode"
+);
 
 
- document.body.classList.add(
- mode+"-mode"
- );
+document.body.classList.add(
+mode+"-mode"
+);
 
 
- localStorage.setItem(
- "viewMode",
- mode
- );
+localStorage.setItem(
+"letter-view",
+mode
+);
 
 }
 
 
-
 const savedView =
-localStorage.getItem("viewMode");
+localStorage.getItem("letter-view");
 
 
 if(savedView){
 
- setView(savedView);
+setView(savedView);
 
 }
 
 
 
 
-// LETTER SYSTEM
-
+// =============================
+// LETTER STORAGE
+// =============================
 
 let letters =
 JSON.parse(
@@ -560,23 +885,29 @@ localStorage.getItem("futureLetters") || "[]"
 
 
 
+// SAVE LETTER
+
 function saveLetter(){
 
 
 const date =
-document.getElementById("deliveryDate").value;
+document.getElementById("deliveryDate")
+.value;
 
 
 const text =
-document.getElementById("letterText").value.trim();
+document.getElementById("letterText")
+.value.trim();
 
 
 
 if(!date || !text){
 
- alert("Add a date and message ❤️");
+alert(
+"Add a date and message ❤️"
+);
 
- return;
+return;
 
 }
 
@@ -584,11 +915,12 @@ if(!date || !text){
 
 letters.push({
 
- date:date,
+date:date,
 
- text:text,
+text:text,
 
- sent:new Date().toLocaleDateString()
+created:
+new Date().toLocaleDateString()
 
 });
 
@@ -601,22 +933,19 @@ JSON.stringify(letters)
 
 
 
-document.getElementById("letterText").value="";
+document.getElementById(
+"letterText"
+).value="";
 
 
 
 alert(
-"Letter saved! It will arrive on "
-+
-date
-+
-" 💌"
+"Your letter is sealed 💌"
 );
 
 
 
 showUpcoming();
-
 
 }
 
@@ -624,11 +953,17 @@ showUpcoming();
 
 
 
+// =============================
+// SHOW UPCOMING
+// =============================
+
 function showUpcoming(){
 
 
 const list =
-document.getElementById("upcomingList");
+document.getElementById(
+"upcomingList"
+);
 
 
 list.innerHTML="";
@@ -636,8 +971,7 @@ list.innerHTML="";
 
 
 const future =
-letters.filter(
-letter =>
+letters.filter(letter =>
 new Date(letter.date) > new Date()
 );
 
@@ -646,7 +980,11 @@ new Date(letter.date) > new Date()
 if(future.length===0){
 
 list.innerHTML=
-"<p>No letters waiting... write one? 💌</p>";
+`
+<p>
+No letters waiting yet 💌
+</p>
+`;
 
 return;
 
@@ -664,39 +1002,50 @@ new Date(a.date)-new Date(b.date)
 future.forEach(letter=>{
 
 
-const div =
+const box =
 document.createElement("div");
 
 
-div.className="section";
+box.style.background=
+"var(--card)";
 
 
-div.innerHTML=
+box.style.padding=
+"20px";
+
+
+box.style.borderRadius=
+"18px";
+
+
+box.style.margin=
+"15px 0";
+
+
+box.style.boxShadow=
+"0 8px 20px var(--shadow)";
+
+
+
+box.innerHTML=
 
 `
-<strong>
+<h3 style="color:var(--primary)">
+📬 Arrives:
 ${new Date(letter.date)
-.toLocaleDateString(
-"en-US",
-{
-weekday:"long",
-year:"numeric",
-month:"long",
-day:"numeric"
-}
-)}
-</strong>
+.toLocaleDateString()}
+</h3>
 
-<br><br>
-
-${letter.text.substring(0,100)}...
+<p>
+${letter.text.substring(0,120)}
+...
+</p>
 
 `;
 
 
 
-list.appendChild(div);
-
+list.appendChild(box);
 
 
 });
@@ -707,7 +1056,12 @@ list.appendChild(div);
 
 
 
-// OPEN LETTER WHEN DATE ARRIVES
+
+// =============================
+// ARRIVING LETTER
+// =============================
+
+function checkLetters(){
 
 
 const today =
@@ -725,28 +1079,33 @@ letter.date===today
 
 
 
-if(arriving){
+if(!arriving)
+return;
+
+
 
 
 const envelope =
 document.createElement("div");
 
 
-envelope.className="envelope";
+envelope.className="card";
+
+
+envelope.style.cursor="pointer";
+
 
 
 envelope.innerHTML=
 
 `
-
 <h2>
-💌 A letter from past-you arrived
+💌 A Letter Arrived
 </h2>
 
 <p>
-Click to open
+Click to open your message from past-you
 </p>
-
 `;
 
 
@@ -757,30 +1116,27 @@ envelope.onclick=function(){
 envelope.innerHTML=
 
 `
-
 <h2>
-From past-you:
+From past-you 💙
 </h2>
 
+
 <p style="
-font-size:1.2em;
-line-height:1.7;
+font-size:1.2rem;
+line-height:1.8;
 ">
 
 ${arriving.text.replace(/\n/g,"<br>")}
 
 </p>
 
+
 <br>
 
-<p style="
-color:#00bcd4;
-font-weight:bold;
-">
 
-You made it to this day 💙
-
-</p>
+<strong>
+You made it to this day.
+</strong>
 
 `;
 
@@ -802,6 +1158,7 @@ l=>l!==arriving
 );
 
 
+
 localStorage.setItem(
 "futureLetters",
 JSON.stringify(letters)
@@ -812,11 +1169,10 @@ JSON.stringify(letters)
 
 
 
+
 showUpcoming();
+
+checkLetters();
 
 
 </script>
-
-
-</body>
-</html>
