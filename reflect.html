@@ -1,200 +1,653 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lifeline • Reflect</title>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<title>Reflect • My Lifeline</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{
-    font-family:'Quicksand',sans-serif;
-    background: linear-gradient(135deg,#ffe6e6,#d1f0ff);
-    color:#333;
-    min-height:100vh;
-  }
 
-  nav{
-    position:fixed;
-    top:0;
-    width:100%;
-    background:#87ceeb;
-    padding:8px 0;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:6px;
-    z-index:1000;
-  }
+:root {
 
-  nav button{
-    background:white;
-    color:#00bcd4;
-    border:none;
-    padding:8px 14px;
-    border-radius:20px;
-    cursor:pointer;
-    font-weight:600;
-    transition:.25s;
-  }
-  nav button:hover{background:#00bcd4;color:white}
+ --primary:#00bcd4;
+ --pink:#ff6b9d;
+ --bg:linear-gradient(135deg,#ffe6e6,#d1f0ff);
+ --card:white;
+ --text:#333;
+ --entry:#fff5f8;
+ --shadow:rgba(0,0,0,.15);
 
-  main{
-    margin-top:70px;
-    padding:20px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-  }
+}
 
-  h1{
-    font-size:3em;
-    color:#ff6b9d;
-    margin-bottom:20px;
-    text-align:center;
-  }
 
-  .prompt-box{
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 8px 25px rgba(0,0,0,.2);
-    width:90%;
-    max-width:600px;
-    text-align:center;
-    margin-bottom:30px;
-  }
+[data-theme="dark"] {
 
-  .prompt-box textarea{
-    width:100%;
-    padding:15px;
-    border-radius:12px;
-    border:2px solid #87ceeb;
-    font-size:1.1em;
-    resize:none;
-  }
+ --bg:linear-gradient(135deg,#101c33,#2c1e3a);
+ --card:#263545;
+ --text:#eeeeee;
+ --entry:#34495e;
+ --shadow:rgba(0,0,0,.4);
 
-  .prompt-box button{
-    margin-top:15px;
-    padding:15px 30px;
-    border:none;
-    border-radius:50px;
-    background:#ff6b9d;
-    color:white;
-    font-size:1.2em;
-    cursor:pointer;
-    transition:.3s;
-  }
-  .prompt-box button:hover{transform:scale(1.05)}
+}
 
-  #entries{
-    width:90%;
-    max-width:700px;
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-  }
 
-  .entry{
-    background:#fff5f8;
-    padding:20px;
-    border-radius:15px;
-    box-shadow:0 6px 15px rgba(0,0,0,.15);
-  }
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+}
+
+
+
+body{
+
+ font-family:'Quicksand',sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+ transition:.4s;
+
+}
+
+
+
+/* Navigation */
+
+nav{
+
+ position:fixed;
+ top:0;
+ left:0;
+ width:100%;
+
+ background:rgba(135,206,235,.95);
+
+ padding:12px;
+
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:12px;
+
+ z-index:1000;
+
+ box-shadow:0 5px 20px var(--shadow);
+
+}
+
+
+[data-theme="dark"] nav{
+
+ background:rgba(25,40,60,.95);
+
+}
+
+
+
+.nav-btn{
+
+ background:white;
+
+ color:var(--primary);
+
+ border:none;
+
+ padding:10px 18px;
+
+ border-radius:30px;
+
+ font-weight:600;
+
+ cursor:pointer;
+
+ transition:.3s;
+
+}
+
+
+.nav-btn:hover{
+
+ transform:translateY(-2px);
+
+}
+
+
+
+
+/* Floating Bestie */
+
+.bestie-float{
+
+ position:fixed;
+
+ right:25px;
+
+ bottom:25px;
+
+ width:75px;
+
+ height:75px;
+
+ border-radius:50%;
+
+ background:#ff9ff3;
+
+ display:flex;
+
+ align-items:center;
+
+ justify-content:center;
+
+ font-size:2.5rem;
+
+ cursor:pointer;
+
+ z-index:9999;
+
+ box-shadow:0 10px 30px rgba(255,159,243,.5);
+
+}
+
+
+
+/* Main */
+
+main{
+
+ padding:110px 20px 50px;
+
+ max-width:900px;
+
+ margin:auto;
+
+}
+
+
+
+.hero{
+
+ background:linear-gradient(135deg,#ff6b9d,#ff9ff3);
+
+ color:white;
+
+ padding:45px 25px;
+
+ border-radius:30px;
+
+ text-align:center;
+
+ margin-bottom:35px;
+
+ box-shadow:0 15px 40px rgba(255,107,157,.3);
+
+}
+
+
+.hero h1{
+
+ font-size:2.7rem;
+
+ margin-bottom:10px;
+
+}
+
+
+
+
+/* Reflection Card */
+
+.reflect-card{
+
+ background:var(--card);
+
+ padding:30px;
+
+ border-radius:25px;
+
+ box-shadow:0 10px 30px var(--shadow);
+
+ text-align:center;
+
+ margin-bottom:35px;
+
+}
+
+
+
+textarea{
+
+ width:100%;
+
+ min-height:150px;
+
+ resize:none;
+
+ padding:18px;
+
+ border-radius:18px;
+
+ border:2px solid #87ceeb;
+
+ font-family:'Quicksand',sans-serif;
+
+ font-size:1.1rem;
+
+ margin-top:20px;
+
+}
+
+
+
+.action-btn{
+
+ margin-top:20px;
+
+ padding:15px 35px;
+
+ border:none;
+
+ border-radius:40px;
+
+ background:var(--pink);
+
+ color:white;
+
+ font-size:1.1rem;
+
+ font-weight:600;
+
+ cursor:pointer;
+
+ transition:.3s;
+
+}
+
+
+
+.action-btn:hover{
+
+ transform:scale(1.05);
+
+}
+
+
+
+/* Entries */
+
+#entries{
+
+ display:flex;
+
+ flex-direction:column;
+
+ gap:18px;
+
+}
+
+
+
+.entry{
+
+ background:var(--entry);
+
+ padding:22px;
+
+ border-radius:20px;
+
+ box-shadow:0 6px 20px var(--shadow);
+
+ text-align:left;
+
+ position:relative;
+
+}
+
+
+
+.entry-date{
+
+ font-size:.85rem;
+
+ opacity:.7;
+
+ margin-bottom:10px;
+
+}
+
+
+
+.delete-btn{
+
+ position:absolute;
+
+ top:15px;
+
+ right:15px;
+
+ border:none;
+
+ background:#ff6b6b;
+
+ color:white;
+
+ border-radius:20px;
+
+ padding:6px 12px;
+
+ cursor:pointer;
+
+}
+
+
+
+@media(max-width:600px){
+
+ .hero h1{
+
+  font-size:2rem;
+
+ }
+
+}
+
+
 </style>
+
 </head>
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
+<body data-theme="light">
 
-<script>
- body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
 
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
 <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
+
+<button class="nav-btn" onclick="location.href='index.html'">
+🏠 Dashboard
+</button>
+
+
+<button class="nav-btn" onclick="location.href='bestie.html'">
+🫂 Bestie
+</button>
+
+
+<button class="nav-btn" onclick="location.href='pet.html'">
+🐶 Pet
+</button>
+
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌙
+</button>
+
+
 </nav>
 
-<main>
-  <h1>Reflect & Record</h1>
 
-  <div class="prompt-box">
-    <textarea id="reflection" rows="4" placeholder="Write your thoughts here..."></textarea>
-    <button onclick="saveEntry()">Add Entry</button>
-  </div>
+<div class="bestie-float" onclick="location.href='bestie.html'">
+🫂
+</div><main>
 
-  <div id="entries"></div>
+
+<section class="hero">
+
+<h1>📝 Reflect & Record</h1>
+
+<p>
+A place to write your thoughts, feelings, memories, and moments.
+</p>
+
+</section>
+
+
+
+<section class="reflect-card">
+
+<h2>💭 What’s on your mind?</h2>
+
+<p>
+Write anything you want. This space is yours.
+</p>
+
+
+<textarea 
+id="reflection"
+placeholder="Today I feel...">
+</textarea>
+
+
+<br>
+
+
+<button class="action-btn" onclick="saveEntry()">
+✨ Save Reflection
+</button>
+
+
+</section>
+
+
+
+
+<section class="reflect-card">
+
+<h2>📖 Your Reflections</h2>
+
+<p>
+Your saved thoughts appear here.
+</p>
+
+
+<div id="entries">
+
+</div>
+
+
+</section>
+
+
+
 </main>
 
-<script>
-  function logout(){
-    localStorage.removeItem("lifelineAuthenticated");
-    location.href = "index.html";
-  }
 
-  const entriesContainer = document.getElementById('entries');
-  const storedEntries = JSON.parse(localStorage.getItem('lifelineEntries') || '[]');
 
-  storedEntries.forEach(text => addEntryToDOM(text));
+<footer style="text-align:center;padding:30px;opacity:.7;">
+My Lifeline • One thought at a time 💙
+</footer><script>
 
-  function saveEntry(){
-    const text = document.getElementById('reflection').value.trim();
-    if(!text) return alert("Please write something first!");
-    addEntryToDOM(text);
-    storedEntries.push(text);
-    localStorage.setItem('lifelineEntries', JSON.stringify(storedEntries));
-    document.getElementById('reflection').value = '';
-  }
 
-  function addEntryToDOM(text){
-    const div = document.createElement('div');
-    div.classList.add('entry');
-    div.textContent = text;
-    entriesContainer.prepend(div);
-  }
+// Dark Mode
+
+function toggleDarkMode(){
+
+ const current =
+ document.documentElement.getAttribute("data-theme");
+
+
+ const next =
+ current === "dark" ? "light" : "dark";
+
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  next
+ );
+
+
+ localStorage.setItem(
+  "lifeline-theme",
+  next
+ );
+
+}
+
+
+// Load saved theme
+
+if(localStorage.getItem("lifeline-theme")==="dark"){
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  "dark"
+ );
+
+}
+
+
+
+
+// Reflection Storage
+
+let entries =
+JSON.parse(
+ localStorage.getItem("lifelineEntries") || "[]"
+);
+
+
+
+const entriesContainer =
+document.getElementById("entries");
+
+
+
+function saveEntry(){
+
+ const box =
+ document.getElementById("reflection");
+
+
+ const text =
+ box.value.trim();
+
+
+
+ if(!text){
+
+  alert("Write something first 💙");
+
+  return;
+
+ }
+
+
+
+ const entry = {
+
+  text:text,
+
+  date:new Date().toLocaleString()
+
+ };
+
+
+
+ entries.unshift(entry);
+
+
+
+ localStorage.setItem(
+  "lifelineEntries",
+  JSON.stringify(entries)
+ );
+
+
+
+ box.value="";
+
+
+ displayEntries();
+
+}
+
+
+
+
+function displayEntries(){
+
+
+ entriesContainer.innerHTML="";
+
+
+
+ entries.forEach((entry,index)=>{
+
+
+ const div =
+ document.createElement("div");
+
+
+ div.className="entry";
+
+
+
+ div.innerHTML=`
+
+ <div class="entry-date">
+ 📅 ${entry.date}
+ </div>
+
+
+ <div>
+ ${entry.text}
+ </div>
+
+
+ <button 
+ class="delete-btn"
+ onclick="deleteEntry(${index})">
+ Delete
+ </button>
+
+ `;
+
+
+ entriesContainer.appendChild(div);
+
+
+ });
+
+
+}
+
+
+
+
+function deleteEntry(index){
+
+
+ entries.splice(index,1);
+
+
+
+ localStorage.setItem(
+  "lifelineEntries",
+  JSON.stringify(entries)
+ );
+
+
+
+ displayEntries();
+
+
+}
+
+
+
+// Show saved reflections on load
+
+displayEntries();
+
+
+
 </script>
 
+
 </body>
+
 </html>
