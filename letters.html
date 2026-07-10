@@ -5,18 +5,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Letters From Tomorrow • My Lifeline</title>
+<title>Letters • My Lifeline</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 
 <style>
 
 /* =========================
-   MY LIFELINE THEME SYSTEM
+   MY LIFELINE THEME
 ========================= */
 
-:root{
+:root {
 
 --primary:#00bcd4;
 --accent:#ff9ff3;
@@ -33,7 +32,7 @@ linear-gradient(135deg,#fff8f0,#e0f7ff);
 }
 
 
-[data-theme="dark"]{
+[data-theme="dark"] {
 
 --background:
 linear-gradient(135deg,#0f1c2e,#2c1e3a);
@@ -46,7 +45,7 @@ linear-gradient(135deg,#0f1c2e,#2c1e3a);
 
 --accent:#ff79c6;
 
---shadow:rgba(0,0,0,.45);
+--shadow:rgba(0,0,0,.4);
 
 }
 
@@ -87,24 +86,22 @@ nav{
 position:fixed;
 
 top:0;
-
 left:0;
-
 right:0;
 
 background:rgba(135,206,235,.97);
+
+backdrop-filter:blur(12px);
+
+z-index:1000;
 
 padding:14px 20px;
 
 display:flex;
 
-justify-content:center;
+align-items:center;
 
-gap:12px;
-
-flex-wrap:wrap;
-
-z-index:1000;
+justify-content:space-between;
 
 box-shadow:
 0 6px 20px var(--shadow);
@@ -112,10 +109,41 @@ box-shadow:
 }
 
 
+
 [data-theme="dark"] nav{
 
 background:
 rgba(26,38,57,.97);
+
+}
+
+
+
+.logo{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+font-size:1.65rem;
+
+font-weight:700;
+
+}
+
+
+
+.nav-menu{
+
+display:flex;
+
+gap:12px;
+
+align-items:center;
+
+flex-wrap:wrap;
 
 }
 
@@ -139,7 +167,11 @@ cursor:pointer;
 
 transition:.3s;
 
+box-shadow:
+0 4px 12px var(--shadow);
+
 }
+
 
 
 .nav-btn:hover{
@@ -150,9 +182,78 @@ transform:translateY(-3px);
 
 
 
+/* DROPDOWNS */
+
+
+.dropdown{
+
+position:relative;
+
+}
+
+
+.dropdown-content{
+
+display:none;
+
+position:absolute;
+
+top:100%;
+
+left:0;
+
+background:var(--card);
+
+min-width:240px;
+
+border-radius:16px;
+
+box-shadow:
+0 15px 35px var(--shadow);
+
+overflow:hidden;
+
+padding:8px 0;
+
+}
+
+
+
+.dropdown:hover .dropdown-content{
+
+display:block;
+
+}
+
+
+
+.dropdown-content a{
+
+display:block;
+
+padding:14px 22px;
+
+color:var(--text);
+
+text-decoration:none;
+
+}
+
+
+
+.dropdown-content a:hover{
+
+background:var(--primary);
+
+color:white;
+
+}
+
+
+
 
 /* =========================
-BESTIE FLOATING BUTTON
+FLOATING BESTIE
 ========================= */
 
 
@@ -187,24 +288,13 @@ z-index:9999;
 box-shadow:
 0 12px 35px rgba(255,159,243,.55);
 
-transition:.3s;
-
-}
-
-
-.floating-bestie:hover{
-
-transform:
-scale(1.15)
-rotate(10deg);
-
 }
 
 
 
 
 /* =========================
-BESTIE WINDOW
+BESTIE MODAL
 ========================= */
 
 
@@ -216,8 +306,7 @@ position:fixed;
 
 inset:0;
 
-background:
-rgba(0,0,0,.7);
+background:rgba(0,0,0,.7);
 
 z-index:10000;
 
@@ -259,8 +348,6 @@ display:flex;
 
 justify-content:space-between;
 
-align-items:center;
-
 }
 
 
@@ -275,8 +362,6 @@ color:white;
 
 font-size:25px;
 
-cursor:pointer;
-
 }
 
 
@@ -290,8 +375,6 @@ height:calc(100% - 60px);
 border:none;
 
 }
-
-
 
 
 
@@ -340,8 +423,6 @@ font-size:3rem;
 
 color:var(--primary);
 
-margin-bottom:15px;
-
 }
 
 
@@ -360,18 +441,6 @@ border:2px solid #87ceeb;
 
 font-size:1rem;
 
-background:white;
-
-}
-
-
-
-[data-theme="dark"] .login-box input{
-
-background:#34495e;
-
-color:white;
-
 }
 
 
@@ -388,24 +457,21 @@ padding:15px 35px;
 
 border-radius:50px;
 
-font-size:1.1rem;
-
 cursor:pointer;
+
+font-size:1.1rem;
 
 margin-top:15px;
 
 }
 
 
+
 .hidden{
 
 display:none;
 
-}
-
-
-
-</style>
+}</style>
 
 </head>
 
@@ -413,32 +479,119 @@ display:none;
 <body data-theme="light">
 
 
-<!-- NAV -->
+<!-- =========================
+NAVIGATION
+========================= -->
 
 <nav>
 
+<div class="logo">
+🫂 My Lifeline
+</div>
+
+
+<div class="nav-menu">
+
+
 <button class="nav-btn"
 onclick="location.href='index.html'">
-
 🏠 Dashboard
-
 </button>
 
 
-<button class="nav-btn"
-onclick="location.href='bestie.html'">
+<div class="dropdown">
 
-🫂 Bestie
-
+<button class="nav-btn">
+🛡️ Support
 </button>
 
 
-<button class="nav-btn"
-onclick="location.href='virtualpet.html'">
+<div class="dropdown-content">
 
-🐶 Virtual Pet
+<a href="emergency.html">
+🚨 Emergency
+</a>
 
+<a href="bestie.html">
+🫂 AI Bestie
+</a>
+
+<a href="onebreath.html">
+😮‍💨 Breathing
+</a>
+
+</div>
+
+</div>
+
+
+
+<div class="dropdown">
+
+<button class="nav-btn">
+🧠 Tools
 </button>
+
+
+<div class="dropdown-content">
+
+<a href="mental.html">
+Mental Tools
+</a>
+
+<a href="reflect.html">
+📝 Reflect
+</a>
+
+<a href="reframe.html">
+💭 Reframe
+</a>
+
+<a href="emotion-radar.html">
+📡 Emotion Radar
+</a>
+
+<a href="selfcare.html">
+🧘 Selfcare
+</a>
+
+</div>
+
+</div>
+
+
+
+
+<div class="dropdown">
+
+<button class="nav-btn">
+📖 Journal
+</button>
+
+
+<div class="dropdown-content">
+
+<a href="letters.html">
+✉️ Letters
+</a>
+
+<a href="goodthings.html">
+🌱 Good Things
+</a>
+
+<a href="todayistayed.html">
+📌 Today I Stayed
+</a>
+
+<a href="yourenough.html">
+💙 You're Enough
+</a>
+
+</div>
+
+</div>
+
+
 
 
 <button class="nav-btn"
@@ -449,12 +602,23 @@ onclick="toggleDarkMode()">
 </button>
 
 
+<button class="nav-btn"
+onclick="logout()">
+
+Logout
+
+</button>
+
+
+</div>
+
+
 </nav>
 
 
 
-<!-- FLOATING BESTIE -->
 
+<!-- FLOATING BESTIE -->
 
 <div class="floating-bestie"
 onclick="openBestieModal()">
@@ -465,11 +629,10 @@ onclick="openBestieModal()">
 
 
 
-<!-- BESTIE MODAL -->
 
+<!-- BESTIE POPUP -->
 
 <div id="bestieModal">
-
 
 <div class="bestie-window">
 
@@ -482,9 +645,7 @@ onclick="openBestieModal()">
 
 
 <button onclick="closeBestieModal()">
-
 ✕
-
 </button>
 
 
@@ -501,8 +662,9 @@ onclick="openBestieModal()">
 
 
 
-<!-- LOGIN -->
 
+
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
@@ -511,12 +673,12 @@ onclick="openBestieModal()">
 
 
 <h1>
-🫂 My Lifeline
+💌 Letters
 </h1>
 
 
 <p>
-Enter your personal key
+Enter your Lifeline key
 </p>
 
 
@@ -549,10 +711,24 @@ Enter Safe Space
 
 
 
-<!-- MAIN CONTENT STARTS PART 2 -->
 
 
-<div id="mainContent" class="hidden"><main>
+
+<!-- =========================
+MAIN CONTENT
+========================= -->
+
+
+<div id="mainContent" class="hidden">
+
+
+<main style="
+max-width:1280px;
+margin:120px auto 80px;
+padding:0 20px;
+">
+
+
 
 <header style="
 background:linear-gradient(135deg,var(--primary),#81d4fa);
@@ -563,28 +739,44 @@ text-align:center;
 box-shadow:0 15px 40px var(--shadow);
 ">
 
+
 <h1>
 💌 Letters From Tomorrow
 </h1>
 
+
 <p>
-Write something future-you may need to hear someday.
+Messages from past-you waiting for future-you.
 </p>
+
 
 </header>
 
 
 
-<section class="card">
+
+
+
+<section class="card"
+style="
+background:var(--card);
+margin-top:35px;
+padding:35px;
+border-radius:22px;
+box-shadow:0 10px 30px var(--shadow);
+text-align:center;
+">
+
 
 <h2 style="color:var(--primary);">
-✉️ Write a Letter
+✉️ Write A Letter
 </h2>
 
 
 <p>
-Choose a day for your message to arrive.
+Choose when your letter arrives.
 </p>
+
 
 
 <input 
@@ -594,15 +786,16 @@ style="
 padding:14px;
 border-radius:12px;
 border:2px solid #87ceeb;
-margin:15px;
-font-family:inherit;
+margin:20px;
 ">
+
+
 
 
 
 <textarea
 id="letterText"
-placeholder="Hey future me... I want you to remember..."
+placeholder="Dear future me..."
 style="
 width:100%;
 height:220px;
@@ -611,11 +804,12 @@ border-radius:18px;
 border:2px solid #87ceeb;
 font-family:inherit;
 font-size:1.1rem;
-margin-top:15px;
 background:var(--card);
 color:var(--text);
 ">
 </textarea>
+
+
 
 
 <br>
@@ -624,9 +818,10 @@ color:var(--text);
 <button class="main-btn"
 onclick="saveLetter()">
 
-💌 Seal & Send Letter
+💌 Seal Letter
 
 </button>
+
 
 
 </section>
@@ -635,16 +830,26 @@ onclick="saveLetter()">
 
 
 
-<section class="card">
+
+<section class="card"
+style="
+background:var(--card);
+margin-top:35px;
+padding:35px;
+border-radius:22px;
+box-shadow:0 10px 30px var(--shadow);
+text-align:center;
+">
+
 
 <h2 style="color:var(--primary);">
-📬 Letters Waiting
+📬 Waiting Letters
 </h2>
 
 
 <div id="upcomingList">
 
-Loading letters...
+Loading...
 
 </div>
 
@@ -654,38 +859,57 @@ Loading letters...
 
 
 
-<section id="dueLetter"></section>
+
+
+<section id="dueLetter"
+
+style="
+margin-top:35px;
+">
+
+</section>
 
 
 
-<section class="card">
+
+
+
+
+<section class="card"
+style="
+background:var(--card);
+margin-top:35px;
+padding:35px;
+border-radius:22px;
+box-shadow:0 10px 30px var(--shadow);
+text-align:center;
+">
 
 
 <h2 style="color:var(--primary);">
-🌱 Why write letters?
+🌱 Why Letters Matter
 </h2>
 
 
 <p>
-Sometimes future-you needs proof that past-you kept going.
+Sometimes future-you needs proof that you kept going.
 </p>
 
 
-<p style="
-margin-top:15px;
-font-weight:600;
-">
-
-Every letter is a reminder:
 <br>
-"You made it here."
 
-💙
 
-</p>
+<strong>
+Every letter is a reminder:
+<br><br>
+
+"You made it here." 💙
+
+</strong>
 
 
 </section>
+
 
 
 
@@ -694,43 +918,52 @@ Every letter is a reminder:
 
 </div><script>
 
-// =============================
+// =========================
 // THEME SYNC WITH INDEX
-// =============================
+// =========================
 
 function toggleDarkMode(){
 
-    const current =
-    document.documentElement.getAttribute("data-theme");
+const current =
+document.documentElement.getAttribute("data-theme");
 
-    const newTheme =
-    current === "dark" ? "light" : "dark";
 
-    document.documentElement.setAttribute(
-        "data-theme",
-        newTheme
-    );
+const next =
+current === "dark"
+? "light"
+: "dark";
 
-    localStorage.setItem(
-        "lifeline-theme",
-        newTheme
-    );
+
+document.documentElement.setAttribute(
+"data-theme",
+next
+);
+
+
+localStorage.setItem(
+"lifeline-theme",
+next
+);
+
 }
 
 
-if(localStorage.getItem("lifeline-theme") === "dark"){
-    document.documentElement.setAttribute(
-        "data-theme",
-        "dark"
-    );
+
+if(localStorage.getItem("lifeline-theme")==="dark"){
+
+document.documentElement.setAttribute(
+"data-theme",
+"dark"
+);
+
 }
 
 
 
 
-// =============================
-// BESTIE BUTTON
-// =============================
+// =========================
+// BESTIE POPUP
+// =========================
 
 function openBestieModal(){
 
@@ -750,30 +983,42 @@ document.getElementById("bestieModal")
 
 
 
-// =============================
-// LOGIN
-// =============================
+
+// =========================
+// LOGIN SYSTEM
+// =========================
+
 
 function checkLogin(){
 
+
 const user =
 document.getElementById("username")
-.value.trim()
+.value
+.trim()
 .toLowerCase();
+
 
 
 const pass =
 document.getElementById("password")
-.value.trim();
+.value
+.trim();
 
 
 
 if(
+
 (user==="ryan" && pass==="ITSmf420") ||
+
 (user==="guest" && pass==="guest") ||
+
 (user==="visitor" && pass==="welcome") ||
+
 (user==="friend" && pass==="lifeline") ||
+
 (user==="nc" && pass==="boone")
+
 ){
 
 
@@ -783,9 +1028,11 @@ localStorage.setItem(
 );
 
 
+
 document
 .getElementById("loginScreen")
 .classList.add("hidden");
+
 
 
 document
@@ -794,13 +1041,19 @@ document
 
 
 }
+
 else{
 
-alert("Incorrect username or password.");
+
+alert(
+"Incorrect username or password."
+);
+
 
 }
 
 }
+
 
 
 
@@ -810,15 +1063,19 @@ localStorage.removeItem(
 "lifelineAuthenticated"
 );
 
+
 location.reload();
 
 }
 
 
 
+
+
 if(
 localStorage.getItem("lifelineAuthenticated")
 ==="true"
+
 ){
 
 document
@@ -830,62 +1087,31 @@ document
 .getElementById("mainContent")
 .classList.remove("hidden");
 
-}
-
-
-
-
-// =============================
-// VIEW MODE
-// =============================
-
-function setView(mode){
-
-document.body.classList.remove(
-"mobile-mode",
-"desktop-mode"
-);
-
-
-document.body.classList.add(
-mode+"-mode"
-);
-
-
-localStorage.setItem(
-"letter-view",
-mode
-);
-
-}
-
-
-const savedView =
-localStorage.getItem("letter-view");
-
-
-if(savedView){
-
-setView(savedView);
 
 }
 
 
 
 
-// =============================
-// LETTER STORAGE
-// =============================
 
-let letters =
-JSON.parse(
-localStorage.getItem("futureLetters") || "[]"
+
+
+// =========================
+// LETTER SYSTEM
+// =========================
+
+
+let letters = JSON.parse(
+
+localStorage.getItem("futureLetters")
+||
+"[]"
+
 );
 
 
 
 
-// SAVE LETTER
 
 function saveLetter(){
 
@@ -895,21 +1121,27 @@ document.getElementById("deliveryDate")
 .value;
 
 
+
 const text =
 document.getElementById("letterText")
-.value.trim();
+.value
+.trim();
 
 
 
 if(!date || !text){
 
+
 alert(
 "Add a date and message ❤️"
 );
 
+
 return;
 
 }
+
+
 
 
 
@@ -926,10 +1158,17 @@ new Date().toLocaleDateString()
 
 
 
+
+
 localStorage.setItem(
+
 "futureLetters",
+
 JSON.stringify(letters)
+
 );
+
+
 
 
 
@@ -939,13 +1178,18 @@ document.getElementById(
 
 
 
+
+
 alert(
-"Your letter is sealed 💌"
+"Letter sealed and saved 💌"
 );
 
 
 
+
+
 showUpcoming();
+
 
 }
 
@@ -953,11 +1197,16 @@ showUpcoming();
 
 
 
-// =============================
-// SHOW UPCOMING
-// =============================
+
+
+
+// =========================
+// SHOW WAITING LETTERS
+// =========================
+
 
 function showUpcoming(){
+
 
 
 const list =
@@ -966,89 +1215,125 @@ document.getElementById(
 );
 
 
+
 list.innerHTML="";
+
 
 
 
 const future =
 letters.filter(letter =>
-new Date(letter.date) > new Date()
+
+new Date(letter.date)
+>
+new Date()
+
 );
+
 
 
 
 if(future.length===0){
 
+
 list.innerHTML=
+
 `
 <p>
 No letters waiting yet 💌
 </p>
 `;
 
+
 return;
+
 
 }
 
 
 
-future.sort(
-(a,b)=>
-new Date(a.date)-new Date(b.date)
+
+future.sort((a,b)=>
+
+new Date(a.date)
+-
+new Date(b.date)
+
 );
+
+
 
 
 
 future.forEach(letter=>{
 
 
+
 const box =
 document.createElement("div");
+
 
 
 box.style.background=
 "var(--card)";
 
-
 box.style.padding=
 "20px";
-
-
-box.style.borderRadius=
-"18px";
-
 
 box.style.margin=
 "15px 0";
 
+box.style.borderRadius=
+"18px";
 
 box.style.boxShadow=
 "0 8px 20px var(--shadow)";
 
 
 
+
+
 box.innerHTML=
 
 `
+
 <h3 style="color:var(--primary)">
 📬 Arrives:
+
 ${new Date(letter.date)
-.toLocaleDateString()}
+.toLocaleDateString(
+"en-US",
+{
+weekday:"long",
+month:"long",
+day:"numeric",
+year:"numeric"
+}
+)}
+
 </h3>
 
-<p>
+
+<p style="margin-top:10px">
+
 ${letter.text.substring(0,120)}
+
 ...
+
 </p>
 
 `;
 
 
 
+
+
 list.appendChild(box);
 
 
+
 });
+
 
 
 }
@@ -1057,25 +1342,37 @@ list.appendChild(box);
 
 
 
-// =============================
-// ARRIVING LETTER
-// =============================
+
+
+
+// =========================
+// OPEN LETTERS THAT ARRIVE
+// =========================
+
 
 function checkLetters(){
 
 
+
 const today =
+
 new Date()
 .toISOString()
 .split("T")[0];
 
 
 
+
+
 const arriving =
-letters.find(
-letter =>
-letter.date===today
+
+letters.find(letter =>
+
+letter.date === today
+
 );
+
+
 
 
 
@@ -1085,38 +1382,59 @@ return;
 
 
 
+
 const envelope =
 document.createElement("div");
 
 
-envelope.className="card";
+
+envelope.style.background=
+"var(--card)";
+
+envelope.style.padding=
+"30px";
+
+envelope.style.borderRadius=
+"22px";
+
+envelope.style.boxShadow=
+"0 10px 30px var(--shadow)";
+
+envelope.style.cursor=
+"pointer";
 
 
-envelope.style.cursor="pointer";
 
 
 
 envelope.innerHTML=
 
 `
-<h2>
+
+<h2 style="color:var(--primary)">
 💌 A Letter Arrived
 </h2>
 
+
 <p>
-Click to open your message from past-you
+Click to open your message from past-you.
 </p>
+
 `;
+
+
 
 
 
 envelope.onclick=function(){
 
 
+
 envelope.innerHTML=
 
 `
-<h2>
+
+<h2 style="color:var(--primary)">
 From past-you 💙
 </h2>
 
@@ -1126,7 +1444,10 @@ font-size:1.2rem;
 line-height:1.8;
 ">
 
-${arriving.text.replace(/\n/g,"<br>")}
+${arriving.text.replace(
+/\n/g,
+"<br>"
+)}
 
 </p>
 
@@ -1146,23 +1467,36 @@ You made it to this day.
 
 
 
+
+
 document
 .getElementById("dueLetter")
 .appendChild(envelope);
 
 
 
+
+
 letters =
 letters.filter(
-l=>l!==arriving
+
+letter =>
+letter !== arriving
+
 );
+
+
 
 
 
 localStorage.setItem(
+
 "futureLetters",
+
 JSON.stringify(letters)
+
 );
+
 
 
 }
@@ -1170,9 +1504,18 @@ JSON.stringify(letters)
 
 
 
+
+
+// LOAD LETTERS
+
 showUpcoming();
 
 checkLetters();
 
 
+
 </script>
+
+
+</body>
+</html>
