@@ -42,4 +42,74 @@
   </div>
 
   <script>
-    const messagesEl = document.get
+  const messagesEl = document.getElementById("messages");
+  const userInput = document.getElementById("userInput");
+
+  const WORKER_URL = "https://lifeline-ai.ryancroland.workers.dev/";
+
+  function addMessage(text, sender) {
+    const div = document.createElement("div");
+    div.className = "message " + sender;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // Welcome message
+  addMessage(
+    "Hey 💙 I’m your Lifeline AI Bestie. I’m here to listen. What’s on your mind?",
+    "bestie"
+  );
+
+  async function sendMessage() {
+    const message = userInput.value.trim();
+
+    if (!message) return;
+
+    addMessage(message, "user");
+    userInput.value = "";
+
+    const thinking = document.createElement("div");
+    thinking.className = "message bestie";
+    thinking.textContent = "Thinking... 💙";
+    messagesEl.appendChild(thinking);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: message
+        })
+      });
+
+      const data = await response.json();
+
+      thinking.remove();
+
+      addMessage(
+        data.reply || "I’m here with you 💙",
+        "bestie"
+      );
+
+    } catch (error) {
+
+      thinking.remove();
+
+      addMessage(
+        "I’m having trouble connecting right now, but I’m still here with you 💙",
+        "bestie"
+      );
+
+      console.error(error);
+    }
+  }
+
+  // Dark mode sync with My Lifeline
+  if (localStorage.getItem("lifeline-theme") === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+</script>
