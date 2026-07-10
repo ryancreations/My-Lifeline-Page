@@ -1,194 +1,890 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Emotion Radar • My Lifeline</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
 <style>
+
+:root{
+
+--primary:#6b5cff;
+--blue:#00bcd4;
+--pink:#ff6b9d;
+--bg:linear-gradient(135deg,#eef7ff,#fef6ff);
+--card:white;
+--text:#333;
+--box:#f8f9ff;
+--shadow:rgba(0,0,0,.15);
+
+}
+
+
+
+[data-theme="dark"]{
+
+--bg:linear-gradient(135deg,#101c33,#2c1e3a);
+--card:#263545;
+--text:#eee;
+--box:#34495e;
+--shadow:rgba(0,0,0,.4);
+
+}
+
+
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+
+
 body{
-  font-family:'Quicksand',sans-serif;
-  background:linear-gradient(to bottom,#eef7ff,#fef6ff);
-  margin:0;
-  padding:20px;
-  color:#333;
-  text-align:center;
+
+font-family:'Quicksand',sans-serif;
+
+background:var(--bg);
+
+color:var(--text);
+
+min-height:100vh;
+
+transition:.4s;
+
 }
 
-h1{color:#6b5cff}
-p{max-width:600px;margin:10px auto}
 
-.container{
-  max-width:600px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.1);
+
+/* Navigation */
+
+nav{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+
+background:rgba(135,206,235,.95);
+
+padding:12px;
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:12px;
+
+z-index:1000;
+
+box-shadow:0 5px 20px var(--shadow);
+
 }
+
+
+
+[data-theme="dark"] nav{
+
+background:rgba(30,50,70,.95);
+
+}
+
+
+
+.nav-btn{
+
+background:white;
+
+color:var(--blue);
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+font-weight:600;
+
+cursor:pointer;
+
+}
+
+
+
+.nav-btn:hover{
+
+background:var(--blue);
+
+color:white;
+
+}
+
+
+
+
+/* Floating Bestie */
+
+.bestie-float{
+
+position:fixed;
+
+right:25px;
+
+bottom:25px;
+
+width:75px;
+
+height:75px;
+
+background:#ff9ff3;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:2.5rem;
+
+cursor:pointer;
+
+z-index:9999;
+
+box-shadow:0 10px 30px rgba(255,159,243,.5);
+
+}
+
+
+
+
+main{
+
+max-width:900px;
+
+margin:auto;
+
+padding:110px 20px 50px;
+
+}
+
+
+
+
+.hero{
+
+background:linear-gradient(135deg,#6b5cff,#00bcd4);
+
+color:white;
+
+padding:40px 25px;
+
+border-radius:30px;
+
+text-align:center;
+
+margin-bottom:30px;
+
+box-shadow:0 15px 40px rgba(107,92,255,.3);
+
+}
+
+
+
+.hero h1{
+
+font-size:2.7rem;
+
+margin-bottom:10px;
+
+}
+
+
+
+
+.card{
+
+background:var(--card);
+
+padding:30px;
+
+border-radius:25px;
+
+margin-bottom:25px;
+
+box-shadow:0 10px 30px var(--shadow);
+
+}
+
+
+
+.card h2{
+
+margin-bottom:15px;
+
+}
+
+
+
 
 label{
-  display:flex;
-  justify-content:space-between;
-  margin:12px 0;
-  font-weight:600;
+
+display:flex;
+
+justify-content:space-between;
+
+font-weight:700;
+
+margin:18px 0 8px;
+
 }
 
-input[type=range]{
-  width:100%;
+
+
+
+input[type="range"]{
+
+width:100%;
+
+accent-color:var(--primary);
+
 }
+
+
+
+
 
 canvas{
-  margin-top:30px;
-  max-width:100%;
+
+display:block;
+
+margin:30px auto;
+
+max-width:100%;
+
 }
 
-button{
-  margin-top:20px;
-  padding:12px 24px;
-  border:none;
-  border-radius:30px;
-  background:#6b5cff;
-  color:white;
-  font-size:1.1em;
-  cursor:pointer;
+
+
+
+
+.action-btn{
+
+display:block;
+
+margin:20px auto;
+
+background:var(--pink);
+
+color:white;
+
+border:none;
+
+padding:16px 35px;
+
+border-radius:50px;
+
+font-size:1.1rem;
+
+font-weight:700;
+
+cursor:pointer;
+
 }
-button:hover{opacity:.9}
+
+
+
+.action-btn:hover{
+
+transform:scale(1.05);
+
+}
+
+
+
+
+.history-item{
+
+background:var(--box);
+
+padding:18px;
+
+border-radius:18px;
+
+margin-top:15px;
+
+}
+
+
+
+.delete-btn{
+
+background:#ff6b6b;
+
+color:white;
+
+border:none;
+
+padding:8px 15px;
+
+border-radius:20px;
+
+cursor:pointer;
+
+margin-top:10px;
+
+}
+
+
+
+
+@media(max-width:600px){
+
+.hero h1{
+
+font-size:2rem;
+
+}
+
+}
+
+
 </style>
+
 </head>
 
-<body>
-  <!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
+<body data-theme="light">
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
 
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
 
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
 <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
+
+<button class="nav-btn" onclick="location.href='index.html'">
+🏠 Dashboard
+</button>
+
+<button class="nav-btn" onclick="location.href='bestie.html'">
+🫂 Bestie
+</button>
+
+<button class="nav-btn" onclick="location.href='pet.html'">
+🐶 Pet
+</button>
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌙
+</button>
+
 </nav>
 
-<h1>Emotion Radar</h1>
-<p>Move the sliders to reflect how you feel right now.  
-This isn’t judgment — just awareness.</p>
 
-<div class="container">
-  <label>Anxiety <span id="aVal">3</span></label>
-  <input type="range" min="0" max="5" value="3" oninput="update()">
 
-  <label>Sadness <span id="sVal">2</span></label>
-  <input type="range" min="0" max="5" value="2" oninput="update()">
+<div class="bestie-float" onclick="location.href='bestie.html'">
+🫂
+</div><main>
 
-  <label>Anger <span id="anVal">1</span></label>
-  <input type="range" min="0" max="5" value="1" oninput="update()">
 
-  <label>Calm <span id="cVal">3</span></label>
-  <input type="range" min="0" max="5" value="3" oninput="update()">
+<section class="hero">
 
-  <label>Energy <span id="eVal">2</span></label>
-  <input type="range" min="0" max="5" value="2" oninput="update()">
+<h1>📡 Emotion Radar</h1>
 
-  <canvas id="radar" width="300" height="300"></canvas>
+<p>
+Check in with yourself. No judgment — just awareness.
+</p>
 
-  <button onclick="save()">Save Today’s Check-In</button>
+</section>
+
+
+
+
+<section class="card">
+
+<h2>🌈 How are you feeling right now?</h2>
+
+
+<label>
+Anxiety
+<span id="aVal">3</span>
+</label>
+
+<input 
+type="range" 
+min="0" 
+max="5" 
+value="3"
+oninput="update()">
+
+
+
+<label>
+Sadness
+<span id="sVal">2</span>
+</label>
+
+<input 
+type="range" 
+min="0" 
+max="5" 
+value="2"
+oninput="update()">
+
+
+
+<label>
+Anger
+<span id="anVal">1</span>
+</label>
+
+<input 
+type="range" 
+min="0" 
+max="5" 
+value="1"
+oninput="update()">
+
+
+
+<label>
+Calm
+<span id="cVal">3</span>
+</label>
+
+<input 
+type="range" 
+min="0" 
+max="5" 
+value="3"
+oninput="update()">
+
+
+
+<label>
+Energy
+<span id="eVal">2</span>
+</label>
+
+<input 
+type="range" 
+min="0" 
+max="5" 
+value="2"
+oninput="update()">
+
+
+
+<canvas 
+id="radar"
+width="300"
+height="300">
+</canvas>
+
+
+
+<button class="action-btn" onclick="saveCheckIn()">
+
+💙 Save Today's Check-In
+
+</button>
+
+
+</section>
+
+
+
+
+
+<section class="card">
+
+<h2>📖 Previous Check-Ins</h2>
+
+<p>
+Your check-ins stay saved on this device.
+</p>
+
+
+<div id="history">
+
 </div>
 
-<script>
-const ctx = document.getElementById("radar").getContext("2d");
+
+</section>
+
+
+
+</main>
+
+
+
+<footer style="text-align:center;padding:30px;opacity:.7;">
+
+My Lifeline • Checking in matters 💙
+
+</footer><script>
+
+
+// Dark Mode
+
+function toggleDarkMode(){
+
+ const current =
+ document.documentElement.getAttribute("data-theme");
+
+
+ const next =
+ current === "dark" ? "light" : "dark";
+
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  next
+ );
+
+
+ localStorage.setItem(
+  "lifeline-theme",
+  next
+ );
+
+}
+
+
+
+if(localStorage.getItem("lifeline-theme")==="dark"){
+
+ document.documentElement.setAttribute(
+  "data-theme",
+  "dark"
+ );
+
+}
+
+
+
+
+// Radar System
+
+const canvas =
+document.getElementById("radar");
+
+const ctx =
+canvas.getContext("2d");
+
+
+
 let values = [3,2,1,3,2];
-const labels = ["Anxiety","Sadness","Anger","Calm","Energy"];
+
+
+const labels = [
+"Anxiety",
+"Sadness",
+"Anger",
+"Calm",
+"Energy"
+];
+
+
 
 function update(){
-  document.querySelectorAll("input").forEach((el,i)=>{
-    values[i]=parseInt(el.value);
-  });
-  document.getElementById("aVal").textContent=values[0];
-  document.getElementById("sVal").textContent=values[1];
-  document.getElementById("anVal").textContent=values[2];
-  document.getElementById("cVal").textContent=values[3];
-  document.getElementById("eVal").textContent=values[4];
-  draw();
+
+
+ document.querySelectorAll(
+ 'input[type="range"]'
+ ).forEach((slider,index)=>{
+
+ values[index] =
+ parseInt(slider.value);
+
+ });
+
+
+ document.getElementById("aVal").textContent =
+ values[0];
+
+
+ document.getElementById("sVal").textContent =
+ values[1];
+
+
+ document.getElementById("anVal").textContent =
+ values[2];
+
+
+ document.getElementById("cVal").textContent =
+ values[3];
+
+
+ document.getElementById("eVal").textContent =
+ values[4];
+
+
+ drawRadar();
+
 }
 
-function draw(){
-  ctx.clearRect(0,0,300,300);
-  const center=150;
-  const radius=100;
-  ctx.strokeStyle="#ddd";
 
-  for(let i=1;i<=5;i++){
-    ctx.beginPath();
-    ctx.arc(center,center,(radius/5)*i,0,Math.PI*2);
-    ctx.stroke();
-  }
 
-  ctx.beginPath();
-  values.forEach((v,i)=>{
-    const angle=(Math.PI*2/5)*i - Math.PI/2;
-    const r=(v/5)*radius;
-    const x=center + Math.cos(angle)*r;
-    const y=center + Math.sin(angle)*r;
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  });
-  ctx.closePath();
-  ctx.fillStyle="rgba(107,92,255,0.4)";
-  ctx.fill();
-  ctx.strokeStyle="#6b5cff";
-  ctx.stroke();
+
+function drawRadar(){
+
+ctx.clearRect(
+0,
+0,
+300,
+300
+);
+
+
+const center=150;
+
+const radius=100;
+
+
+
+ctx.strokeStyle="#ddd";
+
+
+
+// Circles
+
+for(let i=1;i<=5;i++){
+
+ctx.beginPath();
+
+ctx.arc(
+center,
+center,
+(radius/5)*i,
+0,
+Math.PI*2
+);
+
+ctx.stroke();
+
 }
 
-function save(){
-  localStorage.setItem("emotionRadar",JSON.stringify(values));
-  alert("Saved. You showed up today 💙");
+
+
+// Shape
+
+ctx.beginPath();
+
+
+values.forEach((value,index)=>{
+
+
+const angle =
+(Math.PI*2/5)*index -
+Math.PI/2;
+
+
+const r =
+(value/5)*radius;
+
+
+const x =
+center + Math.cos(angle)*r;
+
+
+const y =
+center + Math.sin(angle)*r;
+
+
+
+if(index===0){
+
+ctx.moveTo(x,y);
+
+}else{
+
+ctx.lineTo(x,y);
+
 }
+
+
+});
+
+
+ctx.closePath();
+
+
+
+ctx.fillStyle =
+"rgba(107,92,255,.35)";
+
+
+ctx.fill();
+
+
+
+ctx.strokeStyle =
+"#6b5cff";
+
+
+ctx.stroke();
+
+
+}
+
+
+
+
+
+
+// Save History
+
+
+let history =
+JSON.parse(
+localStorage.getItem("emotionHistory") || "[]"
+);
+
+
+
+function saveCheckIn(){
+
+
+const checkIn = {
+
+values:[...values],
+
+date:new Date().toLocaleString()
+
+};
+
+
+
+history.unshift(checkIn);
+
+
+
+localStorage.setItem(
+"emotionHistory",
+JSON.stringify(history)
+);
+
+
+
+displayHistory();
+
+
+
+alert("Check-in saved 💙");
+
+}
+
+
+
+
+function displayHistory(){
+
+
+const box =
+document.getElementById("history");
+
+
+box.innerHTML="";
+
+
+
+history.forEach((item,index)=>{
+
+
+const div =
+document.createElement("div");
+
+
+div.className="history-item";
+
+
+div.innerHTML = `
+
+
+<p>
+📅 ${item.date}
+</p>
+
+
+<p>
+Anxiety: ${item.values[0]} |
+Sadness: ${item.values[1]} |
+Anger: ${item.values[2]}
+</p>
+
+
+<p>
+Calm: ${item.values[3]} |
+Energy: ${item.values[4]}
+</p>
+
+
+
+<button class="delete-btn"
+onclick="deleteCheckIn(${index})">
+Delete
+</button>
+
+
+`;
+
+
+
+box.appendChild(div);
+
+
+});
+
+
+}
+
+
+
+
+function deleteCheckIn(index){
+
+
+history.splice(index,1);
+
+
+
+localStorage.setItem(
+"emotionHistory",
+JSON.stringify(history)
+);
+
+
+
+displayHistory();
+
+
+}
+
+
+
+
+displayHistory();
 
 update();
+
+
+
 </script>
 
+
 </body>
+
 </html>
