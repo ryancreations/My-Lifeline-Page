@@ -1,237 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Virtual Dog • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(to bottom,#fff8f0,#e0f7ff);
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    h1 { color:#00bcd4; margin-bottom:10px; text-align:center; }
-    p { text-align:center; margin-bottom:15px; }
+<title>Virtual Pet • My Lifeline</title>
 
-    .pet-container {
-      background: #fff;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.2);
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .dog-img {
-      width: 200px;
-      height: 200px;
-      background: url('https://i.imgur.com/4AiXzf8.png') no-repeat center/contain;
-      margin: 0 auto 15px;
-      transition: transform 0.3s;
-    }
 
-    .dog-img.playing { transform: scale(1.1) rotate(10deg); }
-    .dog-img.eating { transform: scale(1.05); }
-    .dog-img.sleeping { transform: scale(0.9) rotate(-5deg); opacity:0.6; }
+<style>
 
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      margin: 20px 0;
-    }
+:root{
 
-    .stat {
-      text-align: center;
-    }
+--primary:#00bcd4;
+--pink:#ff6b9d;
+--green:#a8e6cf;
+--bg:linear-gradient(135deg,#eefcff,#ffeaf3);
+--card:white;
+--text:#333;
+--box:#f7f7ff;
 
-    .stat p { margin-top:5px; font-weight:600; }
+}
 
-    .buttons {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      gap:10px;
-    }
 
-    .buttons button {
-      padding: 10px 15px;
-      border:none;
-      border-radius:12px;
-      background:#00bcd4;
-      color:white;
-      font-weight:600;
-      cursor:pointer;
-      flex:1 1 30%;
-      transition:.2s;
-    }
 
-    .buttons button:hover { background:#0097a7; }
+body.dark-mode{
 
-    footer { margin-top:30px; font-size:.85em; color:#777; text-align:center; }
+--bg:linear-gradient(135deg,#101c33,#2c1e3a);
+--card:#263545;
+--text:#eee;
+--box:#34495e;
 
-    @media(max-width:500px){ .dog-img{width:150px;height:150px;} }
-  </style>
-  <nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
+}
+
+
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+
+
+body{
+
+font-family:'Quicksand',sans-serif;
+
+background:var(--bg);
+
+color:var(--text);
+
+min-height:100vh;
+
+transition:.3s;
+
+}
+
+
+
+
+/* Navigation */
+
+nav{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+background:#87ceeb;
+
+padding:12px;
+
+display:flex;
+
+justify-content:center;
+
+flex-wrap:wrap;
+
+gap:12px;
+
+z-index:1000;
+
+box-shadow:0 5px 20px rgba(0,0,0,.15);
+
+}
+
+
+
+.nav-btn{
+
+background:white;
+
+color:#00bcd4;
+
+border:none;
+
+padding:10px 18px;
+
+border-radius:30px;
+
+font-weight:600;
+
+cursor:pointer;
+
+}
+
+
+
+
+body.dark-mode nav{
+
+background:#1e3a5f;
+
+}
+
+
+
+
+
+/* Floating Bestie */
+
+.bestie{
+
+position:fixed;
+
+right:25px;
+
+bottom:25px;
+
+width:75px;
+
+height:75px;
+
+background:#ff9ff3;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:2.5rem;
+
+cursor:pointer;
+
+box-shadow:0 10px 30px rgba(255,159,243,.5);
+
+z-index:9999;
+
+}
+
+
+
+
+main{
+
+padding:110px 20px 50px;
+
+max-width:900px;
+
+margin:auto;
+
+}
+
+
+
+
+.hero{
+
+background:linear-gradient(135deg,#00bcd4,#a8e6cf);
+
+padding:40px 20px;
+
+border-radius:30px;
+
+color:white;
+
+text-align:center;
+
+margin-bottom:30px;
+
+}
+
+
+
+.hero h1{
+
+font-size:2.7rem;
+
+margin-bottom:10px;
+
+}
+
+
+
+
+.card{
+
+background:var(--card);
+
+padding:30px;
+
+border-radius:25px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+margin-bottom:25px;
+
+text-align:center;
+
+}
+
+
+
+
+
+.pet{
+
+font-size:120px;
+
+margin:20px;
+
+transition:.3s;
+
+}
+
+
+
+.pet:hover{
+
+transform:scale(1.1);
+
+}
+
+
+
+
+
+.status{
+
+background:var(--box);
+
+padding:20px;
+
+border-radius:20px;
+
+font-size:1.2rem;
+
+line-height:1.8;
+
+}
+
+
+
+
+
+button.action{
+
+margin:10px;
+
+padding:14px 30px;
+
+border:none;
+
+border-radius:50px;
+
+background:#ff6b9d;
+
+color:white;
+
+font-size:1.1rem;
+
+font-weight:600;
+
+cursor:pointer;
+
+}
+
+
+
+
+button.action:hover{
+
+transform:scale(1.05);
+
+}
+
+
+
+
+
+</style>
+
 </head>
+
+
 <body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
+
+
+<nav>
+
+<button class="nav-btn" onclick="location.href='index.html'">
+🏠 Dashboard
+</button>
+
+<button class="nav-btn" onclick="location.href='bestie.html'">
+🫂 Bestie
+</button>
+
+<button class="nav-btn" onclick="location.href='pet.html'">
+🐶 Pet
+</button>
+
+<button class="nav-btn" onclick="toggleDarkMode()">
+🌙 Dark Mode
+</button>
+
 </nav>
 
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
+
+
+<div class="bestie" onclick="location.href='bestie.html'">
+🫂
+</div><main>
+
+
+<section class="hero">
+
+<h1>🐶 My Lifeline Pet</h1>
+
+<p>
+Your little companion is here whenever you need a friend.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+
+<div id="pet" class="pet">
+🐶
 </div>
 
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
+
+
+<div class="status">
+
+<p>
+❤️ Happiness: <span id="happy">50</span>/100
+</p>
+
+
+<p>
+🍖 Hunger: <span id="hunger">50</span>/100
+</p>
+
+
+<p>
+⚡ Energy: <span id="energy">50</span>/100
+</p>
+
+
+<p>
+😊 Mood: <span id="mood">Happy</span>
+</p>
+
+
 </div>
 
-<script>
-  body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+
+<br>
+
+
+<button class="action" onclick="feedPet()">
+
+🍖 Feed
+
+</button>
+
+
+
+<button class="action" onclick="playPet()">
+
+🎾 Play
+
+</button>
+
+
+
+<button class="action" onclick="comfortPet()">
+
+🫂 Comfort
+
+</button>
+
+
+
+<button class="action" onclick="restPet()">
+
+😴 Rest
+
+</button>
+
+
+
+</section>
+
+
+
+
+<section class="card">
+
+
+<h2>
+💙 Your Pet Message
+</h2>
+
+
+<p id="message">
+
+Your pet is happy you are here.
+
+</p>
+
+
+</section>
+
+
+
+</main><script>
+
+
+// Pet Data
+
+let petData = JSON.parse(
+localStorage.getItem("lifelinePet")
+) || {
+
+happiness:50,
+hunger:50,
+energy:50,
+mood:"Happy"
+
+};
+
+
+
+
+function updatePet(){
+
+
+document.getElementById("happy").textContent =
+petData.happiness;
+
+
+document.getElementById("hunger").textContent =
+petData.hunger;
+
+
+document.getElementById("energy").textContent =
+petData.energy;
+
+
+document.getElementById("mood").textContent =
+petData.mood;
+
+
+
+localStorage.setItem(
+"lifelinePet",
+JSON.stringify(petData)
+);
+
+
 }
 
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
+
+
+function setMessage(text){
+
+document.getElementById("message").textContent=text;
+
 }
 
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
+
+
+
+function feedPet(){
+
+
+petData.hunger =
+Math.min(100, petData.hunger + 20);
+
+
+petData.happiness =
+Math.min(100, petData.happiness + 5);
+
+
+petData.mood="Full & Happy";
+
+
+setMessage(
+"Your pet enjoyed the snack! 🍖"
+);
+
+
+updatePet();
+
 }
 
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
+
+
+
+function playPet(){
+
+
+if(petData.energy < 10){
+
+setMessage(
+"Your pet is tired. Let them rest first 😴"
+);
+
+return;
+
+}
+
+
+
+petData.energy -=10;
+
+
+petData.happiness =
+Math.min(100, petData.happiness + 15);
+
+
+petData.hunger =
+Math.min(100, petData.hunger + 5);
+
+
+petData.mood="Excited";
+
+
+setMessage(
+"Your pet had fun playing with you! 🎾"
+);
+
+
+updatePet();
+
+
+}
+
+
+
+
+function comfortPet(){
+
+
+petData.happiness =
+Math.min(100, petData.happiness + 10);
+
+
+petData.mood="Loved";
+
+
+setMessage(
+"Your pet feels safe with you. 🫂"
+);
+
+
+updatePet();
+
+
+}
+
+
+
+
+function restPet(){
+
+
+petData.energy =
+Math.min(100, petData.energy + 20);
+
+
+petData.mood="Relaxed";
+
+
+setMessage(
+"Your pet is resting and feeling better. 🌙"
+);
+
+
+updatePet();
+
+
+}
+
+
+
+
+
+// Dark Mode
+
+function toggleDarkMode(){
+
+
+document.body.classList.toggle(
+"dark-mode"
+);
+
+
+localStorage.setItem(
+"darkMode",
+document.body.classList.contains("dark-mode")
+);
+
+
+}
+
+
+
+
+if(localStorage.getItem("darkMode")==="true"){
+
+document.body.classList.add(
+"dark-mode"
+);
+
+}
+
+
+
+
+updatePet();
+
+
+
 </script>
-<h1>🐶 Virtual Dog</h1>
-<p>Take care of your dog! Feed, play, and let it rest.</p>
 
-<div class="pet-container">
-  <!-- Replace your current dog placeholder with this -->
-<div style="text-align: center; margin: 20px 0;">
-  <img 
-    id="dogImage" 
-    src="https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&q=80&w=800" 
-    alt="Your cute virtual dog" 
-    style="max-width: 300px; height: auto; border-radius: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);"
-  >
-</div>
-
-  <div class="stats">
-    <div class="stat">
-      <strong id="hunger">50</strong>
-      <p>Hunger</p>
-    </div>
-    <div class="stat">
-      <strong id="happiness">50</strong>
-      <p>Happiness</p>
-    </div>
-    <div class="stat">
-      <strong id="energy">50</strong>
-      <p>Energy</p>
-    </div>
-  </div>
-
-  <div class="buttons">
-    <button onclick="feedDog()">Feed 🍖</button>
-    <button onclick="playWithDog()">Play 🎾</button>
-    <button onclick="sleepDog()">Sleep 💤</button>
-  </div>
-</div>
-
-<footer>Virtual Pet • My Lifeline</footer>
-
-<script>
-  // Initial stats
-  let hunger = 50;
-  let happiness = 50;
-  let energy = 50;
-
-  const dog = document.getElementById('dog');
-  const hungerEl = document.getElementById('hunger');
-  const happinessEl = document.getElementById('happiness');
-  const energyEl = document.getElementById('energy');
-
-  // Update stats display
-  function updateStats() {
-    hungerEl.textContent = hunger;
-    happinessEl.textContent = happiness;
-    energyEl.textContent = energy;
-  }
-
-  // Feed dog
-  function feedDog() {
-    hunger = Math.max(0, hunger - 20);
-    happiness = Math.min(100, happiness + 5);
-    dog.className = 'dog-img eating';
-    updateStats();
-    setTimeout(()=>dog.className='dog-img', 1000);
-  }
-
-  // Play with dog
-  function playWithDog() {
-    if(energy < 20) {
-      alert("Your dog is too tired to play!");
-      return;
-    }
-    happiness = Math.min(100, happiness + 20);
-    energy = Math.max(0, energy - 15);
-    dog.className = 'dog-img playing';
-    updateStats();
-    setTimeout(()=>dog.className='dog-img', 1000);
-  }
-
-  // Dog sleeps
-  function sleepDog() {
-    energy = Math.min(100, energy + 30);
-    hunger = Math.min(100, hunger + 10); // sleeping makes it hungry
-    dog.className = 'dog-img sleeping';
-    updateStats();
-    setTimeout(()=>dog.className='dog-img', 2000);
-  }
-
-  // Auto decrease stats over time
-  setInterval(()=>{
-    hunger = Math.min(100, hunger + 1);
-    energy = Math.max(0, energy - 1);
-    happiness = Math.max(0, happiness - 1);
-    updateStats();
-  }, 5000); // every 5 seconds
-
-  updateStats();
-</script>
 
 </body>
+
 </html>
