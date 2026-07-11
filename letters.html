@@ -5,17 +5,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Letters • My Lifeline</title>
+<title>Letters From Tomorrow • My Lifeline</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+
 <style>
 
-/* =========================
-   MY LIFELINE THEME
-========================= */
-
-:root {
+:root{
 
 --primary:#00bcd4;
 --accent:#ff9ff3;
@@ -27,12 +24,13 @@ linear-gradient(135deg,#fff8f0,#e0f7ff);
 
 --text:#2c3e50;
 
---shadow:rgba(0,0,0,.12);
+--shadow:
+rgba(0,0,0,.12);
 
 }
 
 
-[data-theme="dark"] {
+[data-theme="dark"]{
 
 --background:
 linear-gradient(135deg,#0f1c2e,#2c1e3a);
@@ -45,34 +43,41 @@ linear-gradient(135deg,#0f1c2e,#2c1e3a);
 
 --accent:#ff79c6;
 
---shadow:rgba(0,0,0,.4);
+--shadow:
+rgba(0,0,0,.4);
 
 }
 
 
 
-
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
+
 }
 
 
 
 body{
 
-font-family:'Quicksand',sans-serif;
+font-family:
+'Quicksand',
+sans-serif;
 
-background:var(--background);
+background:
+var(--background);
 
-color:var(--text);
+color:
+var(--text);
 
 min-height:100vh;
 
 transition:.5s;
 
 }
+
 
 
 
@@ -86,22 +91,25 @@ nav{
 position:fixed;
 
 top:0;
+
 left:0;
+
 right:0;
 
-background:rgba(135,206,235,.97);
-
-backdrop-filter:blur(12px);
-
-z-index:1000;
+background:
+rgba(135,206,235,.97);
 
 padding:14px 20px;
 
 display:flex;
 
-align-items:center;
+justify-content:center;
 
-justify-content:space-between;
+gap:12px;
+
+flex-wrap:wrap;
+
+z-index:1000;
 
 box-shadow:
 0 6px 20px var(--shadow);
@@ -114,36 +122,6 @@ box-shadow:
 
 background:
 rgba(26,38,57,.97);
-
-}
-
-
-
-.logo{
-
-display:flex;
-
-align-items:center;
-
-gap:10px;
-
-font-size:1.65rem;
-
-font-weight:700;
-
-}
-
-
-
-.nav-menu{
-
-display:flex;
-
-gap:12px;
-
-align-items:center;
-
-flex-wrap:wrap;
 
 }
 
@@ -167,85 +145,14 @@ cursor:pointer;
 
 transition:.3s;
 
-box-shadow:
-0 4px 12px var(--shadow);
-
 }
 
 
 
 .nav-btn:hover{
 
-transform:translateY(-3px);
-
-}
-
-
-
-/* DROPDOWNS */
-
-
-.dropdown{
-
-position:relative;
-
-}
-
-
-.dropdown-content{
-
-display:none;
-
-position:absolute;
-
-top:100%;
-
-left:0;
-
-background:var(--card);
-
-min-width:240px;
-
-border-radius:16px;
-
-box-shadow:
-0 15px 35px var(--shadow);
-
-overflow:hidden;
-
-padding:8px 0;
-
-}
-
-
-
-.dropdown:hover .dropdown-content{
-
-display:block;
-
-}
-
-
-
-.dropdown-content a{
-
-display:block;
-
-padding:14px 22px;
-
-color:var(--text);
-
-text-decoration:none;
-
-}
-
-
-
-.dropdown-content a:hover{
-
-background:var(--primary);
-
-color:white;
+transform:
+translateY(-3px);
 
 }
 
@@ -253,126 +160,184 @@ color:white;
 
 
 /* =========================
-FLOATING BESTIE
+MAIN
 ========================= */
 
 
-.floating-bestie{
+main{
 
-position:fixed;
+max-width:900px;
 
-bottom:28px;
+margin:
+100px auto 50px;
 
-right:28px;
-
-width:78px;
-
-height:78px;
-
-background:var(--accent);
-
-border-radius:50%;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:2.8rem;
-
-cursor:pointer;
-
-z-index:9999;
-
-box-shadow:
-0 12px 35px rgba(255,159,243,.55);
+padding:
+0 20px;
 
 }
+
+
+
+
+header{
+
+background:
+linear-gradient(
+135deg,
+var(--primary),
+#81d4fa
+);
+
+color:white;
+
+padding:
+55px 30px;
+
+border-radius:28px;
+
+text-align:center;
+
+box-shadow:
+0 15px 40px var(--shadow);
+
+}
+
+
+
+header h1{
+
+font-size:2.6rem;
+
+margin-bottom:12px;
+
+}
+
+
+
+header p{
+
+font-size:1.1rem;
+
+}
+
 
 
 
 
 /* =========================
-BESTIE MODAL
+CARDS
 ========================= */
 
 
-#bestieModal{
+.card{
 
-display:none;
+background:
+var(--card);
 
-position:fixed;
+border-radius:22px;
 
-inset:0;
+padding:30px;
 
-background:rgba(0,0,0,.7);
+margin-top:25px;
 
-z-index:10000;
+box-shadow:
+0 10px 30px var(--shadow);
 
-align-items:center;
-
-justify-content:center;
-
-}
-
-
-
-.bestie-window{
-
-width:90%;
-
-max-width:800px;
-
-height:85%;
-
-background:white;
-
-border-radius:25px;
-
-overflow:hidden;
+text-align:center;
 
 }
 
 
 
-.bestie-header{
+.card h2{
 
-background:#87ceeb;
+color:
+var(--primary);
 
-color:white;
-
-padding:15px;
-
-display:flex;
-
-justify-content:space-between;
+margin-bottom:15px;
 
 }
 
 
 
-.bestie-header button{
 
-background:none;
-
-border:none;
-
-color:white;
-
-font-size:25px;
-
-}
-
-
-
-.bestie-window iframe{
+textarea{
 
 width:100%;
 
-height:calc(100% - 60px);
+height:220px;
+
+padding:20px;
+
+border-radius:18px;
+
+border:
+
+2px solid #87ceeb;
+
+font-family:inherit;
+
+font-size:1.1rem;
+
+background:
+var(--card);
+
+color:
+var(--text);
+
+resize:none;
+
+}
+
+
+
+input[type="date"]{
+
+padding:14px;
+
+border-radius:12px;
+
+border:
+
+2px solid #87ceeb;
+
+font-family:inherit;
+
+margin:15px;
+
+}
+
+
+
+
+.main-btn{
+
+background:
+var(--primary);
+
+color:white;
 
 border:none;
+
+padding:
+14px 30px;
+
+border-radius:50px;
+
+font-size:1.1rem;
+
+cursor:pointer;
+
+margin-top:15px;
+
+}
+
+
+
+.main-btn:hover{
+
+transform:
+scale(1.05);
 
 }
 
@@ -383,9 +348,24 @@ LOGIN
 ========================= */
 
 
-.login-box{
+#loginScreen{
 
 position:fixed;
+
+inset:0;
+
+background:
+var(--background);
+
+z-index:9999;
+
+}
+
+
+
+.login-box{
+
+position:absolute;
 
 top:50%;
 
@@ -394,15 +374,14 @@ left:50%;
 transform:
 translate(-50%,-50%);
 
-background:var(--card);
+background:
+var(--card);
 
-color:var(--text);
+padding:45px 30px;
 
 width:90%;
 
 max-width:420px;
-
-padding:45px 30px;
 
 border-radius:25px;
 
@@ -411,17 +390,16 @@ text-align:center;
 box-shadow:
 0 20px 50px var(--shadow);
 
-z-index:99999;
-
 }
 
 
 
 .login-box h1{
 
-font-size:3rem;
+color:
+var(--primary);
 
-color:var(--primary);
+font-size:3rem;
 
 }
 
@@ -437,31 +415,11 @@ margin:10px 0;
 
 border-radius:12px;
 
-border:2px solid #87ceeb;
+border:
+
+2px solid #87ceeb;
 
 font-size:1rem;
-
-}
-
-
-
-.main-btn{
-
-background:var(--primary);
-
-color:white;
-
-border:none;
-
-padding:15px 35px;
-
-border-radius:50px;
-
-cursor:pointer;
-
-font-size:1.1rem;
-
-margin-top:15px;
 
 }
 
@@ -479,119 +437,32 @@ display:none;
 <body data-theme="light">
 
 
-<!-- =========================
-NAVIGATION
-========================= -->
+<!-- NAVIGATION -->
 
 <nav>
 
-<div class="logo">
-🫂 My Lifeline
-</div>
+<button class="nav-btn"
+onclick="location.href='index.html'">
 
+🏠 Dashboard
 
-<div class="nav-menu">
+</button>
 
 
 <button class="nav-btn"
-onclick="location.href='index.html'">
-🏠 Dashboard
+onclick="location.href='bestie.html'">
+
+🫂 Bestie
+
 </button>
 
 
-<div class="dropdown">
+<button class="nav-btn"
+onclick="location.href='virtualpet.html'">
 
-<button class="nav-btn">
-🛡️ Support
+🐶 Virtual Pet
+
 </button>
-
-
-<div class="dropdown-content">
-
-<a href="emergency.html">
-🚨 Emergency
-</a>
-
-<a href="bestie.html">
-🫂 AI Bestie
-</a>
-
-<a href="onebreath.html">
-😮‍💨 Breathing
-</a>
-
-</div>
-
-</div>
-
-
-
-<div class="dropdown">
-
-<button class="nav-btn">
-🧠 Tools
-</button>
-
-
-<div class="dropdown-content">
-
-<a href="mental.html">
-Mental Tools
-</a>
-
-<a href="reflect.html">
-📝 Reflect
-</a>
-
-<a href="reframe.html">
-💭 Reframe
-</a>
-
-<a href="emotion-radar.html">
-📡 Emotion Radar
-</a>
-
-<a href="selfcare.html">
-🧘 Selfcare
-</a>
-
-</div>
-
-</div>
-
-
-
-
-<div class="dropdown">
-
-<button class="nav-btn">
-📖 Journal
-</button>
-
-
-<div class="dropdown-content">
-
-<a href="letters.html">
-✉️ Letters
-</a>
-
-<a href="goodthings.html">
-🌱 Good Things
-</a>
-
-<a href="todayistayed.html">
-📌 Today I Stayed
-</a>
-
-<a href="yourenough.html">
-💙 You're Enough
-</a>
-
-</div>
-
-</div>
-
-
 
 
 <button class="nav-btn"
@@ -602,64 +473,7 @@ onclick="toggleDarkMode()">
 </button>
 
 
-<button class="nav-btn"
-onclick="logout()">
-
-Logout
-
-</button>
-
-
-</div>
-
-
 </nav>
-
-
-
-
-<!-- FLOATING BESTIE -->
-
-<div class="floating-bestie"
-onclick="openBestieModal()">
-
-🫂
-
-</div>
-
-
-
-
-<!-- BESTIE POPUP -->
-
-<div id="bestieModal">
-
-<div class="bestie-window">
-
-
-<div class="bestie-header">
-
-<h3>
-🫂 Talking to Bestie...
-</h3>
-
-
-<button onclick="closeBestieModal()">
-✕
-</button>
-
-
-</div>
-
-
-<iframe src="bestie.html"></iframe>
-
-
-</div>
-
-</div>
-
-
 
 
 
@@ -671,16 +485,14 @@ onclick="openBestieModal()">
 
 <div class="login-box">
 
-
 <h1>
-💌 Letters
+🫂 My Lifeline
 </h1>
 
 
 <p>
-Enter your Lifeline key
+Enter your personal key
 </p>
-
 
 
 <input 
@@ -688,12 +500,10 @@ id="username"
 placeholder="Username">
 
 
-
 <input 
 id="password"
 type="password"
 placeholder="Password">
-
 
 
 <button class="main-btn"
@@ -704,7 +514,6 @@ Enter Safe Space
 </button>
 
 
-
 </div>
 
 </div>
@@ -713,32 +522,16 @@ Enter Safe Space
 
 
 
-
-<!-- =========================
-MAIN CONTENT
-========================= -->
+<!-- MAIN CONTENT -->
 
 
 <div id="mainContent" class="hidden">
 
 
-<main style="
-max-width:1280px;
-margin:120px auto 80px;
-padding:0 20px;
-">
+<main>
 
 
-
-<header style="
-background:linear-gradient(135deg,var(--primary),#81d4fa);
-color:white;
-padding:60px 30px;
-border-radius:28px;
-text-align:center;
-box-shadow:0 15px 40px var(--shadow);
-">
-
+<header>
 
 <h1>
 💌 Letters From Tomorrow
@@ -746,7 +539,7 @@ box-shadow:0 15px 40px var(--shadow);
 
 
 <p>
-Messages from past-you waiting for future-you.
+Write a letter that future-you can open someday.
 </p>
 
 
@@ -756,59 +549,33 @@ Messages from past-you waiting for future-you.
 
 
 
-
-<section class="card"
-style="
-background:var(--card);
-margin-top:35px;
-padding:35px;
-border-radius:22px;
-box-shadow:0 10px 30px var(--shadow);
-text-align:center;
-">
+<section class="card">
 
 
-<h2 style="color:var(--primary);">
+<h2>
 ✉️ Write A Letter
 </h2>
 
 
 <p>
-Choose when your letter arrives.
+Choose when your message arrives.
 </p>
 
 
-
-<input 
+<input
 type="date"
-id="deliveryDate"
-style="
-padding:14px;
-border-radius:12px;
-border:2px solid #87ceeb;
-margin:20px;
-">
-
-
+id="deliveryDate">
 
 
 
 <textarea
 id="letterText"
-placeholder="Dear future me..."
-style="
-width:100%;
-height:220px;
-padding:20px;
-border-radius:18px;
-border:2px solid #87ceeb;
-font-family:inherit;
-font-size:1.1rem;
-background:var(--card);
-color:var(--text);
-">
-</textarea>
+placeholder="Hey future me...
 
+Remember this...
+">
+
+</textarea>
 
 
 
@@ -818,10 +585,9 @@ color:var(--text);
 <button class="main-btn"
 onclick="saveLetter()">
 
-💌 Seal Letter
+💌 Seal & Send
 
 </button>
-
 
 
 </section>
@@ -831,25 +597,18 @@ onclick="saveLetter()">
 
 
 
-<section class="card"
-style="
-background:var(--card);
-margin-top:35px;
-padding:35px;
-border-radius:22px;
-box-shadow:0 10px 30px var(--shadow);
-text-align:center;
-">
+
+<section class="card">
 
 
-<h2 style="color:var(--primary);">
-📬 Waiting Letters
+<h2>
+📬 Letters Waiting
 </h2>
 
 
 <div id="upcomingList">
 
-Loading...
+No letters yet...
 
 </div>
 
@@ -861,11 +620,19 @@ Loading...
 
 
 
-<section id="dueLetter"
+<section class="card"
+id="dueLetter">
 
-style="
-margin-top:35px;
-">
+
+<h2>
+💙 Arriving Letters
+</h2>
+
+
+<p>
+Letters that arrive today will appear here.
+</p>
+
 
 </section>
 
@@ -874,42 +641,38 @@ margin-top:35px;
 
 
 
-
-<section class="card"
-style="
-background:var(--card);
-margin-top:35px;
-padding:35px;
-border-radius:22px;
-box-shadow:0 10px 30px var(--shadow);
-text-align:center;
-">
+<section class="card">
 
 
-<h2 style="color:var(--primary);">
-🌱 Why Letters Matter
+<h2>
+🌱 Why Write Letters?
 </h2>
 
 
 <p>
-Sometimes future-you needs proof that you kept going.
+
+Sometimes future-you needs a reminder that past-you kept trying.
+
 </p>
 
 
 <br>
 
 
-<strong>
-Every letter is a reminder:
-<br><br>
+<p style="font-weight:600;">
 
-"You made it here." 💙
+Every letter is proof:
 
-</strong>
+<br>
+
+"You made it here."
+
+💙
+
+</p>
 
 
 </section>
-
 
 
 
@@ -918,38 +681,45 @@ Every letter is a reminder:
 
 </div><script>
 
+
 // =========================
 // THEME SYNC WITH INDEX
 // =========================
 
+
 function toggleDarkMode(){
 
 const current =
-document.documentElement.getAttribute("data-theme");
+document.documentElement.getAttribute(
+"data-theme"
+);
 
 
-const next =
-current === "dark"
-? "light"
-: "dark";
+const newTheme =
+current==="dark"
+?"light"
+:"dark";
 
 
 document.documentElement.setAttribute(
 "data-theme",
-next
+newTheme
 );
 
 
 localStorage.setItem(
 "lifeline-theme",
-next
+newTheme
 );
+
 
 }
 
 
 
-if(localStorage.getItem("lifeline-theme")==="dark"){
+if(
+localStorage.getItem("lifeline-theme")==="dark"
+){
 
 document.documentElement.setAttribute(
 "data-theme",
@@ -961,31 +731,9 @@ document.documentElement.setAttribute(
 
 
 
-// =========================
-// BESTIE POPUP
-// =========================
-
-function openBestieModal(){
-
-document.getElementById("bestieModal")
-.style.display="flex";
-
-}
-
-
-function closeBestieModal(){
-
-document.getElementById("bestieModal")
-.style.display="none";
-
-}
-
-
-
-
 
 // =========================
-// LOGIN SYSTEM
+// LOGIN
 // =========================
 
 
@@ -997,7 +745,6 @@ document.getElementById("username")
 .value
 .trim()
 .toLowerCase();
-
 
 
 const pass =
@@ -1042,6 +789,7 @@ document
 
 }
 
+
 else{
 
 
@@ -1052,12 +800,14 @@ alert(
 
 }
 
+
 }
 
 
 
 
 function logout(){
+
 
 localStorage.removeItem(
 "lifelineAuthenticated"
@@ -1066,21 +816,25 @@ localStorage.removeItem(
 
 location.reload();
 
+
 }
 
 
 
 
-
 if(
-localStorage.getItem("lifelineAuthenticated")
-==="true"
+
+localStorage.getItem(
+"lifelineAuthenticated"
+)==="true"
 
 ){
+
 
 document
 .getElementById("loginScreen")
 .classList.add("hidden");
+
 
 
 document
@@ -1101,13 +855,20 @@ document
 // =========================
 
 
-let letters = JSON.parse(
 
-localStorage.getItem("futureLetters")
-||
-"[]"
+let letters =
+
+JSON.parse(
+
+localStorage.getItem(
+"futureLetters"
+)
+
+|| "[]"
 
 );
+
+
 
 
 
@@ -1117,15 +878,20 @@ function saveLetter(){
 
 
 const date =
-document.getElementById("deliveryDate")
+
+document
+.getElementById("deliveryDate")
 .value;
 
 
 
 const text =
-document.getElementById("letterText")
+
+document
+.getElementById("letterText")
 .value
 .trim();
+
 
 
 
@@ -1138,6 +904,7 @@ alert(
 
 
 return;
+
 
 }
 
@@ -1152,7 +919,8 @@ date:date,
 text:text,
 
 created:
-new Date().toLocaleDateString()
+new Date()
+.toLocaleDateString()
 
 });
 
@@ -1172,23 +940,22 @@ JSON.stringify(letters)
 
 
 
-document.getElementById(
-"letterText"
-).value="";
+document
+.getElementById("letterText")
+.value="";
 
 
 
 
 
 alert(
-"Letter sealed and saved 💌"
+"Letter sealed 💌"
 );
 
 
 
-
-
 showUpcoming();
+
 
 
 }
@@ -1200,19 +967,14 @@ showUpcoming();
 
 
 
-// =========================
-// SHOW WAITING LETTERS
-// =========================
-
 
 function showUpcoming(){
 
 
-
 const list =
-document.getElementById(
-"upcomingList"
-);
+
+document
+.getElementById("upcomingList");
 
 
 
@@ -1220,15 +982,18 @@ list.innerHTML="";
 
 
 
+let future =
 
-const future =
-letters.filter(letter =>
+letters.filter(
+
+letter =>
 
 new Date(letter.date)
 >
 new Date()
 
 );
+
 
 
 
@@ -1240,7 +1005,7 @@ list.innerHTML=
 
 `
 <p>
-No letters waiting yet 💌
+No letters waiting 💌
 </p>
 `;
 
@@ -1253,7 +1018,10 @@ return;
 
 
 
-future.sort((a,b)=>
+
+future.sort(
+
+(a,b)=>
 
 new Date(a.date)
 -
@@ -1265,31 +1033,32 @@ new Date(b.date)
 
 
 
+
 future.forEach(letter=>{
 
 
-
 const box =
-document.createElement("div");
+
+document.createElement(
+"div"
+);
 
 
 
 box.style.background=
-"var(--card)";
+"var(--background)";
+
 
 box.style.padding=
 "20px";
 
-box.style.margin=
-"15px 0";
 
 box.style.borderRadius=
 "18px";
 
-box.style.boxShadow=
-"0 8px 20px var(--shadow)";
 
-
+box.style.margin=
+"15px 0";
 
 
 
@@ -1298,33 +1067,23 @@ box.innerHTML=
 `
 
 <h3 style="color:var(--primary)">
+
 📬 Arrives:
 
 ${new Date(letter.date)
-.toLocaleDateString(
-"en-US",
-{
-weekday:"long",
-month:"long",
-day:"numeric",
-year:"numeric"
-}
-)}
+.toLocaleDateString()}
 
 </h3>
 
 
-<p style="margin-top:10px">
+<p>
 
 ${letter.text.substring(0,120)}
-
 ...
 
 </p>
 
 `;
-
-
 
 
 
@@ -1345,13 +1104,14 @@ list.appendChild(box);
 
 
 
+
 // =========================
-// OPEN LETTERS THAT ARRIVE
+// CHECK ARRIVING LETTERS
 // =========================
+
 
 
 function checkLetters(){
-
 
 
 const today =
@@ -1363,15 +1123,15 @@ new Date()
 
 
 
-
 const arriving =
 
-letters.find(letter =>
+letters.find(
 
-letter.date === today
+letter =>
+
+letter.date===today
 
 );
-
 
 
 
@@ -1383,42 +1143,35 @@ return;
 
 
 
-const envelope =
-document.createElement("div");
 
+const area =
 
-
-envelope.style.background=
-"var(--card)";
-
-envelope.style.padding=
-"30px";
-
-envelope.style.borderRadius=
-"22px";
-
-envelope.style.boxShadow=
-"0 10px 30px var(--shadow)";
-
-envelope.style.cursor=
-"pointer";
+document
+.getElementById("dueLetter");
 
 
 
 
-
-envelope.innerHTML=
+area.innerHTML=
 
 `
 
-<h2 style="color:var(--primary)">
+<h2>
 💌 A Letter Arrived
 </h2>
 
 
 <p>
-Click to open your message from past-you.
+Click below to open your message.
 </p>
+
+
+<button class="main-btn"
+id="openLetter">
+
+Open Letter
+
+</button>
 
 `;
 
@@ -1426,21 +1179,23 @@ Click to open your message from past-you.
 
 
 
-envelope.onclick=function(){
+document
+.getElementById("openLetter")
+.onclick=function(){
 
 
 
-envelope.innerHTML=
+area.innerHTML=
 
 `
 
-<h2 style="color:var(--primary)">
-From past-you 💙
+<h2>
+From Past You 💙
 </h2>
 
 
 <p style="
-font-size:1.2rem;
+font-size:1.15rem;
 line-height:1.8;
 ">
 
@@ -1456,32 +1211,22 @@ ${arriving.text.replace(
 
 
 <strong>
-You made it to this day.
+You made it to this day 💙
 </strong>
 
 `;
 
 
 
-};
-
-
-
-
-
-document
-.getElementById("dueLetter")
-.appendChild(envelope);
-
-
-
 
 
 letters =
+
 letters.filter(
 
 letter =>
-letter !== arriving
+
+letter!==arriving
 
 );
 
@@ -1499,14 +1244,15 @@ JSON.stringify(letters)
 
 
 
+};
+
+
+
 }
 
 
 
 
-
-
-// LOAD LETTERS
 
 showUpcoming();
 
@@ -1518,4 +1264,5 @@ checkLetters();
 
 
 </body>
+
 </html>
