@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -12,15 +13,10 @@
 
 <style>
 
-/* =========================
-MY LIFELINE THEME
-========================= */
-
 
 :root{
 
 --primary:#00bcd4;
-
 --accent:#ff9ff3;
 
 --background:
@@ -30,8 +26,7 @@ linear-gradient(135deg,#fff8f0,#e0f7ff);
 
 --text:#2c3e50;
 
---shadow:
-rgba(0,0,0,.12);
+--shadow:rgba(0,0,0,.12);
 
 }
 
@@ -50,8 +45,7 @@ linear-gradient(135deg,#0f1c2e,#2c1e3a);
 
 --accent:#ff79c6;
 
---shadow:
-rgba(0,0,0,.45);
+--shadow:rgba(0,0,0,.45);
 
 }
 
@@ -61,26 +55,21 @@ rgba(0,0,0,.45);
 *{
 
 margin:0;
-
 padding:0;
-
 box-sizing:border-box;
 
 }
 
 
 
+
 body{
 
-font-family:
-'Quicksand',
-sans-serif;
+font-family:'Quicksand',sans-serif;
 
-background:
-var(--background);
+background:var(--background);
 
-color:
-var(--text);
+color:var(--text);
 
 min-height:100vh;
 
@@ -92,9 +81,7 @@ transition:.5s;
 
 
 
-/* =========================
-NAVIGATION
-========================= */
+/* NAV */
 
 
 nav{
@@ -107,8 +94,7 @@ left:0;
 
 right:0;
 
-background:
-rgba(135,206,235,.97);
+background:rgba(135,206,235,.97);
 
 padding:14px 20px;
 
@@ -131,10 +117,11 @@ box-shadow:
 
 [data-theme="dark"] nav{
 
-background:
-rgba(26,38,57,.97);
+background:rgba(26,38,57,.97);
 
 }
+
+
 
 
 
@@ -150,7 +137,7 @@ padding:10px 18px;
 
 border-radius:30px;
 
-font-weight:600;
+font-weight:700;
 
 cursor:pointer;
 
@@ -162,8 +149,7 @@ transition:.3s;
 
 .nav-btn:hover{
 
-transform:
-translateY(-3px);
+transform:translateY(-3px);
 
 }
 
@@ -172,20 +158,17 @@ translateY(-3px);
 
 
 
-/* =========================
-MAIN
-========================= */
+
+/* MAIN */
 
 
 main{
 
 max-width:900px;
 
-margin:
-100px auto 50px;
+margin:100px auto 50px;
 
-padding:
-0 20px;
+padding:0 20px;
 
 }
 
@@ -204,8 +187,7 @@ var(--primary),
 
 color:white;
 
-padding:
-55px 30px;
+padding:55px 30px;
 
 border-radius:28px;
 
@@ -222,7 +204,7 @@ header h1{
 
 font-size:2.6rem;
 
-margin-bottom:12px;
+margin-bottom:10px;
 
 }
 
@@ -230,35 +212,31 @@ margin-bottom:12px;
 
 
 
-
-/* =========================
-CARDS
-========================= */
-
-
 .card{
 
-background:
-var(--card);
-
-border-radius:22px;
+background:var(--card);
 
 padding:30px;
+
+border-radius:25px;
 
 margin-top:25px;
 
 box-shadow:
 0 10px 30px var(--shadow);
 
+text-align:center;
+
 }
 
 
 
 
 
-/* =========================
-LOGIN
-========================= */
+
+
+
+/* LOGIN */
 
 
 #loginScreen{
@@ -267,10 +245,9 @@ position:fixed;
 
 inset:0;
 
-background:
-var(--background);
+background:var(--background);
 
-z-index:9999;
+z-index:99999;
 
 }
 
@@ -284,17 +261,15 @@ top:50%;
 
 left:50%;
 
-transform:
-translate(-50%,-50%);
+transform:translate(-50%,-50%);
 
-background:
-var(--card);
-
-padding:45px 30px;
+background:var(--card);
 
 width:90%;
 
 max-width:420px;
+
+padding:40px 30px;
 
 border-radius:25px;
 
@@ -311,8 +286,7 @@ box-shadow:
 
 font-size:3rem;
 
-color:
-var(--primary);
+color:var(--primary);
 
 }
 
@@ -328,8 +302,7 @@ margin:10px 0;
 
 border-radius:12px;
 
-border:
-2px solid #87ceeb;
+border:2px solid #87ceeb;
 
 font-size:1rem;
 
@@ -339,23 +312,21 @@ font-size:1rem;
 
 .main-btn{
 
-background:
-var(--primary);
+background:var(--primary);
 
 color:white;
 
 border:none;
 
-padding:
-14px 30px;
+padding:14px 30px;
 
 border-radius:50px;
 
+font-weight:700;
+
 cursor:pointer;
 
-font-size:1.1rem;
-
-margin-top:15px;
+margin:10px;
 
 }
 
@@ -365,20 +336,22 @@ margin-top:15px;
 
 display:none;
 
-}
+}</style>
 
-
-
-</style>
 </head>
 
 
 <body data-theme="light">
 
 
-<!-- NAVIGATION -->
+
+
+
+<!-- NAV -->
+
 
 <nav>
+
 
 <button class="nav-btn"
 onclick="location.href='index.html'">
@@ -386,6 +359,16 @@ onclick="location.href='index.html'">
 🏠 Dashboard
 
 </button>
+
+
+
+<button class="nav-btn"
+onclick="location.href='virtualpet.html'">
+
+🐶 Pet
+
+</button>
+
 
 
 <button class="nav-btn"
@@ -396,13 +379,6 @@ onclick="location.href='letters.html'">
 </button>
 
 
-<button class="nav-btn"
-onclick="location.href='virtualpet.html'">
-
-🐶 Virtual Pet
-
-</button>
-
 
 <button class="nav-btn"
 onclick="toggleDarkMode()">
@@ -412,7 +388,19 @@ onclick="toggleDarkMode()">
 </button>
 
 
-</nav><!-- LOGIN SCREEN -->
+
+</nav>
+
+
+
+
+
+
+
+
+
+<!-- LOGIN -->
+
 
 <div id="loginScreen">
 
@@ -421,12 +409,12 @@ onclick="toggleDarkMode()">
 
 
 <h1>
-🫂 My Lifeline
+🫂 AI Bestie
 </h1>
 
 
 <p>
-Enter your personal key
+Your private comfort space
 </p>
 
 
@@ -447,23 +435,26 @@ placeholder="Password">
 <button class="main-btn"
 onclick="checkLogin()">
 
-Enter Safe Space
+Enter Bestie Room
 
 </button>
 
 
-</div>
-
 
 </div>
 
 
+</div>
 
 
 
 
 
-<!-- MAIN CONTENT -->
+
+
+
+
+<!-- MAIN -->
 
 
 <div id="mainContent" class="hidden">
@@ -473,15 +464,18 @@ Enter Safe Space
 
 
 
+
+
 <header>
 
+
 <h1>
-🫂 AI Bestie
+🫂 Talking With Bestie
 </h1>
 
 
 <p>
-A safe place to talk, vent, or just say what’s on your mind.
+A place to write, reflect, and feel heard.
 </p>
 
 
@@ -492,13 +486,83 @@ A safe place to talk, vent, or just say what’s on your mind.
 
 
 
+
+
+
 <section class="card">
 
 
-<h2 style="
-color:var(--primary);
-text-align:center;
+<h2 style="color:var(--primary);">
+
+😊 How are you feeling?
+
+</h2>
+
+
+
+
+<button class="main-btn"
+onclick="setMood('happy')">
+
+😊 Good
+
+</button>
+
+
+
+<button class="main-btn"
+onclick="setMood('sad')">
+
+😢 Sad
+
+</button>
+
+
+
+<button class="main-btn"
+onclick="setMood('angry')">
+
+😡 Angry
+
+</button>
+
+
+
+<button class="main-btn"
+onclick="setMood('overwhelmed')">
+
+😰 Overwhelmed
+
+</button>
+
+
+
+<p id="moodText"
+style="
+margin-top:20px;
+font-weight:700;
 ">
+
+No mood selected yet.
+
+</p>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="card">
+
+
+<h2 style="color:var(--primary);">
 
 💬 Bestie Chat
 
@@ -508,29 +572,22 @@ text-align:center;
 
 <div id="chatBox"
 style="
-height:420px;
+height:300px;
 overflow-y:auto;
+background:rgba(135,206,235,.15);
 padding:20px;
-background:rgba(0,188,212,.08);
 border-radius:20px;
-margin-top:20px;
+text-align:left;
 ">
 
 <div style="
 background:var(--card);
 padding:15px;
 border-radius:18px;
-margin-bottom:15px;
+margin-bottom:10px;
 ">
 
-<b>
-🫂 Bestie:
-</b>
-
-<br>
-
-Hey 💙 I’m here with you.  
-What’s going on?
+🫂 Hey, I’m here with you. What’s on your mind?
 
 </div>
 
@@ -543,25 +600,17 @@ What’s going on?
 
 
 
-<textarea
+<input
 id="userMessage"
-placeholder="Type something to Bestie..."
+placeholder="Write something..."
 style="
 width:100%;
-height:120px;
-margin-top:20px;
-padding:18px;
-border-radius:18px;
+padding:15px;
+margin-top:15px;
+border-radius:15px;
 border:2px solid #87ceeb;
 font-family:inherit;
-font-size:1.1rem;
-background:var(--card);
-color:var(--text);
 ">
-
-</textarea>
-
-
 
 
 
@@ -575,13 +624,9 @@ onclick="sendMessage()">
 
 
 <button class="main-btn"
-onclick="clearChat()"
-style="
-background:#ff6b6b;
-margin-left:10px;
-">
+onclick="clearChat()">
 
-🗑 Clear
+🧹 Clear
 
 </button>
 
@@ -600,12 +645,9 @@ margin-left:10px;
 <section class="card">
 
 
-<h2 style="
-color:var(--primary);
-text-align:center;
-">
+<h2 style="color:var(--primary);">
 
-🌱 Quick Comfort
+💙 Comfort Buttons
 
 </h2>
 
@@ -613,38 +655,44 @@ text-align:center;
 
 
 <button class="main-btn"
-onclick="quickMessage('I need encouragement')">
+onclick="comfort('breathe')">
 
-💙 I need encouragement
+😮‍💨 Breathe
 
 </button>
+
 
 
 
 <button class="main-btn"
-onclick="quickMessage('I am overwhelmed')">
+onclick="comfort('remember')">
 
-😔 I am overwhelmed
+🌱 Remember Your Strength
 
 </button>
+
 
 
 
 <button class="main-btn"
-onclick="quickMessage('I need a distraction')">
+onclick="comfort('music')">
 
-🎮 I need a distraction
-
-</button>
-
-
-
-<button class="main-btn"
-onclick="quickMessage('I just want someone here')">
-
-🫂 Stay with me
+🎵 Music Time
 
 </button>
+
+
+
+
+<p id="comfortText"
+style="
+margin-top:20px;
+font-weight:600;
+">
+
+Choose something you need.
+
+</p>
 
 
 
@@ -654,563 +702,8 @@ onclick="quickMessage('I just want someone here')">
 
 
 
+
 </main>
 
 
-</div><script>
-
-
-// =========================
-// THEME SYNC
-// =========================
-
-
-function toggleDarkMode(){
-
-
-const current =
-document.documentElement.getAttribute(
-"data-theme"
-);
-
-
-
-const newTheme =
-current==="dark"
-?
-"light"
-:
-"dark";
-
-
-
-document.documentElement.setAttribute(
-"data-theme",
-newTheme
-);
-
-
-
-localStorage.setItem(
-"lifeline-theme",
-newTheme
-);
-
-
-}
-
-
-
-if(
-localStorage.getItem("lifeline-theme")
-==="dark"
-){
-
-document.documentElement.setAttribute(
-"data-theme",
-"dark"
-);
-
-}
-
-
-
-
-
-
-// =========================
-// LOGIN
-// =========================
-
-
-function checkLogin(){
-
-
-const user =
-document.getElementById("username")
-.value
-.trim()
-.toLowerCase();
-
-
-
-const pass =
-document.getElementById("password")
-.value
-.trim();
-
-
-
-
-if(
-
-(user==="ryan" && pass==="ITSmf420") ||
-
-(user==="guest" && pass==="guest") ||
-
-(user==="visitor" && pass==="welcome") ||
-
-(user==="friend" && pass==="lifeline") ||
-
-(user==="nc" && pass==="boone")
-
-){
-
-
-
-localStorage.setItem(
-"lifelineAuthenticated",
-"true"
-);
-
-
-
-document
-.getElementById("loginScreen")
-.classList.add("hidden");
-
-
-
-document
-.getElementById("mainContent")
-.classList.remove("hidden");
-
-
-
-loadChat();
-
-
-}
-
-else{
-
-
-alert(
-"Incorrect username or password."
-);
-
-
-}
-
-
-}
-
-
-
-
-
-
-
-if(
-
-localStorage.getItem(
-"lifelineAuthenticated"
-)
-==="true"
-
-){
-
-
-document
-.getElementById("loginScreen")
-.classList.add("hidden");
-
-
-
-document
-.getElementById("mainContent")
-.classList.remove("hidden");
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// CHAT SYSTEM
-// =========================
-
-
-
-let chat =
-
-JSON.parse(
-
-localStorage.getItem(
-"bestieChat"
-)
-
-||
-"[]"
-
-);
-
-
-
-
-
-
-
-function saveChat(){
-
-
-localStorage.setItem(
-
-"bestieChat",
-
-JSON.stringify(chat)
-
-);
-
-
-}
-
-
-
-
-
-
-
-
-
-function addMessage(sender,text){
-
-
-const box =
-document.getElementById("chatBox");
-
-
-
-const message =
-document.createElement("div");
-
-
-
-message.style.background=
-"var(--card)";
-
-
-
-message.style.padding=
-"15px";
-
-
-
-message.style.borderRadius=
-"18px";
-
-
-
-message.style.marginBottom=
-"15px";
-
-
-
-message.innerHTML=
-
-`
-
-<b>
-${sender}
-</b>
-
-<br>
-
-${text}
-
-`;
-
-
-
-box.appendChild(message);
-
-
-
-box.scrollTop =
-box.scrollHeight;
-
-
-}
-
-
-
-
-
-
-
-
-
-function sendMessage(){
-
-
-const input =
-document.getElementById(
-"userMessage"
-);
-
-
-
-const text =
-input.value.trim();
-
-
-
-if(!text)
-return;
-
-
-
-
-addMessage(
-"🙂 You:",
-text
-);
-
-
-
-chat.push({
-
-sender:"You",
-
-text:text
-
-});
-
-
-
-saveChat();
-
-
-
-input.value="";
-
-
-
-setTimeout(()=>{
-
-
-bestieReply(text);
-
-
-
-},600);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-function bestieReply(text){
-
-
-let reply;
-
-
-
-const lower =
-text.toLowerCase();
-
-
-
-if(
-lower.includes("sad")
-||
-lower.includes("depressed")
-){
-
-reply=
-"I’m glad you said something 💙 You don’t have to carry everything alone. I’m here with you.";
-
-}
-
-
-
-else if(
-lower.includes("overwhelmed")
-){
-
-reply=
-"Let’s take one small moment at a time. You don’t have to solve everything all at once.";
-
-}
-
-
-
-else if(
-lower.includes("alone")
-){
-
-reply=
-"You’re not alone right now. I’m listening. Tell me what’s been going on.";
-
-}
-
-
-
-else if(
-lower.includes("distraction")
-){
-
-reply=
-"Try a small reset: music, a game, a walk, or something comforting you enjoy.";
-
-}
-
-
-
-else{
-
-
-reply=
-"Thank you for telling me that 💙 I’m listening. Keep talking to me.";
-
-}
-
-
-
-
-
-addMessage(
-"🫂 Bestie:",
-reply
-);
-
-
-
-chat.push({
-
-sender:"Bestie",
-
-text:reply
-
-});
-
-
-
-saveChat();
-
-
-
-}
-
-
-
-
-
-
-
-
-
-function quickMessage(text){
-
-
-document.getElementById(
-"userMessage"
-).value=text;
-
-
-sendMessage();
-
-
-}
-
-
-
-
-
-
-
-
-
-function loadChat(){
-
-
-const box =
-document.getElementById(
-"chatBox"
-);
-
-
-
-if(!box)
-return;
-
-
-
-chat.forEach(message=>{
-
-
-addMessage(
-
-message.sender==="You"
-?
-"🙂 You:"
-:
-"🫂 Bestie:",
-
-message.text
-
-);
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-
-
-function clearChat(){
-
-
-if(confirm("Clear Bestie chat?")){
-
-
-chat=[];
-
-
-localStorage.removeItem(
-"bestieChat"
-);
-
-
-
-document.getElementById(
-"chatBox"
-).innerHTML="";
-
-
-addMessage(
-"🫂 Bestie:",
-"Chat cleared 💙 I’m still here whenever you want to talk."
-);
-
-
-}
-
-
-}
-
-
-
-</script>
+</div>
