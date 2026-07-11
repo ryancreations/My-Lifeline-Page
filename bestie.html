@@ -8,47 +8,31 @@
 
 <title>AI Bestie • My Lifeline</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
 
 <style>
-
 
 :root{
 
 --primary:#00bcd4;
 --accent:#ff9ff3;
-
---background:
-linear-gradient(135deg,#fff8f0,#e0f7ff);
-
---card:#ffffff;
-
+--bg:linear-gradient(135deg,#fff8f0,#e0f7ff);
+--card:white;
 --text:#2c3e50;
 
---shadow:rgba(0,0,0,.12);
-
 }
-
 
 
 [data-theme="dark"]{
 
---background:
-linear-gradient(135deg,#0f1c2e,#2c1e3a);
-
+--bg:linear-gradient(135deg,#0f1c2e,#2c1e3a);
 --card:#2c3e50;
-
---text:#e0f2f1;
-
+--text:#ecf0f1;
 --primary:#4fc3f7;
-
 --accent:#ff79c6;
 
---shadow:rgba(0,0,0,.45);
-
 }
-
 
 
 
@@ -62,124 +46,71 @@ box-sizing:border-box;
 
 
 
-
 body{
 
 font-family:'Quicksand',sans-serif;
-
-background:var(--background);
-
+background:var(--bg);
 color:var(--text);
-
 min-height:100vh;
-
-transition:.5s;
 
 }
 
-
-
-
-
-/* NAV */
 
 
 nav{
 
 position:fixed;
-
 top:0;
-
 left:0;
-
 right:0;
 
-background:rgba(135,206,235,.97);
+padding:14px;
 
-padding:14px 20px;
+background:#87ceeb;
 
 display:flex;
-
 justify-content:center;
+gap:10px;
 
-gap:12px;
-
-flex-wrap:wrap;
-
-z-index:1000;
-
-box-shadow:
-0 6px 20px var(--shadow);
+z-index:999;
 
 }
-
-
-
-[data-theme="dark"] nav{
-
-background:rgba(26,38,57,.97);
-
-}
-
-
 
 
 
 .nav-btn{
 
 background:white;
+color:#00bcd4;
 
-color:var(--primary);
+padding:10px 20px;
 
 border:none;
-
-padding:10px 18px;
-
 border-radius:30px;
 
-font-weight:700;
+font-weight:bold;
 
 cursor:pointer;
 
-transition:.3s;
-
 }
 
-
-
-.nav-btn:hover{
-
-transform:translateY(-3px);
-
-}
-
-
-
-
-
-
-
-/* MAIN */
 
 
 main{
 
 max-width:900px;
 
-margin:100px auto 50px;
+margin:auto;
 
-padding:0 20px;
+padding:100px 20px;
 
 }
 
 
 
-
-
 header{
 
-background:
-linear-gradient(
+background:linear-gradient(
 135deg,
 var(--primary),
 #81d4fa
@@ -187,14 +118,13 @@ var(--primary),
 
 color:white;
 
-padding:55px 30px;
+padding:45px;
 
-border-radius:28px;
+border-radius:30px;
 
 text-align:center;
 
-box-shadow:
-0 15px 40px var(--shadow);
+box-shadow:0 15px 40px rgba(0,0,0,.2);
 
 }
 
@@ -202,107 +132,94 @@ box-shadow:
 
 header h1{
 
-font-size:2.6rem;
-
-margin-bottom:10px;
+font-size:2.7rem;
 
 }
 
 
 
-
-
-.card{
+.chat-container{
 
 background:var(--card);
 
-padding:30px;
+margin-top:30px;
+
+padding:25px;
 
 border-radius:25px;
 
-margin-top:25px;
+height:550px;
+
+overflow-y:auto;
 
 box-shadow:
-0 10px 30px var(--shadow);
-
-text-align:center;
+0 10px 30px rgba(0,0,0,.15);
 
 }
 
 
 
+.message{
 
-
-
-
-
-/* LOGIN */
-
-
-#loginScreen{
-
-position:fixed;
-
-inset:0;
-
-background:var(--background);
-
-z-index:99999;
-
-}
-
-
-
-.login-box{
-
-position:absolute;
-
-top:50%;
-
-left:50%;
-
-transform:translate(-50%,-50%);
-
-background:var(--card);
-
-width:90%;
-
-max-width:420px;
-
-padding:40px 30px;
+padding:15px 20px;
 
 border-radius:25px;
 
-text-align:center;
+margin:12px 0;
 
-box-shadow:
-0 20px 50px var(--shadow);
+max-width:85%;
 
-}
-
-
-
-.login-box h1{
-
-font-size:3rem;
-
-color:var(--primary);
+line-height:1.5;
 
 }
 
 
 
-.login-box input{
+.bestie-message{
 
-width:100%;
+background:#ff9ff3;
+
+color:white;
+
+}
+
+
+
+.user-message{
+
+background:#87ceeb;
+
+color:white;
+
+margin-left:auto;
+
+}
+
+
+
+.input-area{
+
+display:flex;
+
+gap:10px;
+
+margin-top:20px;
+
+}
+
+
+
+#userInput{
+
+flex:1;
 
 padding:15px;
 
-margin:10px 0;
+border-radius:30px;
 
-border-radius:12px;
+border:
 
-border:2px solid #87ceeb;
+2px solid var(--primary);
 
 font-size:1rem;
 
@@ -310,7 +227,7 @@ font-size:1rem;
 
 
 
-.main-btn{
+.send-btn{
 
 background:var(--primary);
 
@@ -318,25 +235,54 @@ color:white;
 
 border:none;
 
-padding:14px 30px;
+padding:15px 25px;
 
-border-radius:50px;
-
-font-weight:700;
+border-radius:30px;
 
 cursor:pointer;
 
-margin:10px;
+font-weight:bold;
 
 }
 
 
 
-.hidden{
+.panel{
 
-display:none;
+background:var(--card);
 
-}</style>
+margin-top:25px;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+}
+
+
+
+.panel button{
+
+background:var(--primary);
+
+color:white;
+
+border:none;
+
+padding:12px 20px;
+
+border-radius:30px;
+
+cursor:pointer;
+
+}
+
+
+
+</style>
+
 
 </head>
 
@@ -345,13 +291,7 @@ display:none;
 
 
 
-
-
-<!-- NAV -->
-
-
 <nav>
-
 
 <button class="nav-btn"
 onclick="location.href='index.html'">
@@ -361,233 +301,44 @@ onclick="location.href='index.html'">
 </button>
 
 
-
 <button class="nav-btn"
-onclick="location.href='virtualpet.html'">
-
-🐶 Pet
-
-</button>
-
-
-
-<button class="nav-btn"
-onclick="location.href='letters.html'">
-
-💌 Letters
-
-</button>
-
-
-
-<button class="nav-btn"
-onclick="toggleDarkMode()">
+onclick="toggleTheme()">
 
 🌗 Theme
 
 </button>
 
 
-
 </nav>
 
-
-
-
-
-
-
-
-
-<!-- LOGIN -->
-
-
-<div id="loginScreen">
-
-
-<div class="login-box">
-
-
-<h1>
-🫂 AI Bestie
-</h1>
-
-
-<p>
-Your private comfort space
-</p>
-
-
-
-<input
-id="username"
-placeholder="Username">
-
-
-
-<input
-id="password"
-type="password"
-placeholder="Password">
-
-
-
-<button class="main-btn"
-onclick="checkLogin()">
-
-Enter Bestie Room
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-
-<!-- MAIN -->
-
-
-<div id="mainContent" class="hidden">
 
 
 <main>
 
 
-
-
-
 <header>
 
-
 <h1>
-🫂 Talking With Bestie
+🫂 AI Bestie
 </h1>
 
-
 <p>
-A place to write, reflect, and feel heard.
+Your personal Lifeline companion
 </p>
-
 
 </header>
 
 
 
+<div class="chat-container"
+id="chat">
 
 
+<div class="message bestie-message">
 
+Hey 💙 I'm Bestie.
 
-
-
-<section class="card">
-
-
-<h2 style="color:var(--primary);">
-
-😊 How are you feeling?
-
-</h2>
-
-
-
-
-<button class="main-btn"
-onclick="setMood('happy')">
-
-😊 Good
-
-</button>
-
-
-
-<button class="main-btn"
-onclick="setMood('sad')">
-
-😢 Sad
-
-</button>
-
-
-
-<button class="main-btn"
-onclick="setMood('angry')">
-
-😡 Angry
-
-</button>
-
-
-
-<button class="main-btn"
-onclick="setMood('overwhelmed')">
-
-😰 Overwhelmed
-
-</button>
-
-
-
-<p id="moodText"
-style="
-margin-top:20px;
-font-weight:700;
-">
-
-No mood selected yet.
-
-</p>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<section class="card">
-
-
-<h2 style="color:var(--primary);">
-
-💬 Bestie Chat
-
-</h2>
-
-
-
-<div id="chatBox"
-style="
-height:300px;
-overflow-y:auto;
-background:rgba(135,206,235,.15);
-padding:20px;
-border-radius:20px;
-text-align:left;
-">
-
-<div style="
-background:var(--card);
-padding:15px;
-border-radius:18px;
-margin-bottom:10px;
-">
-
-🫂 Hey, I’m here with you. What’s on your mind?
+I'm here whenever you need to talk.
 
 </div>
 
@@ -597,113 +348,199 @@ margin-bottom:10px;
 
 
 
-
+<div class="input-area">
 
 
 <input
-id="userMessage"
-placeholder="Write something..."
-style="
-width:100%;
-padding:15px;
-margin-top:15px;
-border-radius:15px;
-border:2px solid #87ceeb;
-font-family:inherit;
-">
+
+id="userInput"
+
+placeholder="Talk to Bestie..."
+
+onkeypress="if(event.key==='Enter')sendMessage()"
+
+>
 
 
-
-<button class="main-btn"
+<button class="send-btn"
 onclick="sendMessage()">
 
-💙 Send
+Send
 
 </button>
 
 
-
-<button class="main-btn"
-onclick="clearChat()">
-
-🧹 Clear
-
-</button>
-
-
-
-</section>
+</div>
 
 
 
 
+<div class="panel">
+
+<h3>
+⚙️ Bestie Settings
+</h3>
+
+<br>
 
 
+<button onclick="clearMemory()">
 
-
-
-<section class="card">
-
-
-<h2 style="color:var(--primary);">
-
-💙 Comfort Buttons
-
-</h2>
-
-
-
-
-<button class="main-btn"
-onclick="comfort('breathe')">
-
-😮‍💨 Breathe
+Clear Memory
 
 </button>
 
 
-
-
-<button class="main-btn"
-onclick="comfort('remember')">
-
-🌱 Remember Your Strength
-
-</button>
-
-
-
-
-<button class="main-btn"
-onclick="comfort('music')">
-
-🎵 Music Time
-
-</button>
-
-
-
-
-<p id="comfortText"
-style="
-margin-top:20px;
-font-weight:600;
-">
-
-Choose something you need.
-
-</p>
-
-
-
-</section>
-
-
-
+</div>
 
 
 
 </main>
 
 
-</div>
+
+
+<script src="bestie-brain.js"></script>
+
+
+<script>
+
+
+function sendMessage(){
+
+
+let input =
+document.getElementById("userInput");
+
+
+let text =
+input.value.trim();
+
+
+
+if(!text)return;
+
+
+
+addMessage(
+text,
+"user-message"
+);
+
+
+
+input.value="";
+
+
+
+let reply =
+bestieThink(text);
+
+
+
+setTimeout(()=>{
+
+
+addMessage(
+reply,
+"bestie-message"
+);
+
+
+},400);
+
+
+
+}
+
+
+
+
+function addMessage(text,type){
+
+
+let chat =
+document.getElementById("chat");
+
+
+let div =
+document.createElement("div");
+
+
+div.className =
+"message "+type;
+
+
+div.innerHTML =
+text;
+
+
+chat.appendChild(div);
+
+
+chat.scrollTop =
+chat.scrollHeight;
+
+
+}
+
+
+
+
+function toggleTheme(){
+
+
+let theme =
+document.body.dataset.theme;
+
+
+theme =
+theme==="dark"
+?
+"light"
+:
+"dark";
+
+
+document.body.dataset.theme =
+theme;
+
+
+localStorage.setItem(
+"lifeline-theme",
+theme
+);
+
+
+}
+
+
+
+if(localStorage.getItem("lifeline-theme")){
+
+document.body.dataset.theme =
+localStorage.getItem("lifeline-theme");
+
+}
+
+
+
+function clearMemory(){
+
+localStorage.removeItem(
+"bestie-memory"
+);
+
+alert(
+"Bestie's memory cleared."
+);
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
