@@ -6,25 +6,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI Bestie • My Lifeline</title>
+<title>AI Bestie v2 • My Lifeline</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
 <style>
 
-/* ==========================
-   MY LIFELINE THEME
-========================== */
+/* ===============================
+   MY LIFELINE THEME ENGINE
+================================ */
 
 :root{
 
 --primary:#00bcd4;
 --accent:#ff9ff3;
---background:linear-gradient(135deg,#fff8f0,#e0f7ff);
+
+--background:
+linear-gradient(135deg,#fff8f0,#e0f7ff);
+
 --card:#ffffff;
+
 --text:#2c3e50;
---shadow:rgba(0,0,0,.12);
+
+--shadow:
+rgba(0,0,0,.12);
+
+--bestie:
+#ff9ff3;
+
+--user:
+#87ceeb;
 
 }
 
@@ -32,15 +44,28 @@
 [data-theme="dark"]{
 
 --primary:#4fc3f7;
+
 --accent:#ff79c6;
---background:linear-gradient(135deg,#0f1c2e,#2c1e3a);
+
+--background:
+linear-gradient(135deg,#0f1c2e,#2c1e3a);
+
 --card:#2c3e50;
+
 --text:#e0f2f1;
---shadow:rgba(0,0,0,.45);
+
+--shadow:
+rgba(0,0,0,.45);
+
+--bestie:#9b59b6;
+
+--user:#2980b9;
 
 }
 
 
+
+/* RESET */
 
 *{
 
@@ -53,11 +78,15 @@ box-sizing:border-box;
 
 body{
 
-font-family:'Quicksand',sans-serif;
+font-family:
+'Quicksand',
+sans-serif;
 
-background:var(--background);
+background:
+var(--background);
 
-color:var(--text);
+color:
+var(--text);
 
 min-height:100vh;
 
@@ -67,7 +96,11 @@ transition:.5s;
 
 
 
-/* NAV */
+
+/* ===============================
+NAVIGATION
+================================ */
+
 
 nav{
 
@@ -77,17 +110,20 @@ top:0;
 left:0;
 right:0;
 
-padding:14px;
+height:70px;
 
-background:rgba(135,206,235,.95);
+background:
+rgba(135,206,235,.95);
 
 display:flex;
 
-justify-content:center;
+align-items:center;
 
-gap:12px;
+justify-content:space-between;
 
-z-index:999;
+padding:10px 20px;
+
+z-index:1000;
 
 box-shadow:
 0 6px 20px var(--shadow);
@@ -97,9 +133,31 @@ box-shadow:
 
 [data-theme="dark"] nav{
 
-background:rgba(26,38,57,.95);
+background:
+rgba(26,38,57,.95);
 
 }
+
+
+
+.logo{
+
+font-size:1.5rem;
+
+font-weight:700;
+
+}
+
+
+
+.nav-buttons{
+
+display:flex;
+
+gap:10px;
+
+}
+
 
 
 .nav-btn{
@@ -110,7 +168,7 @@ color:var(--primary);
 
 border:none;
 
-padding:10px 20px;
+padding:10px 18px;
 
 border-radius:30px;
 
@@ -123,7 +181,11 @@ cursor:pointer;
 
 
 
-/* MAIN */
+
+/* ===============================
+MAIN
+================================ */
+
 
 main{
 
@@ -131,16 +193,17 @@ max-width:1000px;
 
 margin:auto;
 
-padding:100px 20px;
+padding:
+100px 20px 40px;
 
 }
 
 
 
-header{
+
+.hero{
 
 background:
-
 linear-gradient(
 135deg,
 var(--primary),
@@ -149,7 +212,7 @@ var(--primary),
 
 color:white;
 
-padding:50px 30px;
+padding:45px 25px;
 
 border-radius:30px;
 
@@ -161,38 +224,118 @@ box-shadow:
 }
 
 
-header h1{
+.hero h1{
 
 font-size:3rem;
-
-margin-bottom:10px;
 
 }
 
 
 
-/* CHAT */
+.hero p{
+
+margin-top:10px;
+
+font-size:1.2rem;
+
+}
+
+
+
+
+
+/* ===============================
+MODE BUTTONS
+================================ */
+
+
+.modes{
+
+margin-top:25px;
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(150px,1fr));
+
+gap:15px;
+
+}
+
+
+
+.mode-btn{
+
+background:
+var(--card);
+
+color:
+var(--text);
+
+border:none;
+
+padding:18px;
+
+border-radius:20px;
+
+cursor:pointer;
+
+font-size:1rem;
+
+font-weight:700;
+
+box-shadow:
+0 8px 25px var(--shadow);
+
+transition:.3s;
+
+}
+
+
+
+.mode-btn:hover{
+
+transform:
+translateY(-5px);
+
+}
+
+
+
+
+
+/* ===============================
+CHAT WINDOW
+================================ */
+
+
+.chat-container{
+
+margin-top:25px;
+
+background:
+var(--card);
+
+border-radius:30px;
+
+padding:25px;
+
+box-shadow:
+0 10px 35px var(--shadow);
+
+}
+
 
 
 .chat-box{
 
-background:var(--card);
-
-margin-top:30px;
-
-height:550px;
+height:500px;
 
 overflow-y:auto;
 
-padding:25px;
-
-border-radius:25px;
-
-box-shadow:
-0 10px 30px var(--shadow);
+padding:15px;
 
 }
-
 
 
 
@@ -200,7 +343,7 @@ box-shadow:
 
 max-width:85%;
 
-padding:15px 20px;
+padding:16px 20px;
 
 border-radius:25px;
 
@@ -208,22 +351,48 @@ margin:15px 0;
 
 line-height:1.6;
 
+animation:
+fade .3s ease;
+
 }
 
 
 
-.bestie{
+@keyframes fade{
 
-background:var(--accent);
+from{
+
+opacity:0;
+
+transform:
+translateY(10px);
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+
+
+.bestie-message{
+
+background:
+var(--bestie);
 
 color:white;
 
 }
 
 
-.user{
+.user-message{
 
-background:#87ceeb;
+background:
+var(--user);
 
 color:white;
 
@@ -234,7 +403,9 @@ margin-left:auto;
 
 
 
-/* INPUT */
+/* ===============================
+INPUT AREA
+================================ */
 
 
 .input-area{
@@ -243,12 +414,13 @@ display:flex;
 
 gap:10px;
 
-margin-top:20px;
+margin-top:15px;
 
 }
 
 
-#messageInput{
+
+#userInput{
 
 flex:1;
 
@@ -257,20 +429,26 @@ padding:16px;
 border-radius:30px;
 
 border:
-
 2px solid var(--primary);
 
 font-family:inherit;
 
 font-size:1rem;
 
+background:
+var(--card);
+
+color:
+var(--text);
+
 }
 
 
 
-.send{
+.send-btn{
 
-background:var(--primary);
+background:
+var(--primary);
 
 color:white;
 
@@ -280,23 +458,28 @@ padding:15px 30px;
 
 border-radius:30px;
 
-font-weight:bold;
-
 cursor:pointer;
+
+font-weight:bold;
 
 }
 
 
 
 
-/* PANELS */
 
 
-.panel{
+/* ===============================
+MEMORY CARD
+================================ */
 
-background:var(--card);
+
+.memory-card{
 
 margin-top:25px;
+
+background:
+var(--card);
 
 padding:25px;
 
@@ -305,29 +488,56 @@ border-radius:25px;
 box-shadow:
 0 10px 30px var(--shadow);
 
-text-align:center;
+}
+
+
+
+.memory-card h2{
+
+color:
+var(--primary);
+
+margin-bottom:15px;
 
 }
 
 
 
-.panel button{
 
-background:var(--primary);
+/* MOBILE */
 
-color:white;
+@media(max-width:700px){
 
-border:none;
+.hero h1{
 
-padding:12px 25px;
-
-border-radius:30px;
-
-cursor:pointer;
+font-size:2.2rem;
 
 }
 
 
+nav{
+
+height:auto;
+
+flex-wrap:wrap;
+
+}
+
+
+.chat-box{
+
+height:420px;
+
+}
+
+
+.input-area{
+
+flex-direction:column;
+
+}
+
+}
 
 </style>
 
@@ -339,11 +549,19 @@ cursor:pointer;
 
 <nav>
 
+<div class="logo">
+
+🫂 My Lifeline Bestie
+
+</div>
+
+
+<div class="nav-buttons">
 
 <button class="nav-btn"
 onclick="location.href='index.html'">
 
-🏠 Dashboard
+🏠 Home
 
 </button>
 
@@ -351,19 +569,22 @@ onclick="location.href='index.html'">
 <button class="nav-btn"
 onclick="toggleTheme()">
 
-🌗 Theme
+🌗
 
 </button>
 
 
+</div>
+
 </nav>
+
 
 
 
 <main>
 
 
-<header>
+<section class="hero">
 
 <h1>
 🫂 AI Bestie
@@ -371,28 +592,79 @@ onclick="toggleTheme()">
 
 
 <p>
-Your personal Lifeline companion
+A place to vent, talk, laugh, reflect, and breathe.
 </p>
 
+</section>
 
-</header>
 
 
+<section class="modes">
+
+
+<button class="mode-btn"
+onclick="setMode('vent')">
+
+🫂 Vent Mode
+
+</button>
+
+
+<button class="mode-btn"
+onclick="setMode('comfort')">
+
+💙 Comfort
+
+</button>
+
+
+<button class="mode-btn"
+onclick="setMode('hype')">
+
+🔥 Hype Me Up
+
+</button>
+
+
+<button class="mode-btn"
+onclick="setMode('chill')">
+
+😂 Chill
+
+</button>
+
+
+<button class="mode-btn"
+onclick="setMode('reflect')">
+
+🧠 Reflect
+
+</button>
+
+
+</section>
+
+
+
+
+
+<section class="chat-container">
 
 
 <div class="chat-box" id="chatBox">
 
 
-<div class="message bestie">
+<div class="message bestie-message">
 
-Hey Ryan 💙 I'm Bestie.
+Hey 💙 I'm Bestie.
 
-I'm here whenever you need to talk, vent, joke around, or just chill.
+You can talk normally. Vent, ramble, joke, or just say what's on your mind.
+
+</div>
+
 
 </div>
 
-
-</div>
 
 
 
@@ -400,18 +672,16 @@ I'm here whenever you need to talk, vent, joke around, or just chill.
 <div class="input-area">
 
 
-<input
-
-id="messageInput"
-
+<input 
+id="userInput"
 placeholder="Talk to Bestie..."
+onkeypress="
+if(event.key==='Enter')
+sendMessage();
+">
 
-onkeypress="if(event.key==='Enter')sendMessage()"
 
->
-
-
-<button class="send"
+<button class="send-btn"
 onclick="sendMessage()">
 
 Send
@@ -422,45 +692,42 @@ Send
 </div>
 
 
+</section>
 
 
-<div class="panel">
+
+
+
+<section class="memory-card">
 
 
 <h2>
 🧠 Bestie Memory
 </h2>
 
-<br>
 
-
-<p id="memoryInfo">
+<p id="memoryDisplay">
 
 Learning about you...
 
 </p>
 
 
-<br>
+</section>
 
 
-<button onclick="clearMemory()">
 
-Reset Memory
+</main><script>
 
-</button>
-
-
-</div><script>
-
-/* ==================================
-      MY LIFELINE AI BESTIE BRAIN
-================================== */
+/* =====================================
+        BESTIE BRAIN CORE
+===================================== */
 
 
-// ===============================
-// THEME SYNC
-// ===============================
+/* ===============================
+THEME
+================================ */
+
 
 function toggleTheme(){
 
@@ -469,7 +736,7 @@ document.body.dataset.theme;
 
 
 let next =
-current==="dark"
+current === "dark"
 ?
 "light"
 :
@@ -501,23 +768,25 @@ localStorage.getItem("lifeline-theme");
 
 
 
-// ===============================
-// MEMORY SYSTEM
-// ===============================
 
 
-let memory =
+/* ===============================
+MEMORY SYSTEM
+================================ */
+
+
+let bestieMemory =
 JSON.parse(
-localStorage.getItem("bestie-memory")
+localStorage.getItem("bestieMemory")
 ||
 "{}"
 );
 
 
 
-if(!memory.messages){
+if(!bestieMemory.messages){
 
-memory.messages=0;
+bestieMemory.messages=0;
 
 }
 
@@ -526,95 +795,159 @@ memory.messages=0;
 function saveMemory(){
 
 localStorage.setItem(
-"bestie-memory",
-JSON.stringify(memory)
+"bestieMemory",
+JSON.stringify(bestieMemory)
 );
 
-updateMemory();
+
+displayMemory();
 
 }
 
 
 
 
-function updateMemory(){
 
+function displayMemory(){
+
+
+let display =
 document.getElementById(
-"memoryInfo"
-).innerHTML=
+"memoryDisplay"
+);
 
-`
-Messages with Bestie:
-<strong>${memory.messages}</strong>
+
+
+if(!display)
+return;
+
+
+
+display.innerHTML = `
+
+Messages:
+<strong>
+${bestieMemory.messages}
+</strong>
+
 <br><br>
-Topics learned:
-<strong>${Object.keys(memory).length}</strong>
+
+
+${
+bestieMemory.name
+?
+"Name: "+bestieMemory.name
+:
+"No name saved yet"
+}
+
+
+<br><br>
+
+
+${
+bestieMemory.favorite
+?
+"Likes: "+bestieMemory.favorite
+:
+"Learning your favorites..."
+}
+
 `;
 
 }
 
 
-
-
-// ===============================
-// BESTIE PERSONALITY
-// ===============================
-
-
-const bestie = {
-
-name:"Bestie",
-
-style:
-"friendly, funny, supportive, Gen Z",
-
-emoji:[
-"💙",
-"🫂",
-"😭",
-"😂",
-"✨",
-"🔥"
-]
-
-};
+displayMemory();
 
 
 
 
 
-// ===============================
-// KEYWORD BRAIN
-// ===============================
 
 
-const brain = {
+/* ===============================
+CURRENT MODE
+================================ */
 
 
-hello:[
+let bestieMode =
+"comfort";
 
-"hi",
-"hey",
-"hello",
-"yo",
-"sup",
-"what's up",
-"wassup"
 
-],
+
+function setMode(mode){
+
+
+bestieMode =
+mode;
+
+
+
+addBestieMessage(
+
+"Mode changed to: "
++
+mode.toUpperCase()
++
+" 💙"
+
+);
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+EMOTION ENGINE
+================================ */
+
+
+const emotions = {
 
 
 sad:[
 
 "sad",
 "depressed",
-"lonely",
 "empty",
+"alone",
+"lonely",
 "cry",
 "crying",
 "hurt",
-"bad day",
-"rough day"
+"broken",
+"hopeless",
+"tired"
+
+],
+
+
+angry:[
+
+"angry",
+"mad",
+"annoyed",
+"hate",
+"frustrated",
+"pissed"
+
+],
+
+
+anxious:[
+
+"anxious",
+"panic",
+"stress",
+"worried",
+"scared",
+"nervous"
 
 ],
 
@@ -624,10 +957,9 @@ happy:[
 "happy",
 "excited",
 "great",
-"awesome",
-"good",
 "amazing",
-"won"
+"awesome",
+"proud"
 
 ],
 
@@ -635,80 +967,12 @@ happy:[
 love:[
 
 "love",
+"miss",
+"relationship",
 "boyfriend",
 "girlfriend",
-"relationship",
-"miss",
 "breakup"
 
-],
-
-
-music:[
-
-"music",
-"song",
-"playlist",
-"spotify",
-"band"
-
-],
-
-
-gaming:[
-
-"xbox",
-"roblox",
-"game",
-"gaming",
-"play"
-
-],
-
-
-school:[
-
-"school",
-"class",
-"homework",
-"teacher",
-"grades"
-
-],
-
-
-sleep:[
-
-"sleep",
-"tired",
-"awake",
-"insomnia"
-
-],
-
-
-food:[
-
-"pizza",
-"food",
-"hungry",
-"eat",
-"snack"
-
-],
-
-
-slang:[
-
-"bro",
-"bestie",
-"fr",
-"ngl",
-"lol",
-"lmao",
-"😭",
-"💀"
-
 ]
 
 
@@ -718,151 +982,27 @@ slang:[
 
 
 
+function detectEmotion(text){
 
 
-// ===============================
-// RESPONSE LIBRARY
-// ===============================
+text =
+text.toLowerCase();
 
 
-const replies = {
 
+for(
+let emotion in emotions
+){
 
-hello:[
 
-"Yo bestie 😭💙 what's going on?",
-
-"Heyyy 🫂 I'm here. What's the vibe today?",
-
-"Welcome back 💙 tell me what's happening."
-
-],
-
-
-sad:[
-
-"I'm really glad you came here and talked to me 💙",
-
-"That sounds like a heavy moment. I'm listening 🫂",
-
-"Stay with me for a bit. Tell me what's going through your head."
-
-],
-
-
-happy:[
-
-"AYYY LET'S GO 😭🔥",
-
-"Okay that's actually awesome 💙",
-
-"I love hearing good news. Tell me more!"
-
-],
-
-
-love:[
-
-"Relationships can hit deep. I'm listening 💙",
-
-"Missing someone can be really hard. Tell me about it."
-
-],
-
-
-music:[
-
-"Music really changes the whole mood 🎵",
-
-"What song has been stuck in your head lately?"
-
-],
-
-
-gaming:[
-
-"Gaming time 🎮🔥 what are you playing?",
-
-"Okay gamer mode activated 😂"
-
-],
-
-
-school:[
-
-"School can be a lot sometimes. What's happening?",
-
-"Tell me about it. We can figure it out."
-
-],
-
-
-sleep:[
-
-"Sleep affects everything. How has your sleep been?",
-
-"Hopefully you get some rest soon 💙"
-
-],
-
-
-food:[
-
-"Food question 😂 what sounds good right now?",
-
-"Pizza sounds like a solid choice honestly 🍕"
-
-],
-
-
-slang:[
-
-"FRRR 😭",
-
-"Bro I get what you mean 💀",
-
-"Not gonna lie, I understand the vibe 😂"
-
-],
-
-
-default:[
-
-"I'm listening 💙",
-
-"Tell me more.",
-
-"I'm here with you 🫂",
-
-"Okay, I got you."
-
-]
-
-
-};
-
-
-
-
-
-
-// ===============================
-// FIND TOPIC
-// ===============================
-
-
-function findTopic(text){
-
-
-for(let topic in brain){
-
-
-for(let word of brain[topic]){
+for(
+let word of emotions[emotion]
+){
 
 
 if(text.includes(word)){
 
-return topic;
+return emotion;
 
 }
 
@@ -873,52 +1013,65 @@ return topic;
 }
 
 
+return "neutral";
 
-return "default";
+}
+
+
+
+
+
+
+
+/* ===============================
+USER LEARNING
+================================ */
+
+
+function learnUser(text){
+
+
+let lower =
+text.toLowerCase();
+
+
+
+if(
+lower.includes("my name is")
+){
+
+
+bestieMemory.name =
+text
+.split("my name is")[1]
+.trim();
+
 
 }
 
 
 
+if(
+lower.includes("i like")
+){
 
 
-// ===============================
-// BESTIE THINKING
-// ===============================
+bestieMemory.favorite =
+text;
 
-
-function bestieThink(input){
-
-
-let text =
-input.toLowerCase();
-
-
-
-// save message
-
-memory.messages++;
-
-
-memory.lastMessage =
-input;
-
-
-
-
-// remember interests
-
-
-if(text.includes("music")){
-
-memory.likesMusic=true;
 
 }
 
 
-if(text.includes("game")){
 
-memory.likesGaming=true;
+if(
+lower.includes("favorite")
+){
+
+
+bestieMemory.favorite =
+text;
+
 
 }
 
@@ -927,65 +1080,248 @@ memory.likesGaming=true;
 saveMemory();
 
 
+}
 
 
 
-let topic =
-findTopic(text);
 
 
 
-return random(
-replies[topic]
-||
-replies.default
 
+/* ===============================
+RESPONSE BRAIN
+================================ */
+
+
+function generateResponse(text){
+
+
+let emotion =
+detectEmotion(text);
+
+
+
+let responses = {
+
+
+
+sad:[
+
+"I'm really glad you told me 💙 I'm listening.",
+
+"That sounds like a lot to carry. Want to tell me what happened?",
+
+"I'm here with you. You don't have to explain everything perfectly."
+
+],
+
+
+
+angry:[
+
+"That sounds frustrating. What happened?",
+
+"Okay, let's unpack this. What part bothered you the most?"
+
+],
+
+
+
+anxious:[
+
+"Let's slow things down for a second 💙 What's making your mind race?",
+
+"I'm here. We can take this one piece at a time."
+
+],
+
+
+
+happy:[
+
+"AYYY that's awesome 😭🔥 Tell me more!",
+
+"I love hearing good things. You deserve those moments."
+
+],
+
+
+
+love:[
+
+"Feelings for people can run really deep. I'm listening 💙",
+
+"That sounds like something important to you. Tell me about it."
+
+],
+
+
+
+neutral:[
+
+"I'm listening 💙",
+
+"Tell me more about that.",
+
+"Okay, I'm here with you.",
+
+"What happened next?"
+
+]
+
+
+};
+
+
+
+let answer =
+responses[emotion]
+[
+Math.floor(
+Math.random()
+*
+responses[emotion].length
+)
+];
+
+
+
+
+
+
+// Mode adjustments
+
+
+if(bestieMode==="vent"){
+
+
+answer =
+"🫂 I'm listening. Get it all out. "
++
+answer;
+
+
+}
+
+
+
+if(bestieMode==="hype"){
+
+
+answer =
+"🔥 Bestie mode activated. "
++
+answer;
+
+
+}
+
+
+
+if(bestieMode==="reflect"){
+
+
+answer =
+"🧠 Let's think about this together. "
++
+answer;
+
+
+}
+
+
+
+if(bestieMode==="chill"){
+
+
+answer =
+"😂 Okay bestie, "
++
+answer;
+
+
+}
+
+
+
+return answer;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===============================
+MESSAGE HANDLING
+================================ */
+
+
+function addBestieMessage(text){
+
+
+let box =
+document.getElementById(
+"chatBox"
 );
 
 
 
-}
-
-
-
-
-
-
-function random(array){
-
-return array[
-Math.floor(
-Math.random()*array.length
-)
-];
-
-}
-
-
-
-
-updateMemory();// ===============================
-// CHAT SYSTEM
-// ===============================
-
-
-function addMessage(text,type){
-
-
-const box =
-document.getElementById("chatBox");
-
-
-const div =
+let div =
 document.createElement("div");
 
 
+
 div.className =
-"message " + type;
+"message bestie-message";
+
 
 
 div.innerHTML =
-text.replace(/\n/g,"<br>");
+text;
+
+
+
+box.appendChild(div);
+
+
+
+box.scrollTop =
+box.scrollHeight;
+
+
+}
+
+
+
+
+
+function addUserMessage(text){
+
+
+let box =
+document.getElementById(
+"chatBox"
+);
+
+
+
+let div =
+document.createElement("div");
+
+
+
+div.className =
+"message user-message";
+
+
+
+div.innerHTML =
+text;
 
 
 
@@ -1004,35 +1340,43 @@ box.scrollHeight;
 
 
 
+
+
 function sendMessage(){
 
 
-const input =
+let input =
 document.getElementById(
-"messageInput"
+"userInput"
 );
 
 
 
-const message =
+let text =
 input.value.trim();
 
 
 
-if(!message)
+if(!text)
 return;
 
 
 
-addMessage(
-message,
-"user"
-);
-
+addUserMessage(text);
 
 
 input.value="";
 
+
+
+bestieMemory.messages++;
+
+
+learnUser(text);
+
+
+
+saveMemory();
 
 
 
@@ -1040,19 +1384,16 @@ input.value="";
 setTimeout(()=>{
 
 
-let response =
-bestieThink(message);
+let reply =
+generateResponse(text);
 
 
 
-addMessage(
-response,
-"bestie"
-);
+addBestieMessage(reply);
 
 
 
-},500);
+},700);
 
 
 
@@ -1061,15 +1402,52 @@ response,
 
 
 
+</script><script>
+
+/* =====================================
+      BESTIE ADVANCED SUPPORT SYSTEM
+===================================== */
+
+
+/* ===============================
+CONVERSATION CONTEXT
+================================ */
+
+
+let conversation = {
+
+lastEmotion:"neutral",
+
+topics:[],
+
+venting:false,
+
+needsSupport:false
+
+};
 
 
 
-// ===============================
-// ADVANCED MEMORY
-// ===============================
 
 
-function learnAboutUser(text){
+
+
+/* ===============================
+ADVANCED EMOTION SCAN
+================================ */
+
+
+function analyzeMessage(text){
+
+
+let emotion =
+detectEmotion(text);
+
+
+
+conversation.lastEmotion =
+emotion;
+
 
 
 let lower =
@@ -1077,50 +1455,551 @@ text.toLowerCase();
 
 
 
-if(
-lower.includes("my name is")
-){
+// remember topics
+
+const topicWords = [
+
+"school",
+"work",
+"family",
+"friend",
+"relationship",
+"music",
+"gaming",
+"sleep",
+"stress",
+"future",
+"therapy"
+
+];
 
 
-let name =
-text
-.split("my name is")[1]
-.trim();
+topicWords.forEach(topic=>{
+
+
+if(lower.includes(topic)
+&&
+!conversation.topics.includes(topic)){
+
+conversation.topics.push(topic);
+
+}
+
+
+});
 
 
 
-memory.name =
-name;
+return emotion;
+
+}
+
+
+
+
+
+
+
+
+/* ===============================
+VENT MODE
+================================ */
+
+
+function ventResponse(text){
+
+
+conversation.venting=true;
+
+
+let emotion =
+analyzeMessage(text);
+
+
+
+let replies = {
+
+
+sad:[
+
+"🫂 I'm right here. You can let it out.",
+
+"That sounds really heavy. What part has been the hardest?",
+
+"I’m listening. Take your time."
+
+],
+
+
+angry:[
+
+"That sounds like it really got under your skin. Want to tell me what happened?",
+
+"Yeah, I can see why that would bother you. Keep talking."
+
+],
+
+
+anxious:[
+
+"Let's slow it down together. What is the biggest thing on your mind right now?",
+
+"One thing at a time. I'm here with you."
+
+],
+
+
+neutral:[
+
+"Go ahead. I'm listening.",
+
+"You can say it exactly how you feel it.",
+
+"Tell me what's been going on."
+
+]
+
+
+};
+
+
+
+let list =
+replies[emotion]
+||
+replies.neutral;
+
+
+
+return list[
+Math.floor(
+Math.random()*list.length
+)
+];
 
 
 }
 
 
 
-if(
-lower.includes("i like")
-){
 
 
-memory.favorite =
-text;
+
+
+/* ===============================
+COMFORT MODE
+================================ */
+
+
+function comfortResponse(){
+
+
+let comfort=[
+
+
+"💙 You matter. I'm glad you decided to talk instead of holding everything inside.",
+
+
+"🫂 Take this one moment at a time. You don't have to solve everything tonight.",
+
+
+"🌱 Small steps still count. Getting through a hard moment is still progress.",
+
+
+"💙 Be gentle with yourself. You deserve the same kindness you give others."
+
+];
+
+
+return comfort[
+Math.floor(
+Math.random()*comfort.length
+)
+];
 
 
 }
 
 
 
-if(
-lower.includes("my favorite")
-){
 
 
-memory.favoriteThing =
-text;
+
+
+/* ===============================
+GROUNDING TOOLS
+================================ */
+
+
+const grounding=[
+
+
+"Look around and name 5 things you can see.",
+
+
+"Try relaxing your shoulders and taking a slow breath.",
+
+
+"Grab some water if you can.",
+
+
+"Change your environment for a minute — stand up, stretch, or move rooms."
+
+];
+
+
+
+
+function groundingSuggestion(){
+
+
+return (
+
+"😮‍💨 Quick reset idea:<br><br>"
++
+grounding[
+Math.floor(
+Math.random()*grounding.length
+)
+]
+
+);
 
 
 }
 
+
+
+
+
+
+
+
+/* ===============================
+LIFELINE TOOL CONNECTIONS
+================================ */
+
+
+function lifelineTools(){
+
+
+return `
+
+<div style="
+margin-top:15px;
+padding:15px;
+background:rgba(0,188,212,.15);
+border-radius:18px;
+">
+
+
+<strong>
+Want to try something?
+</strong>
+
+<br><br>
+
+
+<button onclick="location.href='music.html'">
+🎵 Music
+</button>
+
+
+<button onclick="location.href='onebreath.html'">
+😮‍💨 Breathing
+</button>
+
+
+<button onclick="location.href='reflect.html'">
+📝 Journal
+</button>
+
+
+<button onclick="location.href='virtualpet.html'">
+🐶 Pet
+</button>
+
+
+</div>
+
+`;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+SUPPORT CHECK
+================================ */
+
+
+function supportCheck(text){
+
+
+let lower =
+text.toLowerCase();
+
+
+
+const seriousWords=[
+
+"can't do this",
+"give up",
+"no point",
+"want to disappear",
+"hurt myself",
+"end it"
+
+];
+
+
+
+for(
+let word of seriousWords
+){
+
+
+if(lower.includes(word)){
+
+
+conversation.needsSupport=true;
+
+
+
+return `
+
+🫂 I'm really glad you told me.
+
+I'm here with you right now.
+
+Let's focus on getting through this moment together.
+
+<br><br>
+
+Would you like to:
+<br>
+• Tell me what's happening?
+<br>
+• Try a calming exercise?
+<br>
+• Open your Lifeline support tools?
+
+${lifelineTools()}
+
+`;
+
+}
+
+
+}
+
+
+
+return null;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+MASTER RESPONSE UPGRADE
+================================ */
+
+
+const oldGenerate =
+generateResponse;
+
+
+
+generateResponse=function(text){
+
+
+
+let support =
+supportCheck(text);
+
+
+
+if(support){
+
+return support;
+
+}
+
+
+
+if(bestieMode==="vent"){
+
+return ventResponse(text);
+
+}
+
+
+
+if(bestieMode==="comfort"){
+
+return comfortResponse()
++
+"<br><br>"
++
+groundingSuggestion();
+
+}
+
+
+
+return oldGenerate(text);
+
+
+};
+
+
+
+
+
+
+</script><script>
+
+/* =====================================
+      BESTIE PERSONALITY + MEMORY v2
+===================================== */
+
+
+
+/* ===============================
+PERSONALITY SYSTEM
+================================ */
+
+
+let bestieSettings =
+JSON.parse(
+localStorage.getItem("bestieSettings")
+||
+"{}"
+);
+
+
+
+if(!bestieSettings.style){
+
+bestieSettings.style =
+"soft";
+
+}
+
+
+
+
+const personalities={
+
+
+soft:{
+
+name:"Soft Bestie",
+
+emoji:"🫂",
+
+tone:
+"gentle and caring"
+
+},
+
+
+funny:{
+
+name:"Funny Bestie",
+
+emoji:"😂",
+
+tone:
+"playful and casual"
+
+},
+
+
+motivator:{
+
+name:"Hype Bestie",
+
+emoji:"🔥",
+
+tone:
+"energetic and encouraging"
+
+},
+
+
+calm:{
+
+name:"Calm Bestie",
+
+emoji:"🌙",
+
+tone:
+"peaceful and grounding"
+
+}
+
+
+};
+
+
+
+
+
+
+
+function setPersonality(style){
+
+
+bestieSettings.style =
+style;
+
+
+
+localStorage.setItem(
+"bestieSettings",
+JSON.stringify(bestieSettings)
+);
+
+
+
+addBestieMessage(
+
+"✨ Bestie personality changed to "
++
+personalities[style].name
+
+);
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+DEEP MEMORY
+================================ */
+
+
+
+function saveImportantMemory(key,value){
+
+
+bestieMemory[key]=value;
 
 
 saveMemory();
@@ -1132,46 +2011,89 @@ saveMemory();
 
 
 
-
-// Override thinking with learning
-
-const oldThink =
-bestieThink;
+function scanForMemories(text){
 
 
-
-bestieThink=function(message){
-
-
-learnAboutUser(message);
-
-
-let response =
-oldThink(message);
+let lower =
+text.toLowerCase();
 
 
 
-// personalized replies
+if(lower.includes("i love")){
 
 
-if(
-memory.name
-&&
-Math.random()>.7
-){
-
-
-response =
-memory.name +
-", " +
-response;
+saveImportantMemory(
+"likes",
+text
+);
 
 
 }
 
 
 
-return response;
+if(lower.includes("favorite")){
+
+
+saveImportantMemory(
+"favoriteThing",
+text
+);
+
+
+}
+
+
+
+if(lower.includes("i hate")){
+
+
+saveImportantMemory(
+"dislikes",
+text
+);
+
+
+}
+
+
+
+if(lower.includes("my goal")){
+
+
+saveImportantMemory(
+"goal",
+text
+);
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+// Upgrade learning
+
+const oldLearnUser =
+learnUser;
+
+
+
+learnUser=function(text){
+
+
+oldLearnUser(text);
+
+
+scanForMemories(text);
 
 
 };
@@ -1183,56 +2105,190 @@ return response;
 
 
 
-// ===============================
-// EXTRA GEN Z PHRASE PACK
-// ===============================
+
+/* ===============================
+CHAT HISTORY
+================================ */
 
 
-const genZ = [
+let chatHistory =
+JSON.parse(
+localStorage.getItem("bestieHistory")
+||
+"[]"
+);
 
 
-"fr",
 
-"ngl",
+function saveChat(type,text){
 
-"lowkey",
 
-"highkey",
+chatHistory.push({
 
-"no cap",
+type:type,
 
-"bro",
+text:text,
 
+time:
+new Date()
+.toLocaleTimeString()
+
+});
+
+
+
+if(chatHistory.length>100){
+
+chatHistory.shift();
+
+}
+
+
+
+localStorage.setItem(
+
+"bestieHistory",
+
+JSON.stringify(chatHistory)
+
+);
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+UPGRADE MESSAGE FUNCTIONS
+================================ */
+
+
+const oldAddBestie =
+addBestieMessage;
+
+
+
+addBestieMessage=function(text){
+
+
+
+showTyping();
+
+
+
+setTimeout(()=>{
+
+
+oldAddBestie(text);
+
+
+
+saveChat(
 "bestie",
-
-"😭",
-
-"💀",
-
-"that's wild",
-
-"valid",
-
-"vibes",
-
-"main character energy"
+text
+);
 
 
-];
+
+},700);
+
+
+
+};
 
 
 
 
 
+const oldAddUser =
+addUserMessage;
 
-function randomGenZ(){
 
 
-return genZ[
-Math.floor(
-Math.random()*genZ.length
-)
-];
+addUserMessage=function(text){
+
+
+
+oldAddUser(text);
+
+
+
+saveChat(
+"user",
+text
+);
+
+
+
+};
+
+
+
+
+
+
+
+
+/* ===============================
+TYPING ANIMATION
+================================ */
+
+
+
+function showTyping(){
+
+
+let box =
+document.getElementById(
+"chatBox"
+);
+
+
+
+let typing =
+document.createElement("div");
+
+
+
+typing.id =
+"typing";
+
+
+
+typing.className =
+"message bestie-message";
+
+
+
+typing.innerHTML =
+"Bestie is typing... 💙";
+
+
+
+box.appendChild(typing);
+
+
+
+box.scrollTop =
+box.scrollHeight;
+
+
+
+setTimeout(()=>{
+
+
+if(typing){
+
+typing.remove();
+
+}
+
+
+},600);
 
 
 }
@@ -1244,43 +2300,345 @@ Math.random()*genZ.length
 
 
 
-// ===============================
-// RESET MEMORY
-// ===============================
+
+/* ===============================
+WELCOME MEMORY
+================================ */
 
 
-function clearMemory(){
+
+function memoryWelcome(){
+
+
+
+if(bestieMemory.name){
+
+
+addBestieMessage(
+
+"Welcome back "
++
+bestieMemory.name
++
+" 💙 I remember talking with you."
+
+);
+
+
+}
+
+
+else{
+
+
+addBestieMessage(
+
+"Hey 💙 I'm still getting to know you. Tell me about yourself."
+
+);
+
+
+}
+
+
+
+}
+
+
+
+
+
+/* ===============================
+LOAD HISTORY OPTION
+================================ */
+
+
+
+function loadOldChat(){
+
+
+
+chatHistory.forEach(message=>{
+
+
+let box =
+document.getElementById(
+"chatBox"
+);
+
+
+
+let div =
+document.createElement("div");
+
+
+
+div.className =
+"message "
++
+(
+message.type==="user"
+?
+"user-message"
+:
+"bestie-message"
+);
+
+
+
+div.innerHTML =
+message.text;
+
+
+
+box.appendChild(div);
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+window.addEventListener(
+"load",
+()=>{
+
+
+loadOldChat();
+
+
+
+setTimeout(
+memoryWelcome,
+500
+);
+
+
+}
+);
+
+
+
+
+
+
+</script><script>
+
+/* =====================================
+        BESTIE FINAL SYSTEM
+===================================== */
+
+
+/* ===============================
+SETTINGS PANEL
+================================ */
+
+
+function showSettings(){
+
+
+let choice =
+prompt(
+
+"Choose Bestie style:\n\n" +
+
+"1 = Soft 🫂\n" +
+
+"2 = Funny 😂\n" +
+
+"3 = Hype 🔥\n" +
+
+"4 = Calm 🌙"
+
+);
+
+
+
+if(choice==="1"){
+
+setPersonality("soft");
+
+}
+
+
+if(choice==="2"){
+
+setPersonality("funny");
+
+}
+
+
+if(choice==="3"){
+
+setPersonality("motivator");
+
+}
+
+
+if(choice==="4"){
+
+setPersonality("calm");
+
+}
+
+
+}
+
+
+
+
+
+
+/* ===============================
+PERSONALITY RESPONSE BOOST
+================================ */
+
+
+function personalityBoost(){
+
+
+let style =
+bestieSettings.style;
+
+
+
+if(style==="funny"){
+
+return " 😂";
+
+}
+
+
+if(style==="motivator"){
+
+return " 🔥 You've got this.";
+
+}
+
+
+if(style==="calm"){
+
+return " 🌙 Let's take this slowly.";
+
+}
+
+
+
+return " 💙";
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+FINAL RESPONSE WRAPPER
+================================ */
+
+
+const originalGenerate =
+generateResponse;
+
+
+
+generateResponse=function(text){
+
+
+let response =
+originalGenerate(text);
+
+
+
+return response
++
+personalityBoost();
+
+
+
+};
+
+
+
+
+
+
+
+/* ===============================
+CLEAR CHAT
+================================ */
+
+
+function clearChat(){
 
 
 if(
 confirm(
-"Reset Bestie's memory?"
+"Clear Bestie's conversation history?"
 )
 ){
 
 
 localStorage.removeItem(
-"bestie-memory"
+"bestieHistory"
 );
 
 
-memory={
 
-messages:0
-
-};
+location.reload();
 
 
-updateMemory();
+}
 
 
-addMessage(
+}
 
-"Memory reset 💙 Fresh start.",
 
-"bestie"
 
+
+
+
+/* ===============================
+RESET EVERYTHING
+================================ */
+
+
+function resetBestie(){
+
+
+if(
+confirm(
+"Reset Bestie's memory and settings?"
+)
+){
+
+
+localStorage.removeItem(
+"bestieMemory"
 );
+
+
+localStorage.removeItem(
+"bestieSettings"
+);
+
+
+localStorage.removeItem(
+"bestieHistory"
+);
+
+
+
+location.reload();
 
 
 }
@@ -1295,43 +2653,121 @@ addMessage(
 
 
 
-// ===============================
-// WELCOME BACK MEMORY
-// ===============================
+/* ===============================
+QUICK ACTIONS
+================================ */
 
 
-window.onload=function(){
+function quickMessage(text){
 
 
-updateMemory();
+document.getElementById(
+"userInput"
+).value=text;
 
 
 
-if(memory.name){
-
-
-addMessage(
-
-"Welcome back "
-+
-memory.name
-+
-" 💙 I remember you.",
-
-"bestie"
-
-);
+sendMessage();
 
 
 }
 
 
-};
 
 
 
 
 </script>
+
+
+
+
+<!-- ============================
+      EXTRA CONTROLS
+============================= -->
+
+
+<div style="
+max-width:1000px;
+margin:auto;
+padding:0 20px 50px;
+text-align:center;
+">
+
+
+<button class="mode-btn"
+onclick="showSettings()">
+
+⚙️ Bestie Style
+
+</button>
+
+
+<button class="mode-btn"
+onclick="clearChat()">
+
+🗑️ Clear Chat
+
+</button>
+
+
+<button class="mode-btn"
+onclick="resetBestie()">
+
+🔄 Reset Bestie
+
+</button>
+
+
+<br><br>
+
+
+<button class="mode-btn"
+onclick="quickMessage('I need to vent')">
+
+🫂 I Need To Vent
+
+</button>
+
+
+<button class="mode-btn"
+onclick="quickMessage('I need comfort')">
+
+💙 I Need Comfort
+
+</button>
+
+
+<button class="mode-btn"
+onclick="quickMessage('Help me calm down')">
+
+😮‍💨 Calm Me Down
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<footer style="
+text-align:center;
+padding:30px;
+opacity:.7;
+">
+
+
+🫂 My Lifeline Bestie • Always here to listen
+
+
+</footer>
+
+
+
+
 
 
 </body>
