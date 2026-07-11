@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -13,59 +12,91 @@
 
 <style>
 
+/* =========================
+MY LIFELINE THEME
+========================= */
+
+
 :root{
 
 --primary:#00bcd4;
---pink:#ff6b9d;
---green:#a8e6cf;
---bg:linear-gradient(135deg,#eefcff,#ffeaf3);
---card:white;
---text:#333;
---box:#f7f7ff;
+
+--accent:#ff9ff3;
+
+--background:
+linear-gradient(135deg,#fff8f0,#e0f7ff);
+
+--card:#ffffff;
+
+--text:#2c3e50;
+
+--shadow:
+rgba(0,0,0,.12);
 
 }
 
 
 
-body.dark-mode{
+[data-theme="dark"]{
 
---bg:linear-gradient(135deg,#101c33,#2c1e3a);
---card:#263545;
---text:#eee;
---box:#34495e;
+--background:
+linear-gradient(135deg,#0f1c2e,#2c1e3a);
+
+--card:#2c3e50;
+
+--text:#e0f2f1;
+
+--primary:#4fc3f7;
+
+--accent:#ff79c6;
+
+--shadow:
+rgba(0,0,0,.45);
 
 }
+
 
 
 
 *{
 
 margin:0;
+
 padding:0;
+
 box-sizing:border-box;
 
 }
 
 
 
+
 body{
 
-font-family:'Quicksand',sans-serif;
+font-family:
+'Quicksand',
+sans-serif;
 
-background:var(--bg);
+background:
+var(--background);
 
-color:var(--text);
+color:
+var(--text);
 
 min-height:100vh;
 
-transition:.3s;
+transition:.5s;
 
 }
 
 
 
 
-/* Navigation */
+
+/* =========================
+NAVIGATION
+========================= */
+
 
 nav{
 
@@ -75,23 +106,34 @@ top:0;
 
 left:0;
 
-width:100%;
+right:0;
 
-background:#87ceeb;
+background:
+rgba(135,206,235,.97);
 
-padding:12px;
+padding:14px 20px;
 
 display:flex;
 
 justify-content:center;
 
-flex-wrap:wrap;
-
 gap:12px;
+
+flex-wrap:wrap;
 
 z-index:1000;
 
-box-shadow:0 5px 20px rgba(0,0,0,.15);
+box-shadow:
+0 6px 20px var(--shadow);
+
+}
+
+
+
+[data-theme="dark"] nav{
+
+background:
+rgba(26,38,57,.97);
 
 }
 
@@ -101,7 +143,7 @@ box-shadow:0 5px 20px rgba(0,0,0,.15);
 
 background:white;
 
-color:#00bcd4;
+color:var(--primary);
 
 border:none;
 
@@ -113,111 +155,101 @@ font-weight:600;
 
 cursor:pointer;
 
-}
-
-
-
-
-body.dark-mode nav{
-
-background:#1e3a5f;
+transition:.3s;
 
 }
 
 
 
+.nav-btn:hover{
 
-
-/* Floating Bestie */
-
-.bestie{
-
-position:fixed;
-
-right:25px;
-
-bottom:25px;
-
-width:75px;
-
-height:75px;
-
-background:#ff9ff3;
-
-border-radius:50%;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:2.5rem;
-
-cursor:pointer;
-
-box-shadow:0 10px 30px rgba(255,159,243,.5);
-
-z-index:9999;
+transform:
+translateY(-3px);
 
 }
 
 
+
+
+
+
+
+/* =========================
+MAIN
+========================= */
 
 
 main{
 
-padding:110px 20px 50px;
-
 max-width:900px;
 
-margin:auto;
+margin:
+100px auto 50px;
+
+padding:
+0 20px;
 
 }
 
 
 
 
-.hero{
 
-background:linear-gradient(135deg,#00bcd4,#a8e6cf);
+header{
 
-padding:40px 20px;
-
-border-radius:30px;
+background:
+linear-gradient(
+135deg,
+var(--primary),
+#81d4fa
+);
 
 color:white;
 
+padding:
+55px 30px;
+
+border-radius:28px;
+
 text-align:center;
 
-margin-bottom:30px;
+box-shadow:
+0 15px 40px var(--shadow);
 
 }
 
 
 
-.hero h1{
+header h1{
 
-font-size:2.7rem;
+font-size:2.6rem;
 
-margin-bottom:10px;
+margin-bottom:12px;
 
 }
 
 
+
+
+
+/* =========================
+CARDS
+========================= */
 
 
 .card{
 
-background:var(--card);
+background:
+var(--card);
+
+border-radius:22px;
 
 padding:30px;
 
-border-radius:25px;
+margin-top:25px;
 
-box-shadow:0 10px 30px rgba(0,0,0,.15);
-
-margin-bottom:25px;
+box-shadow:
+0 10px 30px var(--shadow);
 
 text-align:center;
 
@@ -227,11 +259,30 @@ text-align:center;
 
 
 
-.pet{
+/* =========================
+BUTTONS
+========================= */
 
-font-size:120px;
 
-margin:20px;
+.main-btn{
+
+background:
+var(--primary);
+
+color:white;
+
+border:none;
+
+padding:
+14px 30px;
+
+border-radius:50px;
+
+font-size:1.1rem;
+
+cursor:pointer;
+
+margin:8px;
 
 transition:.3s;
 
@@ -239,27 +290,10 @@ transition:.3s;
 
 
 
-.pet:hover{
+.main-btn:hover{
 
-transform:scale(1.1);
-
-}
-
-
-
-
-
-.status{
-
-background:var(--box);
-
-padding:20px;
-
-border-radius:20px;
-
-font-size:1.2rem;
-
-line-height:1.8;
+transform:
+scale(1.05);
 
 }
 
@@ -267,38 +301,92 @@ line-height:1.8;
 
 
 
-button.action{
+/* =========================
+LOGIN
+========================= */
 
-margin:10px;
 
-padding:14px 30px;
+#loginScreen{
 
-border:none;
+position:fixed;
 
-border-radius:50px;
+inset:0;
 
-background:#ff6b9d;
+background:
+var(--background);
 
-color:white;
-
-font-size:1.1rem;
-
-font-weight:600;
-
-cursor:pointer;
+z-index:9999;
 
 }
 
 
 
+.login-box{
 
-button.action:hover{
+position:absolute;
 
-transform:scale(1.05);
+top:50%;
+
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+background:
+var(--card);
+
+padding:45px 30px;
+
+width:90%;
+
+max-width:420px;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:
+0 20px 50px var(--shadow);
 
 }
 
 
+
+.login-box h1{
+
+font-size:3rem;
+
+color:
+var(--primary);
+
+}
+
+
+
+.login-box input{
+
+width:100%;
+
+padding:15px;
+
+margin:10px 0;
+
+border-radius:12px;
+
+border:
+2px solid #87ceeb;
+
+font-size:1rem;
+
+}
+
+
+
+.hidden{
+
+display:none;
+
+}
 
 
 
@@ -307,86 +395,331 @@ transform:scale(1.05);
 </head>
 
 
-<body>
+<body data-theme="light">
+
+
+
+<!-- NAVIGATION -->
 
 
 <nav>
 
-<button class="nav-btn" onclick="location.href='index.html'">
+
+<button class="nav-btn"
+onclick="location.href='index.html'">
+
 🏠 Dashboard
+
 </button>
 
-<button class="nav-btn" onclick="location.href='bestie.html'">
+
+
+<button class="nav-btn"
+onclick="location.href='bestie.html'">
+
 🫂 Bestie
+
 </button>
 
-<button class="nav-btn" onclick="location.href='pet.html'">
-🐶 Pet
+
+
+<button class="nav-btn"
+onclick="location.href='letters.html'">
+
+💌 Letters
+
 </button>
 
-<button class="nav-btn" onclick="toggleDarkMode()">
-🌙 Dark Mode
+
+
+<button class="nav-btn"
+onclick="toggleDarkMode()">
+
+🌗 Theme
+
 </button>
 
-</nav>
 
 
-
-<div class="bestie" onclick="location.href='bestie.html'">
-🫂
-</div><main>
+</nav><!-- LOGIN SCREEN -->
 
 
-<section class="hero">
+<div id="loginScreen">
 
-<h1>🐶 My Lifeline Pet</h1>
+
+<div class="login-box">
+
+
+<h1>
+🐶 My Lifeline
+</h1>
+
 
 <p>
-Your little companion is here whenever you need a friend.
+Enter your personal key
 </p>
 
-</section>
+
+
+<input
+id="username"
+placeholder="Username">
+
+
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+
+
+<button class="main-btn"
+onclick="checkLogin()">
+
+Enter Safe Space
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- MAIN CONTENT -->
+
+
+<div id="mainContent" class="hidden">
+
+
+<main>
+
+
+
+<header>
+
+
+<h1>
+🐾 Virtual Pet
+</h1>
+
+
+<p>
+Take care of your little Lifeline companion.
+</p>
+
+
+</header>
+
+
+
+
+
+
 
 
 
 <section class="card">
 
 
-<div id="pet" class="pet">
+<h2 style="
+color:var(--primary);
+">
+
+Meet Your Friend
+
+</h2>
+
+
+
+<div style="
+font-size:6rem;
+margin:20px;
+"
+id="petEmoji">
+
 🐶
-</div>
-
-
-
-<div class="status">
-
-<p>
-❤️ Happiness: <span id="happy">50</span>/100
-</p>
-
-
-<p>
-🍖 Hunger: <span id="hunger">50</span>/100
-</p>
-
-
-<p>
-⚡ Energy: <span id="energy">50</span>/100
-</p>
-
-
-<p>
-😊 Mood: <span id="mood">Happy</span>
-</p>
-
 
 </div>
 
 
-<br>
 
 
-<button class="action" onclick="feedPet()">
+<h2 id="petName">
+
+Max
+
+</h2>
+
+
+
+
+<p id="petMood">
+
+😊 Happy
+
+</p>
+
+
+
+<input
+id="nameInput"
+placeholder="Pet name..."
+style="
+padding:12px;
+border-radius:15px;
+border:2px solid #87ceeb;
+font-family:inherit;
+margin-top:15px;
+">
+
+
+
+<button class="main-btn"
+onclick="changeName()">
+
+✏️ Rename
+
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="card">
+
+
+<h2 style="
+color:var(--primary);
+">
+
+📊 Pet Stats
+
+</h2>
+
+
+
+
+<p>
+🍖 Hunger
+</p>
+
+
+<div style="
+background:#ddd;
+height:20px;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:15px;
+">
+
+<div id="hungerBar"
+style="
+height:100%;
+width:80%;
+background:var(--primary);
+">
+</div>
+
+</div>
+
+
+
+
+
+<p>
+❤️ Happiness
+</p>
+
+
+<div style="
+background:#ddd;
+height:20px;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:15px;
+">
+
+<div id="happyBar"
+style="
+height:100%;
+width:80%;
+background:var(--accent);
+">
+</div>
+
+</div>
+
+
+
+
+
+
+<p>
+⚡ Energy
+</p>
+
+
+<div style="
+background:#ddd;
+height:20px;
+border-radius:20px;
+overflow:hidden;
+">
+
+<div id="energyBar"
+style="
+height:100%;
+width:80%;
+background:#81d4fa;
+">
+</div>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="card">
+
+
+<h2 style="
+color:var(--primary);
+">
+
+🐾 Spend Time Together
+
+</h2>
+
+
+
+
+<button class="main-btn"
+onclick="feedPet()">
 
 🍖 Feed
 
@@ -394,7 +727,9 @@ Your little companion is here whenever you need a friend.
 
 
 
-<button class="action" onclick="playPet()">
+
+<button class="main-btn"
+onclick="playPet()">
 
 🎾 Play
 
@@ -402,23 +737,22 @@ Your little companion is here whenever you need a friend.
 
 
 
-<button class="action" onclick="comfortPet()">
 
-🫂 Comfort
+<button class="main-btn"
+onclick="cuddlePet()">
 
-</button>
-
-
-
-<button class="action" onclick="restPet()">
-
-😴 Rest
+🫂 Cuddle
 
 </button>
 
 
 
 </section>
+
+
+
+
+
 
 
 
@@ -426,37 +760,285 @@ Your little companion is here whenever you need a friend.
 <section class="card">
 
 
-<h2>
-💙 Your Pet Message
+<h2 style="
+color:var(--primary);
+">
+
+💙 Pet Message
+
 </h2>
 
 
-<p id="message">
+
+<p id="petMessage">
 
 Your pet is happy you are here.
 
 </p>
 
 
+
 </section>
 
 
 
-</main><script>
 
 
-// Pet Data
+</main>
 
-let petData = JSON.parse(
-localStorage.getItem("lifelinePet")
-) || {
 
-happiness:50,
-hunger:50,
-energy:50,
-mood:"Happy"
+</div><script>
 
-};
+
+// =========================
+// THEME SYNC
+// =========================
+
+
+function toggleDarkMode(){
+
+
+const current =
+document.documentElement.getAttribute(
+"data-theme"
+);
+
+
+
+const newTheme =
+current==="dark"
+?
+"light"
+:
+"dark";
+
+
+
+document.documentElement.setAttribute(
+"data-theme",
+newTheme
+);
+
+
+
+localStorage.setItem(
+"lifeline-theme",
+newTheme
+);
+
+
+}
+
+
+
+
+if(
+localStorage.getItem("lifeline-theme")
+==="dark"
+){
+
+document.documentElement.setAttribute(
+"data-theme",
+"dark"
+);
+
+}
+
+
+
+
+
+
+
+
+
+// =========================
+// LOGIN
+// =========================
+
+
+function checkLogin(){
+
+
+const user =
+document.getElementById("username")
+.value
+.trim()
+.toLowerCase();
+
+
+
+const pass =
+document.getElementById("password")
+.value
+.trim();
+
+
+
+if(
+
+(user==="ryan" && pass==="ITSmf420") ||
+
+(user==="guest" && pass==="guest") ||
+
+(user==="visitor" && pass==="welcome") ||
+
+(user==="friend" && pass==="lifeline") ||
+
+(user==="nc" && pass==="boone")
+
+){
+
+
+localStorage.setItem(
+"lifelineAuthenticated",
+"true"
+);
+
+
+
+document
+.getElementById("loginScreen")
+.classList.add("hidden");
+
+
+
+document
+.getElementById("mainContent")
+.classList.remove("hidden");
+
+
+
+loadPet();
+
+
+}
+
+
+else{
+
+
+alert(
+"Incorrect username or password."
+);
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+if(
+
+localStorage.getItem(
+"lifelineAuthenticated"
+)
+==="true"
+
+){
+
+
+document
+.getElementById("loginScreen")
+.classList.add("hidden");
+
+
+
+document
+.getElementById("mainContent")
+.classList.remove("hidden");
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+// =========================
+// PET DATA
+// =========================
+
+
+
+let pet = JSON.parse(
+
+localStorage.getItem(
+"lifelinePet"
+)
+
+||
+
+`{
+"name":"Max",
+"hunger":80,
+"happy":80,
+"energy":80
+}`
+
+);
+
+
+
+
+
+
+
+
+function savePet(){
+
+
+localStorage.setItem(
+
+"lifelinePet",
+
+JSON.stringify(pet)
+
+);
+
+
+}
+
+
+
+
+
+
+
+
+
+function loadPet(){
+
+
+document.getElementById(
+"petName"
+)
+.innerHTML =
+pet.name;
+
+
+
+updatePet();
+
+
+}
+
+
+
+
+
 
 
 
@@ -464,64 +1046,176 @@ mood:"Happy"
 function updatePet(){
 
 
-document.getElementById("happy").textContent =
-petData.happiness;
-
-
-document.getElementById("hunger").textContent =
-petData.hunger;
-
-
-document.getElementById("energy").textContent =
-petData.energy;
-
-
-document.getElementById("mood").textContent =
-petData.mood;
+document.getElementById(
+"hungerBar"
+)
+.style.width =
+pet.hunger+"%";
 
 
 
-localStorage.setItem(
-"lifelinePet",
-JSON.stringify(petData)
-);
+document.getElementById(
+"happyBar"
+)
+.style.width =
+pet.happy+"%";
+
+
+
+document.getElementById(
+"energyBar"
+)
+.style.width =
+pet.energy+"%";
+
+
+
+document.getElementById(
+"petName"
+)
+.innerHTML =
+pet.name;
+
+
+
+let mood;
+
+
+
+if(pet.happy>70){
+
+mood="😊 Happy";
+
+}
+
+else if(pet.happy>40){
+
+mood="🙂 Okay";
+
+}
+
+else{
+
+mood="🥺 Needs attention";
+
+}
+
+
+
+document.getElementById(
+"petMood"
+)
+.innerHTML =
+mood;
+
+
+
+savePet();
 
 
 }
 
 
 
-function setMessage(text){
 
-document.getElementById("message").textContent=text;
+
+
+
+
+
+// =========================
+// RENAME PET
+// =========================
+
+
+function changeName(){
+
+
+const name =
+document.getElementById(
+"nameInput"
+)
+.value.trim();
+
+
+
+if(name){
+
+
+pet.name=name;
+
+
+document.getElementById(
+"nameInput"
+)
+.value="";
+
+
+
+document.getElementById(
+"petMessage"
+)
+.innerHTML =
+"Your pet loves their new name 💙";
+
+
+
+updatePet();
+
 
 }
 
 
+}
+
+
+
+
+
+
+
+
+
+// =========================
+// PET ACTIONS
+// =========================
 
 
 function feedPet(){
 
 
-petData.hunger =
-Math.min(100, petData.hunger + 20);
-
-
-petData.happiness =
-Math.min(100, petData.happiness + 5);
-
-
-petData.mood="Full & Happy";
-
-
-setMessage(
-"Your pet enjoyed the snack! 🍖"
+pet.hunger =
+Math.min(
+100,
+pet.hunger+20
 );
+
+
+
+pet.happy =
+Math.min(
+100,
+pet.happy+5
+);
+
+
+
+document.getElementById(
+"petMessage"
+)
+.innerHTML =
+"🍖 Your pet enjoyed the food!";
+
 
 
 updatePet();
 
+
 }
+
+
+
+
 
 
 
@@ -529,11 +1223,14 @@ updatePet();
 function playPet(){
 
 
-if(petData.energy < 10){
+if(pet.energy<15){
 
-setMessage(
-"Your pet is tired. Let them rest first 😴"
-);
+
+document.getElementById(
+"petMessage"
+)
+.innerHTML =
+"😴 Your pet needs rest first.";
 
 return;
 
@@ -541,69 +1238,37 @@ return;
 
 
 
-petData.energy -=10;
 
-
-petData.happiness =
-Math.min(100, petData.happiness + 15);
-
-
-petData.hunger =
-Math.min(100, petData.hunger + 5);
-
-
-petData.mood="Excited";
-
-
-setMessage(
-"Your pet had fun playing with you! 🎾"
+pet.happy =
+Math.min(
+100,
+pet.happy+15
 );
 
 
-updatePet();
 
-
-}
-
-
-
-
-function comfortPet(){
-
-
-petData.happiness =
-Math.min(100, petData.happiness + 10);
-
-
-petData.mood="Loved";
-
-
-setMessage(
-"Your pet feels safe with you. 🫂"
+pet.energy =
+Math.max(
+0,
+pet.energy-15
 );
 
 
-updatePet();
 
-
-}
-
-
-
-
-function restPet(){
-
-
-petData.energy =
-Math.min(100, petData.energy + 20);
-
-
-petData.mood="Relaxed";
-
-
-setMessage(
-"Your pet is resting and feeling better. 🌙"
+pet.hunger =
+Math.max(
+0,
+pet.hunger-5
 );
+
+
+
+document.getElementById(
+"petMessage"
+)
+.innerHTML =
+"🎾 Your pet had fun playing!";
+
 
 
 updatePet();
@@ -615,45 +1280,96 @@ updatePet();
 
 
 
-// Dark Mode
-
-function toggleDarkMode(){
 
 
-document.body.classList.toggle(
-"dark-mode"
+
+function cuddlePet(){
+
+
+pet.happy =
+Math.min(
+100,
+pet.happy+10
 );
 
 
-localStorage.setItem(
-"darkMode",
-document.body.classList.contains("dark-mode")
+
+pet.energy =
+Math.min(
+100,
+pet.energy+5
 );
 
 
-}
 
+document.getElementById(
+"petMessage"
+)
+.innerHTML =
+"🫂 Your pet feels loved.";
 
-
-
-if(localStorage.getItem("darkMode")==="true"){
-
-document.body.classList.add(
-"dark-mode"
-);
-
-}
 
 
 
 
 updatePet();
 
+
+}
+
+
+
+
+
+
+
+
+
+// =========================
+// PET NATURAL DECAY
+// =========================
+
+
+setInterval(()=>{
+
+
+if(
+!document
+.getElementById("mainContent")
+.classList.contains("hidden")
+){
+
+
+pet.hunger =
+Math.max(
+0,
+pet.hunger-1
+);
+
+
+
+pet.energy =
+Math.max(
+0,
+pet.energy-1
+);
+
+
+
+updatePet();
+
+
+}
+
+
+},60000);
+
+
+
+
+
+
+loadPet();
 
 
 </script>
-
-
-</body>
-
-</html>
