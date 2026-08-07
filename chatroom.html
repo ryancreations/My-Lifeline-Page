@@ -88,12 +88,54 @@
 </head>
 <body>
 <!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
+<nav>
+    <div class="logo">
+      <span>🫂</span> My Lifeline
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+      <button class="nav-btn" onclick="navigateTo('index.html')">🏠 Dashboard</button>
+
+      <div class="dropdown">
+        <button class="nav-btn">🛡️ Support</button>
+        <div class="dropdown-content">
+          <a href="emergency.html">🚨 Emergency</a>
+          <a href="bestie.html">🫂 AI Bestie</a>
+          <a href="onebreath.html">😮‍💨 Breathing</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">🧠 Tools</button>
+        <div class="dropdown-content">
+          <a href="mental.html">Mental Tools</a>
+          <a href="reflect.html">📝 Reflect</a>
+          <a href="reframe.html">💭 Reframe</a>
+          <a href="emotion-radar.html">📡 Emotion Radar</a>
+          <a href="selfcare.html">🧘 Selfcare</a>
+          <a href="selfcare-planner.html">📓 Planner</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">🌈 Comfort</button>
+        <div class="dropdown-content">
+          <a href="music.html">🎵 Music</a>
+          <a href="lofiroom.html">🌙 Lofi Room</a>
+          <a href="videos.html">📺 Videos</a>
+          <a href="virtualpet.html">🐾 Virtual Pet</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">📖 Journal</button>
+        <div class="dropdown-content">
+          <a href="letters.html">✉️ Letters</a>
+          <a href="goodthings.html">🌱 Good Things</a>
+          <a href="todayistayed.html">📌 Today I Stayed</a>
+          <a href="yourenough.html">💙 You're Enough</a>
+        </div>
+      </div>
 
 <!-- Floating Bestie Orb -->
 <div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
