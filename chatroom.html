@@ -1,226 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lifeline Chatroom • Ryan's Safe Space</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatroom • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
+    :root {
+      --primary: #00bcd4;
+      --accent: #ff9ff3;
+      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+      --card: #ffffff;
+      --text: #2c3e50;
+      --shadow: rgba(0,0,0,0.12);
+    }
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
+      --card: #2c3e50;
+      --text: #e0f2f1;
+      --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --shadow: rgba(0,0,0,0.4);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #0d1117;
-      color: #c9d1d9;
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
       min-height: 100vh;
+      transition: background 0.6s ease;
     }
-    #auth-box, #signup-box, #chat-box {
-      max-width: 400px;
-      margin: 40px auto;
-      padding: 24px;
-      background: #161b22;
-      border-radius: 12px;
-      border: 1px solid #30363d;
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(135, 206, 235, 0.97);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 20px var(--shadow);
     }
-    h2 { color: #58a6ff; text-align: center; }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
+    [data-theme="dark"] nav { background: rgba(26, 38, 57, 0.97); }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      background: white;
+      color: var(--primary);
       border: none;
-      background: #0d1117;
-      color: white;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 20px;
-      border: none;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: bold;
     }
-    #login-btn { background: #58a6ff; color: #000; }
-    #signup-submit-btn { background: #238636; color: white; }
-    #google-signin-btn {
-      background: #ffffff;
-      color: #000;
+
+    .floating-bestie {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 75px;
+      height: 75px;
+      background: var(--accent);
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      font-size: 2.6rem;
+      box-shadow: 0 10px 30px rgba(255,159,243,0.5);
+      cursor: pointer;
+      z-index: 999;
     }
-    #google-signin-btn img { width: 20px; height: 20px; }
-    #logout-btn { background: #ff6b6b; color: white; width: auto; padding: 8px 16px; margin: 0 auto 16px; display: block; }
-    #auth-error, #signup-error { color: #ff6b6b; text-align: center; margin-top: 12px; }
-    #chat-box { display: none; }
-    #signup-box { display: none; }
-    #messages {
-      height: 50vh;
-      overflow-y: auto;
-      border: 1px solid #30363d;
-      border-radius: 10px;
-      padding: 16px;
-      background: #0d1117;
-      margin: 16px 0;
+
+    /* Auth / Chat boxes */
+    #auth-box, #signup-box, #chat-box {
+      max-width: 480px;
+      margin: 110px auto 40px;
+      background: var(--card);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 15px 40px var(--shadow);
     }
-    .message {
+
+    h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 18px;
       margin: 10px 0;
-      padding: 10px 14px;
       border-radius: 16px;
-      max-width: 80%;
+      border: 2px solid var(--primary);
+      background: transparent;
+      color: var(--text);
+      font-size: 1rem;
     }
-    .message.sent { background: #238636; color: white; margin-left: auto; }
-    .message.received { background: #21262d; margin-right: auto; }
-    #input-area { display: flex; gap: 10px; }
-    #message-input {
-      flex: 1;
-      padding: 12px;
-      border-radius: 20px;
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 30px;
       border: none;
-      background: #21262d;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    #login-btn, #send-btn { background: var(--primary); color: white; }
+    #signup-submit-btn { background: #27ae60; color: white; }
+    #logout-btn {
+      background: #e74c3c;
+      color: white;
+      width: auto;
+      padding: 8px 20px;
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    #messages {
+      height: 48vh;
+      overflow-y: auto;
+      padding: 16px;
+      margin: 20px 0;
+      border-radius: 20px;
+      background: rgba(0,0,0,0.03);
+    }
+    [data-theme="dark"] #messages { background: rgba(0,0,0,0.2); }
+
+    /* iMessage-style bubbles */
+    .message {
+      max-width: 78%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 20px;
+      position: relative;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .message.sent {
+      background: #007aff;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 6px;
+    }
+    .message.received {
+      background: #e5e5ea;
+      color: #000;
+      margin-right: auto;
+      border-bottom-left-radius: 6px;
+    }
+    [data-theme="dark"] .message.received {
+      background: #3a3a3c;
       color: white;
     }
-    #send-btn { background: #58a6ff; color: #000; }
-    .tagline { text-align: center; color: #8b949e; margin-bottom: 20px; }
-    .back-link { text-align: center; margin-top: 16px; color: #58a6ff; cursor: pointer; }
+
+    .message .name {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .message .time {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .react-btn {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-left: 6px;
+      opacity: 0.7;
+    }
+    .react-btn:hover { opacity: 1; }
+
+    #input-area {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    #message-input {
+      flex: 1;
+      border-radius: 30px;
+    }
+    #send-btn {
+      width: auto;
+      padding: 12px 24px;
+    }
+
+    .tagline {
+      text-align: center;
+      opacity: 0.8;
+      margin-bottom: 16px;
+    }
   </style>
 </head>
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav>
-    <div class="logo">
-      <span>🫂</span> My Lifeline
+<body data-theme="light">
+
+  <nav>
+    <div class="logo"><span>🫂</span> My Lifeline</div>
+    <div style="display:flex; gap:12px;">
+      <button class="nav-btn" onclick="location.href='index.html'">← Dashboard</button>
+      <button class="nav-btn" onclick="toggleDarkMode()">🌗</button>
     </div>
+  </nav>
 
-    <div class="nav-menu" id="navMenu">
-      <button class="nav-btn" onclick="navigateTo('index.html')">🏠 Dashboard</button>
+  <div class="floating-bestie" onclick="location.href='bestie.html'">🫂</div>
 
-      <div class="dropdown">
-        <button class="nav-btn">🛡️ Support</button>
-        <div class="dropdown-content">
-          <a href="emergency.html">🚨 Emergency</a>
-          <a href="bestie.html">🫂 AI Bestie</a>
-          <a href="onebreath.html">😮‍💨 Breathing</a>
-        </div>
-      </div>
-
-      <div class="dropdown">
-        <button class="nav-btn">🧠 Tools</button>
-        <div class="dropdown-content">
-          <a href="mental.html">Mental Tools</a>
-          <a href="reflect.html">📝 Reflect</a>
-          <a href="reframe.html">💭 Reframe</a>
-          <a href="emotion-radar.html">📡 Emotion Radar</a>
-          <a href="selfcare.html">🧘 Selfcare</a>
-          <a href="selfcare-planner.html">📓 Planner</a>
-        </div>
-      </div>
-
-      <div class="dropdown">
-        <button class="nav-btn">🌈 Comfort</button>
-        <div class="dropdown-content">
-          <a href="music.html">🎵 Music</a>
-          <a href="lofiroom.html">🌙 Lofi Room</a>
-          <a href="videos.html">📺 Videos</a>
-          <a href="virtualpet.html">🐾 Virtual Pet</a>
-        </div>
-      </div>
-
-      <div class="dropdown">
-        <button class="nav-btn">📖 Journal</button>
-        <div class="dropdown-content">
-          <a href="letters.html">✉️ Letters</a>
-          <a href="goodthings.html">🌱 Good Things</a>
-          <a href="todayistayed.html">📌 Today I Stayed</a>
-          <a href="yourenough.html">💙 You're Enough</a>
-        </div>
-      </div>
-
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
-</div>
-
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
-</div>
-
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-  <!-- Auth Box (Login) -->
+  <!-- Login -->
   <div id="auth-box">
     <h2>Login to Lifeline 💙</h2>
-
-    <!-- Email/Password (fallback) -->
-    <input id="login-email" type="email" placeholder="Email" />
-    <input id="login-password" type="password" placeholder="Password" />
+    <input id="login-email" type="email" placeholder="Email">
+    <input id="login-password" type="password" placeholder="Password">
     <button id="login-btn" onclick="login()">Login</button>
-    <button id="signup-btn" onclick="showSignup()">Sign Up</button>
-
-    <!-- Google Sign-In Button -->
-    <button id="google-signin-btn" onclick="signInWithGoogle()">
-      <img src="https://www.google.com/favicon.ico" alt="Google">
+    <button onclick="showSignup()" style="background:#27ae60;color:white;">Sign Up</button>
+    <button id="google-signin-btn" onclick="signInWithGoogle()" style="background:white;color:#333;border:2px solid #ddd;">
       Sign in with Google
     </button>
-
-    <p id="auth-error"></p>
+    <p id="auth-error" style="color:#e74c3c;text-align:center;margin-top:12px;"></p>
   </div>
 
-  <!-- Signup Box -->
-  <div id="signup-box">
+  <!-- Signup -->
+  <div id="signup-box" style="display:none;">
     <h2>Sign Up for Lifeline 💙</h2>
-
-    <input id="nickname" type="text" placeholder="Choose your nickname (at least 3 characters)" />
-    <input id="signup-email" type="email" placeholder="Email" />
-    <input id="signup-password" type="password" placeholder="Password (at least 6 characters)" />
-    <input id="confirm-password" type="password" placeholder="Confirm Password" />
-    <button id="signup-submit-btn" onclick="signup()">Sign Up</button>
-
-    <p id="signup-error"></p>
-    <p class="back-link" onclick="showLogin()">Back to Login</p>
+    <input id="nickname" type="text" placeholder="Nickname (at least 3 characters)">
+    <input id="signup-email" type="email" placeholder="Email">
+    <input id="signup-password" type="password" placeholder="Password (min 6 characters)">
+    <input id="confirm-password" type="password" placeholder="Confirm Password">
+    <button id="signup-submit-btn" onclick="signup()">Create Account</button>
+    <p id="signup-error" style="color:#e74c3c;text-align:center;margin-top:12px;"></p>
+    <p style="text-align:center;margin-top:16px;cursor:pointer;color:var(--primary);" onclick="showLogin()">← Back to Login</p>
   </div>
 
-  <!-- Chat Box (hidden until logged in) -->
-  <div id="chat-box">
+  <!-- Chat -->
+  <div id="chat-box" style="display:none;">
     <h2>Lifeline Chatroom 💬</h2>
     <p class="tagline">You're safe here. Everyone's going through something.</p>
-    <p style="text-align:center;">Logged in as: <span id="user-display"></span></p>
+    <p style="text-align:center;">Logged in as: <strong id="user-display"></strong></p>
     <button id="logout-btn" onclick="logout()">Logout</button>
 
     <div id="messages"></div>
 
     <div id="input-area">
-      <input type="text" id="message-input" placeholder="Type here and hit Enter or Send..." />
+      <input type="text" id="message-input" placeholder="Type a message..." />
       <button id="send-btn" onclick="sendMessage()">Send</button>
     </div>
   </div>
@@ -238,22 +277,30 @@ if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('da
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, serverTimestamp, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const auth = getAuth(app);
-
     const messagesRef = ref(db, 'lifeline-chat');
 
-    // Auth state listener – show chat when logged in
+    // Theme
+    window.toggleDarkMode = () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark');
+    };
+    if (localStorage.getItem('lifeline-theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         document.getElementById('auth-box').style.display = 'none';
         document.getElementById('signup-box').style.display = 'none';
         document.getElementById('chat-box').style.display = 'block';
-        document.getElementById('user-display').textContent = user.displayName || user.email.split('@')[0] || 'User';
+        document.getElementById('user-display').textContent = user.displayName || user.email.split('@')[0];
         loadMessages();
       } else {
         document.getElementById('auth-box').style.display = 'block';
@@ -262,36 +309,25 @@ if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('da
       }
     });
 
-    // Show Signup Form
     window.showSignup = () => {
       document.getElementById('auth-box').style.display = 'none';
       document.getElementById('signup-box').style.display = 'block';
     };
-
-    // Show Login Form
     window.showLogin = () => {
       document.getElementById('auth-box').style.display = 'block';
       document.getElementById('signup-box').style.display = 'none';
     };
 
-    // Google Sign-In
     window.signInWithGoogle = async () => {
       const provider = new GoogleAuthProvider();
-      // Optional: force account selection
       provider.setCustomParameters({ prompt: 'select_account' });
-
       try {
-        const result = await signInWithPopup(auth, provider);
-        // Success – auth state listener handles UI update
+        await signInWithPopup(auth, provider);
       } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        document.getElementById('auth-error').textContent = errorMessage || 'Google sign-in failed. Try again.';
-        console.error('Google Sign-In Error:', errorCode, errorMessage);
+        document.getElementById('auth-error').textContent = error.message || 'Google sign-in failed';
       }
     };
 
-    // Email/Password Login
     window.login = () => {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
@@ -299,7 +335,6 @@ if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('da
         .catch(err => document.getElementById('auth-error').textContent = err.message);
     };
 
-    // Sign Up with Email/Password and Nickname
     window.signup = async () => {
       const nickname = document.getElementById('nickname').value.trim();
       const email = document.getElementById('signup-email').value;
@@ -307,75 +342,76 @@ if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('da
       const confirmPassword = document.getElementById('confirm-password').value;
       const errorEl = document.getElementById('signup-error');
 
-      errorEl.textContent = ''; // Clear previous errors
-
-      if (nickname.length < 3) {
-        errorEl.textContent = 'Nickname must be at least 3 characters.';
-        return;
-      }
-      if (password !== confirmPassword) {
-        errorEl.textContent = 'Passwords do not match!';
-        return;
-      }
-      if (password.length < 6) {
-        errorEl.textContent = 'Password must be at least 6 characters.';
-        return;
-      }
+      if (nickname.length < 3) return errorEl.textContent = 'Nickname must be at least 3 characters.';
+      if (password !== confirmPassword) return errorEl.textContent = 'Passwords do not match!';
+      if (password.length < 6) return errorEl.textContent = 'Password must be at least 6 characters.';
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Set nickname as displayName
-        await updateProfile(user, { displayName: nickname });
-
-        // Success – auth state listener handles UI update
+        await updateProfile(userCredential.user, { displayName: nickname });
       } catch (err) {
-        let msg = err.message;
-        if (err.code === 'auth/email-already-in-use') {
-          msg = 'Email already in use.';
-        } else if (err.code === 'auth/weak-password') {
-          msg = 'Password should be at least 6 characters.';
-        } else if (err.code === 'auth/invalid-email') {
-          msg = 'Invalid email format.';
-        }
-        errorEl.textContent = msg;
+        errorEl.textContent = err.message;
       }
     };
 
-    // Logout
     window.logout = () => signOut(auth);
 
-    // Send Message
     window.sendMessage = () => {
       const input = document.getElementById('message-input');
       const text = input.value.trim();
       if (!text || !auth.currentUser) return;
 
       push(messagesRef, {
-        name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0] || 'User',
+        name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
         text,
         timestamp: serverTimestamp(),
-        uid: auth.currentUser.uid
-      }).then(() => input.value = '')
-        .catch(err => console.error('Send error:', err));
+        uid: auth.currentUser.uid,
+        reactions: {}
+      }).then(() => input.value = '');
     };
 
-    // Load & listen for messages
+    function formatTime(ts) {
+      if (!ts) return '';
+      const date = new Date(ts);
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
     function loadMessages() {
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerHTML = '';
+
       onChildAdded(messagesRef, (snapshot) => {
         const msg = snapshot.val();
         if (!msg?.text) return;
-        const div = document.createElement('div');
+
         const isSent = msg.uid === auth.currentUser?.uid;
+        const div = document.createElement('div');
         div.className = `message ${isSent ? 'sent' : 'received'}`;
-        div.innerHTML = `<strong>${msg.name}:</strong> ${msg.text}`;
-        document.getElementById('messages').appendChild(div);
-        div.scrollIntoView({ behavior: 'smooth' });
+        div.dataset.id = snapshot.key;
+
+        div.innerHTML = `
+          ${!isSent ? `<div class="name">${msg.name}</div>` : ''}
+          <div>${msg.text}</div>
+          <div class="time">
+            ${formatTime(msg.timestamp)}
+            <button class="react-btn" onclick="reactToMessage('${snapshot.key}')">❤️</button>
+          </div>
+        `;
+        messagesDiv.appendChild(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
       });
     }
 
-    // Enter key to send
+    // Simple heart reaction
+    window.reactToMessage = (msgId) => {
+      if (!auth.currentUser) return;
+      const reactionRef = ref(db, `lifeline-chat/${msgId}/reactions/${auth.currentUser.uid}`);
+      // Toggle heart (simple version)
+      update(ref(db, `lifeline-chat/${msgId}/reactions`), {
+        [auth.currentUser.uid]: '❤️'
+      });
+    };
+
     document.getElementById('message-input')?.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         e.preventDefault();
