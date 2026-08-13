@@ -14,19 +14,17 @@
       --input-bg: white;
       --border: rgba(0,0,0,0.15);
     }
-
     [data-theme="dark"] {
-      --bg: #000000;
+      --bg: #000;
       --header-bg: rgba(28, 28, 30, 0.94);
       --bubble-sent: #0a84ff;
       --bubble-received: #1c1c1e;
-      --text: #ffffff;
+      --text: #fff;
       --input-bg: #1c1c1e;
       --border: rgba(255,255,255,0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
@@ -43,269 +41,142 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 16px; z-index: 100;
     }
-
-    .back-btn {
-      color: #007aff;
-      font-size: 17px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .header-title {
-      font-size: 17px;
-      font-weight: 600;
-      flex: 1;
-      text-align: center;
-    }
+    .back-btn { color: #007aff; font-size: 17px; background: none; border: none; cursor: pointer; }
+    .header-title { font-size: 17px; font-weight: 600; flex: 1; text-align: center; }
 
     #chat-container {
-      position: fixed;
-      top: 56px;
-      bottom: 70px;
-      left: 0;
-      right: 0;
-      overflow-y: auto;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
+      position: fixed; top: 56px; bottom: 70px; left: 0; right: 0;
+      overflow-y: auto; padding: 12px;
+      display: flex; flex-direction: column; gap: 3px;
       background: var(--bg);
     }
 
     .message {
-      max-width: 78%;
-      padding: 9px 14px;
-      border-radius: 18px;
-      font-size: 16px;
-      line-height: 1.35;
-      position: relative;
-      word-wrap: break-word;
-      user-select: none;
+      max-width: 78%; padding: 9px 14px; border-radius: 18px;
+      font-size: 16px; line-height: 1.35; position: relative;
+      word-wrap: break-word; user-select: none;
     }
-
-    .message.sent {
-      background: var(--bubble-sent);
-      color: white;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-
-    .message.received {
-      background: var(--bubble-received);
-      color: var(--text);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-    }
-
-    .message .sender-name {
-      font-size: 12px;
-      opacity: 0.7;
-      margin-bottom: 3px;
-      font-weight: 500;
-    }
-
-    .message .timestamp {
-      font-size: 11px;
-      opacity: 0.7;
-      margin-top: 4px;
-      text-align: right;
-    }
-
-    .message img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-top: 6px;
-      display: block;
-    }
-
-    .message a {
-      color: inherit;
-      text-decoration: underline;
-    }
+    .message.sent { background: var(--bubble-sent); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .message.received { background: var(--bubble-received); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .message .sender-name { font-size: 12px; opacity: 0.7; margin-bottom: 3px; font-weight: 500; }
+    .message .timestamp { font-size: 11px; opacity: 0.7; margin-top: 4px; text-align: right; }
+    .message img { max-width: 100%; border-radius: 12px; margin-top: 6px; display: block; }
+    .message a { color: inherit; text-decoration: underline; }
 
     #reply-preview {
-      display: none;
-      background: var(--bubble-received);
-      padding: 8px 14px;
-      font-size: 14px;
-      border-left: 4px solid #007aff;
-      margin-bottom: 6px;
-      border-radius: 8px;
-      position: relative;
+      display: none; background: var(--bubble-received); padding: 8px 14px;
+      font-size: 14px; border-left: 4px solid #007aff; margin-bottom: 6px;
+      border-radius: 8px; position: relative;
     }
-
     #reply-preview .cancel-reply {
-      position: absolute;
-      right: 10px;
-      top: 8px;
-      color: #007aff;
-      cursor: pointer;
-      font-weight: 600;
+      position: absolute; right: 10px; top: 8px; color: #007aff; cursor: pointer; font-weight: 600;
     }
 
     #context-menu {
-      position: fixed;
-      background: var(--input-bg);
-      color: var(--text);
-      border-radius: 14px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      z-index: 1000;
-      display: none;
-      overflow: hidden;
-      min-width: 180px;
+      position: fixed; background: var(--input-bg); color: var(--text);
+      border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      z-index: 1000; display: none; overflow: hidden; min-width: 190px;
     }
-
     #context-menu button {
-      display: block;
-      width: 100%;
-      padding: 14px 18px;
-      border: none;
-      background: none;
-      text-align: left;
-      font-size: 16px;
-      cursor: pointer;
-      color: var(--text);
+      display: block; width: 100%; padding: 14px 18px; border: none;
+      background: none; text-align: left; font-size: 16px; cursor: pointer; color: var(--text);
     }
-
-    #context-menu button:active {
-      background: rgba(0,0,0,0.08);
-    }
-
-    #context-menu button.delete {
-      color: #ff3b30;
-    }
+    #context-menu button:active { background: rgba(0,0,0,0.08); }
+    #context-menu button.delete { color: #ff3b30; }
 
     .imessage-input-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      position: fixed; bottom: 0; left: 0; right: 0;
       background: var(--header-bg);
       backdrop-filter: blur(20px);
       border-top: 0.5px solid var(--border);
       padding: 8px 12px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      display: flex; flex-direction: column; gap: 6px;
     }
-
-    .input-row {
-      display: flex;
-      align-items: flex-end;
-      gap: 8px;
-    }
-
+    .input-row { display: flex; align-items: flex-end; gap: 8px; }
     #message-input {
-      flex: 1;
-      border: none;
-      background: var(--input-bg);
-      color: var(--text);
-      border-radius: 20px;
-      padding: 10px 16px;
-      font-size: 16px;
-      outline: none;
+      flex: 1; border: none; background: var(--input-bg); color: var(--text);
+      border-radius: 20px; padding: 10px 16px; font-size: 16px; outline: none;
       box-shadow: 0 0 0 0.5px var(--border);
     }
-
     .icon-btn, #send-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: none;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
+      width: 36px; height: 36px; border-radius: 50%; border: none;
+      font-size: 18px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
     }
+    .icon-btn { background: var(--bubble-received); color: var(--text); }
+    #send-btn { background: #007aff; color: white; }
 
-    .icon-btn {
-      background: var(--bubble-received);
-      color: var(--text);
-    }
-
-    #send-btn {
-      background: #007aff;
+    /* Call UI */
+    #call-screen {
+      position: fixed; inset: 0; background: #000; z-index: 300;
+      display: none; flex-direction: column; align-items: center; justify-content: center;
       color: white;
     }
-
-    /* Login / Signup */
-    #login-screen, #signup-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 30px;
-      z-index: 200;
+    #remote-video {
+      width: 100%; height: 100%; object-fit: cover; background: #111;
     }
+    #local-video {
+      position: absolute; bottom: 120px; right: 20px;
+      width: 120px; height: 160px; border-radius: 12px;
+      object-fit: cover; border: 2px solid white; background: #222;
+    }
+    .call-controls {
+      position: absolute; bottom: 40px; left: 0; right: 0;
+      display: flex; justify-content: center; gap: 30px;
+    }
+    .call-btn {
+      width: 64px; height: 64px; border-radius: 50%; border: none;
+      font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .end-call { background: #ff3b30; color: white; }
+    .mute-btn { background: #333; color: white; }
 
+    /* Incoming Call */
+    #incoming-call {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 400; display: none; flex-direction: column;
+      align-items: center; justify-content: center; color: white;
+    }
+    #incoming-call h2 { margin-bottom: 10px; }
+    #incoming-call p { opacity: 0.8; margin-bottom: 40px; }
+    .incoming-btns { display: flex; gap: 40px; }
+    .accept-btn { background: #34c759; }
+    .decline-btn { background: #ff3b30; }
+
+    /* Login */
+    #login-screen, #signup-screen {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 30px; z-index: 200;
+    }
     .login-card {
-      background: var(--input-bg);
-      border-radius: 16px;
-      padding: 28px 24px;
+      background: var(--input-bg); border-radius: 16px; padding: 28px 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
-
-    .login-card h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 22px;
-      color: var(--text);
-    }
-
+    .login-card h2 { text-align: center; margin-bottom: 24px; font-size: 22px; color: var(--text); }
     .login-card input {
-      width: 100%;
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 16px;
-      background: var(--bg);
-      color: var(--text);
+      width: 100%; padding: 14px 16px; margin-bottom: 12px;
+      border: 1px solid var(--border); border-radius: 12px;
+      font-size: 16px; background: var(--bg); color: var(--text);
     }
-
     .login-card button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      margin-top: 8px;
-      cursor: pointer;
+      width: 100%; padding: 14px; border: none; border-radius: 12px;
+      font-size: 16px; font-weight: 600; margin-top: 8px; cursor: pointer;
     }
-
     .btn-blue { background: #007aff; color: white; }
     .btn-green { background: #34c759; color: white; }
     .btn-gray { background: var(--bubble-received); color: var(--text); }
-
-    .error-text {
-      color: #ff3b30;
-      text-align: center;
-      margin-top: 12px;
-      font-size: 14px;
-    }
-
-    .pm-badge {
-      background: #007aff;
-      color: white;
-      font-size: 12px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      margin-left: 6px;
-    }
+    .error-text { color: #ff3b30; text-align: center; margin-top: 12px; font-size: 14px; }
+    .pm-badge { background: #007aff; color: white; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
   </style>
 </head>
 <body data-theme="light">
 
+  <!-- Header -->
   <div class="imessage-header">
     <button class="back-btn" id="header-back" onclick="goBack()">← Dashboard</button>
     <div class="header-title" id="header-title">Lifeline Chat</div>
-    <div style="display:flex; gap:12px; align-items:center;">
+    <div style="display:flex; gap:12px;">
       <button class="back-btn" onclick="toggleDarkMode()">🌓</button>
       <button class="back-btn" onclick="logout()" id="logout-btn" style="display:none;">Logout</button>
     </div>
@@ -317,10 +188,13 @@
   <div id="context-menu">
     <button onclick="replyToMessage()">Reply</button>
     <button onclick="startPrivateMessage()">PM</button>
+    <button onclick="startCall(true)">Video Call</button>
+    <button onclick="startCall(false)">Audio Call</button>
     <button onclick="copyMessage()">Copy</button>
     <button class="delete" id="delete-btn" onclick="deleteMessage()" style="display:none;">Delete</button>
   </div>
 
+  <!-- Input Bar -->
   <div class="imessage-input-bar" id="input-bar" style="display:none;">
     <div id="reply-preview">
       <span id="reply-text"></span>
@@ -331,6 +205,26 @@
       <input type="file" id="image-input" accept="image/*,.gif" style="display:none;">
       <input type="text" id="message-input" placeholder="iMessage" autocomplete="off">
       <button id="send-btn" onclick="sendMessage()">↑</button>
+    </div>
+  </div>
+
+  <!-- Call Screen -->
+  <div id="call-screen">
+    <video id="remote-video" autoplay playsinline></video>
+    <video id="local-video" autoplay playsinline muted></video>
+    <div class="call-controls">
+      <button class="call-btn mute-btn" onclick="toggleMute()">🎤</button>
+      <button class="call-btn end-call" onclick="endCall()">📞</button>
+    </div>
+  </div>
+
+  <!-- Incoming Call -->
+  <div id="incoming-call">
+    <h2 id="incoming-name">Incoming Call</h2>
+    <p id="incoming-type">Video Call</p>
+    <div class="incoming-btns">
+      <button class="call-btn accept-btn" onclick="acceptCall()">✓</button>
+      <button class="call-btn decline-btn" onclick="declineCall()">✕</button>
     </div>
   </div>
 
@@ -373,7 +267,7 @@
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp, remove, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, onValue, set, remove, serverTimestamp, off, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
@@ -388,6 +282,19 @@
     let selectedMessage = null;
     let replyTo = null;
     let messageListener = null;
+
+    // WebRTC
+    let localStream = null;
+    let peerConnection = null;
+    let currentCallId = null;
+    let isMuted = false;
+
+    const config = {
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
+      ]
+    };
 
     // Dark mode
     window.toggleDarkMode = () => {
@@ -408,6 +315,7 @@
         document.getElementById('input-bar').style.display = 'flex';
         document.getElementById('logout-btn').style.display = 'block';
         switchToPublic();
+        listenForIncomingCalls();
       } else {
         document.getElementById('login-screen').style.display = 'flex';
         document.getElementById('signup-screen').style.display = 'none';
@@ -462,7 +370,227 @@
 
     window.logout = () => signOut(auth);
 
-    // Private chat helpers
+    // ========== CALLING SYSTEM ==========
+    function listenForIncomingCalls() {
+      if (!auth.currentUser) return;
+      const callsRef = ref(db, `calls/${auth.currentUser.uid}`);
+      
+      onValue(callsRef, (snap) => {
+        const data = snap.val();
+        if (!data) return;
+
+        // Look for incoming offers
+        Object.keys(data).forEach(callId => {
+          const call = data[callId];
+          if (call.status === 'ringing' && call.to === auth.currentUser.uid) {
+            showIncomingCall(call, callId);
+          }
+        });
+      });
+    }
+
+    function showIncomingCall(call, callId) {
+      currentCallId = callId;
+      document.getElementById('incoming-name').textContent = call.fromName || 'Someone';
+      document.getElementById('incoming-type').textContent = call.video ? 'Video Call' : 'Audio Call';
+      document.getElementById('incoming-call').style.display = 'flex';
+
+      // Store offer for later
+      window.currentIncomingCall = { call, callId };
+    }
+
+    window.acceptCall = async () => {
+      document.getElementById('incoming-call').style.display = 'none';
+      const { call, callId } = window.currentIncomingCall;
+      
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({
+          video: call.video,
+          audio: true
+        });
+        document.getElementById('local-video').srcObject = localStream;
+
+        peerConnection = new RTCPeerConnection(config);
+        
+        localStream.getTracks().forEach(track => {
+          peerConnection.addTrack(track, localStream);
+        });
+
+        peerConnection.ontrack = (event) => {
+          document.getElementById('remote-video').srcObject = event.streams[0];
+        };
+
+        peerConnection.onicecandidate = (event) => {
+          if (event.candidate) {
+            push(ref(db, `calls/${call.from}/${callId}/candidates`), event.candidate.toJSON());
+          }
+        };
+
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        await update(ref(db, `calls/${call.from}/${callId}`), {
+          answer: { type: answer.type, sdp: answer.sdp },
+          status: 'accepted'
+        });
+
+        // Listen for ICE candidates from caller
+        onChildAdded(ref(db, `calls/${call.from}/${callId}/candidates`), (snap) => {
+          const candidate = snap.val();
+          if (candidate && peerConnection) {
+            peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+          }
+        });
+
+        document.getElementById('call-screen').style.display = 'flex';
+        if (!call.video) {
+          document.getElementById('remote-video').style.display = 'none';
+          document.getElementById('local-video').style.display = 'none';
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Could not access camera/microphone');
+        declineCall();
+      }
+    };
+
+    window.declineCall = async () => {
+      document.getElementById('incoming-call').style.display = 'none';
+      if (window.currentIncomingCall) {
+        const { call, callId } = window.currentIncomingCall;
+        await update(ref(db, `calls/${call.from}/${callId}`), { status: 'declined' });
+      }
+      window.currentIncomingCall = null;
+    };
+
+    window.startCall = async (video = true) => {
+      if (!selectedMessage || !auth.currentUser) return;
+      const otherUid = selectedMessage.data.uid;
+      const otherName = selectedMessage.data.name;
+
+      if (otherUid === auth.currentUser.uid) {
+        alert("You can't call yourself");
+        return;
+      }
+
+      document.getElementById('context-menu').style.display = 'none';
+
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({
+          video: video,
+          audio: true
+        });
+        document.getElementById('local-video').srcObject = localStream;
+
+        peerConnection = new RTCPeerConnection(config);
+
+        localStream.getTracks().forEach(track => {
+          peerConnection.addTrack(track, localStream);
+        });
+
+        peerConnection.ontrack = (event) => {
+          document.getElementById('remote-video').srcObject = event.streams[0];
+        };
+
+        const callId = push(ref(db, `calls/${auth.currentUser.uid}`)).key;
+        currentCallId = callId;
+
+        peerConnection.onicecandidate = (event) => {
+          if (event.candidate) {
+            push(ref(db, `calls/${auth.currentUser.uid}/${callId}/candidates`), event.candidate.toJSON());
+          }
+        };
+
+        const offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+
+        // Create call entry for the other person
+        await set(ref(db, `calls/${otherUid}/${callId}`), {
+          from: auth.currentUser.uid,
+          fromName: auth.currentUser.displayName || 'User',
+          to: otherUid,
+          offer: { type: offer.type, sdp: offer.sdp },
+          video: video,
+          status: 'ringing',
+          timestamp: serverTimestamp()
+        });
+
+        // Also store under caller
+        await set(ref(db, `calls/${auth.currentUser.uid}/${callId}`), {
+          from: auth.currentUser.uid,
+          to: otherUid,
+          status: 'ringing',
+          video: video
+        });
+
+        // Listen for answer
+        onValue(ref(db, `calls/${otherUid}/${callId}`), async (snap) => {
+          const data = snap.val();
+          if (!data) return;
+
+          if (data.answer && peerConnection && !peerConnection.currentRemoteDescription) {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+          }
+
+          if (data.status === 'declined') {
+            alert('Call declined');
+            endCall();
+          }
+        });
+
+        // Listen for their ICE candidates
+        onChildAdded(ref(db, `calls/${otherUid}/${callId}/candidates`), (snap) => {
+          const candidate = snap.val();
+          if (candidate && peerConnection) {
+            peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+          }
+        });
+
+        document.getElementById('call-screen').style.display = 'flex';
+        if (!video) {
+          document.getElementById('remote-video').style.display = 'none';
+          document.getElementById('local-video').style.display = 'none';
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert('Could not access camera/microphone. Please allow permissions.');
+      }
+    };
+
+    window.toggleMute = () => {
+      if (!localStream) return;
+      isMuted = !isMuted;
+      localStream.getAudioTracks().forEach(track => {
+        track.enabled = !isMuted;
+      });
+      document.querySelector('.mute-btn').textContent = isMuted ? '🔇' : '🎤';
+    };
+
+    window.endCall = async () => {
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+      }
+      if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+      }
+      document.getElementById('call-screen').style.display = 'none';
+      document.getElementById('remote-video').srcObject = null;
+      document.getElementById('local-video').srcObject = null;
+      document.getElementById('remote-video').style.display = 'block';
+      document.getElementById('local-video').style.display = 'block';
+
+      // Clean up call data
+      if (currentCallId && auth.currentUser) {
+        remove(ref(db, `calls/${auth.currentUser.uid}/${currentCallId}`));
+      }
+      currentCallId = null;
+    };
+
+    // ========== REST OF CHAT CODE ==========
     function getPrivateChatId(uid1, uid2) {
       return [uid1, uid2].sort().join('_');
     }
@@ -471,11 +599,7 @@
       if (!selectedMessage || !auth.currentUser) return;
       const otherUid = selectedMessage.data.uid;
       const otherName = selectedMessage.data.name;
-
-      if (otherUid === auth.currentUser.uid) {
-        alert("You can't PM yourself");
-        return;
-      }
+      if (otherUid === auth.currentUser.uid) return alert("You can't PM yourself");
 
       const chatId = getPrivateChatId(auth.currentUser.uid, otherUid);
       currentChatRef = ref(db, `private-chats/${chatId}`);
@@ -485,16 +609,12 @@
       document.getElementById('header-title').innerHTML = `PM with ${otherName} <span class="pm-badge">Private</span>`;
       document.getElementById('header-back').textContent = '← Back to Public';
       document.getElementById('context-menu').style.display = 'none';
-
       loadMessages();
     };
 
     window.goBack = () => {
-      if (isPrivate) {
-        switchToPublic();
-      } else {
-        location.href = 'index.html';
-      }
+      if (isPrivate) switchToPublic();
+      else location.href = 'index.html';
     };
 
     function switchToPublic() {
@@ -506,20 +626,16 @@
       loadMessages();
     }
 
-    // Context menu
     function showContextMenu(e, msgData, element) {
       e.preventDefault();
       selectedMessage = { data: msgData, element, key: element.dataset.key };
-
       const menu = document.getElementById('context-menu');
       menu.style.display = 'block';
       const x = e.clientX || e.touches?.[0].clientX;
       const y = e.clientY || e.touches?.[0].clientY;
-      menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
-      menu.style.top = Math.min(y, window.innerHeight - 180) + 'px';
-
-      document.getElementById('delete-btn').style.display = 
-        (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
+      menu.style.left = Math.min(x, window.innerWidth - 210) + 'px';
+      menu.style.top = Math.min(y, window.innerHeight - 280) + 'px';
+      document.getElementById('delete-btn').style.display = (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
     }
 
     document.addEventListener('click', () => {
@@ -542,15 +658,13 @@
 
     window.copyMessage = () => {
       if (!selectedMessage) return;
-      const text = selectedMessage.data.text || selectedMessage.data.imageUrl || '';
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(selectedMessage.data.text || selectedMessage.data.imageUrl || '');
       document.getElementById('context-menu').style.display = 'none';
     };
 
     window.deleteMessage = async () => {
       if (!selectedMessage || !selectedMessage.key) return;
       if (!confirm('Delete this message?')) return;
-
       try {
         const path = isPrivate 
           ? `private-chats/${getPrivateChatId(auth.currentUser.uid, privateWith.uid)}/${selectedMessage.key}`
@@ -558,21 +672,18 @@
         await remove(ref(db, path));
         selectedMessage.element.remove();
       } catch (err) {
-        alert('Could not delete message');
+        alert('Could not delete');
       }
       document.getElementById('context-menu').style.display = 'none';
     };
 
-    // Send text (supports GIF links)
     window.sendMessage = () => {
       const input = document.getElementById('message-input');
       const text = input.value.trim();
       if (!text || !auth.currentUser) return;
 
-      // Check if the message is just a GIF/image link
       const isMediaLink = /\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(text) || 
-                          text.includes('giphy.com') || 
-                          text.includes('tenor.com');
+                          text.includes('giphy.com') || text.includes('tenor.com');
 
       const messageData = {
         name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
@@ -589,10 +700,7 @@
       }
 
       if (replyTo) {
-        messageData.replyTo = {
-          name: replyTo.name,
-          text: replyTo.text || 'Image'
-        };
+        messageData.replyTo = { name: replyTo.name, text: replyTo.text || 'Image' };
       }
 
       push(currentChatRef, messageData);
@@ -600,24 +708,18 @@
       cancelReply();
     };
 
-    // Image / GIF upload
     document.getElementById('image-input').addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file || !auth.currentUser) return;
 
-      // Show uploading feedback
       const sendBtn = document.getElementById('send-btn');
-      const originalText = sendBtn.textContent;
       sendBtn.textContent = '…';
       sendBtn.disabled = true;
 
       try {
-        const fileName = `${Date.now()}_${file.name}`;
-        const fileRef = storageRef(storage, `chat-images/${fileName}`);
-        
+        const fileRef = storageRef(storage, `chat-images/${Date.now()}_${file.name}`);
         await uploadBytes(fileRef, file);
         const url = await getDownloadURL(fileRef);
-
         push(currentChatRef, {
           name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
           imageUrl: url,
@@ -627,20 +729,18 @@
         });
       } catch (err) {
         console.error(err);
-        alert("Image upload failed.\n\nMake sure Firebase Storage is enabled and the rules allow uploads.");
+        alert("Image upload failed. Check Firebase Storage rules.");
       }
 
-      sendBtn.textContent = originalText;
+      sendBtn.textContent = '↑';
       sendBtn.disabled = false;
       e.target.value = '';
     });
 
     function linkify(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, url => {
-        // If it's an image/gif link, show it as image instead of link
+      return text.replace(/(https?:\/\/[^\s]+)/g, url => {
         if (/\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(url) || url.includes('giphy.com') || url.includes('tenor.com')) {
-          return `<img src="${url}" alt="GIF" style="max-width:100%;border-radius:12px;margin-top:6px;">`;
+          return `<img src="${url}" alt="media" style="max-width:100%;border-radius:12px;margin-top:6px;">`;
         }
         return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
       });
@@ -649,7 +749,6 @@
     function loadMessages() {
       const container = document.getElementById('chat-container');
       container.innerHTML = '';
-
       if (messageListener) off(messageListener);
 
       messageListener = onChildAdded(currentChatRef, (snap) => {
@@ -661,23 +760,16 @@
         div.className = `message ${isMe ? 'sent' : 'received'}`;
         div.dataset.key = snap.key;
 
-        const time = msg.timestamp 
-          ? new Date(msg.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-          : '';
+        const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
 
-        let content = '';
-        if (msg.type === 'image' && msg.imageUrl) {
-          content = `<img src="${msg.imageUrl}" alt="Image" loading="lazy">`;
-        } else {
-          content = linkify(msg.text || '');
-        }
+        let content = msg.type === 'image' && msg.imageUrl 
+          ? `<img src="${msg.imageUrl}" alt="Image" loading="lazy">` 
+          : linkify(msg.text || '');
 
         let replyHtml = '';
         if (msg.replyTo) {
-          replyHtml = `
-            <div style="font-size:13px;opacity:0.8;border-left:3px solid ${isMe ? 'rgba(255,255,255,0.5)' : '#007aff'};padding-left:8px;margin-bottom:6px;">
-              <strong>${msg.replyTo.name}</strong><br>${msg.replyTo.text}
-            </div>`;
+          replyHtml = `<div style="font-size:13px;opacity:0.8;border-left:3px solid ${isMe ? 'rgba(255,255,255,0.5)' : '#007aff'};padding-left:8px;margin-bottom:6px;">
+            <strong>${msg.replyTo.name}</strong><br>${msg.replyTo.text}</div>`;
         }
 
         div.innerHTML = `
@@ -687,7 +779,6 @@
           <div class="timestamp">${time}</div>
         `;
 
-        // Long press / right click
         let pressTimer;
         div.addEventListener('contextmenu', e => showContextMenu(e, msg, div));
         div.addEventListener('touchstart', e => {
