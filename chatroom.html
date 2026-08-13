@@ -2,265 +2,172 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Chatroom • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    :root {
-      --primary: #00bcd4;
-      --accent: #ff9ff3;
-      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
-      --card: #ffffff;
-      --text: #2c3e50;
-      --shadow: rgba(0,0,0,0.12);
-    }
-    [data-theme="dark"] {
-      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
-      --card: #2c3e50;
-      --text: #e0f2f1;
-      --primary: #4fc3f7;
-      --accent: #ff79c6;
-      --shadow: rgba(0,0,0,0.4);
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
-      font-family: 'Quicksand', sans-serif;
-      background: var(--bg-light);
-      color: var(--text);
-      min-height: 100vh;
-      transition: background 0.6s ease;
-    }
-
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: rgba(135, 206, 235, 0.97);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 6px 20px var(--shadow);
-    }
-    [data-theme="dark"] nav { background: rgba(26, 38, 57, 0.97); }
-
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-btn {
-      background: white;
-      color: var(--primary);
-      border: none;
-      padding: 10px 18px;
-      border-radius: 30px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .floating-bestie {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 75px;
-      height: 75px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.6rem;
-      box-shadow: 0 10px 30px rgba(255,159,243,0.5);
-      cursor: pointer;
-      z-index: 999;
-    }
-
-    /* Auth / Chat boxes */
-    #auth-box, #signup-box, #chat-box {
-      max-width: 480px;
-      margin: 110px auto 40px;
-      background: var(--card);
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 15px 40px var(--shadow);
-    }
-
-    h2 {
-      text-align: center;
-      color: var(--primary);
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 18px;
-      margin: 10px 0;
-      border-radius: 16px;
-      border: 2px solid var(--primary);
-      background: transparent;
-      color: var(--text);
-      font-size: 1rem;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin: 10px 0;
-      border-radius: 30px;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    #login-btn, #send-btn { background: var(--primary); color: white; }
-    #signup-submit-btn { background: #27ae60; color: white; }
-    #logout-btn {
-      background: #e74c3c;
-      color: white;
-      width: auto;
-      padding: 8px 20px;
-      margin: 0 auto 16px;
-      display: block;
-    }
-
-    #messages {
-      height: 48vh;
-      overflow-y: auto;
-      padding: 16px;
-      margin: 20px 0;
-      border-radius: 20px;
-      background: rgba(0,0,0,0.03);
-    }
-    [data-theme="dark"] #messages { background: rgba(0,0,0,0.2); }
-
-    /* iMessage-style bubbles */
-    .message {
-      max-width: 78%;
-      padding: 12px 16px;
-      margin: 8px 0;
-      border-radius: 20px;
-      position: relative;
-      line-height: 1.4;
-      word-wrap: break-word;
-    }
-    .message.sent {
-      background: #007aff;
-      color: white;
-      margin-left: auto;
-      border-bottom-right-radius: 6px;
-    }
-    .message.received {
-      background: #e5e5ea;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f2f2f7;
       color: #000;
-      margin-right: auto;
-      border-bottom-left-radius: 6px;
-    }
-    [data-theme="dark"] .message.received {
-      background: #3a3a3c;
-      color: white;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    .message .name {
-      font-size: 0.8rem;
-      opacity: 0.8;
-      margin-bottom: 4px;
-      font-weight: 600;
+    .imessage-header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: rgba(249, 249, 249, 0.94);
+      backdrop-filter: blur(20px);
+      border-bottom: 0.5px solid rgba(0,0,0,0.15);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; z-index: 100;
     }
-    .message .time {
-      font-size: 0.7rem;
-      opacity: 0.7;
-      margin-top: 4px;
-      text-align: right;
+    .back-btn { color: #007aff; font-size: 17px; background: none; border: none; cursor: pointer; }
+    .header-title { font-size: 17px; font-weight: 600; flex: 1; text-align: center; }
+
+    #chat-container {
+      position: fixed; top: 56px; bottom: 70px; left: 0; right: 0;
+      overflow-y: auto; padding: 12px;
+      display: flex; flex-direction: column; gap: 3px;
+      background: #f2f2f7;
     }
 
-    .react-btn {
-      background: none;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-left: 6px;
-      opacity: 0.7;
+    .message {
+      max-width: 78%; padding: 9px 14px; border-radius: 18px;
+      font-size: 16px; line-height: 1.35; position: relative; word-wrap: break-word;
+      user-select: none;
     }
-    .react-btn:hover { opacity: 1; }
+    .message.sent { background: #007aff; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .message.received { background: #e9e9eb; color: #000; align-self: flex-start; border-bottom-left-radius: 4px; }
+    .message .sender-name { font-size: 12px; color: #8e8e93; margin-bottom: 3px; font-weight: 500; }
+    .message .timestamp { font-size: 11px; opacity: 0.7; margin-top: 4px; text-align: right; }
+    .message img { max-width: 100%; border-radius: 12px; margin-top: 6px; display: block; }
+    .message a { color: inherit; text-decoration: underline; }
 
-    #input-area {
-      display: flex;
-      gap: 12px;
-      align-items: center;
+    #reply-preview {
+      display: none; background: #e5e5ea; padding: 8px 14px; font-size: 14px;
+      border-left: 4px solid #007aff; margin-bottom: 6px; border-radius: 8px; position: relative;
     }
+    #reply-preview .cancel-reply {
+      position: absolute; right: 10px; top: 8px; color: #007aff; cursor: pointer; font-weight: 600;
+    }
+
+    #context-menu {
+      position: fixed; background: white; border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1000;
+      display: none; overflow: hidden; min-width: 180px;
+    }
+    #context-menu button {
+      display: block; width: 100%; padding: 14px 18px; border: none;
+      background: none; text-align: left; font-size: 16px; cursor: pointer;
+    }
+    #context-menu button:active { background: #f0f0f0; }
+    #context-menu button.delete { color: #ff3b30; }
+
+    .imessage-input-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(249, 249, 249, 0.94);
+      backdrop-filter: blur(20px);
+      border-top: 0.5px solid rgba(0,0,0,0.15);
+      padding: 8px 12px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .input-row { display: flex; align-items: flex-end; gap: 8px; }
     #message-input {
-      flex: 1;
-      border-radius: 30px;
+      flex: 1; border: none; background: white; border-radius: 20px;
+      padding: 10px 16px; font-size: 16px; outline: none;
+      box-shadow: 0 0 0 0.5px rgba(0,0,0,0.15);
     }
-    #send-btn {
-      width: auto;
-      padding: 12px 24px;
+    .icon-btn, #send-btn {
+      width: 36px; height: 36px; border-radius: 50%; border: none;
+      font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
+    .icon-btn { background: #e5e5ea; }
+    #send-btn { background: #007aff; color: white; }
 
-    .tagline {
-      text-align: center;
-      opacity: 0.8;
-      margin-bottom: 16px;
+    #login-screen, #signup-screen {
+      position: fixed; inset: 0; background: #f2f2f7;
+      display: flex; flex-direction: column; justify-content: center; padding: 30px; z-index: 200;
+    }
+    .login-card {
+      background: white; border-radius: 16px; padding: 28px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .login-card h2 { text-align: center; margin-bottom: 24px; font-size: 22px; }
+    .login-card input {
+      width: 100%; padding: 14px 16px; margin-bottom: 12px;
+      border: 1px solid #d1d1d6; border-radius: 12px; font-size: 16px; background: #f9f9f9;
+    }
+    .login-card button {
+      width: 100%; padding: 14px; border: none; border-radius: 12px;
+      font-size: 16px; font-weight: 600; margin-top: 8px; cursor: pointer;
+    }
+    .btn-blue { background: #007aff; color: white; }
+    .btn-green { background: #34c759; color: white; }
+    .btn-gray { background: #e5e5ea; color: #000; }
+    .error-text { color: #ff3b30; text-align: center; margin-top: 12px; font-size: 14px; }
+
+    .pm-badge {
+      background: #007aff; color: white; font-size: 12px;
+      padding: 2px 8px; border-radius: 10px; margin-left: 6px;
     }
   </style>
 </head>
-<body data-theme="light">
+<body>
 
-  <nav>
-    <div class="logo"><span>🫂</span> My Lifeline</div>
-    <div style="display:flex; gap:12px;">
-      <button class="nav-btn" onclick="location.href='index.html'">← Dashboard</button>
-      <button class="nav-btn" onclick="toggleDarkMode()">🌗</button>
+  <div class="imessage-header">
+    <button class="back-btn" id="header-back" onclick="goBack()">← Dashboard</button>
+    <div class="header-title" id="header-title">Lifeline Chat</div>
+    <button class="back-btn" onclick="logout()" id="logout-btn" style="display:none;">Logout</button>
+  </div>
+
+  <div id="chat-container" style="display:none;"></div>
+
+  <!-- Context Menu -->
+  <div id="context-menu">
+    <button onclick="replyToMessage()">Reply</button>
+    <button onclick="startPrivateMessage()">PM</button>
+    <button onclick="copyMessage()">Copy</button>
+    <button class="delete" id="delete-btn" onclick="deleteMessage()" style="display:none;">Delete</button>
+  </div>
+
+  <div class="imessage-input-bar" id="input-bar" style="display:none;">
+    <div id="reply-preview">
+      <span id="reply-text"></span>
+      <span class="cancel-reply" onclick="cancelReply()">✕</span>
     </div>
-  </nav>
-
-  <div class="floating-bestie" onclick="location.href='bestie.html'">🫂</div>
-
-  <!-- Login -->
-  <div id="auth-box">
-    <h2>Login to Lifeline 💙</h2>
-    <input id="login-email" type="email" placeholder="Email">
-    <input id="login-password" type="password" placeholder="Password">
-    <button id="login-btn" onclick="login()">Login</button>
-    <button onclick="showSignup()" style="background:#27ae60;color:white;">Sign Up</button>
-    <button id="google-signin-btn" onclick="signInWithGoogle()" style="background:white;color:#333;border:2px solid #ddd;">
-      Sign in with Google
-    </button>
-    <p id="auth-error" style="color:#e74c3c;text-align:center;margin-top:12px;"></p>
+    <div class="input-row">
+      <button class="icon-btn" onclick="document.getElementById('image-input').click()">📷</button>
+      <input type="file" id="image-input" accept="image/*" style="display:none;">
+      <input type="text" id="message-input" placeholder="iMessage" autocomplete="off">
+      <button id="send-btn" onclick="sendMessage()">↑</button>
+    </div>
   </div>
 
-  <!-- Signup -->
-  <div id="signup-box" style="display:none;">
-    <h2>Sign Up for Lifeline 💙</h2>
-    <input id="nickname" type="text" placeholder="Nickname (at least 3 characters)">
-    <input id="signup-email" type="email" placeholder="Email">
-    <input id="signup-password" type="password" placeholder="Password (min 6 characters)">
-    <input id="confirm-password" type="password" placeholder="Confirm Password">
-    <button id="signup-submit-btn" onclick="signup()">Create Account</button>
-    <p id="signup-error" style="color:#e74c3c;text-align:center;margin-top:12px;"></p>
-    <p style="text-align:center;margin-top:16px;cursor:pointer;color:var(--primary);" onclick="showLogin()">← Back to Login</p>
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <div class="login-card">
+      <h2>Lifeline Chat</h2>
+      <input id="login-email" type="email" placeholder="Email">
+      <input id="login-password" type="password" placeholder="Password">
+      <button class="btn-blue" onclick="login()">Login</button>
+      <button class="btn-green" onclick="showSignup()">Create Account</button>
+      <button class="btn-gray" onclick="signInWithGoogle()">Continue with Google</button>
+      <p id="login-error" class="error-text"></p>
+    </div>
   </div>
 
-  <!-- Chat -->
-  <div id="chat-box" style="display:none;">
-    <h2>Lifeline Chatroom 💬</h2>
-    <p class="tagline">You're safe here. Everyone's going through something.</p>
-    <p style="text-align:center;">Logged in as: <strong id="user-display"></strong></p>
-    <button id="logout-btn" onclick="logout()">Logout</button>
-
-    <div id="messages"></div>
-
-    <div id="input-area">
-      <input type="text" id="message-input" placeholder="Type a message..." />
-      <button id="send-btn" onclick="sendMessage()">Send</button>
+  <!-- SIGNUP -->
+  <div id="signup-screen" style="display:none;">
+    <div class="login-card">
+      <h2>Create Account</h2>
+      <input id="nickname" type="text" placeholder="Nickname">
+      <input id="signup-email" type="email" placeholder="Email">
+      <input id="signup-password" type="password" placeholder="Password">
+      <input id="confirm-password" type="password" placeholder="Confirm Password">
+      <button class="btn-green" onclick="signup()">Sign Up</button>
+      <button class="btn-gray" onclick="showLogin()">Back to Login</button>
+      <p id="signup-error" class="error-text"></p>
     </div>
   </div>
 
@@ -272,83 +179,79 @@
       projectId: "chatroomnew-739f4",
       storageBucket: "chatroomnew-739f4.firebasestorage.app",
       messagingSenderId: "552292977529",
-      appId: "1:552292977529:web:b04e2bc662668847ba7da8",
-      measurementId: "G-SCWPR39FCD"
+      appId: "1:552292977529:web:b04e2bc662668847ba7da8"
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, serverTimestamp, remove, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const storage = getStorage(app);
     const auth = getAuth(app);
-    const messagesRef = ref(db, 'lifeline-chat');
 
-    // Theme
-    window.toggleDarkMode = () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark');
-    };
-    if (localStorage.getItem('lifeline-theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
+    let currentChatRef = ref(db, 'lifeline-chat'); // public by default
+    let isPrivate = false;
+    let privateWith = null;
+    let selectedMessage = null;
+    let replyTo = null;
+    let messageListener = null;
 
+    // Auth
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById('auth-box').style.display = 'none';
-        document.getElementById('signup-box').style.display = 'none';
-        document.getElementById('chat-box').style.display = 'block';
-        document.getElementById('user-display').textContent = user.displayName || user.email.split('@')[0];
-        loadMessages();
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('signup-screen').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'flex';
+        document.getElementById('input-bar').style.display = 'flex';
+        document.getElementById('logout-btn').style.display = 'block';
+        switchToPublic();
       } else {
-        document.getElementById('auth-box').style.display = 'block';
-        document.getElementById('signup-box').style.display = 'none';
-        document.getElementById('chat-box').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('signup-screen').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'none';
+        document.getElementById('input-bar').style.display = 'none';
+        document.getElementById('logout-btn').style.display = 'none';
       }
     });
 
     window.showSignup = () => {
-      document.getElementById('auth-box').style.display = 'none';
-      document.getElementById('signup-box').style.display = 'block';
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('signup-screen').style.display = 'flex';
     };
     window.showLogin = () => {
-      document.getElementById('auth-box').style.display = 'block';
-      document.getElementById('signup-box').style.display = 'none';
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('signup-screen').style.display = 'none';
     };
 
     window.signInWithGoogle = async () => {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (error) {
-        document.getElementById('auth-error').textContent = error.message || 'Google sign-in failed';
-      }
+      try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
+      catch (err) { document.getElementById('login-error').textContent = err.message; }
     };
 
     window.login = () => {
       const email = document.getElementById('login-email').value;
       const password = document.getElementById('login-password').value;
       signInWithEmailAndPassword(auth, email, password)
-        .catch(err => document.getElementById('auth-error').textContent = err.message);
+        .catch(err => document.getElementById('login-error').textContent = err.message);
     };
 
     window.signup = async () => {
       const nickname = document.getElementById('nickname').value.trim();
       const email = document.getElementById('signup-email').value;
       const password = document.getElementById('signup-password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
+      const confirm = document.getElementById('confirm-password').value;
       const errorEl = document.getElementById('signup-error');
 
-      if (nickname.length < 3) return errorEl.textContent = 'Nickname must be at least 3 characters.';
-      if (password !== confirmPassword) return errorEl.textContent = 'Passwords do not match!';
-      if (password.length < 6) return errorEl.textContent = 'Password must be at least 6 characters.';
+      if (nickname.length < 3) return errorEl.textContent = "Nickname too short";
+      if (password !== confirm) return errorEl.textContent = "Passwords don't match";
+      if (password.length < 6) return errorEl.textContent = "Password too short";
 
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCredential.user, { displayName: nickname });
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(cred.user, { displayName: nickname });
       } catch (err) {
         errorEl.textContent = err.message;
       }
@@ -356,61 +259,201 @@
 
     window.logout = () => signOut(auth);
 
+    // ===== Private Messaging =====
+    function getPrivateChatId(uid1, uid2) {
+      return [uid1, uid2].sort().join('_');
+    }
+
+    window.startPrivateMessage = () => {
+      if (!selectedMessage || !auth.currentUser) return;
+      const otherUid = selectedMessage.data.uid;
+      const otherName = selectedMessage.data.name;
+
+      if (otherUid === auth.currentUser.uid) {
+        alert("You can't PM yourself");
+        return;
+      }
+
+      const chatId = getPrivateChatId(auth.currentUser.uid, otherUid);
+      currentChatRef = ref(db, `private-chats/${chatId}`);
+      isPrivate = true;
+      privateWith = { uid: otherUid, name: otherName };
+
+      document.getElementById('header-title').innerHTML = `PM with ${otherName} <span class="pm-badge">Private</span>`;
+      document.getElementById('header-back').textContent = '← Back to Public';
+      document.getElementById('context-menu').style.display = 'none';
+
+      loadMessages();
+    };
+
+    window.goBack = () => {
+      if (isPrivate) {
+        switchToPublic();
+      } else {
+        location.href = 'index.html';
+      }
+    };
+
+    function switchToPublic() {
+      currentChatRef = ref(db, 'lifeline-chat');
+      isPrivate = false;
+      privateWith = null;
+      document.getElementById('header-title').textContent = 'Lifeline Chat';
+      document.getElementById('header-back').textContent = '← Dashboard';
+      loadMessages();
+    }
+
+    // Context menu
+    function showContextMenu(e, msgData, element) {
+      e.preventDefault();
+      selectedMessage = { data: msgData, element, key: element.dataset.key };
+
+      const menu = document.getElementById('context-menu');
+      menu.style.display = 'block';
+      const x = e.clientX || e.touches?.[0].clientX;
+      const y = e.clientY || e.touches?.[0].clientY;
+      menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
+      menu.style.top = Math.min(y, window.innerHeight - 180) + 'px';
+
+      document.getElementById('delete-btn').style.display = 
+        (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
+    }
+
+    document.addEventListener('click', () => {
+      document.getElementById('context-menu').style.display = 'none';
+    });
+
+    window.replyToMessage = () => {
+      if (!selectedMessage) return;
+      replyTo = selectedMessage.data;
+      document.getElementById('reply-preview').style.display = 'block';
+      document.getElementById('reply-text').textContent = `Replying to ${replyTo.name}: ${replyTo.text || 'Image'}`;
+      document.getElementById('context-menu').style.display = 'none';
+      document.getElementById('message-input').focus();
+    };
+
+    window.cancelReply = () => {
+      replyTo = null;
+      document.getElementById('reply-preview').style.display = 'none';
+    };
+
+    window.copyMessage = () => {
+      if (!selectedMessage) return;
+      const text = selectedMessage.data.text || selectedMessage.data.imageUrl || '';
+      navigator.clipboard.writeText(text);
+      document.getElementById('context-menu').style.display = 'none';
+    };
+
+    window.deleteMessage = async () => {
+      if (!selectedMessage || !selectedMessage.key) return;
+      if (!confirm('Delete this message?')) return;
+      try {
+        await remove(ref(db, `${currentChatRef.key === 'lifeline-chat' ? 'lifeline-chat' : currentChatRef.toString().split('/').slice(-2).join('/')}/${selectedMessage.key}`));
+        // simpler way:
+        await remove(ref(db, (isPrivate ? `private-chats/${getPrivateChatId(auth.currentUser.uid, privateWith.uid)}` : 'lifeline-chat') + '/' + selectedMessage.key));
+        selectedMessage.element.remove();
+      } catch (err) {
+        console.error(err);
+        alert('Could not delete');
+      }
+      document.getElementById('context-menu').style.display = 'none';
+    };
+
+    // Send message
     window.sendMessage = () => {
       const input = document.getElementById('message-input');
       const text = input.value.trim();
       if (!text || !auth.currentUser) return;
 
-      push(messagesRef, {
+      const messageData = {
         name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
         text,
         timestamp: serverTimestamp(),
         uid: auth.currentUser.uid,
-        reactions: {}
-      }).then(() => input.value = '');
+        type: 'text'
+      };
+      if (replyTo) {
+        messageData.replyTo = { name: replyTo.name, text: replyTo.text || 'Image' };
+      }
+
+      push(currentChatRef, messageData);
+      input.value = '';
+      cancelReply();
     };
 
-    function formatTime(ts) {
-      if (!ts) return '';
-      const date = new Date(ts);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Image upload
+    document.getElementById('image-input').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file || !auth.currentUser) return;
+      try {
+        const fileRef = storageRef(storage, `chat-images/${Date.now()}_${file.name}`);
+        await uploadBytes(fileRef, file);
+        const url = await getDownloadURL(fileRef);
+        push(currentChatRef, {
+          name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
+          imageUrl: url,
+          timestamp: serverTimestamp(),
+          uid: auth.currentUser.uid,
+          type: 'image'
+        });
+      } catch (err) {
+        alert("Failed to upload image");
+      }
+      e.target.value = '';
+    });
+
+    function linkify(text) {
+      return text.replace(/(https?:\/\/[^\s]+)/g, url => `<a href="${url}" target="_blank" rel="noopener">${url}</a>`);
     }
 
     function loadMessages() {
-      const messagesDiv = document.getElementById('messages');
-      messagesDiv.innerHTML = '';
+      const container = document.getElementById('chat-container');
+      container.innerHTML = '';
 
-      onChildAdded(messagesRef, (snapshot) => {
-        const msg = snapshot.val();
-        if (!msg?.text) return;
+      // Remove previous listener
+      if (messageListener) off(messageListener);
 
-        const isSent = msg.uid === auth.currentUser?.uid;
+      messageListener = onChildAdded(currentChatRef, (snap) => {
+        const msg = snap.val();
+        if (!msg) return;
+
+        const isMe = msg.uid === auth.currentUser?.uid;
         const div = document.createElement('div');
-        div.className = `message ${isSent ? 'sent' : 'received'}`;
-        div.dataset.id = snapshot.key;
+        div.className = `message ${isMe ? 'sent' : 'received'}`;
+        div.dataset.key = snap.key;
+
+        const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+
+        let content = msg.type === 'image' && msg.imageUrl 
+          ? `<img src="${msg.imageUrl}" alt="Image">` 
+          : linkify(msg.text || '');
+
+        let replyHtml = '';
+        if (msg.replyTo) {
+          replyHtml = `<div style="font-size:13px;opacity:0.8;border-left:3px solid ${isMe ? 'rgba(255,255,255,0.5)' : '#007aff'};padding-left:8px;margin-bottom:6px;">
+            <strong>${msg.replyTo.name}</strong><br>${msg.replyTo.text}</div>`;
+        }
 
         div.innerHTML = `
-          ${!isSent ? `<div class="name">${msg.name}</div>` : ''}
-          <div>${msg.text}</div>
-          <div class="time">
-            ${formatTime(msg.timestamp)}
-            <button class="react-btn" onclick="reactToMessage('${snapshot.key}')">❤️</button>
-          </div>
+          ${!isMe ? `<div class="sender-name">${msg.name}</div>` : ''}
+          ${replyHtml}
+          ${content}
+          <div class="timestamp">${time}</div>
         `;
-        messagesDiv.appendChild(div);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        // Long press / right click
+        let pressTimer;
+        div.addEventListener('contextmenu', e => showContextMenu(e, msg, div));
+        div.addEventListener('touchstart', e => {
+          pressTimer = setTimeout(() => showContextMenu(e, msg, div), 500);
+        });
+        div.addEventListener('touchend', () => clearTimeout(pressTimer));
+        div.addEventListener('touchmove', () => clearTimeout(pressTimer));
+
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
       });
     }
-
-    // Simple heart reaction
-    window.reactToMessage = (msgId) => {
-      if (!auth.currentUser) return;
-      const reactionRef = ref(db, `lifeline-chat/${msgId}/reactions/${auth.currentUser.uid}`);
-      // Toggle heart (simple version)
-      update(ref(db, `lifeline-chat/${msgId}/reactions`), {
-        [auth.currentUser.uid]: '❤️'
-      });
-    };
 
     document.getElementById('message-input')?.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
