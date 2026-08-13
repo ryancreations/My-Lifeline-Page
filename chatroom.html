@@ -106,41 +106,92 @@
     .icon-btn { background: var(--bubble-received); color: var(--text); }
     #send-btn { background: #007aff; color: white; }
 
-    /* Call UI */
+    /* ========== CALL SCREEN ========== */
     #call-screen {
       position: fixed; inset: 0; background: #000; z-index: 300;
-      display: none; flex-direction: column; align-items: center; justify-content: center;
-      color: white;
+      display: none; flex-direction: column;
     }
+
     #remote-video {
       width: 100%; height: 100%; object-fit: cover; background: #111;
     }
+
     #local-video {
-      position: absolute; bottom: 120px; right: 20px;
-      width: 110px; height: 150px; border-radius: 12px;
-      object-fit: cover; border: 2px solid white; background: #222;
+      position: absolute;
+      bottom: 130px;
+      right: 16px;
+      width: 110px;
+      height: 150px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.8);
+      background: #222;
+      z-index: 10;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
+
+    /* Expanded local video */
+    #local-video.expanded {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      border: none;
+      z-index: 5;
+    }
+
     .call-controls {
-      position: absolute; bottom: 40px; left: 0; right: 0;
-      display: flex; justify-content: center; gap: 30px;
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      z-index: 20;
     }
+
     .call-btn {
-      width: 64px; height: 64px; border-radius: 50%; border: none;
-      font-size: 24px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
     .end-call { background: #ff3b30; color: white; }
     .mute-btn { background: #333; color: white; }
+    .switch-btn { background: #333; color: white; }
+
+    #call-status {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 16px;
+      z-index: 20;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
 
     /* Incoming Call */
     #incoming-call {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.88);
       z-index: 400; display: none; flex-direction: column;
       align-items: center; justify-content: center; color: white;
     }
-    #incoming-call h2 { margin-bottom: 8px; font-size: 24px; }
-    #incoming-call p { opacity: 0.8; margin-bottom: 40px; }
-    .incoming-btns { display: flex; gap: 40px; }
+    #incoming-call h2 { margin-bottom: 8px; font-size: 26px; }
+    #incoming-call p { opacity: 0.8; margin-bottom: 50px; font-size: 17px; }
+    .incoming-btns { display: flex; gap: 50px; }
     .accept-btn { background: #34c759; }
     .decline-btn { background: #ff3b30; }
 
@@ -207,12 +258,15 @@
     </div>
   </div>
 
-  <!-- Call Screen -->
+  <!-- CALL SCREEN -->
   <div id="call-screen">
+    <div id="call-status">Connecting...</div>
     <video id="remote-video" autoplay playsinline></video>
-    <video id="local-video" autoplay playsinline muted></video>
+    <video id="local-video" autoplay playsinline muted onclick="toggleLocalExpand()"></video>
+
     <div class="call-controls">
       <button class="call-btn mute-btn" onclick="toggleMute()">🎤</button>
+      <button class="call-btn switch-btn" onclick="switchCamera()" title="Switch Camera">🔄</button>
       <button class="call-btn end-call" onclick="endCall()">📞</button>
     </div>
   </div>
@@ -282,17 +336,20 @@
     let replyTo = null;
     let messageListener = null;
 
-    // WebRTC variables
+    // WebRTC
     let localStream = null;
     let peerConnection = null;
     let currentCallId = null;
     let isMuted = false;
     let currentIncomingCall = null;
+    let isLocalExpanded = false;
+    let currentCamera = 'user'; // or 'environment'
 
     const iceConfig = {
       iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' }
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' }
       ]
     };
 
@@ -370,14 +427,13 @@
 
     window.logout = () => signOut(auth);
 
-    // ========== PRIVATE MESSAGES ==========
+    // ========== PRIVATE CHAT ==========
     function getPrivateChatId(uid1, uid2) {
       return [uid1, uid2].sort().join('_');
     }
 
     window.startPrivateMessage = () => {
       if (!selectedMessage || !auth.currentUser) return;
-
       const otherUid = selectedMessage.data.uid;
       const otherName = selectedMessage.data.name;
 
@@ -394,16 +450,12 @@
       document.getElementById('header-title').innerHTML = `PM • ${otherName} <span class="pm-badge">Private</span>`;
       document.getElementById('header-back').textContent = '← Public Chat';
       document.getElementById('context-menu').style.display = 'none';
-
       loadMessages();
     };
 
     window.goBack = () => {
-      if (isPrivate) {
-        switchToPublic();
-      } else {
-        location.href = 'index.html';
-      }
+      if (isPrivate) switchToPublic();
+      else location.href = 'index.html';
     };
 
     function switchToPublic() {
@@ -425,7 +477,7 @@
         if (!data) return;
 
         Object.entries(data).forEach(([callId, call]) => {
-          if (call.status === 'ringing' && call.to === auth.currentUser.uid) {
+          if (call && call.status === 'ringing' && call.to === auth.currentUser.uid) {
             currentIncomingCall = { call, callId };
             document.getElementById('incoming-name').textContent = call.fromName || 'Someone';
             document.getElementById('incoming-type').textContent = call.video ? 'Video Call' : 'Audio Call';
@@ -433,6 +485,35 @@
           }
         });
       });
+    }
+
+    async function createPeerConnection(video) {
+      peerConnection = new RTCPeerConnection(iceConfig);
+
+      // Add local tracks
+      localStream.getTracks().forEach(track => {
+        peerConnection.addTrack(track, localStream);
+      });
+
+      // When remote stream arrives
+      peerConnection.ontrack = (event) => {
+        console.log('Remote track received');
+        const remoteVideo = document.getElementById('remote-video');
+        if (remoteVideo.srcObject !== event.streams[0]) {
+          remoteVideo.srcObject = event.streams[0];
+          document.getElementById('call-status').textContent = 'Connected';
+        }
+      };
+
+      peerConnection.oniceconnectionstatechange = () => {
+        console.log('ICE state:', peerConnection.iceConnectionState);
+        if (peerConnection.iceConnectionState === 'connected' || 
+            peerConnection.iceConnectionState === 'completed') {
+          document.getElementById('call-status').textContent = 'Connected';
+        }
+      };
+
+      return peerConnection;
     }
 
     window.startCall = async (video = true) => {
@@ -447,29 +528,21 @@
       }
 
       document.getElementById('context-menu').style.display = 'none';
+      document.getElementById('call-status').textContent = 'Calling...';
 
       try {
-        // Request permissions first
         localStream = await navigator.mediaDevices.getUserMedia({
-          video: video,
+          video: video ? { facingMode: currentCamera } : false,
           audio: true
         });
 
         document.getElementById('local-video').srcObject = localStream;
-
-        peerConnection = new RTCPeerConnection(iceConfig);
-
-        localStream.getTracks().forEach(track => {
-          peerConnection.addTrack(track, localStream);
-        });
-
-        peerConnection.ontrack = (e) => {
-          document.getElementById('remote-video').srcObject = e.streams[0];
-        };
+        await createPeerConnection(video);
 
         const callId = push(ref(db, `calls/${auth.currentUser.uid}`)).key;
         currentCallId = callId;
 
+        // Send ICE candidates
         peerConnection.onicecandidate = (event) => {
           if (event.candidate) {
             push(ref(db, `calls/${auth.currentUser.uid}/${callId}/candidates`), event.candidate.toJSON());
@@ -479,7 +552,7 @@
         const offer = await peerConnection.createOffer();
         await peerConnection.setLocalDescription(offer);
 
-        // Send call to the other person
+        // Write call to the other user's path
         await set(ref(db, `calls/${otherUid}/${callId}`), {
           from: auth.currentUser.uid,
           fromName: auth.currentUser.displayName || 'User',
@@ -493,7 +566,7 @@
           timestamp: Date.now()
         });
 
-        // Also keep a copy under myself
+        // Keep a copy under myself
         await set(ref(db, `calls/${auth.currentUser.uid}/${callId}`), {
           from: auth.currentUser.uid,
           to: otherUid,
@@ -501,27 +574,31 @@
           video: video
         });
 
-        // Listen for answer
+        // Listen for answer + candidates from the other person
         onValue(ref(db, `calls/${otherUid}/${callId}`), async (snap) => {
           const data = snap.val();
           if (!data) return;
 
           if (data.status === 'declined') {
-            alert('Call was declined');
+            alert('Call declined');
             endCall();
             return;
           }
 
           if (data.answer && peerConnection && !peerConnection.currentRemoteDescription) {
+            console.log('Got answer, setting remote description');
             await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
           }
         });
 
-        // Listen for their ICE candidates
-        onChildAdded(ref(db, `calls/${otherUid}/${callId}/candidates`), (snap) => {
+        onChildAdded(ref(db, `calls/${otherUid}/${callId}/candidates`), async (snap) => {
           const candidate = snap.val();
           if (candidate && peerConnection) {
-            peerConnection.addIceCandidate(new RTCIceCandidate(candidate)).catch(console.error);
+            try {
+              await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+            } catch (e) {
+              console.warn('Error adding ICE candidate', e);
+            }
           }
         });
 
@@ -533,15 +610,7 @@
 
       } catch (err) {
         console.error(err);
-        let msg = 'Could not access camera/microphone.\n\n';
-        if (err.name === 'NotAllowedError') {
-          msg += 'Permission was denied. Please allow camera & microphone in your browser settings and try again.';
-        } else if (err.name === 'NotFoundError') {
-          msg += 'No camera or microphone found.';
-        } else {
-          msg += err.message;
-        }
-        alert(msg);
+        alert('Could not start call: ' + err.message);
       }
     };
 
@@ -550,23 +619,16 @@
       const { call, callId } = currentIncomingCall;
 
       document.getElementById('incoming-call').style.display = 'none';
+      document.getElementById('call-status').textContent = 'Connecting...';
 
       try {
         localStream = await navigator.mediaDevices.getUserMedia({
-          video: call.video,
+          video: call.video ? { facingMode: currentCamera } : false,
           audio: true
         });
+
         document.getElementById('local-video').srcObject = localStream;
-
-        peerConnection = new RTCPeerConnection(iceConfig);
-
-        localStream.getTracks().forEach(track => {
-          peerConnection.addTrack(track, localStream);
-        });
-
-        peerConnection.ontrack = (e) => {
-          document.getElementById('remote-video').srcObject = e.streams[0];
-        };
+        await createPeerConnection(call.video);
 
         peerConnection.onicecandidate = (event) => {
           if (event.candidate) {
@@ -586,11 +648,15 @@
           status: 'accepted'
         });
 
-        // Listen for ICE candidates
-        onChildAdded(ref(db, `calls/${call.from}/${callId}/candidates`), (snap) => {
+        // Listen for ICE candidates from caller
+        onChildAdded(ref(db, `calls/${call.from}/${callId}/candidates`), async (snap) => {
           const candidate = snap.val();
           if (candidate && peerConnection) {
-            peerConnection.addIceCandidate(new RTCIceCandidate(candidate)).catch(console.error);
+            try {
+              await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+            } catch (e) {
+              console.warn(e);
+            }
           }
         });
 
@@ -602,7 +668,7 @@
 
       } catch (err) {
         console.error(err);
-        alert('Could not access camera/microphone. Please allow permissions.');
+        alert('Could not accept call: ' + err.message);
         declineCall();
       }
     };
@@ -623,6 +689,41 @@
       document.querySelector('.mute-btn').textContent = isMuted ? '🔇' : '🎤';
     };
 
+    window.toggleLocalExpand = () => {
+      const localVideo = document.getElementById('local-video');
+      isLocalExpanded = !isLocalExpanded;
+      localVideo.classList.toggle('expanded', isLocalExpanded);
+    };
+
+    window.switchCamera = async () => {
+      if (!localStream) return;
+
+      currentCamera = currentCamera === 'user' ? 'environment' : 'user';
+
+      // Stop old tracks
+      localStream.getTracks().forEach(track => track.stop());
+
+      try {
+        localStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: currentCamera },
+          audio: true
+        });
+
+        document.getElementById('local-video').srcObject = localStream;
+
+        // Replace tracks in peer connection
+        if (peerConnection) {
+          const videoTrack = localStream.getVideoTracks()[0];
+          const sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
+          if (sender && videoTrack) {
+            sender.replaceTrack(videoTrack);
+          }
+        }
+      } catch (err) {
+        console.error('Could not switch camera', err);
+      }
+    };
+
     window.endCall = () => {
       if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
@@ -632,11 +733,14 @@
         peerConnection.close();
         peerConnection = null;
       }
+
       document.getElementById('call-screen').style.display = 'none';
       document.getElementById('remote-video').srcObject = null;
       document.getElementById('local-video').srcObject = null;
+      document.getElementById('local-video').classList.remove('expanded');
       document.getElementById('local-video').style.display = 'block';
       document.getElementById('remote-video').style.display = 'block';
+      isLocalExpanded = false;
 
       if (currentCallId && auth.currentUser) {
         remove(ref(db, `calls/${auth.currentUser.uid}/${currentCallId}`));
@@ -645,7 +749,7 @@
       currentIncomingCall = null;
     };
 
-    // ========== MESSAGES ==========
+    // ========== MESSAGES (same as before) ==========
     function showContextMenu(e, msgData, element) {
       e.preventDefault();
       selectedMessage = { data: msgData, element, key: element.dataset.key };
@@ -757,7 +861,7 @@
         });
       } catch (err) {
         console.error(err);
-        alert('Image upload failed. Check Firebase Storage rules.');
+        alert('Image upload failed.');
       }
 
       btn.textContent = '↑';
@@ -778,9 +882,7 @@
       const container = document.getElementById('chat-container');
       container.innerHTML = '';
 
-      if (messageListener) {
-        off(messageListener);
-      }
+      if (messageListener) off(messageListener);
 
       messageListener = onChildAdded(currentChatRef, (snap) => {
         const msg = snap.val();
@@ -817,7 +919,6 @@
           <div class="timestamp">${time}</div>
         `;
 
-        // Long press + right click
         let pressTimer;
         div.addEventListener('contextmenu', e => showContextMenu(e, msg, div));
         div.addEventListener('touchstart', e => {
