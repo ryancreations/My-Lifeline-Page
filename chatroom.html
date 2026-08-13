@@ -106,94 +106,22 @@
     .icon-btn { background: var(--bubble-received); color: var(--text); }
     #send-btn { background: #007aff; color: white; }
 
-    /* ========== CALL SCREEN ========== */
-    #call-screen {
-      position: fixed; inset: 0; background: #000; z-index: 300;
+    /* Hyperbeam Browser */
+    #browser-screen {
+      position: fixed; inset: 0; background: #111; z-index: 300;
       display: none; flex-direction: column;
     }
-
-    #remote-video {
-      width: 100%; height: 100%; object-fit: cover; background: #111;
+    #browser-header {
+      height: 48px; background: #1c1c1e; display: flex; align-items: center;
+      padding: 0 12px; gap: 10px; color: white;
     }
-
-    #local-video {
-      position: absolute;
-      bottom: 130px;
-      right: 16px;
-      width: 110px;
-      height: 150px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.8);
-      background: #222;
-      z-index: 10;
-      transition: all 0.3s ease;
-      cursor: pointer;
+    #browser-container {
+      flex: 1; width: 100%;
     }
-
-    /* Expanded local video */
-    #local-video.expanded {
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 0;
-      border: none;
-      z-index: 5;
+    #close-browser {
+      background: #ff3b30; color: white; border: none;
+      padding: 6px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;
     }
-
-    .call-controls {
-      position: absolute;
-      bottom: 40px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      gap: 28px;
-      z-index: 20;
-    }
-
-    .call-btn {
-      width: 62px;
-      height: 62px;
-      border-radius: 50%;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-    }
-    .end-call { background: #ff3b30; color: white; }
-    .mute-btn { background: #333; color: white; }
-    .switch-btn { background: #333; color: white; }
-
-    #call-status {
-      position: absolute;
-      top: 40px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      color: white;
-      font-size: 16px;
-      z-index: 20;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-    }
-
-    /* Incoming Call */
-    #incoming-call {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.88);
-      z-index: 400; display: none; flex-direction: column;
-      align-items: center; justify-content: center; color: white;
-    }
-    #incoming-call h2 { margin-bottom: 8px; font-size: 26px; }
-    #incoming-call p { opacity: 0.8; margin-bottom: 50px; font-size: 17px; }
-    .incoming-btns { display: flex; gap: 50px; }
-    .accept-btn { background: #34c759; }
-    .decline-btn { background: #ff3b30; }
 
     /* Login */
     #login-screen, #signup-screen {
@@ -239,8 +167,7 @@
   <div id="context-menu">
     <button onclick="replyToMessage()">Reply</button>
     <button onclick="startPrivateMessage()">PM</button>
-    <button onclick="startCall(true)">Video Call</button>
-    <button onclick="startCall(false)">Audio Call</button>
+    <button onclick="openSharedBrowser()">Shared Browser</button>
     <button onclick="copyMessage()">Copy</button>
     <button class="delete" id="delete-btn" onclick="deleteMessage()" style="display:none;">Delete</button>
   </div>
@@ -258,27 +185,13 @@
     </div>
   </div>
 
-  <!-- CALL SCREEN -->
-  <div id="call-screen">
-    <div id="call-status">Connecting...</div>
-    <video id="remote-video" autoplay playsinline></video>
-    <video id="local-video" autoplay playsinline muted onclick="toggleLocalExpand()"></video>
-
-    <div class="call-controls">
-      <button class="call-btn mute-btn" onclick="toggleMute()">🎤</button>
-      <button class="call-btn switch-btn" onclick="switchCamera()" title="Switch Camera">🔄</button>
-      <button class="call-btn end-call" onclick="endCall()">📞</button>
+  <!-- Hyperbeam Shared Browser -->
+  <div id="browser-screen">
+    <div id="browser-header">
+      <span style="flex:1; font-weight:600;">Shared Browser</span>
+      <button id="close-browser" onclick="closeSharedBrowser()">Close</button>
     </div>
-  </div>
-
-  <!-- Incoming Call -->
-  <div id="incoming-call">
-    <h2 id="incoming-name">Incoming Call</h2>
-    <p id="incoming-type">Video Call</p>
-    <div class="incoming-btns">
-      <button class="call-btn accept-btn" onclick="acceptCall()">✓</button>
-      <button class="call-btn decline-btn" onclick="declineCall()">✕</button>
-    </div>
+    <div id="browser-container"></div>
   </div>
 
   <!-- LOGIN -->
@@ -319,10 +232,15 @@
       appId: "1:552292977529:web:b04e2bc662668847ba7da8"
     };
 
+    // ========== HYPERBEAM ==========
+    // ⚠️ TEST KEY ONLY - move this to a backend later
+    const HYPERBEAM_API_KEY = "sk_test_m9yiTPleFj-B0YEg3of5o5E2rS9vUAy1vCKGYYQsQkg";
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, onValue, set, remove, serverTimestamp, off, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, serverTimestamp, remove, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -335,23 +253,7 @@
     let selectedMessage = null;
     let replyTo = null;
     let messageListener = null;
-
-    // WebRTC
-    let localStream = null;
-    let peerConnection = null;
-    let currentCallId = null;
-    let isMuted = false;
-    let currentIncomingCall = null;
-    let isLocalExpanded = false;
-    let currentCamera = 'user'; // or 'environment'
-
-    const iceConfig = {
-      iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' },
-        { urls: 'stun:stun2.l.google.com:19302' }
-      ]
-    };
+    let hbClient = null;
 
     // Theme
     window.toggleDarkMode = () => {
@@ -372,7 +274,6 @@
         document.getElementById('input-bar').style.display = 'flex';
         document.getElementById('logout-btn').style.display = 'block';
         switchToPublic();
-        listenForIncomingCalls();
       } else {
         document.getElementById('login-screen').style.display = 'flex';
         document.getElementById('signup-screen').style.display = 'none';
@@ -427,6 +328,61 @@
 
     window.logout = () => signOut(auth);
 
+    // ========== SHARED BROWSER (Hyperbeam) ==========
+    window.openSharedBrowser = async () => {
+      document.getElementById('context-menu').style.display = 'none';
+      document.getElementById('browser-screen').style.display = 'flex';
+      document.getElementById('browser-container').innerHTML = '<div style="color:white;padding:40px;text-align:center;">Starting shared browser...</div>';
+
+      try {
+        // Create a new Hyperbeam session
+        const response = await fetch("https://engine.hyperbeam.com/v0/vm", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${HYPERBEAM_API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            start_url: "https://www.google.com",
+            offline_timeout: 300
+          })
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error("Hyperbeam error: " + errText);
+        }
+
+        const data = await response.json();
+        console.log("Hyperbeam session created:", data);
+
+        // Load the embedded browser
+        const container = document.getElementById('browser-container');
+        container.innerHTML = '';
+
+        hbClient = await Hyperbeam(container, data.embed_url, {
+          adminToken: data.admin_token
+        });
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('browser-container').innerHTML = `
+          <div style="color:white;padding:40px;text-align:center;">
+            <p>Failed to start shared browser.</p>
+            <p style="font-size:14px;opacity:0.7;margin-top:10px;">${err.message}</p>
+          </div>`;
+      }
+    };
+
+    window.closeSharedBrowser = () => {
+      if (hbClient) {
+        try { hbClient.destroy(); } catch(e) {}
+        hbClient = null;
+      }
+      document.getElementById('browser-screen').style.display = 'none';
+      document.getElementById('browser-container').innerHTML = '';
+    };
+
     // ========== PRIVATE CHAT ==========
     function getPrivateChatId(uid1, uid2) {
       return [uid1, uid2].sort().join('_');
@@ -467,289 +423,7 @@
       loadMessages();
     }
 
-    // ========== CALLING ==========
-    function listenForIncomingCalls() {
-      if (!auth.currentUser) return;
-
-      const myCallsRef = ref(db, `calls/${auth.currentUser.uid}`);
-      onValue(myCallsRef, (snap) => {
-        const data = snap.val();
-        if (!data) return;
-
-        Object.entries(data).forEach(([callId, call]) => {
-          if (call && call.status === 'ringing' && call.to === auth.currentUser.uid) {
-            currentIncomingCall = { call, callId };
-            document.getElementById('incoming-name').textContent = call.fromName || 'Someone';
-            document.getElementById('incoming-type').textContent = call.video ? 'Video Call' : 'Audio Call';
-            document.getElementById('incoming-call').style.display = 'flex';
-          }
-        });
-      });
-    }
-
-    async function createPeerConnection(video) {
-      peerConnection = new RTCPeerConnection(iceConfig);
-
-      // Add local tracks
-      localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-      });
-
-      // When remote stream arrives
-      peerConnection.ontrack = (event) => {
-        console.log('Remote track received');
-        const remoteVideo = document.getElementById('remote-video');
-        if (remoteVideo.srcObject !== event.streams[0]) {
-          remoteVideo.srcObject = event.streams[0];
-          document.getElementById('call-status').textContent = 'Connected';
-        }
-      };
-
-      peerConnection.oniceconnectionstatechange = () => {
-        console.log('ICE state:', peerConnection.iceConnectionState);
-        if (peerConnection.iceConnectionState === 'connected' || 
-            peerConnection.iceConnectionState === 'completed') {
-          document.getElementById('call-status').textContent = 'Connected';
-        }
-      };
-
-      return peerConnection;
-    }
-
-    window.startCall = async (video = true) => {
-      if (!selectedMessage || !auth.currentUser) return;
-
-      const otherUid = selectedMessage.data.uid;
-      const otherName = selectedMessage.data.name;
-
-      if (otherUid === auth.currentUser.uid) {
-        alert("You can't call yourself");
-        return;
-      }
-
-      document.getElementById('context-menu').style.display = 'none';
-      document.getElementById('call-status').textContent = 'Calling...';
-
-      try {
-        localStream = await navigator.mediaDevices.getUserMedia({
-          video: video ? { facingMode: currentCamera } : false,
-          audio: true
-        });
-
-        document.getElementById('local-video').srcObject = localStream;
-        await createPeerConnection(video);
-
-        const callId = push(ref(db, `calls/${auth.currentUser.uid}`)).key;
-        currentCallId = callId;
-
-        // Send ICE candidates
-        peerConnection.onicecandidate = (event) => {
-          if (event.candidate) {
-            push(ref(db, `calls/${auth.currentUser.uid}/${callId}/candidates`), event.candidate.toJSON());
-          }
-        };
-
-        const offer = await peerConnection.createOffer();
-        await peerConnection.setLocalDescription(offer);
-
-        // Write call to the other user's path
-        await set(ref(db, `calls/${otherUid}/${callId}`), {
-          from: auth.currentUser.uid,
-          fromName: auth.currentUser.displayName || 'User',
-          to: otherUid,
-          offer: {
-            type: offer.type,
-            sdp: offer.sdp
-          },
-          video: video,
-          status: 'ringing',
-          timestamp: Date.now()
-        });
-
-        // Keep a copy under myself
-        await set(ref(db, `calls/${auth.currentUser.uid}/${callId}`), {
-          from: auth.currentUser.uid,
-          to: otherUid,
-          status: 'ringing',
-          video: video
-        });
-
-        // Listen for answer + candidates from the other person
-        onValue(ref(db, `calls/${otherUid}/${callId}`), async (snap) => {
-          const data = snap.val();
-          if (!data) return;
-
-          if (data.status === 'declined') {
-            alert('Call declined');
-            endCall();
-            return;
-          }
-
-          if (data.answer && peerConnection && !peerConnection.currentRemoteDescription) {
-            console.log('Got answer, setting remote description');
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
-          }
-        });
-
-        onChildAdded(ref(db, `calls/${otherUid}/${callId}/candidates`), async (snap) => {
-          const candidate = snap.val();
-          if (candidate && peerConnection) {
-            try {
-              await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-            } catch (e) {
-              console.warn('Error adding ICE candidate', e);
-            }
-          }
-        });
-
-        document.getElementById('call-screen').style.display = 'flex';
-        if (!video) {
-          document.getElementById('local-video').style.display = 'none';
-          document.getElementById('remote-video').style.display = 'none';
-        }
-
-      } catch (err) {
-        console.error(err);
-        alert('Could not start call: ' + err.message);
-      }
-    };
-
-    window.acceptCall = async () => {
-      if (!currentIncomingCall) return;
-      const { call, callId } = currentIncomingCall;
-
-      document.getElementById('incoming-call').style.display = 'none';
-      document.getElementById('call-status').textContent = 'Connecting...';
-
-      try {
-        localStream = await navigator.mediaDevices.getUserMedia({
-          video: call.video ? { facingMode: currentCamera } : false,
-          audio: true
-        });
-
-        document.getElementById('local-video').srcObject = localStream;
-        await createPeerConnection(call.video);
-
-        peerConnection.onicecandidate = (event) => {
-          if (event.candidate) {
-            push(ref(db, `calls/${call.from}/${callId}/candidates`), event.candidate.toJSON());
-          }
-        };
-
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(call.offer));
-        const answer = await peerConnection.createAnswer();
-        await peerConnection.setLocalDescription(answer);
-
-        await update(ref(db, `calls/${call.from}/${callId}`), {
-          answer: {
-            type: answer.type,
-            sdp: answer.sdp
-          },
-          status: 'accepted'
-        });
-
-        // Listen for ICE candidates from caller
-        onChildAdded(ref(db, `calls/${call.from}/${callId}/candidates`), async (snap) => {
-          const candidate = snap.val();
-          if (candidate && peerConnection) {
-            try {
-              await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-            } catch (e) {
-              console.warn(e);
-            }
-          }
-        });
-
-        document.getElementById('call-screen').style.display = 'flex';
-        if (!call.video) {
-          document.getElementById('local-video').style.display = 'none';
-          document.getElementById('remote-video').style.display = 'none';
-        }
-
-      } catch (err) {
-        console.error(err);
-        alert('Could not accept call: ' + err.message);
-        declineCall();
-      }
-    };
-
-    window.declineCall = async () => {
-      document.getElementById('incoming-call').style.display = 'none';
-      if (currentIncomingCall) {
-        const { call, callId } = currentIncomingCall;
-        await update(ref(db, `calls/${call.from}/${callId}`), { status: 'declined' });
-      }
-      currentIncomingCall = null;
-    };
-
-    window.toggleMute = () => {
-      if (!localStream) return;
-      isMuted = !isMuted;
-      localStream.getAudioTracks().forEach(track => track.enabled = !isMuted);
-      document.querySelector('.mute-btn').textContent = isMuted ? '🔇' : '🎤';
-    };
-
-    window.toggleLocalExpand = () => {
-      const localVideo = document.getElementById('local-video');
-      isLocalExpanded = !isLocalExpanded;
-      localVideo.classList.toggle('expanded', isLocalExpanded);
-    };
-
-    window.switchCamera = async () => {
-      if (!localStream) return;
-
-      currentCamera = currentCamera === 'user' ? 'environment' : 'user';
-
-      // Stop old tracks
-      localStream.getTracks().forEach(track => track.stop());
-
-      try {
-        localStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: currentCamera },
-          audio: true
-        });
-
-        document.getElementById('local-video').srcObject = localStream;
-
-        // Replace tracks in peer connection
-        if (peerConnection) {
-          const videoTrack = localStream.getVideoTracks()[0];
-          const sender = peerConnection.getSenders().find(s => s.track && s.track.kind === 'video');
-          if (sender && videoTrack) {
-            sender.replaceTrack(videoTrack);
-          }
-        }
-      } catch (err) {
-        console.error('Could not switch camera', err);
-      }
-    };
-
-    window.endCall = () => {
-      if (localStream) {
-        localStream.getTracks().forEach(track => track.stop());
-        localStream = null;
-      }
-      if (peerConnection) {
-        peerConnection.close();
-        peerConnection = null;
-      }
-
-      document.getElementById('call-screen').style.display = 'none';
-      document.getElementById('remote-video').srcObject = null;
-      document.getElementById('local-video').srcObject = null;
-      document.getElementById('local-video').classList.remove('expanded');
-      document.getElementById('local-video').style.display = 'block';
-      document.getElementById('remote-video').style.display = 'block';
-      isLocalExpanded = false;
-
-      if (currentCallId && auth.currentUser) {
-        remove(ref(db, `calls/${auth.currentUser.uid}/${currentCallId}`));
-      }
-      currentCallId = null;
-      currentIncomingCall = null;
-    };
-
-    // ========== MESSAGES (same as before) ==========
+    // ========== MESSAGES ==========
     function showContextMenu(e, msgData, element) {
       e.preventDefault();
       selectedMessage = { data: msgData, element, key: element.dataset.key };
@@ -759,7 +433,7 @@
       const x = e.clientX || (e.touches && e.touches[0].clientX) || 100;
       const y = e.clientY || (e.touches && e.touches[0].clientY) || 100;
       menu.style.left = Math.min(x, window.innerWidth - 210) + 'px';
-      menu.style.top = Math.min(y, window.innerHeight - 300) + 'px';
+      menu.style.top = Math.min(y, window.innerHeight - 260) + 'px';
 
       document.getElementById('delete-btn').style.display =
         (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
