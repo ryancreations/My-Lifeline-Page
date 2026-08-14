@@ -325,43 +325,18 @@
     window.logout = () => signOut(auth);
 
 // ========== SHARED BROWSER (Hyperbeam) ==========
-window.openSharedBrowser = () => {
+window.openSharedBrowser = async () => {
   document.getElementById('context-menu').style.display = 'none';
-
-  // Show choice screen
   document.getElementById('browser-screen').style.display = 'flex';
   document.getElementById('browser-container').innerHTML = `
-    <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;padding:20px;text-align:center;">
-      <div style="font-size:22px;font-weight:600;">Choose a Browser</div>
-      <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:280px;">
-        <button onclick="startHyperbeam('1')" style="padding:16px;border:none;border-radius:14px;background:#007aff;color:white;font-size:16px;font-weight:600;cursor:pointer;">
-          Browser 1
-        </button>
-        <button onclick="startHyperbeam('2')" style="padding:16px;border:none;border-radius:14px;background:#34c759;color:white;font-size:16px;font-weight:600;cursor:pointer;">
-          Browser 2
-        </button>
-        <button onclick="closeSharedBrowser()" style="padding:12px;border:none;border-radius:14px;background:#333;color:white;font-size:15px;cursor:pointer;">
-          Cancel
-        </button>
-      </div>
-    </div>
-  `;
-};
-
-window.startHyperbeam = async (keyNumber) => {
-  document.getElementById('browser-container').innerHTML = `
     <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
-      <div>Starting Browser ${keyNumber}...</div>
-      <div style="font-size:14px;opacity:0.7;">This may take a few seconds</div>
+      <div>Starting shared browser...</div>
+      <div style="font-size:14px;opacity:0.7;">You and your bf can watch together</div>
     </div>`;
 
   try {
     const response = await fetch("/api/create-browser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ key: keyNumber })
+      method: "POST"
     });
 
     if (!response.ok) {
@@ -377,6 +352,9 @@ window.startHyperbeam = async (keyNumber) => {
     hbClient = await Hyperbeam(container, data.embed_url, {
       adminToken: data.admin_token
     });
+
+    // Optional: show the session link so you can share it
+    console.log("Share this session:", data.embed_url);
 
   } catch (err) {
     console.error(err);
