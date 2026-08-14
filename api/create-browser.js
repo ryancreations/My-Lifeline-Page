@@ -4,10 +4,24 @@ export default async function handler(req, res) {
   }
 
   try {
+    const { key } = req.body || {};
+
+    // Choose which key to use
+    let apiKey;
+    if (key === "2") {
+      apiKey = process.env.HYPERBEAM_API_KEY_2;
+    } else {
+      apiKey = process.env.HYPERBEAM_API_KEY_1; // default
+    }
+
+    if (!apiKey) {
+      return res.status(500).json({ error: "API key not configured" });
+    }
+
     const response = await fetch("https://engine.hyperbeam.com/v0/vm", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.HYPERBEAM_API_KEY}`,
+        "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
