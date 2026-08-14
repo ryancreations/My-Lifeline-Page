@@ -4,15 +4,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { key } = req.body || {};
-
-    // Choose which key to use
-    let apiKey;
-    if (key === "2") {
-      apiKey = process.env.HYPERBEAM_API_KEY_2;
-    } else {
-      apiKey = process.env.HYPERBEAM_API_KEY_1; // default
-    }
+    const apiKey = process.env.HYPERBEAM_API_KEY_2; // the one that works
 
     if (!apiKey) {
       return res.status(500).json({ error: "API key not configured" });
@@ -25,8 +17,8 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        start_url: "https://www.google.com",
-        offline_timeout: 600
+        start_url: "https://www.youtube.com",
+        offline_timeout: 1800   // 30 minutes
       })
     });
 
@@ -44,6 +36,6 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to create Hyperbeam session" });
+    res.status(500).json({ error: "Failed to create session" });
   }
 }
