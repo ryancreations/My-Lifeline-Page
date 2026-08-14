@@ -1,0 +1,35 @@
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
+    const response = await fetch("https://engine.hyperbeam.com/v0/vm", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.HYPERBEAM_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        start_url: "https://www.google.com",
+        offline_timeout: 600
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json(data);
+    }
+
+    res.status(200).json({
+      embed_url: data.embed_url,
+      admin_token: data.admin_token,
+      session_id: data.session_id
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create Hyperbeam session" });
+  }
+}
