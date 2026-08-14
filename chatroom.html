@@ -75,7 +75,7 @@
     #context-menu {
       position: fixed; background: var(--input-bg); color: var(--text);
       border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      z-index: 1000; display: none; overflow: hidden; min-width: 180px;
+      z-index: 1000; display: none; overflow: hidden; min-width: 190px;
     }
     #context-menu button {
       display: block; width: 100%; padding: 14px 18px; border: none;
@@ -106,6 +106,24 @@
     .icon-btn { background: var(--bubble-received); color: var(--text); }
     #send-btn { background: #007aff; color: white; }
 
+    /* Shared Browser */
+    #browser-screen {
+      position: fixed; inset: 0; background: #111; z-index: 300;
+      display: none; flex-direction: column;
+    }
+    #browser-header {
+      height: 48px; background: #1c1c1e; color: white;
+      display: flex; align-items: center; padding: 0 16px; gap: 12px;
+    }
+    #browser-container {
+      flex: 1; width: 100%; background: #000;
+    }
+    #close-browser {
+      background: #ff3b30; color: white; border: none;
+      padding: 7px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    }
+
+    /* Login */
     #login-screen, #signup-screen {
       position: fixed; inset: 0; background: var(--bg);
       display: flex; flex-direction: column; justify-content: center;
@@ -149,6 +167,7 @@
   <div id="context-menu">
     <button onclick="replyToMessage()">Reply</button>
     <button onclick="startPrivateMessage()">PM</button>
+    <button onclick="openSharedBrowser()">Shared Browser</button>
     <button onclick="copyMessage()">Copy</button>
     <button class="delete" id="delete-btn" onclick="deleteMessage()" style="display:none;">Delete</button>
   </div>
@@ -164,6 +183,15 @@
       <input type="text" id="message-input" placeholder="iMessage" autocomplete="off">
       <button id="send-btn" onclick="sendMessage()">↑</button>
     </div>
+  </div>
+
+  <!-- Shared Browser Screen -->
+  <div id="browser-screen">
+    <div id="browser-header">
+      <span style="flex:1; font-weight:600;">Shared Browser</span>
+      <button id="close-browser" onclick="closeSharedBrowser()">Close</button>
+    </div>
+    <div id="browser-container"></div>
   </div>
 
   <!-- LOGIN -->
@@ -208,6 +236,7 @@
     import { getDatabase, ref, push, onChildAdded, serverTimestamp, remove, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -219,7 +248,8 @@
     let privateWith = null;
     let selectedMessage = null;
     let replyTo = null;
-    let unsubscribe = null;   // fixed listener handling
+    let unsubscribe = null;
+    let hbClient = null;
 
     // Theme
     window.toggleDarkMode = () => {
@@ -294,6 +324,58 @@
 
     window.logout = () => signOut(auth);
 
+    // ========== SHARED BROWSER (Hyperbeam) ==========
+    window.openSharedBrowser = async () => {
+      document.getElementById('context-menu').style.display = 'none';
+      document.getElementById('browser-screen').style.display = 'flex';
+      document.getElementById('browser-container').innerHTML = `
+        <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+          <div>Starting shared browser...</div>
+          <div style="font-size:14px;opacity:0.7;">This may take a few seconds</div>
+        </div>`;
+
+      try {
+        // Calls your Vercel API route
+        const response = await fetch("/api/create-browser", {
+          method: "POST"
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || "Failed to create session");
+        }
+
+        const data = await response.json();
+
+        const container = document.getElementById('browser-container');
+        container.innerHTML = '';
+
+        hbClient = await Hyperbeam(container, data.embed_url, {
+          adminToken: data.admin_token
+        });
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById('browser-container').innerHTML = `
+          <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;text-align:center;">
+            <div style="font-size:18px;">Failed to start browser</div>
+            <div style="font-size:14px;opacity:0.7;">${err.message}</div>
+            <button onclick="openSharedBrowser()" style="margin-top:16px;padding:10px 20px;border-radius:8px;border:none;background:#007aff;color:white;cursor:pointer;">
+              Try Again
+            </button>
+          </div>`;
+      }
+    };
+
+    window.closeSharedBrowser = () => {
+      if (hbClient) {
+        try { hbClient.destroy(); } catch(e) {}
+        hbClient = null;
+      }
+      document.getElementById('browser-screen').style.display = 'none';
+      document.getElementById('browser-container').innerHTML = '';
+    };
+
     // ========== PRIVATE CHAT ==========
     function getPrivateChatId(uid1, uid2) {
       return [uid1, uid2].sort().join('_');
@@ -323,11 +405,8 @@
     };
 
     window.goBack = () => {
-      if (isPrivate) {
-        switchToPublic();
-      } else {
-        location.href = 'index.html';
-      }
+      if (isPrivate) switchToPublic();
+      else location.href = 'index.html';
     };
 
     function switchToPublic() {
@@ -348,8 +427,8 @@
       menu.style.display = 'block';
       const x = e.clientX || (e.touches && e.touches[0].clientX) || 100;
       const y = e.clientY || (e.touches && e.touches[0].clientY) || 100;
-      menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
-      menu.style.top = Math.min(y, window.innerHeight - 220) + 'px';
+      menu.style.left = Math.min(x, window.innerWidth - 210) + 'px';
+      menu.style.top = Math.min(y, window.innerHeight - 250) + 'px';
 
       document.getElementById('delete-btn').style.display =
         (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
@@ -472,7 +551,6 @@
       const container = document.getElementById('chat-container');
       container.innerHTML = '';
 
-      // Properly stop previous listener
       if (unsubscribe) {
         unsubscribe();
         unsubscribe = null;
@@ -515,7 +593,6 @@
           <div class="timestamp">${time}</div>
         `;
 
-        // Long press / right click
         let pressTimer;
         div.addEventListener('contextmenu', e => showContextMenu(e, msg, div));
         div.addEventListener('touchstart', e => {
