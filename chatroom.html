@@ -233,7 +233,7 @@
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp, remove, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+   import { getDatabase, ref, push, onChildAdded, onValue, set, remove, serverTimestamp, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
     import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
