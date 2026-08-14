@@ -325,16 +325,37 @@
     window.logout = () => signOut(auth);
 
 // ========== SHARED BROWSER (Hyperbeam) ==========
+let currentSessionData = null;
+
 window.openSharedBrowser = async () => {
   document.getElementById('context-menu').style.display = 'none';
   document.getElementById('browser-screen').style.display = 'flex';
-  document.getElementById('browser-container').innerHTML = `
-    <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
-      <div>Starting shared browser...</div>
-      <div style="font-size:14px;opacity:0.7;">You and your bf can watch together</div>
-    </div>`;
 
+  // First check if there's already an active session
+  const sessionRef = ref(db, 'active-browser-session');
+  
   try {
+    const snapshot = await new Promise((resolve) => {
+      onValue(sessionRef, (snap) => {
+        resolve(snap);
+      }, { onlyOnce: true });
+    });
+
+    const existing = snapshot.val();
+
+    if (existing && existing.embed_url) {
+      // Join existing session
+      loadHyperbeamSession(existing);
+      return;
+    }
+
+    // No session exists → create a new one
+    document.getElementById('browser-container').innerHTML = `
+      <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+        <div>Starting shared browser...</div>
+        <div style="font-size:14px;opacity:0.7;">Creating watch party for you both</div>
+      </div>`;
+
     const response = await fetch("/api/create-browser", {
       method: "POST"
     });
@@ -346,15 +367,16 @@ window.openSharedBrowser = async () => {
 
     const data = await response.json();
 
-    const container = document.getElementById('browser-container');
-    container.innerHTML = '';
-
-    hbClient = await Hyperbeam(container, data.embed_url, {
-      adminToken: data.admin_token
+    // Save the session so the other person can join
+    await set(ref(db, 'active-browser-session'), {
+      embed_url: data.embed_url,
+      admin_token: data.admin_token,
+      session_id: data.session_id,
+      createdAt: Date.now(),
+      createdBy: auth.currentUser?.displayName || "Someone"
     });
 
-    // Optional: show the session link so you can share it
-    console.log("Share this session:", data.embed_url);
+    loadHyperbeamSession(data);
 
   } catch (err) {
     console.error(err);
@@ -369,15 +391,45 @@ window.openSharedBrowser = async () => {
   }
 };
 
-window.closeSharedBrowser = () => {
+async function loadHyperbeamSession(data) {
+  currentSessionData = data;
+  const container = document.getElementById('browser-container');
+  container.innerHTML = '';
+
+  try {
+    hbClient = await Hyperbeam(container, data.embed_url, {
+      adminToken: data.admin_token
+    });
+  } catch (err) {
+    console.error("Hyperbeam load error:", err);
+    container.innerHTML = `
+      <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+        <div>Failed to load browser</div>
+        <button onclick="openSharedBrowser()" style="padding:10px 20px;border-radius:8px;border:none;background:#007aff;color:white;cursor:pointer;">
+          Try Again
+        </button>
+      </div>`;
+  }
+}
+
+window.closeSharedBrowser = async () => {
   if (hbClient) {
     try { hbClient.destroy(); } catch(e) {}
     hbClient = null;
   }
+
+  // Optional: clear the session when someone closes it
+  // await remove(ref(db, 'active-browser-session'));
+
   document.getElementById('browser-screen').style.display = 'none';
   document.getElementById('browser-container').innerHTML = '';
 };
 
+// Extra: Button to force create a new session
+window.forceNewBrowser = async () => {
+  await remove(ref(db, 'active-browser-session'));
+  openSharedBrowser();
+};
     // ========== PRIVATE CHAT ==========
     function getPrivateChatId(uid1, uid2) {
       return [uid1, uid2].sort().join('_');
