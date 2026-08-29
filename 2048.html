@@ -4,285 +4,821 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2048 • My Lifeline</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-  background:#faf8ef;
-  font-family:'Quicksand',sans-serif;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+/* =========================
+   GLOBAL
+========================= */
+*{
   margin:0;
-  padding-top:80px;
+  padding:0;
+  box-sizing:border-box;
 }
-
-nav{
+:root{
+  --bg:#faf8ef;
+  --text:#776e65;
+  --card:#ffffff;
+  --primary:#00bcd4;
+  --nav:#87ceeb;
+  --shadow:rgba(0,0,0,.15);
+}
+body{
+  background:linear-gradient(to bottom,#fff8f0,#e0f7ff);
+  font-family:'Quicksand',sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  padding-top:85px;
+  padding-bottom:100px;
+  transition:background .4s,color .4s;
+}
+/* =========================
+   DARK MODE
+========================= */
+body.dark-mode{
+  --bg:#1e2433;
+  --text:#eeeeee;
+  --card:#2c3e50;
+  --primary:#4fc3f7;
+  --nav:#263b52;
+  --shadow:rgba(0,0,0,.4);
+  background:linear-gradient(to bottom,#1e3a5f,#2c1e3a);
+  color:#eeeeee;
+}
+body.dark-mode .game-card{
+  background:#2c3e50;
+}
+body.dark-mode h1{
+  color:#ffffff;
+}
+body.dark-mode .game-help{
+  color:#d6e4ec;
+}
+body.dark-mode .score-box{
+  background:#465b6e;
+}
+body.dark-mode #board{
+  background:#465b6e;
+}
+body.dark-mode .cell{
+  background:#596b7a;
+}
+body.dark-mode .restart{
+  background:#607d8b;
+}
+/* =========================
+   SHARED NAVIGATION
+========================= */
+.main-nav{
   position:fixed;
   top:0;
+  left:0;
   width:100%;
   background:#87ceeb;
-  padding:6px;
+  padding:12px 10px;
   display:flex;
-  flex-wrap:wrap;
   justify-content:center;
-  gap:6px;
-  z-index:10;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  z-index:1000;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
 }
-
-nav button{
+body.dark-mode .main-nav{
+  background:#263b52;
+}
+.main-nav button{
   background:white;
+  color:#00bcd4;
   border:none;
-  padding:6px 12px;
-  border-radius:18px;
+  padding:10px 18px;
+  border-radius:25px;
+  font-family:'Quicksand',sans-serif;
   font-weight:600;
+  font-size:.95em;
   cursor:pointer;
+  transition:.25s;
 }
-
-header{
-  width:320px;
+.main-nav button:hover{
+  background:#00bcd4;
+  color:white;
+  transform:translateY(-2px);
+}
+body.dark-mode .main-nav button{
+  background:#ffffff;
+  color:#00a8c0;
+}
+/* =========================
+   FLOATING BESTIE
+========================= */
+.bestie-orb{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  width:65px;
+  height:65px;
+  background:#ff9ff3;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  box-shadow:0 6px 20px rgba(255,159,243,.5);
+  cursor:pointer;
+  z-index:9999;
+  transition:.3s;
+}
+.bestie-orb:hover{
+  transform:scale(1.08);
+}
+/* =========================
+   BESTIE MODAL
+========================= */
+#bestieModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:10000;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.bestie-window{
+  background:white;
+  width:90%;
+  max-width:800px;
+  height:85%;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 10px 40px rgba(0,0,0,.3);
+}
+.bestie-header{
+  height:60px;
+  padding:15px;
+  background:#87ceeb;
+  color:white;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px;
 }
-
-h1{margin:0;color:#776e65}
-
+.bestie-header h3{
+  margin:0;
+}
+.bestie-close{
+  background:none;
+  border:none;
+  color:white;
+  font-size:24px;
+  cursor:pointer;
+}
+.bestie-frame{
+  width:100%;
+  height:calc(100% - 60px);
+  border:none;
+}
+/* =========================
+   GAME CONTAINER
+========================= */
+.game-card{
+  width:100%;
+  max-width:430px;
+  margin:0 auto;
+  background:white;
+  border-radius:25px;
+  padding:25px 20px;
+  box-shadow:0 12px 35px var(--shadow);
+  transition:background .4s;
+}
+.game-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+h1{
+  font-size:3.2em;
+  color:#776e65;
+  line-height:1;
+}
 .score-box{
   background:#bbada0;
   color:white;
-  padding:10px 18px;
-  border-radius:8px;
-  font-size:1em;
+  padding:10px 15px;
+  border-radius:10px;
+  font-size:.95em;
+  font-weight:700;
+  text-align:center;
+  min-width:95px;
 }
-
+.score-box span{
+  font-size:1.2em;
+}
+.game-help{
+  font-size:.95em;
+  line-height:1.5;
+  margin-bottom:15px;
+  color:#776e65;
+}
+/* =========================
+   BOARD
+========================= */
 #board{
+  position:relative;
+  width:100%;
+  max-width:370px;
+  aspect-ratio:1 / 1;
+  margin:0 auto;
   background:#bbada0;
-  padding:12px;
+  padding:10px;
   border-radius:12px;
   display:grid;
-  grid-template-columns:repeat(4,70px);
-  grid-gap:12px;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(4,1fr);
+  gap:10px;
   touch-action:none;
+  user-select:none;
 }
-
 .cell{
-  width:70px;
-  height:70px;
+  width:100%;
+  height:100%;
   background:#cdc1b4;
   border-radius:8px;
 }
-
+/* =========================
+   TILES
+========================= */
 .tile{
   position:absolute;
-  width:70px;
-  height:70px;
+  width:calc((100% - 50px) / 4);
+  height:calc((100% - 50px) / 4);
   border-radius:8px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:1.6em;
+  font-size:clamp(1.25em,6vw,1.8em);
   font-weight:bold;
-  transition:.18s ease-in-out;
+  transition:transform .12s ease-in-out;
+  z-index:2;
 }
-
-.tile-2{background:#eee4da;color:#776e65}
-.tile-4{background:#ede0c8;color:#776e65}
-.tile-8{background:#f2b179;color:#fff}
-.tile-16{background:#f59563;color:#fff}
-.tile-32{background:#f67c5f;color:#fff}
-.tile-64{background:#f65e3b;color:#fff}
-.tile-128{background:#edcf72;color:#fff}
-.tile-256{background:#edcc61;color:#fff}
-.tile-512{background:#edc850;color:#fff}
-.tile-1024{background:#edc53f;color:#fff}
-.tile-2048{background:#edc22e;color:#fff}
-
-button.restart{
-  margin-top:20px;
-  padding:12px 24px;
+.tile-2{
+  background:#eee4da;
+  color:#776e65;
+}
+.tile-4{
+  background:#ede0c8;
+  color:#776e65;
+}
+.tile-8{
+  background:#f2b179;
+  color:#fff;
+}
+.tile-16{
+  background:#f59563;
+  color:#fff;
+}
+.tile-32{
+  background:#f67c5f;
+  color:#fff;
+}
+.tile-64{
+  background:#f65e3b;
+  color:#fff;
+}
+.tile-128{
+  background:#edcf72;
+  color:#fff;
+  font-size:1.45em;
+}
+.tile-256{
+  background:#edcc61;
+  color:#fff;
+  font-size:1.45em;
+}
+.tile-512{
+  background:#edc850;
+  color:#fff;
+  font-size:1.45em;
+}
+.tile-1024{
+  background:#edc53f;
+  color:#fff;
+  font-size:1.25em;
+}
+.tile-2048{
+  background:#edc22e;
+  color:#fff;
+  font-size:1.25em;
+}
+/* =========================
+   CONTROLS
+========================= */
+.restart{
+  display:block;
+  margin:20px auto 0;
+  padding:13px 28px;
   border:none;
   border-radius:25px;
   background:#8f7a66;
   color:white;
-  font-size:1.1em;
+  font-family:'Quicksand',sans-serif;
+  font-size:1.05em;
+  font-weight:600;
   cursor:pointer;
+  transition:.25s;
+}
+.restart:hover{
+  transform:scale(1.05);
+  opacity:.9;
+}
+.message{
+  text-align:center;
+  min-height:28px;
+  margin-top:15px;
+  font-weight:600;
+}
+.win-message{
+  color:#00a884;
+}
+.game-over{
+  color:#e74c3c;
+}
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:600px){
+  body{
+    padding-top:125px;
+  }
+  .main-nav{
+    padding:8px 5px;
+    gap:5px;
+  }
+  .main-nav button{
+    padding:7px 11px;
+    font-size:.85em;
+  }
+  .bestie-orb{
+    width:58px;
+    height:58px;
+    font-size:28px;
+    right:15px;
+    bottom:15px;
+  }
+  .game-card{
+    width:calc(100% - 20px);
+    padding:20px 12px;
+  }
+  h1{
+    font-size:2.6em;
+  }
+  #board{
+    padding:8px;
+    gap:8px;
+  }
+  .tile{
+    width:calc((100% - 40px) / 4);
+    height:calc((100% - 40px) / 4);
+  }
 }
 </style>
 </head>
-
 <body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
+<!-- =========================
+     SHARED NAVIGATION
+========================= -->
+<nav class="main-nav">
+  <button onclick="location.href='index.html'">
+    🏠 Dashboard
+  </button>
+  <button onclick="location.href='bestie.html'">
+    🫂 Bestie
+  </button>
+  <button onclick="location.href='pet.html'">
+    🐶 Virtual Pet
+  </button>
+  <button onclick="toggleDarkMode()">
+    🌙 Dark Mode
+  </button>
 </nav>
-
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
+<!-- =========================
+     FLOATING BESTIE ORB
+========================= -->
+<div
+  class="bestie-orb"
+  onclick="openBestieModal()"
+  title="Talk to Bestie"
+>
+  🫂
 </div>
-
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
-    </div>
+<!-- =========================
+     BESTIE MODAL
+========================= -->
+<div id="bestieModal">
+  <div class="bestie-window">
+<div class="bestie-header">
+  <h3>🫂 Talking to Bestie...</h3>
+  <button
+    class="bestie-close"
+    onclick="closeBestieModal()"
+  >
+    ✕
+  </button>
 </div>
+<iframe
+  class="bestie-frame"
+  src="bestie.html"
+  title="Bestie"
+></iframe>
+  </div>
+</div>
+<!-- =========================
+     GAME
+========================= -->
+<div class="game-card">
+  <div class="game-header">
+<h1>2048</h1>
+<div class="score-box">
+  SCORE<br>
+  <span id="score">0</span>
+</div>
+  </div>
+  <p class="game-help">
+    Use the arrow keys or swipe the board to move the tiles.
+    Match the same numbers to reach 2048!
+  </p>
+  <div id="board"></div>
+  <div
+    id="message"
+    class="message"
+  ></div>
 
+<button
+class=“restart”
+onclick=“init()”
+
+🔄 Restart Game
+  </button>
+</div>
 <script>
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+/* =========================
+   DARK MODE
+========================= */
+function toggleDarkMode(){
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem(
+    'darkMode',
+    document.body.classList.contains('dark-mode')
+  );
 }
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
+/* Load saved theme */
+if(localStorage.getItem('darkMode') === 'true'){
+  document.body.classList.add('dark-mode');
 }
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
+/* =========================
+   BESTIE MODAL
+========================= */
+function openBestieModal(){
+  document.getElementById('bestieModal').style.display='flex';
 }
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-</nav>
-
-<header>
-  <h1>2048</h1>
-  <div class="score-box">Score: <span id="score">0</span></div>
-</header>
-
-<div id="board"></div>
-
-<button class="restart" onclick="init()">Restart</button>
-
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
+function closeBestieModal(){
+  document.getElementById('bestieModal').style.display='none';
 }
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
+/* Close modal when clicking outside */
+document
+  .getElementById('bestieModal')
+  .addEventListener('click',function(e){
+    if(e.target === this){
+      closeBestieModal();
+    }
+  });
+/* =========================
+   2048 GAME
+========================= */
 const size = 4;
-let board, score;
-
-const boardEl = document.getElementById("board");
-const scoreEl = document.getElementById("score");
-
+let board = [];
+let score = 0;
+let gameOver = false;
+let won = false;
+const boardEl =
+  document.getElementById('board');
+const scoreEl =
+  document.getElementById('score');
+const messageEl =
+  document.getElementById('message');
+/* =========================
+   INITIALIZE
+========================= */
 function init(){
-  board = Array.from({length:size},()=>Array(size).fill(0));
+  board =
+    Array.from(
+      {length:size},
+      () => Array(size).fill(0)
+    );
   score = 0;
+  gameOver = false;
+  won = false;
+  messageEl.textContent = '';
+  messageEl.className='message';
   boardEl.innerHTML='';
-  scoreEl.textContent = score;
-
+  /* Create background cells */
   for(let i=0;i<16;i++){
-    const cell = document.createElement("div");
-    cell.className="cell";
+    const cell =
+      document.createElement('div');
+    cell.className='cell';
     boardEl.appendChild(cell);
   }
-
-  addTile(); addTile();
+  addTile();
+  addTile();
   draw();
 }
-
+/* =========================
+   ADD TILE
+========================= */
 function addTile(){
-  let empty=[];
-  board.forEach((r,i)=>r.forEach((v,j)=>v===0&&empty.push([i,j])));
-  if(!empty.length) return;
-  const [r,c]=empty[Math.floor(Math.random()*empty.length)];
-  board[r][c]=Math.random()<0.9?2:4;
-}
-
-function draw(){
-  document.querySelectorAll(".tile").forEach(t=>t.remove());
+  const empty=[];
   board.forEach((row,r)=>{
-    row.forEach((v,c)=>{
-      if(v){
-        const tile=document.createElement("div");
-        tile.className=`tile tile-${v}`;
-        tile.textContent=v;
-        tile.style.transform=`translate(${c*82}px,${r*82}px)`;
-        boardEl.appendChild(tile);
+    row.forEach((value,c)=>{
+      if(value===0){
+        empty.push([r,c]);
       }
+    });
+  });
+  if(empty.length===0) return;
+  const position =
+    empty[
+      Math.floor(
+        Math.random()*empty.length
+      )
+    ];
+  const r=position[0];
+  const c=position[1];
+  board[r][c] =
+    Math.random()<0.9 ? 2 : 4;
+}
+/* =========================
+   DRAW
+========================= */
+function draw(){
+  document
+    .querySelectorAll('.tile')
+    .forEach(tile=>tile.remove());
+  board.forEach((row,r)=>{
+    row.forEach((value,c)=>{
+      if(value===0) return;
+      const tile =
+        document.createElement('div');
+      tile.className =
+        `tile tile-${value}`;
+      tile.textContent=value;
+      const boardWidth =
+        boardEl.clientWidth;
+      const gap = 10;
+      const padding = 10;
+      const tileSize =
+        (boardWidth - padding*2 - gap*3) / 4;
+      const x =
+        padding + c*(tileSize+gap);
+      const y =
+        padding + r*(tileSize+gap);
+      tile.style.width =
+        `${tileSize}px`;
+      tile.style.height =
+        `${tileSize}px`;
+      tile.style.transform =
+        `translate(${x}px,${y}px)`;
+      boardEl.appendChild(tile);
     });
   });
   scoreEl.textContent=score;
 }
-
+/* =========================
+   SLIDE ROW
+========================= */
 function slide(row){
-  row=row.filter(v=>v);
+  row =
+    row.filter(value=>value!==0);
   for(let i=0;i<row.length-1;i++){
     if(row[i]===row[i+1]){
-      row[i]*=2;
-      score+=row[i];
+      row[i] *= 2;
+      score += row[i];
       row[i+1]=0;
     }
   }
-  row=row.filter(v=>v);
-  while(row.length<size) row.push(0);
+  row =
+    row.filter(value=>value!==0);
+  while(row.length<size){
+    row.push(0);
+  }
   return row;
 }
-
-function move(dir){
+/* =========================
+   MOVE
+========================= */
+function move(direction){
+  if(gameOver) return;
   let moved=false;
-
-  const rotateLeft = m => m[0].map((_,i)=>m.map(r=>r[i])).reverse();
-  const rotateRight = m => rotateLeft(rotateLeft(rotateLeft(m)));
-
-  if(dir==="up") board=rotateLeft(board);
-  if(dir==="down") board=rotateRight(board);
-  if(dir==="right") board=board.map(r=>r.reverse());
-
+  const rotateLeft = matrix =>
+    matrix[0]
+      .map((_,i)=>
+        matrix.map(row=>row[i])
+      )
+      .reverse();
+  const rotateRight = matrix =>
+    rotateLeft(
+      rotateLeft(
+        rotateLeft(matrix)
+      )
+    );
+  if(direction==='up'){
+    board=rotateLeft(board);
+  }
+  if(direction==='down'){
+    board=rotateRight(board);
+  }
+  if(direction==='right'){
+    board=board.map(row=>row.reverse());
+  }
   for(let r=0;r<size;r++){
-    const newRow=slide(board[r]);
-    if(newRow.some((v,i)=>v!==board[r][i])) moved=true;
+    const oldRow =
+      [...board[r]];
+    const newRow =
+      slide(board[r]);
+    if(
+      newRow.some(
+        (value,index)=>
+          value!==oldRow[index]
+      )
+    ){
+      moved=true;
+    }
     board[r]=newRow;
   }
-
-  if(dir==="right") board=board.map(r=>r.reverse());
-  if(dir==="up") board=rotateRight(board);
-  if(dir==="down") board=rotateLeft(board);
-
-  if(moved){ addTile(); draw(); }
-}
-
-document.addEventListener("keydown",e=>{
-  if(e.key==="ArrowUp") move("up");
-  if(e.key==="ArrowDown") move("down");
-  if(e.key==="ArrowLeft") move("left");
-  if(e.key==="ArrowRight") move("right");
-});
-
-let sx,sy;
-boardEl.addEventListener("touchstart",e=>{
-  sx=e.touches[0].clientX;
-  sy=e.touches[0].clientY;
-});
-boardEl.addEventListener("touchend",e=>{
-  const dx=e.changedTouches[0].clientX-sx;
-  const dy=e.changedTouches[0].clientY-sy;
-  if(Math.abs(dx)>Math.abs(dy)){
-    move(dx>0?"right":"left");
-  }else{
-    move(dy>0?"down":"up");
+  if(direction==='right'){
+    board=board.map(row=>row.reverse());
   }
-});
-
+  if(direction==='up'){
+    board=rotateRight(board);
+  }
+  if(direction==='down'){
+    board=rotateLeft(board);
+  }
+  if(moved){
+    addTile();
+    draw();
+    if(checkWin()){
+      showWin();
+    }
+    if(!canMove()){
+      gameOver=true;
+      messageEl.textContent=
+        'Game over — try again!';
+      messageEl.className=
+        'message game-over';
+    }
+  }
+}
+/* =========================
+   WIN CHECK
+========================= */
+function checkWin(){
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+      if(board[r][c]>=2048){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+/* =========================
+   WIN MESSAGE
+========================= */
+function showWin(){
+  if(won) return;
+  won=true;
+  messageEl.textContent=
+    '🎉 You reached 2048! Great job!';
+  messageEl.className=
+    'message win-message';
+}
+/* =========================
+   CAN MOVE CHECK
+========================= */
+function canMove(){
+  /* Empty spaces */
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size;c++){
+      if(board[r][c]===0){
+        return true;
+      }
+    }
+  }
+  /* Horizontal matches */
+  for(let r=0;r<size;r++){
+    for(let c=0;c<size-1;c++){
+      if(
+        board[r][c] ===
+        board[r][c+1]
+      ){
+        return true;
+      }
+    }
+  }
+  /* Vertical matches */
+  for(let r=0;r<size-1;r++){
+    for(let c=0;c<size;c++){
+      if(
+        board[r][c] ===
+        board[r+1][c]
+      ){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+/* =========================
+   KEYBOARD CONTROLS
+========================= */
+document.addEventListener(
+  'keydown',
+  function(e){
+    const keys = [
+      'ArrowUp',
+      'ArrowDown',
+      'ArrowLeft',
+      'ArrowRight'
+    ];
+    if(keys.includes(e.key)){
+      e.preventDefault();
+      move(
+        e.key
+          .replace('Arrow','')
+          .toLowerCase()
+      );
+    }
+  }
+);
+/* =========================
+   TOUCH CONTROLS
+========================= */
+let startX=0;
+let startY=0;
+boardEl.addEventListener(
+  'touchstart',
+  function(e){
+    const touch =
+      e.touches[0];
+    startX=touch.clientX;
+    startY=touch.clientY;
+  },
+  {passive:true}
+);
+boardEl.addEventListener(
+  'touchend',
+  function(e){
+    const touch =
+      e.changedTouches[0];
+    const dx =
+      touch.clientX-startX;
+    const dy =
+      touch.clientY-startY;
+    const minSwipe=30;
+    if(
+      Math.abs(dx)<minSwipe &&
+      Math.abs(dy)<minSwipe
+    ){
+      return;
+    }
+    if(
+      Math.abs(dx)>Math.abs(dy)
+    ){
+      move(
+        dx>0
+          ? 'right'
+          : 'left'
+      );
+    }else{
+      move(
+        dy>0
+          ? 'down'
+          : 'up'
+      );
+    }
+  },
+  {passive:true}
+);
+/* =========================
+   REDRAW ON RESIZE
+========================= */
+window.addEventListener(
+  'resize',
+  draw
+);
+/* =========================
+   START GAME
+========================= */
 init();
 </script>
-
 </body>
 </html>
