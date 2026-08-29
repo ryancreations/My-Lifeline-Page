@@ -339,7 +339,6 @@
     let replyTo = null;
     let unsubscribe = null;
     let hbClient = null;
-    let messagesLoaded = false;
 
     const servers = {
       iceServers: [
@@ -526,7 +525,7 @@
       document.getElementById('browser-container').innerHTML = '';
     };
 
-    // ========== CALLS ==========
+    // Calls
     window.startCall = async (withVideo = true) => {
       if (!selectedMessage || !auth.currentUser) return;
       remoteUid = selectedMessage.data.uid;
@@ -671,7 +670,6 @@
         }
       };
 
-      // Get the offer (re-fetch to be safe)
       const offerSnap = await get(ref(db, `calls/${id}/offer`));
       const offer = offerSnap.val() || data.offer;
       if (!offer) {
@@ -905,13 +903,14 @@
     function loadMessages() {
       const container = document.getElementById('chat-container');
       container.innerHTML = '';
-      if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+      if (unsubscribe) { 
+        unsubscribe(); 
+        unsubscribe = null; 
+      }
       if (!currentChatRef) return;
 
-      messagesLoaded = false;
-
-      // Small delay so we don't notify for the initial load
-      setTimeout(() => { messagesLoaded = true; }, 1500);
+      let isInitialLoad = true;
+      setTimeout(() => { isInitialLoad = false; }, 800);
 
       unsubscribe = onChildAdded(currentChatRef, (snap) => {
         const msg = snap.val();
@@ -945,8 +944,7 @@
           <div class="timestamp">${time}</div>
         `;
 
-        // Only notify after the chat has finished loading
-        if (!isMe && messagesLoaded) {
+        if (!isMe && !isInitialLoad) {
           showNotif(msg.name || "Someone", msg.text || "Sent an image");
         }
 
