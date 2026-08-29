@@ -13,18 +13,25 @@
       --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
       --card: #ffffff;
       --text: #2c3e50;
+      --muted: #6b7b88;
       --shadow: rgba(0,0,0,0.12);
+      --danger: #e74c3c;
     }
     [data-theme="dark"] {
       --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
       --card: #2c3e50;
       --text: #e0f2f1;
+      --muted: #b8c6ce;
       --primary: #4fc3f7;
       --accent: #ff79c6;
       --shadow: rgba(0,0,0,0.4);
+      --danger: #ff6b6b;
     }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Quicksand', sans-serif;
       background: var(--bg-light);
@@ -32,10 +39,11 @@
       min-height: 100vh;
       transition: background 0.6s ease;
     }
-
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       background: rgba(135, 206, 235, 0.97);
       backdrop-filter: blur(12px);
       z-index: 1000;
@@ -45,8 +53,9 @@
       justify-content: space-between;
       box-shadow: 0 6px 20px var(--shadow);
     }
-    [data-theme="dark"] nav { background: rgba(26, 38, 57, 0.97); }
-
+    [data-theme="dark"] nav {
+      background: rgba(26, 38, 57, 0.97);
+    }
     .logo {
       font-size: 1.6rem;
       font-weight: 700;
@@ -54,7 +63,10 @@
       align-items: center;
       gap: 10px;
     }
-
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
     .nav-btn {
       background: white;
       color: var(--primary);
@@ -64,13 +76,11 @@
       font-weight: 600;
       cursor: pointer;
     }
-
     main {
       max-width: 1000px;
       margin: 100px auto 80px;
       padding: 0 20px;
     }
-
     header {
       text-align: center;
       background: linear-gradient(135deg, var(--primary), #81d4fa);
@@ -78,8 +88,15 @@
       padding: 50px 30px;
       border-radius: 24px;
       margin-bottom: 40px;
+      box-shadow: 0 10px 30px var(--shadow);
     }
-
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.05rem;
+    }
     .section {
       background: var(--card);
       border-radius: 20px;
@@ -87,20 +104,210 @@
       margin-bottom: 30px;
       box-shadow: 0 10px 30px var(--shadow);
     }
-
     .section h2 {
       color: var(--primary);
       margin-bottom: 18px;
       font-size: 1.5rem;
     }
-
     iframe {
       width: 100%;
       height: 280px;
       border: none;
       border-radius: 16px;
     }
-
+    /* SAVED SONGS */
+    .saved-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .saved-count {
+      background: rgba(0,188,212,0.12);
+      color: var(--primary);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .search-box {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid rgba(0,188,212,0.25);
+      border-radius: 14px;
+      background: transparent;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 18px;
+    }
+    .search-box:focus {
+      border-color: var(--primary);
+    }
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .song-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(0,188,212,0.06);
+      border: 1px solid rgba(0,188,212,0.12);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .song-card:hover {
+      transform: translateY(-2px);
+      background: rgba(0,188,212,0.1);
+    }
+    .song-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .song-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .song-name {
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .song-size {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 3px;
+    }
+    .song-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .song-btn {
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+    .song-btn:hover {
+      transform: scale(1.08);
+    }
+    .play-btn {
+      background: var(--primary);
+      color: white;
+    }
+    .delete-btn {
+      background: rgba(231,76,60,0.12);
+      color: var(--danger);
+    }
+    .empty-library {
+      text-align: center;
+      padding: 35px 15px;
+      color: var(--muted);
+    }
+    .empty-library .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+    .empty-library h3 {
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    /* PLAYER */
+    .player {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(0,188,212,0.08);
+    }
+    .player.active {
+      display: block;
+    }
+    .now-playing {
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .player audio {
+      width: 100%;
+    }
+    .player-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .control-btn {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 25px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
+    .control-btn.secondary {
+      background: rgba(0,188,212,0.12);
+      color: var(--primary);
+    }
+    /* UPLOAD */
+    .upload-area {
+      text-align: center;
+    }
+    .upload-area p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .upload-area input {
+      margin: 18px 0;
+      padding: 14px;
+      border: 2px dashed var(--primary);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 500px;
+      background: rgba(0,188,212,0.05);
+      color: var(--text);
+    }
+    .upload-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .clear-all-btn {
+      margin-top: 18px;
+      padding: 12px 24px;
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: inherit;
+    }
     .floating-bestie {
       position: fixed;
       bottom: 30px;
@@ -117,181 +324,571 @@
       cursor: pointer;
       z-index: 999;
     }
-
-    .upload-area {
-      text-align: center;
-    }
-    .upload-area input {
-      margin: 15px 0;
-      padding: 14px;
-      border: 2px dashed var(--primary);
-      border-radius: 14px;
-      width: 100%;
-      max-width: 420px;
-      background: rgba(0,188,212,0.05);
-    }
-    audio {
-      width: 100%;
-      max-width: 500px;
-      margin-top: 15px;
+    @media (max-width: 600px) {
+      nav {
+        padding: 12px;
+      }
+      .logo {
+        font-size: 1.15rem;
+      }
+      .nav-btn {
+        padding: 9px 12px;
+      }
+      main {
+        margin-top: 90px;
+        padding: 0 12px;
+      }
+      header {
+        padding: 35px 20px;
+      }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      .section {
+        padding: 20px;
+      }
+      .song-card {
+        align-items: flex-start;
+      }
+      .song-actions {
+        flex-direction: column;
+      }
+      .floating-bestie {
+        width: 62px;
+        height: 62px;
+        font-size: 2rem;
+        right: 18px;
+        bottom: 18px;
+      }
     }
   </style>
 </head>
 <body data-theme="light">
-
   <nav>
-    <div class="logo"><span>🫂</span> My Lifeline</div>
-    <div style="display:flex; gap:12px;">
-      <button class="nav-btn" onclick="location.href='index.html'">← Dashboard</button>
-      <button class="nav-btn" onclick="toggleDarkMode()">🌗</button>
+    <div class="logo">
+      <span>🫂</span> My Lifeline
     </div>
+<div class="nav-buttons">
+  <button class="nav-btn" onclick="location.href='index.html'">
+    ← Dashboard
+  </button>
+  <button class="nav-btn" onclick="toggleDarkMode()">
+    🌗
+  </button>
+</div>
   </nav>
-
-  <div class="floating-bestie" onclick="location.href='bestie.html'">🫂</div>
-
+  <div class="floating-bestie" onclick="location.href='bestie.html'">
+    🫂
+  </div>
   <main>
-    <header>
-      <h1>🎧 Music Sanctuary</h1>
-      <p>Every song here was chosen to hold you</p>
-    </header>
-
-    <!-- Kept sections -->
-    <div class="section">
-      <h2>Rap – Sleepy Hallow "2055"</h2>
-      <iframe src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L" allowfullscreen></iframe>
+<header>
+  <h1>🎧 Music Sanctuary</h1>
+  <p>Every song here was chosen to hold you</p>
+</header>
+<!-- SAVED SONGS LIBRARY -->
+<div class="section">
+  <div class="saved-header">
+    <h2>🎵 Saved Songs</h2>
+    <span class="saved-count" id="songCount">0 songs</span>
+  </div>
+  <input
+    type="text"
+    id="songSearch"
+    class="search-box"
+    placeholder="🔍 Search your saved songs..."
+  >
+  <div id="songList" class="song-list"></div>
+  <div id="emptyLibrary" class="empty-library">
+    <div class="empty-icon">🎶</div>
+    <h3>Your music library is empty</h3>
+    <p>Upload a song below and it'll stay saved on this device.</p>
+  </div>
+  <div id="player" class="player">
+    <div class="now-playing">
+      🎧 Now Playing: <span id="nowPlayingName">Nothing</span>
     </div>
-
-    <div class="section">
-      <h2>When You're Feeling Low</h2>
-      <iframe src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Ram Jam – Black Betty</h2>
-      <iframe src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Lofi Sanctuary</h2>
-      <iframe src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Lil Peep – 16 Lines</h2>
-      <iframe src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII" allowfullscreen></iframe>
-    </div>
-
-    <div class="section">
-      <h2>Night Drive Vibes</h2>
-      <iframe src="https://www.youtube.com/embed/_-UlZAdX8Ec" allowfullscreen></iframe>
-    </div>
-
-    <!-- Upload section -->
-    <div class="section upload-area">
-      <h2>🎵 Upload Your Own Song</h2>
-      <p>Choose any audio file you’ve downloaded (mp3, m4a, wav, flac, etc.)<br>
-      Photos and videos will be blocked.</p>
-      
-      <input type="file" id="audioUpload" accept="audio/*,.mp3,.m4a,.wav,.flac,.ogg,.aac,.wma">
-      
-      <audio id="uploadedAudio" controls></audio>
-      
-      <br>
-      <button onclick="clearSavedSong()" style="margin-top:18px; padding:12px 24px; background:#e74c3c; color:white; border:none; border-radius:25px; cursor:pointer; font-weight:600;">
-        Clear Saved Song
+    <audio id="mainPlayer" controls></audio>
+    <div class="player-controls">
+      <button class="control-btn" onclick="previousSong()">
+        ⏮ Previous
+      </button>
+      <button class="control-btn secondary" onclick="toggleShuffle()">
+        🔀 <span id="shuffleText">Shuffle Off</span>
+      </button>
+      <button class="control-btn secondary" onclick="toggleRepeat()">
+        🔁 <span id="repeatText">Repeat Off</span>
+      </button>
+      <button class="control-btn" onclick="nextSong()">
+        Next ⏭
       </button>
     </div>
+  </div>
+</div>
+<!-- EXISTING MUSIC -->
+<div class="section">
+  <h2>Rap – Sleepy Hallow "2055"</h2>
+  <iframe
+    src="https://www.youtube.com/embed/y1xZ_kAhjMc?list=PLQvMO29MhX11QQaouoYv1fblKiMa_nZ0L"
+    allowfullscreen>
+  </iframe>
+</div>
+<div class="section">
+  <h2>When You're Feeling Low</h2>
+  <iframe
+    src="https://www.youtube.com/embed/lkUyYypScvE?list=PLQvMO29MhX12VkpPTZXPtsp8tsvBN_lY5"
+    allowfullscreen>
+  </iframe>
+</div>
+<div class="section">
+  <h2>Ram Jam – Black Betty</h2>
+  <iframe
+    src="https://m.youtube.com/embed/I_2D8Eo15wE?list=PLQvMO29MhX11uOCzCP8SNHM9gQIanTiVJ"
+    allowfullscreen>
+  </iframe>
+</div>
+<div class="section">
+  <h2>Lofi Sanctuary</h2>
+  <iframe
+    src="https://www.youtube.com/embed/p53rW6sMfqw?list=PLQvMO29MhX10cDp_Vcmp9DbdTIaWweyaI"
+    allowfullscreen>
+  </iframe>
+</div>
+<div class="section">
+  <h2>Lil Peep – 16 Lines</h2>
+  <iframe
+    src="https://www.youtube.com/embed/DxNt7xV5aII?list=RDDxNt7xV5aII"
+    allowfullscreen>
+  </iframe>
+</div>
+<div class="section">
+  <h2>Night Drive Vibes</h2>
+  <iframe
+    src="https://www.youtube.com/embed/_-UlZAdX8Ec"
+    allowfullscreen>
+  </iframe>
+</div>
+<!-- UPLOAD -->
+<div class="section upload-area">
+  <h2>➕ Add Songs</h2>
+  <p>
+    Add audio files to your personal Lifeline music library.
+    <br>
+    You can save multiple songs.
+  </p>
+  <input
+    type="file"
+    id="audioUpload"
+    accept="audio/*,.mp3,.m4a,.wav,.flac,.ogg,.aac,.wma"
+    multiple
+  >
+  <p class="upload-note">
+    🎵 MP3, M4A, WAV, FLAC, OGG, AAC and other browser-supported audio files.
+  </p>
+  <button
+    class="clear-all-btn"
+    onclick="clearAllSongs()">
+    🗑️ Clear All Saved Songs
+  </button>
+</div>
   </main>
-
   <script>
-    // Theme
+    /* =========================
+       THEME
+    ========================= */
     function toggleDarkMode() {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark');
+      const isDark =
+        document.documentElement.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('lifeline-theme', newTheme);
     }
     if (localStorage.getItem('lifeline-theme') === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
-
-    // Save uploaded song with IndexedDB
+    /* =========================
+       DATABASE
+    ========================= */
     const DB_NAME = 'LifelineMusicDB';
     const STORE_NAME = 'songs';
-
+    let songs = [];
+    let currentSongIndex = -1;
+    let shuffleEnabled = false;
+    let repeatEnabled = false;
     function openDB() {
       return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, 1);
-        request.onupgradeneeded = (e) => {
-          const db = e.target.result;
+        const request = indexedDB.open(DB_NAME, 2);
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
           if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME);
+            db.createObjectStore(STORE_NAME, {
+              keyPath: 'id',
+              autoIncrement: true
+            });
           }
         };
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          resolve(request.result);
+        };
+        request.onerror = () => {
+          reject(request.error);
+        };
       });
     }
-
+    /* =========================
+       SAVE SONG
+    ========================= */
     async function saveSong(file) {
       const db = await openDB();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      store.put(file, 'userSong');
+      return new Promise((resolve, reject) => {
+        const transaction =
+          db.transaction(STORE_NAME, 'readwrite');
+        const store =
+          transaction.objectStore(STORE_NAME);
+        const song = {
+          name: file.name,
+          type: file.type || 'audio/mpeg',
+          size: file.size,
+          file: file,
+          created: Date.now()
+        };
+        const request = store.add(song);
+        request.onsuccess = () => {
+          resolve(request.result);
+        };
+        request.onerror = () => {
+          reject(request.error);
+        };
+      });
     }
-
-    async function loadSavedSong() {
+    /* =========================
+       LOAD SONGS
+    ========================= */
+    async function loadSongs() {
       try {
         const db = await openDB();
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const request = store.get('userSong');
-
-        return new Promise((resolve) => {
-          request.onsuccess = () => resolve(request.result);
-          request.onerror = () => resolve(null);
+        return new Promise((resolve, reject) => {
+          const transaction =
+            db.transaction(STORE_NAME, 'readonly');
+          const store =
+            transaction.objectStore(STORE_NAME);
+          const request = store.getAll();
+          request.onsuccess = () => {
+            const result = request.result || [];
+            result.sort((a, b) => a.created - b.created);
+            resolve(result);
+          };
+          request.onerror = () => {
+            reject(request.error);
+          };
         });
-      } catch (e) {
-        return null;
+      } catch (error) {
+        console.error('Could not load songs:', error);
+        return [];
       }
     }
-
-    async function clearSavedSong() {
-      if (!confirm('Remove the saved song from this device?')) return;
-      const db = await openDB();
-      const tx = db.transaction(STORE_NAME, 'readwrite');
-      const store = tx.objectStore(STORE_NAME);
-      store.delete('userSong');
-      document.getElementById('uploadedAudio').src = '';
-      document.getElementById('audioUpload').value = '';
-      alert('Saved song cleared');
-    }
-
-    // When user selects a file
-    document.getElementById('audioUpload').addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      if (!file.type.startsWith('audio/')) {
-        alert('Please select an audio file only (not a photo or video).');
-        e.target.value = '';
+    /* =========================
+       DELETE SONG
+    ========================= */
+    async function deleteSong(id) {
+      const song = songs.find(s => s.id === id);
+      if (!song) return;
+      if (!confirm(`Delete "${song.name}" from your music library?`)) {
         return;
       }
-
-      const audio = document.getElementById('uploadedAudio');
-      audio.src = URL.createObjectURL(file);
-      audio.play();
-
-      await saveSong(file);
-      alert('Song saved! It will still be here next time you open this page.');
-    });
-
-    // Load saved song when page opens
-    (async () => {
-      const savedFile = await loadSavedSong();
-      if (savedFile) {
-        const audio = document.getElementById('uploadedAudio');
-        audio.src = URL.createObjectURL(savedFile);
+      const db = await openDB();
+      await new Promise((resolve, reject) => {
+        const transaction =
+          db.transaction(STORE_NAME, 'readwrite');
+        const store =
+          transaction.objectStore(STORE_NAME);
+        const request = store.delete(id);
+        request.onsuccess = resolve;
+        request.onerror = () => reject(request.error);
+      });
+      if (currentSongIndex >= 0 && songs[currentSongIndex]?.id === id) {
+        stopPlayer();
       }
+      songs = await loadSongs();
+      renderSongs();
+    }
+    /* =========================
+       CLEAR ALL
+    ========================= */
+    async function clearAllSongs() {
+      if (songs.length === 0) {
+        alert('There are no saved songs to clear.');
+        return;
+      }
+      if (!confirm(
+        'Are you sure you want to delete ALL saved songs from this device?'
+      )) {
+        return;
+      }
+      const db = await openDB();
+      await new Promise((resolve, reject) => {
+        const transaction =
+          db.transaction(STORE_NAME, 'readwrite');
+        const store =
+          transaction.objectStore(STORE_NAME);
+        const request = store.clear();
+        request.onsuccess = resolve;
+        request.onerror = () => reject(request.error);
+      });
+      songs = [];
+      stopPlayer();
+      renderSongs();
+      alert('All saved songs have been cleared.');
+    }
+    /* =========================
+       FORMAT FILE SIZE
+    ========================= */
+    function formatSize(bytes) {
+      if (bytes < 1024) {
+        return bytes + ' B';
+      }
+      if (bytes < 1024 * 1024) {
+        return (bytes / 1024).toFixed(1) + ' KB';
+      }
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+    /* =========================
+       RENDER LIBRARY
+    ========================= */
+    function renderSongs(filter = '') {
+      const list =
+        document.getElementById('songList');
+      const empty =
+        document.getElementById('emptyLibrary');
+      const count =
+        document.getElementById('songCount');
+      const search =
+        filter.trim().toLowerCase();
+      const filteredSongs =
+        songs.filter(song =>
+          song.name.toLowerCase().includes(search)
+        );
+      count.textContent =
+        `${songs.length} ${songs.length === 1 ? 'song' : 'songs'}`;
+      list.innerHTML = '';
+      if (songs.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display =
+        filteredSongs.length === 0 ? 'block' : 'none';
+      if (filteredSongs.length === 0) {
+        empty.querySelector('h3').textContent =
+          'No songs found';
+        empty.querySelector('p').textContent =
+          'Try a different search.';
+        return;
+      }
+      empty.querySelector('h3').textContent =
+        'Your music library is empty';
+      empty.querySelector('p').textContent =
+        "Upload a song below and it'll stay saved on this device.";
+      filteredSongs.forEach(song => {
+        const card =
+          document.createElement('div');
+        card.className = 'song-card';
+        card.innerHTML = `
+          <div class="song-icon">
+            <i class="fa-solid fa-music"></i>
+          </div>
+          <div class="song-info">
+            <div class="song-name" title="${escapeHTML(song.name)}">
+              ${escapeHTML(song.name)}
+            </div>
+            <div class="song-size">
+              ${formatSize(song.size)}
+            </div>
+          </div>
+          <div class="song-actions">
+            <button
+              class="song-btn play-btn"
+              title="Play song"
+              onclick="playSong(${song.id})">
+              <i class="fa-solid fa-play"></i>
+            </button>
+            <button
+              class="song-btn delete-btn"
+              title="Delete song"
+              onclick="deleteSong(${song.id})">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+    function escapeHTML(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    /* =========================
+       PLAY SONG
+    ========================= */
+    function playSong(id) {
+      const index =
+        songs.findIndex(song => song.id === id);
+      if (index === -1) return;
+      currentSongIndex = index;
+      const song = songs[index];
+      const player =
+        document.getElementById('mainPlayer');
+      const playerBox =
+        document.getElementById('player');
+      const nowPlaying =
+        document.getElementById('nowPlayingName');
+      if (player.src) {
+        URL.revokeObjectURL(player.src);
+      }
+      player.src =
+        URL.createObjectURL(song.file);
+      nowPlaying.textContent =
+        song.name;
+      playerBox.classList.add('active');
+      player.play().catch(() => {});
+    }
+    /* =========================
+       STOP PLAYER
+    ========================= */
+    function stopPlayer() {
+      const player =
+        document.getElementById('mainPlayer');
+      player.pause();
+      player.removeAttribute('src');
+      player.load();
+      document.getElementById('player')
+        .classList.remove('active');
+      document.getElementById('nowPlayingName')
+        .textContent = 'Nothing';
+      currentSongIndex = -1;
+    }
+    /* =========================
+       NEXT
+    ========================= */
+    function nextSong() {
+      if (songs.length === 0) return;
+      let nextIndex;
+      if (shuffleEnabled) {
+        if (songs.length === 1) {
+          nextIndex = 0;
+        } else {
+          do {
+            nextIndex =
+              Math.floor(Math.random() * songs.length);
+          } while (nextIndex === currentSongIndex);
+        }
+      } else {
+        nextIndex =
+          currentSongIndex + 1;
+        if (nextIndex >= songs.length) {
+          nextIndex = 0;
+        }
+      }
+      playSong(songs[nextIndex].id);
+    }
+    /* =========================
+       PREVIOUS
+    ========================= */
+    function previousSong() {
+      if (songs.length === 0) return;
+      let previousIndex =
+        currentSongIndex - 1;
+      if (previousIndex < 0) {
+        previousIndex = songs.length - 1;
+      }
+      playSong(songs[previousIndex].id);
+    }
+    /* =========================
+       SHUFFLE
+    ========================= */
+    function toggleShuffle() {
+      shuffleEnabled =
+        !shuffleEnabled;
+      document.getElementById('shuffleText')
+        .textContent =
+        shuffleEnabled
+          ? 'Shuffle On'
+          : 'Shuffle Off';
+    }
+    /* =========================
+       REPEAT
+    ========================= */
+    function toggleRepeat() {
+      repeatEnabled =
+        !repeatEnabled;
+      document.getElementById('repeatText')
+        .textContent =
+        repeatEnabled
+          ? 'Repeat On'
+          : 'Repeat Off';
+    }
+    /* =========================
+       AUDIO ENDED
+    ========================= */
+    document.getElementById('mainPlayer')
+      .addEventListener('ended', () => {
+        if (repeatEnabled && currentSongIndex >= 0) {
+          playSong(songs[currentSongIndex].id);
+          return;
+        }
+        nextSong();
+      });
+    /* =========================
+       UPLOAD
+    ========================= */
+    document.getElementById('audioUpload')
+      .addEventListener('change', async (event) => {
+        const files =
+          Array.from(event.target.files);
+        if (!files.length) return;
+        let savedCount = 0;
+        for (const file of files) {
+          if (
+            !file.type.startsWith('audio/') &&
+            !/\.(mp3|m4a|wav|flac|ogg|aac|wma)$/i.test(file.name)
+          ) {
+            alert(
+              `"${file.name}" was skipped because it isn't a supported audio file.`
+            );
+            continue;
+          }
+          try {
+            await saveSong(file);
+            savedCount++;
+          } catch (error) {
+            console.error(
+              'Could not save:',
+              file.name,
+              error
+            );
+          }
+        }
+        event.target.value = '';
+        songs = await loadSongs();
+        renderSongs();
+        if (savedCount > 0) {
+          alert(
+            `${savedCount} ${savedCount === 1 ? 'song was' : 'songs were'} saved to your Lifeline music library! 🎵`
+          );
+        }
+      });
+    /* =========================
+       SEARCH
+    ========================= */
+    document.getElementById('songSearch')
+      .addEventListener('input', (event) => {
+        renderSongs(event.target.value);
+      });
+    /* =========================
+       INITIALIZE
+    ========================= */
+    (async function initializeMusic() {
+      songs = await loadSongs();
+      renderSongs();
     })();
   </script>
 </body>
