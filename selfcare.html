@@ -1,924 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Self-Care Wheel • My Lifeline</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-
-<style>
-
-:root{
-
---primary:#00bcd4;
---pink:#ff6b9d;
---green:#a8e6cf;
---purple:#9b59b6;
-
---bg:linear-gradient(135deg,#eefcff,#ffeaf3);
-
---card:white;
-
---text:#333;
-
---box:#f7f7ff;
-
---shadow:rgba(0,0,0,.15);
-
-}
-
-
-
-[data-theme="dark"]{
-
---bg:linear-gradient(135deg,#101c33,#2c1e3a);
-
---card:#263545;
-
---text:#eee;
-
---box:#34495e;
-
---shadow:rgba(0,0,0,.45);
-
-}
-
-
-
-*{
-
-margin:0;
-padding:0;
-box-sizing:border-box;
-
-}
-
-
-
-body{
-
-font-family:'Quicksand',sans-serif;
-
-background:var(--bg);
-
-color:var(--text);
-
-min-height:100vh;
-
-transition:.4s;
-
-}
-
-
-
-
-/* Navigation */
-
-nav{
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-width:100%;
-
-
-background:rgba(135,206,235,.95);
-
-padding:12px;
-
-
-display:flex;
-
-justify-content:center;
-
-flex-wrap:wrap;
-
-gap:12px;
-
-
-z-index:1000;
-
-
-box-shadow:0 5px 20px var(--shadow);
-
-}
-
-
-
-[data-theme="dark"] nav{
-
-background:rgba(30,50,70,.95);
-
-}
-
-
-
-.nav-btn{
-
-background:white;
-
-color:var(--primary);
-
-border:none;
-
-padding:10px 18px;
-
-border-radius:30px;
-
-font-weight:600;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-
-
-.nav-btn:hover{
-
-background:var(--primary);
-
-color:white;
-
-}
-
-
-
-
-
-/* Floating Bestie */
-
-.bestie-float{
-
-position:fixed;
-
-right:25px;
-
-bottom:25px;
-
-
-width:75px;
-
-height:75px;
-
-
-background:#ff9ff3;
-
-border-radius:50%;
-
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-
-font-size:2.5rem;
-
-
-cursor:pointer;
-
-
-z-index:9999;
-
-
-box-shadow:0 10px 30px rgba(255,159,243,.5);
-
-}
-
-
-
-
-
-main{
-
-max-width:950px;
-
-margin:auto;
-
-padding:110px 20px 60px;
-
-}
-
-
-
-
-.hero{
-
-background:linear-gradient(135deg,#00bcd4,#a8e6cf);
-
-color:white;
-
-padding:45px 25px;
-
-border-radius:30px;
-
-text-align:center;
-
-margin-bottom:30px;
-
-
-box-shadow:0 15px 40px rgba(0,188,212,.3);
-
-}
-
-
-
-.hero h1{
-
-font-size:2.7rem;
-
-margin-bottom:10px;
-
-}
-
-
-
-
-.card{
-
-background:var(--card);
-
-padding:30px;
-
-border-radius:25px;
-
-margin-bottom:25px;
-
-box-shadow:0 10px 30px var(--shadow);
-
-}
-
-
-
-
-#wheel{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:18px;
-
-}
-
-
-
-
-.care{
-
-background:var(--box);
-
-padding:25px;
-
-border-radius:22px;
-
-text-align:center;
-
-font-size:1.25rem;
-
-font-weight:700;
-
-cursor:pointer;
-
-transition:.3s;
-
-}
-
-
-
-.care:hover{
-
-transform:scale(1.05);
-
-background:#dff7ff;
-
-}
-
-
-
-
-
-.plan-box{
-
-background:var(--box);
-
-padding:25px;
-
-border-radius:20px;
-
-line-height:1.6;
-
-font-size:1.1rem;
-
-}
-
-
-
-
-.action-btn{
-
-display:block;
-
-margin:20px auto;
-
-padding:15px 35px;
-
-border:none;
-
-border-radius:50px;
-
-background:var(--pink);
-
-color:white;
-
-font-size:1.1rem;
-
-font-weight:700;
-
-cursor:pointer;
-
-}
-
-
-
-.action-btn:hover{
-
-transform:scale(1.05);
-
-}
-
-
-
-
-.history-item{
-
-background:var(--box);
-
-padding:18px;
-
-border-radius:18px;
-
-margin-top:15px;
-
-}
-
-
-
-.delete-btn{
-
-background:#ff6b6b;
-
-color:white;
-
-border:none;
-
-padding:8px 15px;
-
-border-radius:20px;
-
-cursor:pointer;
-
-margin-top:10px;
-
-}
-
-
-
-
-@media(max-width:600px){
-
-#wheel{
-
-grid-template-columns:1fr;
-
-}
-
-
-.hero h1{
-
-font-size:2rem;
-
-}
-
-}
-
-
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Care Wheel • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #00bcd4;
+      --accent: #ff9ff3;
+      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+      --card: #ffffff;
+      --text: #2c3e50;
+      --box: #f7f7ff;
+      --shadow: rgba(0,0,0,0.12);
+    }
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
+      --card: #2c3e50;
+      --text: #e0f2f1;
+      --box: #34495e;
+      --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --shadow: rgba(0,0,0,0.4);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.6s ease;
+    }
+
+    /* ===== NAV (exact same as index) ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(135, 206, 235, 0.97);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+    [data-theme="dark"] nav { background: rgba(26, 38, 57, 0.97); }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-menu.hidden { display: none; }
+
+    .nav-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 9px 16px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px var(--shadow);
+      white-space: nowrap;
+      font-size: 0.95rem;
+    }
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,188,212,0.3);
+    }
+
+    .dropdown { position: relative; }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card);
+      min-width: 220px;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px var(--shadow);
+      padding: 10px 0;
+      z-index: 1001;
+      overflow: hidden;
+    }
+    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content a {
+      display: block;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .dropdown-content a:hover {
+      background: rgba(0,188,212,0.12);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--text);
+      padding: 6px 10px;
+    }
+
+    /* Lockdown */
+    #lockdown {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #111;
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+
+    /* Floating Bestie */
+    .floating-bestie {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 70px;
+      height: 70px;
+      background: #ff9ff3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      cursor: pointer;
+      z-index: 900;
+      box-shadow: 0 10px 30px rgba(255,159,243,0.5);
+      transition: transform 0.3s;
+    }
+    .floating-bestie:hover { transform: scale(1.1); }
+
+    /* Page content */
+    main {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 110px 20px 60px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #00bcd4, #a8e6cf);
+      color: white;
+      padding: 45px 25px;
+      border-radius: 30px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 40px rgba(0,188,212,0.3);
+    }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+
+    .card {
+      background: var(--card);
+      padding: 30px;
+      border-radius: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    #wheel {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .care {
+      background: var(--box);
+      padding: 25px;
+      border-radius: 22px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .care:hover {
+      transform: scale(1.05);
+      background: #dff7ff;
+    }
+    [data-theme="dark"] .care:hover { background: #3a4a5c; }
+
+    .plan-box {
+      background: var(--box);
+      padding: 25px;
+      border-radius: 20px;
+      line-height: 1.6;
+      font-size: 1.1rem;
+      min-height: 80px;
+    }
+
+    .action-btn {
+      display: block;
+      width: 100%;
+      margin: 14px 0 0;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px;
+      background: #ff6b9d;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .action-btn:hover { transform: scale(1.03); }
+    .action-btn.secondary { background: var(--primary); }
+
+    .history-item {
+      background: var(--box);
+      padding: 18px;
+      border-radius: 18px;
+      margin-top: 15px;
+    }
+    .delete-btn {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 900px) {
+      .nav-menu { display: none; }
+      .nav-menu.hidden { display: none; }
+      .nav-menu:not(.hidden) {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0; right: 0;
+        background: var(--card);
+        padding: 15px;
+        box-shadow: 0 10px 30px var(--shadow);
+      }
+      .hamburger { display: block; }
+      #wheel { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
 </head>
-
-
 <body data-theme="light">
 
-
-<nav>
-
-<button class="nav-btn" onclick="location.href='index.html'">
-🏠 Dashboard
-</button>
-
-
-<button class="nav-btn" onclick="location.href='bestie.html'">
-🫂 Bestie
-</button>
-
-
-<button class="nav-btn" onclick="location.href='virtualpet.html'">
-🐶 Pet
-</button>
-
-
-<button class="nav-btn" onclick="toggleDarkMode()">
-🌙
-</button>
-
-
-</nav>
-
-
-
-<div class="bestie-float" onclick="location.href='bestie.html'">
-
-🫂
-
-</div><main>
-
-
-<section class="hero">
-
-<h1>🌱 Self-Care Wheel</h1>
-
-<p>
-Choose what you need right now. There is no wrong choice.
-</p>
-
-</section>
-
-
-
-
-<section class="card">
-
-<h2 style="text-align:center;margin-bottom:20px;">
-💙 What area needs attention?
-</h2>
-
-
-<div id="wheel">
-
-
-<div class="care" onclick="generate('body')">
-💤<br>
-Body
-</div>
-
-
-
-<div class="care" onclick="generate('mind')">
-🧠<br>
-Mind
-</div>
-
-
-
-<div class="care" onclick="generate('emotions')">
-❤️<br>
-Emotions
-</div>
-
-
-
-<div class="care" onclick="generate('social')">
-👥<br>
-Social
-</div>
-
-
-
-<div class="care" onclick="generate('creative')">
-🎨<br>
-Creativity
-</div>
-
-
-
-<div class="care" onclick="generate('calm')">
-🌿<br>
-Calm
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="card">
-
-
-<h2>
-✨ Your Self-Care Plan
-</h2>
-
-
-
-<div id="plan" class="plan-box">
-
-Tap an area above and your plan will appear here.
-
-</div>
-
-
-
-<button class="action-btn" onclick="randomCare()">
-
-🤷 I Don’t Know What I Need
-
-</button>
-
-
-
-<button class="action-btn" onclick="savePlan()">
-
-💙 Save This Plan
-
-</button>
-
-
-
-</section>
-
-
-
-
-
-
-<section class="card">
-
-
-<h2>
-📖 Saved Self-Care Plans
-</h2>
-
-
-<p>
-Your saved ideas stay on this device.
-</p>
-
-
-
-<div id="history">
-
-</div>
-
-
-
-</section>
-
-
-
-</main>
-
-
-
-
-<footer style="text-align:center;padding:30px;opacity:.7;">
-
-My Lifeline • Taking care of yourself matters 💙
-
-</footer><script>
-
-
-// Dark Mode
-
-function toggleDarkMode(){
-
- const current =
- document.documentElement.getAttribute("data-theme");
-
-
- const next =
- current === "dark" ? "light" : "dark";
-
-
- document.documentElement.setAttribute(
-  "data-theme",
-  next
- );
-
-
- localStorage.setItem(
-  "lifeline-theme",
-  next
- );
-
-}
-
-
-
-if(localStorage.getItem("lifeline-theme")==="dark"){
-
- document.documentElement.setAttribute(
-  "data-theme",
-  "dark"
- );
-
-}
-
-
-
-
-
-// Self Care Ideas
-
-const plans = {
-
-
-body:[
-
-"💧 Drink some water and take care of your body.",
-
-"🧘 Stretch for two minutes and release some tension.",
-
-"🍎 Eat something that helps you feel steady.",
-
-"😴 Give yourself permission to rest."
-
-],
-
-
-
-mind:[
-
-"📝 Write down one thought without judging it.",
-
-"🧩 Do a small puzzle or calming activity.",
-
-"📚 Read or watch something comforting.",
-
-"🌤 Step away from overthinking for a few minutes."
-
-],
-
-
-
-emotions:[
-
-"❤️ Name what you are feeling without trying to fix it immediately.",
-
-"✍️ Write your feelings out somewhere safe.",
-
-"🎵 Listen to a song that matches your mood.",
-
-"💙 Remind yourself that feelings can change."
-
-],
-
-
-
-social:[
-
-"💬 Send a message to someone you trust.",
-
-🐶 "Spend time with a pet or something comforting.",
-
-"👥 Sit near someone even if you don't talk.",
-
-"🌎 Connect with a safe community."
-
-],
-
-
-
-creative:[
-
-"🎨 Draw something just for fun.",
-
-"🎵 Make or listen to a playlist.",
-
-"✍️ Write a few sentences about anything.",
-
-"📱 Change something small like your wallpaper."
-
-],
-
-
-
-calm:[
-
-"🌿 Take slow breaths and notice your surroundings.",
-
-"🕯 Sit quietly for a minute.",
-
-"🌊 Listen to calming sounds.",
-
-"✨ Find five things around you that you can see."
-
-]
-
-
-};
-
-
-
-let currentPlan = "";
-
-
-
-function generate(type){
-
-
-const options = plans[type];
-
-
-currentPlan =
-options[Math.floor(Math.random()*options.length)];
-
-
-
-document.getElementById("plan").textContent =
-currentPlan;
-
-
-}
-
-
-
-
-function randomCare(){
-
-
-const keys =
-Object.keys(plans);
-
-
-
-const randomType =
-keys[Math.floor(Math.random()*keys.length)];
-
-
-
-generate(randomType);
-
-
-}
-
-
-
-
-
-// Saved Plans
-
-
-let history =
-JSON.parse(
-localStorage.getItem("selfCareHistory") || "[]"
-);
-
-
-
-function savePlan(){
-
-
-if(!currentPlan){
-
-alert("Choose a self-care idea first 💙");
-
-return;
-
-}
-
-
-
-const item={
-
-text:currentPlan,
-
-date:new Date().toLocaleString()
-
-};
-
-
-
-history.unshift(item);
-
-
-
-localStorage.setItem(
-"selfCareHistory",
-JSON.stringify(history)
-);
-
-
-
-displayHistory();
-
-
-alert("Self-care plan saved 💙");
-
-}
-
-
-
-
-
-function displayHistory(){
-
-
-const box =
-document.getElementById("history");
-
-
-box.innerHTML="";
-
-
-
-history.forEach((item,index)=>{
-
-
-const div =
-document.createElement("div");
-
-
-div.className="history-item";
-
-
-div.innerHTML = `
-
-<p>
-📅 ${item.date}
-</p>
-
-
-<p>
-${item.text}
-</p>
-
-
-<button class="delete-btn"
-onclick="deletePlan(${index})">
-Delete
-</button>
-
-`;
-
-
-
-box.appendChild(div);
-
-
-});
-
-
-}
-
-
-
-
-function deletePlan(index){
-
-
-history.splice(index,1);
-
-
-
-localStorage.setItem(
-"selfCareHistory",
-JSON.stringify(history)
-);
-
-
-
-displayHistory();
-
-
-}
-
-
-
-displayHistory();
-
-
-
-</script>
-
-
+  <nav>
+    <div class="logo">
+      <span>🫂</span> My Lifeline
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+      <button class="nav-btn" onclick="navigateTo('index.html')">🏠 Dashboard</button>
+
+      <div class="dropdown">
+        <button class="nav-btn">🛡️ Support</button>
+        <div class="dropdown-content">
+          <a href="emergency.html">🚨 Emergency</a>
+          <a href="bestie.html">🫂 AI Bestie</a>
+          <a href="onebreath.html">😮‍💨 Breathing</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">🧠 Tools</button>
+        <div class="dropdown-content">
+          <a href="mental.html">Mental Tools</a>
+          <a href="reflect.html">📝 Reflect</a>
+          <a href="reframe.html">💭 Reframe</a>
+          <a href="emotion-radar.html">📡 Emotion Radar</a>
+          <a href="selfcare.html">🧘 Selfcare</a>
+          <a href="selfcare-planner.html">📓 Planner</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">🌈 Comfort</button>
+        <div class="dropdown-content">
+          <a href="music.html">🎵 Music</a>
+          <a href="lofiroom.html">🌙 Lofi Room</a>
+          <a href="videos.html">📺 Videos</a>
+          <a href="virtualpet.html">🐾 Virtual Pet</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">📖 Journal</button>
+        <div class="dropdown-content">
+          <a href="letters.html">✉️ Letters</a>
+          <a href="goodthings.html">🌱 Good Things</a>
+          <a href="todayistayed.html">📌 Today I Stayed</a>
+          <a href="yourenough.html">💙 You're Enough</a>
+        </div>
+      </div>
+
+      <button class="nav-btn" onclick="navigateTo('2048.html')">🎮 2048</button>
+      <button class="nav-btn" onclick="navigateTo('chatroom.html')">💬 Chat Room</button>
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button onclick="toggleDarkMode()" class="nav-btn" title="Toggle Theme">🌗</button>
+      <button onclick="activateLockdown()" class="nav-btn" style="background:#e74c3c;color:white;">🔒</button>
+      <button onclick="logout()" class="nav-btn" style="background:#ff6b6b;color:white;">Logout</button>
+      <span class="hamburger" onclick="toggleMobileMenu()">☰</span>
+    </div>
+  </nav>
+
+  <div class="floating-bestie" onclick="navigateTo('bestie.html')">🫂</div>
+
+  <div id="lockdown">
+    <h1 style="font-size:3.4rem;">🛡️ Lockdown Active</h1>
+    <p>Everything hidden. You are safe.</p>
+    <input id="unlockKey" type="password" placeholder="Enter key" style="padding:16px 24px; width:90%; max-width:340px; border-radius:999px; border:none; font-size:1.1rem; text-align:center;">
+    <button onclick="deactivateLockdown()" style="padding:14px 40px; font-size:1.1rem; background:#27ae60; color:white; border:none; border-radius:999px; cursor:pointer;">Return</button>
+  </div>
+
+  <main>
+    <section class="hero">
+      <h1>🌱 Self-Care Wheel</h1>
+      <p>Choose what you need right now. There is no wrong choice.</p>
+    </section>
+
+    <section class="card">
+      <h2 style="text-align:center; margin-bottom:20px;">💙 What area needs attention?</h2>
+      <div id="wheel">
+        <div class="care" onclick="generate('body')">💤<br>Body</div>
+        <div class="care" onclick="generate('mind')">🧠<br>Mind</div>
+        <div class="care" onclick="generate('emotions')">❤️<br>Emotions</div>
+        <div class="care" onclick="generate('social')">👥<br>Social</div>
+        <div class="care" onclick="generate('creative')">🎨<br>Creativity</div>
+        <div class="care" onclick="generate('calm')">🌿<br>Calm</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>✨ Your Self-Care Plan</h2>
+      <div id="plan" class="plan-box">
+        Tap an area above and your plan will appear here.
+      </div>
+      <button class="action-btn" onclick="randomCare()">🤷 I Don’t Know What I Need</button>
+      <button class="action-btn secondary" onclick="savePlan()">💙 Save This Plan</button>
+    </section>
+
+    <section class="card">
+      <h2>📖 Saved Self-Care Plans</h2>
+      <p style="opacity:0.8; margin-bottom:10px;">Your saved ideas stay on this device.</p>
+      <div id="history"></div>
+    </section>
+  </main>
+
+  <footer>
+    My Lifeline • Taking care of yourself matters 💙
+  </footer>
+
+  <script>
+    function toggleDarkMode() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark');
+    }
+    if (localStorage.getItem('lifeline-theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+    function navigateTo(page) {
+      window.location.href = page;
+    }
+
+    function activateLockdown() {
+      document.getElementById('lockdown').style.display = 'flex';
+    }
+
+    function deactivateLockdown() {
+      const key = document.getElementById('unlockKey').value.trim();
+      if (key.length > 0) {
+        document.getElementById('lockdown').style.display = 'none';
+        document.getElementById('unlockKey').value = '';
+      }
+    }
+
+    function logout() {
+      if (confirm("Leave your safe space?")) {
+        localStorage.clear();
+        window.location.reload();
+      }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('navMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        const ld = document.getElementById('lockdown');
+        if (ld.style.display === 'flex') ld.style.display = 'none';
+      }
+    });
+
+    // Self-care content
+    const plans = {
+      body: [
+        "💧 Drink some water and take care of your body.",
+        "🧘 Stretch for two minutes and release some tension.",
+        "🍎 Eat something that helps you feel steady.",
+        "😴 Give yourself permission to rest."
+      ],
+      mind: [
+        "📝 Write down one thought without judging it.",
+        "🧩 Do a small puzzle or calming activity.",
+        "📚 Read or watch something comforting.",
+        "🌤 Step away from overthinking for a few minutes."
+      ],
+      emotions: [
+        "❤️ Name what you are feeling without trying to fix it immediately.",
+        "✍️ Write your feelings out somewhere safe.",
+        "🎵 Listen to a song that matches your mood.",
+        "💙 Remind yourself that feelings can change."
+      ],
+      social: [
+        "💬 Send a message to someone you trust.",
+        "🐶 Spend time with a pet or something comforting.",
+        "🫂 Sit near people even if you don’t talk.",
+        "📱 Mute or limit things that drain you."
+      ],
+      creative: [
+        "🎨 Doodle, color, or make something simple.",
+        "📸 Take a photo of something that feels soft or nice.",
+        "✍️ Write a short free-write with no rules.",
+        "🎧 Make a tiny playlist that fits right now."
+      ],
+      calm: [
+        "🌬️ Take three slow breaths.",
+        "🛁 Wash your face or hands with warm water.",
+        "🪟 Look out a window for a minute.",
+        "🕯️ Dim the lights and sit quietly for a bit."
+      ]
+    };
+
+    function generate(area) {
+      const list = plans[area];
+      const pick = list[Math.floor(Math.random() * list.length)];
+      document.getElementById('plan').innerHTML = `<strong>${area.toUpperCase()}</strong><br><br>${pick}`;
+    }
+
+    function randomCare() {
+      const keys = Object.keys(plans);
+      const area = keys[Math.floor(Math.random() * keys.length)];
+      generate(area);
+    }
+
+    function savePlan() {
+      const planText = document.getElementById('plan').innerText;
+      if (!planText || planText.includes('Tap an area')) {
+        alert('Generate a plan first.');
+        return;
+      }
+      const saved = JSON.parse(localStorage.getItem('selfcarePlans') || '[]');
+      saved.unshift({ text: planText, date: new Date().toLocaleString() });
+      localStorage.setItem('selfcarePlans', JSON.stringify(saved.slice(0, 20)));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const history = document.getElementById('history');
+      const saved = JSON.parse(localStorage.getItem('selfcarePlans') || '[]');
+      if (!saved.length) {
+        history.innerHTML = '<p style="opacity:0.6;">No saved plans yet.</p>';
+        return;
+      }
+      history.innerHTML = saved.map((item, i) => `
+        <div class="history-item">
+          <div style="font-size:0.85rem; opacity:0.7; margin-bottom:6px;">${item.date}</div>
+          <div>${item.text.replace(/\n/g, '<br>')}</div>
+          <button class="delete-btn" onclick="deletePlan(${i})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function deletePlan(i) {
+      const saved = JSON.parse(localStorage.getItem('selfcarePlans') || '[]');
+      saved.splice(i, 1);
+      localStorage.setItem('selfcarePlans', JSON.stringify(saved));
+      renderHistory();
+    }
+
+    renderHistory();
+  </script>
 </body>
-
 </html>
