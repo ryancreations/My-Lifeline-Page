@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
+
     :root {
       --primary: #00bcd4;
       --accent: #ff9ff3;
@@ -373,7 +374,7 @@
     }
 
     /* =====================================================
-       TOOL GRID
+       SECTIONS
        ===================================================== */
 
     .section {
@@ -407,6 +408,10 @@
 
       margin-bottom: 20px;
     }
+
+    /* =====================================================
+       TOOL GRID
+       ===================================================== */
 
     .tool-grid {
       display: grid;
@@ -623,6 +628,8 @@
       font-weight: 700;
 
       border: 2px solid transparent;
+
+      transition: 0.2s;
     }
 
     .scale button:hover,
@@ -630,6 +637,60 @@
       border-color: var(--primary);
 
       background: rgba(0,188,212,0.12);
+    }
+
+    .scale button small {
+      font-size: 0.72rem;
+
+      font-weight: 500;
+
+      opacity: 0.75;
+    }
+
+    /* =====================================================
+       BASELINE SNAPSHOT
+       ===================================================== */
+
+    #baselineResult .prompt {
+      animation: snapshotIn 0.35s ease;
+    }
+
+    @keyframes snapshotIn {
+
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+    }
+
+    .snapshot-heading {
+      font-size: 1.15rem;
+
+      color: var(--primary);
+
+      margin-bottom: 10px;
+    }
+
+    .snapshot-stat {
+      margin: 7px 0;
+
+      line-height: 1.6;
+    }
+
+    .snapshot-direction {
+      margin-top: 16px;
+
+      padding-top: 16px;
+
+      border-top: 1px solid var(--border);
+
+      line-height: 1.6;
     }
 
     /* =====================================================
@@ -712,6 +773,10 @@
       color: var(--primary);
     }
 
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
     footer {
       text-align: center;
 
@@ -787,6 +852,7 @@
       .quick-links {
         grid-template-columns: 1fr;
       }
+
     }
 
     @media (max-width: 600px) {
@@ -822,6 +888,7 @@
 
       .scale button {
         padding: 12px 4px;
+
         font-size: 0.8rem;
       }
 
@@ -834,11 +901,14 @@
 
         font-size: 1.9rem;
       }
+
     }
+
   </style>
 </head>
 
-<body data-theme="light">
+
+<body>
 
   <!-- =====================================================
        NAVIGATION
@@ -851,74 +921,153 @@
       My Lifeline
     </div>
 
+
     <div class="nav-menu" id="navMenu">
 
       <button class="nav-btn" onclick="navigateTo('index.html')">
         🏠 Dashboard
       </button>
 
+
       <div class="dropdown">
+
         <button class="nav-btn">
           🛡️ Support
         </button>
 
         <div class="dropdown-content">
-          <a href="emergency.html">🚨 Emergency</a>
-          <a href="bestie.html">🫂 AI Bestie</a>
-          <a href="onebreath.html">😮‍💨 Breathing</a>
+
+          <a href="emergency.html">
+            🚨 Emergency
+          </a>
+
+          <a href="bestie.html">
+            🫂 AI Bestie
+          </a>
+
+          <a href="onebreath.html">
+            😮‍💨 Breathing
+          </a>
+
         </div>
+
       </div>
 
+
       <div class="dropdown">
+
         <button class="nav-btn">
           🧠 Tools
         </button>
 
         <div class="dropdown-content">
-          <a href="mental.html">🧠 Mental Tools</a>
-          <a href="reflect.html">📝 Reflect</a>
-          <a href="reframe.html">💭 Reframe</a>
-          <a href="emotion-radar.html">📡 Emotion Radar</a>
-          <a href="selfcare.html">🧘 Selfcare</a>
-          <a href="selfcare-planner.html">📓 Planner</a>
+
+          <a href="mental.html">
+            🧠 Mental Tools
+          </a>
+
+          <a href="reflect.html">
+            📝 Reflect
+          </a>
+
+          <a href="reframe.html">
+            💭 Reframe
+          </a>
+
+          <a href="emotion-radar.html">
+            📡 Emotion Radar
+          </a>
+
+          <a href="selfcare.html">
+            🧘 Selfcare
+          </a>
+
+          <a href="selfcare-planner.html">
+            📓 Planner
+          </a>
+
         </div>
+
       </div>
 
+
       <div class="dropdown">
+
         <button class="nav-btn">
           🌈 Comfort
         </button>
 
         <div class="dropdown-content">
-          <a href="music.html">🎵 Music</a>
-          <a href="lofiroom.html">🌙 Lofi Room</a>
-          <a href="videos.html">📺 Videos</a>
-          <a href="virtualpet.html">🐾 Virtual Pet</a>
+
+          <a href="music.html">
+            🎵 Music
+          </a>
+
+          <a href="lofiroom.html">
+            🌙 Lofi Room
+          </a>
+
+          <a href="videos.html">
+            📺 Videos
+          </a>
+
+          <a href="virtualpet.html">
+            🐾 Virtual Pet
+          </a>
+
         </div>
+
       </div>
 
+
       <div class="dropdown">
+
         <button class="nav-btn">
           📖 Journal
         </button>
 
         <div class="dropdown-content">
-          <a href="letters.html">✉️ Letters</a>
-          <a href="goodthings.html">🌱 Good Things</a>
-          <a href="todayistayed.html">📌 Today I Stayed</a>
-          <a href="yourenough.html">💙 You're Enough</a>
+
+          <a href="letters.html">
+            ✉️ Letters
+          </a>
+
+          <a href="goodthings.html">
+            🌱 Good Things
+          </a>
+
+          <a href="todayistayed.html">
+            📌 Today I Stayed
+          </a>
+
+          <a href="yourenough.html">
+            💙 You're Enough
+          </a>
+
         </div>
+
       </div>
 
-      <button class="nav-btn" onclick="navigateTo('2048.html')">
+
+      <button
+        class="nav-btn"
+        onclick="navigateTo('2048.html')">
+
         🎮 2048
+
       </button>
 
-      <button class="nav-btn" onclick="navigateTo('chatroom.html')">
+
+      <button
+        class="nav-btn"
+        onclick="navigateTo('chatroom.html')">
+
         💬 Chat Room
+
       </button>
 
     </div>
+
 
     <div style="display:flex; gap:10px; align-items:center;">
 
@@ -926,32 +1075,44 @@
         onclick="toggleDarkMode()"
         class="nav-btn"
         title="Toggle Theme">
+
         🌗
+
       </button>
+
 
       <button
         onclick="activateLockdown()"
         class="nav-btn"
         style="background:#e74c3c;color:white;">
+
         🔒
+
       </button>
+
 
       <button
         onclick="logout()"
         class="nav-btn"
         style="background:#ff6b6b;color:white;">
+
         Logout
+
       </button>
+
 
       <span
         class="hamburger"
         onclick="toggleMobileMenu()">
+
         ☰
+
       </span>
 
     </div>
 
   </nav>
+
 
   <!-- =====================================================
        LOCKDOWN
@@ -959,7 +1120,9 @@
 
   <div id="lockdown">
 
-    <h1>🛡️ Lockdown Active</h1>
+    <h1>
+      🛡️ Lockdown Active
+    </h1>
 
     <p>
       Everything hidden. You are safe.
@@ -974,17 +1137,24 @@
     <button
       class="unlock-btn"
       onclick="deactivateLockdown()">
+
       Return
+
     </button>
 
   </div>
 
-  <!-- FLOATING BESTIE -->
+
+  <!-- =====================================================
+       FLOATING BESTIE
+       ===================================================== -->
 
   <div
     class="floating-bestie"
     onclick="navigateTo('bestie.html')">
+
     🫂
+
   </div>
 
 
@@ -994,13 +1164,20 @@
 
   <main>
 
+
+    <!-- ===================================================
+         HERO
+         =================================================== -->
+
     <section class="hero">
 
       <div class="hero-icon">
         🧠
       </div>
 
-      <h1>Mental Skills Hub</h1>
+      <h1>
+        Mental Skills Hub
+      </h1>
 
       <p>
         Structured tools for understanding what you're experiencing,
@@ -1010,9 +1187,15 @@
     </section>
 
 
+    <!-- ===================================================
+         NOTICE
+         =================================================== -->
+
     <div class="notice">
 
-      <strong>💙 A quick note:</strong>
+      <strong>
+        💙 A quick note:
+      </strong>
 
       These are educational coping and reflection tools,
       not a diagnosis or a replacement for professional care.
@@ -1023,44 +1206,118 @@
 
 
     <!-- ===================================================
-         MOOD CHECK-IN
+         #1 BASELINE CHECK-IN
          =================================================== -->
 
-    <section class="section">
+    <section
+      class="section"
+      id="baselineSection">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">📊</span>
-        <h2>Baseline Check-In</h2>
+
+        <span style="font-size:1.8rem;">
+          📊
+        </span>
+
+        <h2>
+          Baseline Check-In
+        </h2>
+
       </div>
 
+
       <p class="section-description">
-        Start by checking where you are right now.
-        There is no "right" answer.
+
+        Take a quick snapshot of where you are right now.
+        There is no right or wrong answer.
+
       </p>
+
+
+      <!-- INTENSITY -->
 
       <div class="prompt">
 
         <label>
-          How intense are your emotions right now?
+          1. How intense are things right now?
         </label>
 
-        <div class="scale">
 
-          <button onclick="selectScale(this,1)">1<br>Low</button>
-          <button onclick="selectScale(this,2)">2</button>
-          <button onclick="selectScale(this,3)">3<br>Moderate</button>
-          <button onclick="selectScale(this,4)">4</button>
-          <button onclick="selectScale(this,5)">5<br>High</button>
+        <div
+          class="scale"
+          id="intensityScale">
+
+          <button
+            type="button"
+            onclick="selectScale(this, 1)">
+
+            1<br>
+
+            <small>
+              Low
+            </small>
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="selectScale(this, 2)">
+
+            2
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="selectScale(this, 3)">
+
+            3<br>
+
+            <small>
+              Moderate
+            </small>
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="selectScale(this, 4)">
+
+            4
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="selectScale(this, 5)">
+
+            5<br>
+
+            <small>
+              High
+            </small>
+
+          </button>
 
         </div>
 
       </div>
 
+
+      <!-- CURRENT STATE -->
+
       <div class="prompt">
 
-        <label>
-          What is closest to what you're experiencing?
+        <label for="currentState">
+
+          2. What's closest to what you're experiencing?
+
         </label>
+
 
         <select id="currentState">
 
@@ -1068,28 +1325,125 @@
             Choose one...
           </option>
 
-          <option>Low mood</option>
-          <option>Anxious / worried</option>
-          <option>Overwhelmed</option>
-          <option>Angry / frustrated</option>
-          <option>Numb / disconnected</option>
-          <option>Distracted / unable to focus</option>
-          <option>Triggered / on edge</option>
-          <option>Mostly okay</option>
+          <option>
+            Low mood
+          </option>
+
+          <option>
+            Anxious / worried
+          </option>
+
+          <option>
+            Overwhelmed
+          </option>
+
+          <option>
+            Angry / frustrated
+          </option>
+
+          <option>
+            Numb / disconnected
+          </option>
+
+          <option>
+            Distracted / unable to focus
+          </option>
+
+          <option>
+            On edge / activated
+          </option>
+
+          <option>
+            Mostly okay
+          </option>
 
         </select>
 
       </div>
 
+
+      <!-- CONTEXT -->
+
+      <div class="prompt">
+
+        <label for="baselineContext">
+
+          3. What's contributing to how you feel?
+
+        </label>
+
+
+        <textarea
+          id="baselineContext"
+          placeholder="Optional — write whatever feels relevant..."
+        ></textarea>
+
+      </div>
+
+
+      <!-- NEED -->
+
+      <div class="prompt">
+
+        <label for="currentNeed">
+
+          4. What do you need most right now?
+
+        </label>
+
+
+        <select id="currentNeed">
+
+          <option value="">
+            Choose one...
+          </option>
+
+          <option value="calm">
+            🫧 Calm down
+          </option>
+
+          <option value="ground">
+            🌎 Get grounded
+          </option>
+
+          <option value="solve">
+            🧩 Figure something out
+          </option>
+
+          <option value="focus">
+            ⚡ Get something done
+          </option>
+
+          <option value="talk">
+            📝 Write it out
+          </option>
+
+          <option value="break">
+            🌿 Take a break
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- CREATE SNAPSHOT -->
+
       <div class="button-row">
 
         <button
           class="action-btn"
+          type="button"
           onclick="startBaseline()">
-          📋 Start Check-In
+
+          📋 Create My Snapshot
+
         </button>
 
       </div>
+
+
+      <!-- RESULT -->
 
       <div
         id="baselineResult"
@@ -1106,23 +1460,40 @@
     <section class="section">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">🌧️</span>
-        <h2>Low Mood & Depression Skills</h2>
+
+        <span style="font-size:1.8rem;">
+          🌧️
+        </span>
+
+        <h2>
+          Low Mood & Depression Skills
+        </h2>
+
       </div>
 
+
       <p class="section-description">
+
         Tools for periods of low motivation, low mood, loss of interest,
         isolation, or feeling stuck.
+
       </p>
+
 
       <div class="tool-grid">
 
-        <div class="tool-card"
-             onclick="openExercise('behavioral')">
 
-          <div class="icon">🌱</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('behavioral')">
 
-          <h3>Behavioral Activation</h3>
+          <div class="icon">
+            🌱
+          </div>
+
+          <h3>
+            Behavioral Activation
+          </h3>
 
           <p>
             Break the day into one small, realistic action
@@ -1131,12 +1502,18 @@
 
         </div>
 
-        <div class="tool-card"
-             onclick="openExercise('smalltask')">
 
-          <div class="icon">🧩</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('smalltask')">
 
-          <h3>Break It Down</h3>
+          <div class="icon">
+            🧩
+          </div>
+
+          <h3>
+            Break It Down
+          </h3>
 
           <p>
             Turn something overwhelming into the smallest
@@ -1157,23 +1534,40 @@
     <section class="section">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">🌊</span>
-        <h2>Anxiety Skills</h2>
+
+        <span style="font-size:1.8rem;">
+          🌊
+        </span>
+
+        <h2>
+          Anxiety Skills
+        </h2>
+
       </div>
 
+
       <p class="section-description">
+
         Slow down the anxiety cycle and separate what is happening
         now from what your mind is predicting.
+
       </p>
+
 
       <div class="tool-grid">
 
-        <div class="tool-card"
-             onclick="openExercise('worry')">
 
-          <div class="icon">🔎</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('worry')">
 
-          <h3>Worry Sorter</h3>
+          <div class="icon">
+            🔎
+          </div>
+
+          <h3>
+            Worry Sorter
+          </h3>
 
           <p>
             Separate a problem you can act on from a prediction
@@ -1182,12 +1576,18 @@
 
         </div>
 
-        <div class="tool-card"
-             onclick="openExercise('grounding')">
 
-          <div class="icon">🌎</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('grounding')">
 
-          <h3>Grounding</h3>
+          <div class="icon">
+            🌎
+          </div>
+
+          <h3>
+            Grounding
+          </h3>
 
           <p>
             Bring your attention back to your current surroundings
@@ -1208,23 +1608,40 @@
     <section class="section">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">⚡</span>
-        <h2>ADHD-Friendly Skills</h2>
+
+        <span style="font-size:1.8rem;">
+          ⚡
+        </span>
+
+        <h2>
+          ADHD-Friendly Skills
+        </h2>
+
       </div>
 
+
       <p class="section-description">
+
         Reduce friction, externalize information, and make the
         next action easier to start.
+
       </p>
+
 
       <div class="tool-grid">
 
-        <div class="tool-card"
-             onclick="openExercise('adhdstart')">
 
-          <div class="icon">🚀</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('adhdstart')">
 
-          <h3>5-Minute Start</h3>
+          <div class="icon">
+            🚀
+          </div>
+
+          <h3>
+            5-Minute Start
+          </h3>
 
           <p>
             Choose one task and define exactly what "starting"
@@ -1233,12 +1650,18 @@
 
         </div>
 
-        <div class="tool-card"
-             onclick="openExercise('braindump')">
 
-          <div class="icon">🧠</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('braindump')">
 
-          <h3>Brain Dump</h3>
+          <div class="icon">
+            🧠
+          </div>
+
+          <h3>
+            Brain Dump
+          </h3>
 
           <p>
             Get everything out of your head and sort it into
@@ -1253,30 +1676,47 @@
 
 
     <!-- ===================================================
-         TRAUMA / PTSD
+         TRAUMA
          =================================================== -->
 
     <section class="section">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">🛡️</span>
-        <h2>Trauma & PTSD-Informed Skills</h2>
+
+        <span style="font-size:1.8rem;">
+          🛡️
+        </span>
+
+        <h2>
+          Trauma-Informed Skills
+        </h2>
+
       </div>
 
+
       <p class="section-description">
+
         These exercises focus on present-moment orientation,
         grounding, and recognizing when your nervous system is
         reacting to a reminder.
+
       </p>
+
 
       <div class="tool-grid">
 
-        <div class="tool-card"
-             onclick="openExercise('present')">
 
-          <div class="icon">📍</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('present')">
 
-          <h3>Present-Moment Orientation</h3>
+          <div class="icon">
+            📍
+          </div>
+
+          <h3>
+            Present-Moment Orientation
+          </h3>
 
           <p>
             Identify where you are, when you are, and what is
@@ -1285,12 +1725,18 @@
 
         </div>
 
-        <div class="tool-card"
-             onclick="openExercise('trigger')">
 
-          <div class="icon">🧭</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('trigger')">
 
-          <h3>Trigger Map</h3>
+          <div class="icon">
+            🧭
+          </div>
+
+          <h3>
+            Trigger Map
+          </h3>
 
           <p>
             Identify a situation, your reaction, and what might
@@ -1305,29 +1751,46 @@
 
 
     <!-- ===================================================
-         EMOTIONAL REGULATION / BPD
+         EMOTIONAL REGULATION
          =================================================== -->
 
     <section class="section">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">❤️</span>
-        <h2>Emotional Regulation Skills</h2>
+
+        <span style="font-size:1.8rem;">
+          ❤️
+        </span>
+
+        <h2>
+          Emotional Regulation Skills
+        </h2>
+
       </div>
 
+
       <p class="section-description">
+
         Especially useful when emotions become intense, change
         quickly, or make it difficult to decide what to do next.
+
       </p>
+
 
       <div class="tool-grid">
 
-        <div class="tool-card"
-             onclick="openExercise('emotionchain')">
 
-          <div class="icon">🔗</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('emotionchain')">
 
-          <h3>Emotion Chain</h3>
+          <div class="icon">
+            🔗
+          </div>
+
+          <h3>
+            Emotion Chain
+          </h3>
 
           <p>
             Map the situation, interpretation, emotion, urge,
@@ -1336,12 +1799,18 @@
 
         </div>
 
-        <div class="tool-card"
-             onclick="openExercise('pause')">
 
-          <div class="icon">⏸️</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('pause')">
 
-          <h3>Pause Before Reacting</h3>
+          <div class="icon">
+            ⏸️
+          </div>
+
+          <h3>
+            Pause Before Reacting
+          </h3>
 
           <p>
             Create a short space between an intense emotion
@@ -1362,23 +1831,40 @@
     <section class="section">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">🔥</span>
-        <h2>Anger & Frustration</h2>
+
+        <span style="font-size:1.8rem;">
+          🔥
+        </span>
+
+        <h2>
+          Anger & Frustration
+        </h2>
+
       </div>
 
+
       <p class="section-description">
+
         Understand the escalation pattern and identify a response
         that fits your goals.
+
       </p>
+
 
       <div class="tool-grid">
 
-        <div class="tool-card"
-             onclick="openExercise('anger')">
 
-          <div class="icon">🌡️</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('anger')">
 
-          <h3>Anger Thermometer</h3>
+          <div class="icon">
+            🌡️
+          </div>
+
+          <h3>
+            Anger Thermometer
+          </h3>
 
           <p>
             Identify how intense your anger is and what signs
@@ -1387,12 +1873,18 @@
 
         </div>
 
-        <div class="tool-card"
-             onclick="openExercise('response')">
 
-          <div class="icon">🧭</div>
+        <div
+          class="tool-card"
+          onclick="openExercise('response')">
 
-          <h3>Reaction vs. Response</h3>
+          <div class="icon">
+            🧭
+          </div>
+
+          <h3>
+            Reaction vs. Response
+          </h3>
 
           <p>
             Look at what you feel like doing versus what would
@@ -1415,32 +1907,44 @@
       id="exerciseArea">
 
       <div class="section-title">
-        <span style="font-size:1.8rem;">📝</span>
+
+        <span style="font-size:1.8rem;">
+          📝
+        </span>
 
         <h2 id="exerciseTitle">
           Exercise
         </h2>
+
       </div>
+
 
       <p
         id="exerciseInstructions"
         class="section-description">
       </p>
 
+
       <div id="exerciseQuestions"></div>
+
 
       <div class="button-row">
 
         <button
           class="action-btn"
           onclick="saveExercise()">
+
           💾 Save Session
+
         </button>
+
 
         <button
           class="action-btn gray"
           onclick="closeExercise()">
+
           Close
+
         </button>
 
       </div>
@@ -1456,24 +1960,35 @@
 
       <div class="section-title">
 
-        <span style="font-size:1.8rem;">📖</span>
+        <span style="font-size:1.8rem;">
+          📖
+        </span>
 
-        <h2>Saved Mental Skills Sessions</h2>
+        <h2>
+          Saved Mental Skills Sessions
+        </h2>
 
       </div>
 
+
       <p class="section-description">
+
         Your saved exercises stay on this device.
+
       </p>
 
+
       <div id="history"></div>
+
 
       <div class="button-row">
 
         <button
           class="action-btn danger"
           onclick="clearHistory()">
+
           🗑️ Clear Saved Sessions
+
         </button>
 
       </div>
@@ -1489,46 +2004,83 @@
 
       <div class="section-title">
 
-        <span style="font-size:1.8rem;">🧰</span>
+        <span style="font-size:1.8rem;">
+          🧰
+        </span>
 
-        <h2>Other Lifeline Tools</h2>
+        <h2>
+          Other Lifeline Tools
+        </h2>
 
       </div>
 
+
       <p class="section-description">
+
         You don't have to use only one tool.
+
       </p>
+
 
       <div class="quick-links">
 
-        <a class="quick-link" href="selfcare.html">
+        <a
+          class="quick-link"
+          href="selfcare.html">
+
           🧘<br>
           Self-Care
+
         </a>
 
-        <a class="quick-link" href="emotion-radar.html">
+
+        <a
+          class="quick-link"
+          href="emotion-radar.html">
+
           📡<br>
           Emotion Radar
+
         </a>
 
-        <a class="quick-link" href="reframe.html">
+
+        <a
+          class="quick-link"
+          href="reframe.html">
+
           💭<br>
           Reframe
+
         </a>
 
-        <a class="quick-link" href="reflect.html">
+
+        <a
+          class="quick-link"
+          href="reflect.html">
+
           📝<br>
           Reflect
+
         </a>
 
-        <a class="quick-link" href="onebreath.html">
+
+        <a
+          class="quick-link"
+          href="onebreath.html">
+
           😮‍💨<br>
           Breathing
+
         </a>
 
-        <a class="quick-link" href="bestie.html">
+
+        <a
+          class="quick-link"
+          href="bestie.html">
+
           🫂<br>
           AI Bestie
+
         </a>
 
       </div>
@@ -1538,8 +2090,15 @@
   </main>
 
 
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
   <footer>
-    My Lifeline • Skills for understanding yourself and getting back toward baseline 💙
+
+    My Lifeline • Skills for understanding yourself
+    and getting back toward baseline 💙
+
   </footer>
 
 
@@ -1555,30 +2114,37 @@
 
     function toggleDarkMode() {
 
-      const isDark =
-        document.documentElement.getAttribute('data-theme') === 'dark';
+      const currentTheme =
+        document.documentElement.getAttribute('data-theme')
+        || 'light';
+
+      const newTheme =
+        currentTheme === 'dark'
+          ? 'light'
+          : 'dark';
 
       document.documentElement.setAttribute(
         'data-theme',
-        isDark ? 'light' : 'dark'
+        newTheme
       );
 
       localStorage.setItem(
         'lifeline-theme',
-        isDark ? 'light' : 'dark'
-      );
-    }
-
-    if (
-      localStorage.getItem('lifeline-theme') === 'dark'
-    ) {
-
-      document.documentElement.setAttribute(
-        'data-theme',
-        'dark'
+        newTheme
       );
 
     }
+
+
+    const savedTheme =
+      localStorage.getItem('lifeline-theme')
+      || 'light';
+
+
+    document.documentElement.setAttribute(
+      'data-theme',
+      savedTheme
+    );
 
 
     /* =====================================================
@@ -1586,7 +2152,9 @@
        ===================================================== */
 
     function navigateTo(page) {
+
       window.location.href = page;
+
     }
 
 
@@ -1596,14 +2164,21 @@
 
     function activateLockdown() {
 
-      document.getElementById('lockdown').style.display = 'flex';
+      document.getElementById(
+        'lockdown'
+      ).style.display = 'flex';
+
 
       setTimeout(() => {
 
         const input =
           document.getElementById('unlockKey');
 
-        if (input) input.focus();
+        if (input) {
+
+          input.focus();
+
+        }
 
       }, 100);
 
@@ -1613,13 +2188,21 @@
     function deactivateLockdown() {
 
       const key =
-        document.getElementById('unlockKey').value.trim();
+        document.getElementById(
+          'unlockKey'
+        ).value.trim();
+
 
       if (key.length > 0) {
 
-        document.getElementById('lockdown').style.display = 'none';
+        document.getElementById(
+          'lockdown'
+        ).style.display = 'none';
 
-        document.getElementById('unlockKey').value = '';
+
+        document.getElementById(
+          'unlockKey'
+        ).value = '';
 
       }
 
@@ -1632,7 +2215,11 @@
 
     function logout() {
 
-      if (confirm("Leave your safe space?")) {
+      if (
+        confirm(
+          "Leave your safe space?"
+        )
+      ) {
 
         localStorage.clear();
 
@@ -1650,9 +2237,14 @@
     function toggleMobileMenu() {
 
       const menu =
-        document.getElementById('navMenu');
+        document.getElementById(
+          'navMenu'
+        );
 
-      menu.classList.toggle('hidden');
+
+      menu.classList.toggle(
+        'hidden'
+      );
 
     }
 
@@ -1661,22 +2253,30 @@
        ESCAPE LOCKDOWN
        ===================================================== */
 
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener(
+      'keydown',
+      function(e) {
 
-      if (e.key === 'Escape') {
+        if (e.key === 'Escape') {
 
-        const lockdown =
-          document.getElementById('lockdown');
+          const lockdown =
+            document.getElementById(
+              'lockdown'
+            );
 
-        if (lockdown.style.display === 'flex') {
 
-          lockdown.style.display = 'none';
+          if (
+            lockdown.style.display === 'flex'
+          ) {
+
+            lockdown.style.display = 'none';
+
+          }
 
         }
 
       }
-
-    });
+    );
 
 
     /* =====================================================
@@ -1686,17 +2286,28 @@
     let selectedIntensity = null;
 
 
-    function selectScale(button, value) {
+    function selectScale(
+      button,
+      value
+    ) {
 
       document
-        .querySelectorAll('.scale button')
+        .querySelectorAll(
+          '#intensityScale button'
+        )
         .forEach(btn => {
 
-          btn.classList.remove('selected');
+          btn.classList.remove(
+            'selected'
+          );
 
         });
 
-      button.classList.add('selected');
+
+      button.classList.add(
+        'selected'
+      );
+
 
       selectedIntensity = value;
 
@@ -1706,19 +2317,51 @@
     function startBaseline() {
 
       const state =
-        document.getElementById('currentState').value;
+        document.getElementById(
+          'currentState'
+        ).value;
+
+
+      const need =
+        document.getElementById(
+          'currentNeed'
+        ).value;
+
+
+      const context =
+        document.getElementById(
+          'baselineContext'
+        ).value.trim();
+
 
       const result =
-        document.getElementById('baselineResult');
+        document.getElementById(
+          'baselineResult'
+        );
 
-      if (!state || !selectedIntensity) {
+
+      if (
+        !state ||
+        !selectedIntensity ||
+        !need
+      ) {
 
         result.innerHTML = `
+
           <div class="prompt">
-            <strong>One more step.</strong><br>
-            Choose your current state and select an
-            intensity level first.
+
+            <strong>
+              One more step 💙
+            </strong>
+
+            <br><br>
+
+            Choose your intensity,
+            current state, and what you
+            need most right now.
+
           </div>
+
         `;
 
         return;
@@ -1726,50 +2369,241 @@
       }
 
 
-      let recommendation = '';
+      let direction = '';
+      let button = '';
 
-      if (selectedIntensity <= 2) {
 
-        recommendation =
-          'You may benefit from a gentle activity, routine check-in, or something comforting.';
+      switch (need) {
 
-      } else if (selectedIntensity === 3) {
 
-        recommendation =
-          'This may be a good time for a structured skill such as reflection, reframing, or grounding.';
+        case 'calm':
 
-      } else {
+          direction =
+            'Slow things down rather than trying to solve everything at once.';
 
-        recommendation =
-          'Consider slowing things down and focusing on immediate grounding and support rather than solving everything at once.';
+          button = `
+
+            <button
+              class="action-btn"
+              onclick="navigateTo('onebreath.html')">
+
+              😮‍💨 Try One Breath
+
+            </button>
+
+          `;
+
+          break;
+
+
+        case 'ground':
+
+          direction =
+            'Bring your attention back to the present environment.';
+
+          button = `
+
+            <button
+              class="action-btn"
+              onclick="openExercise('grounding')">
+
+              🌎 Start Grounding
+
+            </button>
+
+          `;
+
+          break;
+
+
+        case 'solve':
+
+          direction =
+            'Separate the problem into one specific thing you can work with right now.';
+
+          button = `
+
+            <button
+              class="action-btn"
+              onclick="openExercise('smalltask')">
+
+              🧩 Break It Down
+
+            </button>
+
+          `;
+
+          break;
+
+
+        case 'focus':
+
+          direction =
+            'Make the starting point extremely small and specific.';
+
+          button = `
+
+            <button
+              class="action-btn"
+              onclick="openExercise('adhdstart')">
+
+              🚀 Five-Minute Start
+
+            </button>
+
+          `;
+
+          break;
+
+
+        case 'talk':
+
+          direction =
+            'Putting your thoughts into words can help organize what is happening.';
+
+          button = `
+
+            <button
+              class="action-btn"
+              onclick="navigateTo('reflect.html')">
+
+              📝 Reflect
+
+            </button>
+
+          `;
+
+          break;
+
+
+        case 'break':
+
+          direction =
+            'Give yourself permission to step away and do something restorative.';
+
+          button = `
+
+            <button
+              class="action-btn"
+              onclick="navigateTo('selfcare.html')">
+
+              🌿 Open Self-Care
+
+            </button>
+
+          `;
+
+          break;
 
       }
 
 
+      const safeState =
+        escapeHTML(state);
+
+
+      const safeContext =
+        escapeHTML(context);
+
+
+      const needSelect =
+        document.getElementById(
+          'currentNeed'
+        );
+
+
+      const needText =
+        needSelect.options[
+          needSelect.selectedIndex
+        ].text;
+
+
       result.innerHTML = `
+
         <div class="prompt">
 
-          <strong>Current snapshot</strong>
+          <div class="snapshot-heading">
 
-          <br><br>
+            💙 Your Current Snapshot
 
-          State:
-          ${escapeHTML(state)}
+          </div>
 
-          <br>
 
-          Intensity:
-          ${selectedIntensity}/5
+          <div class="snapshot-stat">
 
-          <br><br>
+            <strong>
+              Intensity:
+            </strong>
 
-          <strong>Suggested direction:</strong>
+            ${selectedIntensity}/5
 
-          <br>
+          </div>
 
-          ${recommendation}
+
+          <div class="snapshot-stat">
+
+            <strong>
+              State:
+            </strong>
+
+            ${safeState}
+
+          </div>
+
+
+          <div class="snapshot-stat">
+
+            <strong>
+              What you need:
+            </strong>
+
+            ${escapeHTML(needText)}
+
+          </div>
+
+
+          ${
+            context
+              ? `
+
+                <div class="snapshot-stat">
+
+                  <strong>
+                    What's contributing:
+                  </strong>
+
+                  <br>
+
+                  ${safeContext}
+
+                </div>
+
+              `
+              : ''
+          }
+
+
+          <div class="snapshot-direction">
+
+            <strong>
+              Suggested direction:
+            </strong>
+
+            <br>
+
+            ${direction}
+
+
+            <div class="button-row">
+
+              ${button}
+
+            </div>
+
+          </div>
 
         </div>
+
       `;
 
     }
@@ -1781,9 +2615,11 @@
 
     const exercises = {
 
+
       behavioral: {
 
-        title: '🌱 Behavioral Activation',
+        title:
+          '🌱 Behavioral Activation',
 
         instructions:
           'Choose one small action that could move your day forward. The goal is action before motivation—not forcing yourself to do everything.',
@@ -1805,7 +2641,8 @@
 
       smalltask: {
 
-        title: '🧩 Break It Down',
+        title:
+          '🧩 Break It Down',
 
         instructions:
           'Take an overwhelming task and shrink it until the first step feels specific and manageable.',
@@ -1827,7 +2664,8 @@
 
       worry: {
 
-        title: '🔎 Worry Sorter',
+        title:
+          '🔎 Worry Sorter',
 
         instructions:
           'Separate a current problem from a prediction. If there is an action available, identify it. If there is not, practice returning attention to the present.',
@@ -1849,7 +2687,8 @@
 
       grounding: {
 
-        title: '🌎 Grounding Exercise',
+        title:
+          '🌎 Grounding Exercise',
 
         instructions:
           'Slowly reconnect with your current surroundings. You can answer these without rushing.',
@@ -1873,7 +2712,8 @@
 
       adhdstart: {
 
-        title: '🚀 Five-Minute Start',
+        title:
+          '🚀 Five-Minute Start',
 
         instructions:
           'Do not plan the entire project. Define only what starting means.',
@@ -1895,7 +2735,8 @@
 
       braindump: {
 
-        title: '🧠 Brain Dump',
+        title:
+          '🧠 Brain Dump',
 
         instructions:
           'Put everything competing for your attention into one place. Sorting comes afterward.',
@@ -1917,7 +2758,8 @@
 
       present: {
 
-        title: '📍 Present-Moment Orientation',
+        title:
+          '📍 Present-Moment Orientation',
 
         instructions:
           'This exercise focuses on the present environment rather than exploring traumatic details.',
@@ -1941,7 +2783,8 @@
 
       trigger: {
 
-        title: '🧭 Trigger Map',
+        title:
+          '🧭 Trigger Map',
 
         instructions:
           'Identify the situation and your response without judging yourself for having the reaction.',
@@ -1963,7 +2806,8 @@
 
       emotionchain: {
 
-        title: '🔗 Emotion Chain',
+        title:
+          '🔗 Emotion Chain',
 
         instructions:
           'Map the sequence instead of treating the emotion as the entire story.',
@@ -1987,7 +2831,8 @@
 
       pause: {
 
-        title: '⏸️ Pause Before Reacting',
+        title:
+          '⏸️ Pause Before Reacting',
 
         instructions:
           'Create a little space between the emotion and the decision. You do not have to solve the entire situation immediately.',
@@ -2011,7 +2856,8 @@
 
       anger: {
 
-        title: '🌡️ Anger Thermometer',
+        title:
+          '🌡️ Anger Thermometer',
 
         instructions:
           'Identify your current level of anger and the signs that tell you it is increasing.',
@@ -2035,7 +2881,8 @@
 
       response: {
 
-        title: '🧭 Reaction vs. Response',
+        title:
+          '🧭 Reaction vs. Response',
 
         instructions:
           'You can acknowledge an emotion without letting it make every decision for you.',
@@ -2068,55 +2915,89 @@
       const exercise =
         exercises[type];
 
-      if (!exercise) return;
 
-      document.getElementById('exerciseArea')
-        .classList.add('active');
+      if (!exercise) {
 
-      document.getElementById('exerciseTitle')
-        .textContent = exercise.title;
+        return;
 
-      document.getElementById('exerciseInstructions')
-        .textContent = exercise.instructions;
+      }
+
+
+      document.getElementById(
+        'exerciseArea'
+      ).classList.add('active');
+
+
+      document.getElementById(
+        'exerciseTitle'
+      ).textContent =
+        exercise.title;
+
+
+      document.getElementById(
+        'exerciseInstructions'
+      ).textContent =
+        exercise.instructions;
 
 
       const container =
-        document.getElementById('exerciseQuestions');
+        document.getElementById(
+          'exerciseQuestions'
+        );
+
 
       container.innerHTML = '';
 
 
-      exercise.questions.forEach((question, index) => {
+      exercise.questions.forEach(
+        (question, index) => {
 
-        const div =
-          document.createElement('div');
+          const div =
+            document.createElement(
+              'div'
+            );
 
-        div.className = 'prompt';
 
-        div.innerHTML = `
+          div.className =
+            'prompt';
 
-          <label>
-            ${index + 1}. ${escapeHTML(question)}
-          </label>
 
-          <textarea
-            class="exercise-answer"
-            data-question="${escapeHTML(question)}"
-            placeholder="Write here..."
-          ></textarea>
+          div.innerHTML = `
 
-        `;
+            <label>
 
-        container.appendChild(div);
+              ${index + 1}.
+              ${escapeHTML(question)}
+
+            </label>
+
+
+            <textarea
+              class="exercise-answer"
+              data-question="${escapeHTML(question)}"
+              placeholder="Write here..."
+            ></textarea>
+
+          `;
+
+
+          container.appendChild(
+            div
+          );
+
+        }
+      );
+
+
+      document.getElementById(
+        'exerciseArea'
+      ).scrollIntoView({
+
+        behavior: 'smooth',
+
+        block: 'start'
 
       });
-
-
-      document.getElementById('exerciseArea')
-        .scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
 
     }
 
@@ -2127,11 +3008,16 @@
 
     function closeExercise() {
 
-      document.getElementById('exerciseArea')
-        .classList.remove('active');
+      document.getElementById(
+        'exerciseArea'
+      ).classList.remove(
+        'active'
+      );
 
-      document.getElementById('exerciseQuestions')
-        .innerHTML = '';
+
+      document.getElementById(
+        'exerciseQuestions'
+      ).innerHTML = '';
 
     }
 
@@ -2143,15 +3029,22 @@
     function saveExercise() {
 
       const title =
-        document.getElementById('exerciseTitle')
-          .textContent;
+        document.getElementById(
+          'exerciseTitle'
+        ).textContent;
+
 
       const answers =
-        document.querySelectorAll('.exercise-answer');
+        document.querySelectorAll(
+          '.exercise-answer'
+        );
+
 
       if (!answers.length) {
 
-        alert('Open an exercise first.');
+        alert(
+          'Open an exercise first.'
+        );
 
         return;
 
@@ -2160,24 +3053,29 @@
 
       const responses = [];
 
-      answers.forEach(answer => {
 
-        responses.push({
+      answers.forEach(
+        answer => {
 
-          question:
-            answer.dataset.question,
+          responses.push({
 
-          answer:
-            answer.value.trim()
+            question:
+              answer.dataset.question,
 
-        });
+            answer:
+              answer.value.trim()
 
-      });
+          });
+
+        }
+      );
 
 
       const saved =
         JSON.parse(
-          localStorage.getItem('mentalToolSessions') || '[]'
+          localStorage.getItem(
+            'mentalToolSessions'
+          ) || '[]'
         );
 
 
@@ -2194,15 +3092,22 @@
 
 
       localStorage.setItem(
+
         'mentalToolSessions',
-        JSON.stringify(saved.slice(0, 30))
+
+        JSON.stringify(
+          saved.slice(0, 30)
+        )
+
       );
 
 
       renderHistory();
 
 
-      alert('Session saved on this device.');
+      alert(
+        'Session saved on this device.'
+      );
 
     }
 
@@ -2214,20 +3119,29 @@
     function renderHistory() {
 
       const history =
-        document.getElementById('history');
+        document.getElementById(
+          'history'
+        );
+
 
       const saved =
         JSON.parse(
-          localStorage.getItem('mentalToolSessions') || '[]'
+          localStorage.getItem(
+            'mentalToolSessions'
+          ) || '[]'
         );
 
 
       if (!saved.length) {
 
         history.innerHTML = `
+
           <p style="color:var(--muted);">
+
             No saved sessions yet.
+
           </p>
+
         `;
 
         return;
@@ -2235,61 +3149,91 @@
       }
 
 
-      history.innerHTML = saved.map((session, index) => {
+      history.innerHTML =
+        saved.map(
+          (session, index) => {
 
-        const responses =
-          session.responses
-            .map(item => `
+            const responses =
+              session.responses
+                .map(
+                  item => `
 
-              <div style="margin-top:10px;">
+                    <div
+                      style="margin-top:10px;">
+
+                      <strong>
+
+                        ${escapeHTML(
+                          item.question
+                        )}
+
+                      </strong>
+
+                      <br>
+
+                      <span>
+
+                        ${
+                          item.answer
+                            ? escapeHTML(
+                                item.answer
+                              )
+                            : '<em>No response entered.</em>'
+                        }
+
+                      </span>
+
+                    </div>
+
+                  `
+                )
+                .join('');
+
+
+            return `
+
+              <div
+                class="history-item">
+
+                <div
+                  class="history-date">
+
+                  ${escapeHTML(
+                    session.date
+                  )}
+
+                </div>
+
 
                 <strong>
-                  ${escapeHTML(item.question)}
+
+                  ${escapeHTML(
+                    session.title
+                  )}
+
                 </strong>
+
+
+                ${responses}
+
 
                 <br>
 
-                <span>
-                  ${
-                    item.answer
-                      ? escapeHTML(item.answer)
-                      : '<em>No response entered.</em>'
-                  }
-                </span>
+
+                <button
+                  class="delete-btn"
+                  onclick="deleteSession(${index})">
+
+                  Delete
+
+                </button>
 
               </div>
 
-            `)
-            .join('');
+            `;
 
-
-        return `
-
-          <div class="history-item">
-
-            <div class="history-date">
-              ${escapeHTML(session.date)}
-            </div>
-
-            <strong>
-              ${escapeHTML(session.title)}
-            </strong>
-
-            ${responses}
-
-            <br>
-
-            <button
-              class="delete-btn"
-              onclick="deleteSession(${index})">
-              Delete
-            </button>
-
-          </div>
-
-        `;
-
-      }).join('');
+          }
+        ).join('');
 
     }
 
@@ -2298,16 +3242,24 @@
 
       const saved =
         JSON.parse(
-          localStorage.getItem('mentalToolSessions') || '[]'
+          localStorage.getItem(
+            'mentalToolSessions'
+          ) || '[]'
         );
 
 
-      saved.splice(index, 1);
+      saved.splice(
+        index,
+        1
+      );
 
 
       localStorage.setItem(
+
         'mentalToolSessions',
+
         JSON.stringify(saved)
+
       );
 
 
@@ -2318,9 +3270,11 @@
 
     function clearHistory() {
 
-      if (!confirm(
-        'Delete all saved mental-tool sessions from this device?'
-      )) {
+      if (
+        !confirm(
+          'Delete all saved mental-tool sessions from this device?'
+        )
+      ) {
 
         return;
 
@@ -2344,11 +3298,31 @@
     function escapeHTML(value) {
 
       return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+
+        .replace(
+          /&/g,
+          '&amp;'
+        )
+
+        .replace(
+          /</g,
+          '&lt;'
+        )
+
+        .replace(
+          />/g,
+          '&gt;'
+        )
+
+        .replace(
+          /"/g,
+          '&quot;'
+        )
+
+        .replace(
+          /'/g,
+          '&#039;'
+        );
 
     }
 
