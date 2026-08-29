@@ -1,211 +1,1735 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Self-Care Planner • My Lifeline</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-
-<style>
-body{
-  font-family:'Quicksand',sans-serif;
-  background:linear-gradient(to bottom,#fff8f0,#eef7ff);
-  margin:0;
-  padding:20px;
-  color:#333;
-}
-
-h1{text-align:center;color:#00bcd4}
-p{text-align:center}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:15px;
-  max-width:900px;
-  margin:auto;
-}
-
-.day{
-  background:white;
-  padding:15px;
-  border-radius:16px;
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
-}
-
-.day h3{text-align:center;margin-bottom:10px}
-
-textarea{
-  width:100%;
-  min-height:70px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  padding:8px;
-  resize:none;
-}
-
-select{
-  width:100%;
-  padding:8px;
-  border-radius:10px;
-  margin-top:8px;
-}
-
-button{
-  display:block;
-  margin:30px auto;
-  padding:14px 30px;
-  background:#00bcd4;
-  color:white;
-  border:none;
-  border-radius:30px;
-  font-size:1.1em;
-  cursor:pointer;
-}
-button:hover{opacity:.9}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Care Planner • My Lifeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* =====================================================
+       THEME
+       ===================================================== */
+    :root {
+      --primary: #00bcd4;
+      --accent: #ff9ff3;
+      --bg-light: linear-gradient(
+        135deg,
+        #fff8f0 0%,
+        #e0f7ff 100%
+      );
+      --card: #ffffff;
+      --text: #2c3e50;
+      --muted: #667788;
+      --box: #f7f7ff;
+      --border: rgba(0,188,212,0.18);
+      --shadow: rgba(0,0,0,0.12);
+    }
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(
+        135deg,
+        #0f1c2e 0%,
+        #2c1e3a 100%
+      );
+      --card: #2c3e50;
+      --text: #e0f2f1;
+      --muted: #b7c7d1;
+      --box: #34495e;
+      --border: rgba(79,195,247,0.2);
+      --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --shadow: rgba(0,0,0,0.4);
+    }
+    /* =====================================================
+       RESET
+       ===================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      min-height: 100vh;
+      transition:
+        background 0.6s ease,
+        color 0.3s ease;
+    }
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(135,206,235,0.97);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow:
+        0 6px 20px var(--shadow);
+    }
+    [data-theme="dark"] nav {
+      background: rgba(26,38,57,0.97);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .nav-menu.hidden {
+      display: none;
+    }
+    .nav-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 9px 16px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow:
+        0 4px 12px var(--shadow);
+      white-space: nowrap;
+    }
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 18px rgba(0,188,212,0.3);
+    }
+    [data-theme="dark"] .nav-btn {
+      background: #3b5065;
+      color: #dff8ff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 225px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow:
+        0 15px 35px var(--shadow);
+      padding: 8px 0;
+      overflow: hidden;
+      z-index: 1001;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .dropdown-content a:hover {
+      background:
+        rgba(0,188,212,0.12);
+    }
+    .hamburger {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--text);
+      padding: 6px 10px;
+    }
+    /* =====================================================
+       LOCKDOWN
+       ===================================================== */
+    #lockdown {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #111;
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+    #lockdown h1 {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+    #lockdown p {
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+    #unlockKey {
+      padding: 16px 24px;
+      width: 90%;
+      max-width: 340px;
+      border-radius: 999px;
+      border: none;
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 18px 0;
+    }
+    .unlock-btn {
+      padding: 14px 40px;
+      font-size: 1.1rem;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+    }
+    /* =====================================================
+       FLOATING BESTIE
+       ===================================================== */
+    .floating-bestie {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 70px;
+      height: 70px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      cursor: pointer;
+      z-index: 900;
+      box-shadow:
+        0 10px 30px rgba(255,159,243,0.5);
+      transition: transform 0.3s;
+    }
+    .floating-bestie:hover {
+      transform: scale(1.1);
+    }
+    /* =====================================================
+       BESTIE MODAL
+       ===================================================== */
+    #bestieModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .bestie-modal-box {
+      width: 100%;
+      max-width: 850px;
+      height: 85vh;
+      background: var(--card);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+    }
+    .bestie-modal-header {
+      background: #87ceeb;
+      color: white;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bestie-modal-header h3 {
+      font-size: 1.1rem;
+    }
+    .bestie-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .bestie-modal-box iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+      background: var(--card);
+    }
+    /* =====================================================
+       MAIN
+       ===================================================== */
+    main {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 115px 20px 70px;
+    }
+    /* =====================================================
+       HERO
+       ===================================================== */
+    .hero {
+      background:
+        linear-gradient(
+          135deg,
+          #00bcd4,
+          #a8e6cf
+        );
+      color: white;
+      padding: 50px 30px;
+      border-radius: 30px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow:
+        0 15px 40px rgba(0,188,212,0.3);
+    }
+    .hero-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.08rem;
+      opacity: 0.95;
+      line-height: 1.6;
+    }
+    /* =====================================================
+       NOTICE
+       ===================================================== */
+    .notice {
+      background: var(--card);
+      border-left:
+        5px solid var(--primary);
+      padding: 18px 20px;
+      border-radius: 16px;
+      margin-bottom: 25px;
+      box-shadow:
+        0 8px 25px var(--shadow);
+      line-height: 1.6;
+    }
+    .notice strong {
+      color: var(--primary);
+    }
+    /* =====================================================
+       SECTIONS
+       ===================================================== */
+    .section {
+      background: var(--card);
+      padding: 30px;
+      border-radius: 25px;
+      margin-bottom: 25px;
+      box-shadow:
+        0 10px 30px var(--shadow);
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .section-title h2 {
+      font-size: 1.55rem;
+    }
+    .section-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    /* =====================================================
+       WEEK SUMMARY
+       ===================================================== */
+    .week-summary {
+      display: grid;
+      grid-template-columns:
+        repeat(3,1fr);
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+    .summary-card {
+      background: var(--box);
+      border:
+        1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+    }
+    .summary-card .number {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+    .summary-card span:last-child {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    /* =====================================================
+       PLANNER GRID
+       ===================================================== */
+    .planner-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(2,1fr);
+      gap: 16px;
+    }
+    .day {
+      background: var(--box);
+      border:
+        1px solid var(--border);
+      padding: 22px;
+      border-radius: 20px;
+      transition: all 0.25s;
+    }
+    .day:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 8px 20px var(--shadow);
+      border-color: var(--primary);
+    }
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .day-header h3 {
+      font-size: 1.15rem;
+    }
+    .day-icon {
+      font-size: 1.5rem;
+    }
+    .field-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px 15px;
+      border:
+        2px solid var(--border);
+      border-radius: 14px;
+      background: var(--card);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+      margin-bottom: 13px;
+    }
+    textarea:focus,
+    select:focus {
+      border-color: var(--primary);
+    }
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .action-btn {
+      border: none;
+      padding: 13px 22px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: white;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+    .action-btn.gray {
+      background: #718096;
+    }
+    .action-btn.danger {
+      background: #e74c3c;
+    }
+    /* =====================================================
+       SAVED WEEKS
+       ===================================================== */
+    .saved-week {
+      background: var(--box);
+      border:
+        1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      margin-top: 15px;
+    }
+    .saved-week-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .saved-week-header strong {
+      color: var(--primary);
+    }
+    .saved-day {
+      padding: 12px 0;
+      border-bottom:
+        1px solid var(--border);
+      line-height: 1.5;
+    }
+    .saved-day:last-child {
+      border-bottom: none;
+    }
+    .delete-week {
+      border: none;
+      background: #e74c3c;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+    }
+    /* =====================================================
+       QUICK LINKS
+       ===================================================== */
+    .quick-links {
+      display: grid;
+      grid-template-columns:
+        repeat(3,1fr);
+      gap: 14px;
+    }
+    .quick-link {
+      background: var(--box);
+      padding: 18px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      transition: 0.25s;
+      border:
+        1px solid var(--border);
+    }
+    .quick-link:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+    }
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+    @media (max-width: 900px) {
+      .nav-menu {
+        display: none;
+      }
+      .nav-menu:not(.hidden) {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--card);
+        padding: 15px;
+        box-shadow:
+          0 10px 30px var(--shadow);
+        max-height:
+          calc(100vh - 72px);
+        overflow-y: auto;
+      }
+      .nav-menu .nav-btn,
+      .nav-menu .dropdown {
+        width: 100%;
+      }
+      .nav-menu .nav-btn {
+        width: 100%;
+      }
+      .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        margin-top: 5px;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .hamburger {
+        display: block;
+      }
+      .planner-grid {
+        grid-template-columns: 1fr;
+      }
+      .quick-links {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      nav {
+        padding: 12px 14px;
+      }
+      .logo {
+        font-size: 1.25rem;
+      }
+      main {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .hero {
+        padding: 38px 20px;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .section {
+        padding: 22px;
+      }
+      .week-summary {
+        grid-template-columns: 1fr;
+      }
+      .floating-bestie {
+        width: 60px;
+        height: 60px;
+        right: 18px;
+        bottom: 18px;
+        font-size: 1.9rem;
+      }
+      .saved-week-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
-
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
-
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
+<body data-theme="light">
+  <!-- =====================================================
+       NAVIGATION
+       ===================================================== -->
+  <nav>
+<div class="logo">
+  <span>🫂</span>
+  My Lifeline
 </div>
-
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
+<div class="nav-menu" id="navMenu">
+  <button
+    class="nav-btn"
+    onclick="navigateTo('index.html')">
+    🏠 Dashboard
+  </button>
+  <div class="dropdown">
+    <button class="nav-btn">
+      🛡️ Support
+    </button>
+    <div class="dropdown-content">
+      <a href="emergency.html">
+        🚨 Emergency
+      </a>
+      <a href="bestie.html">
+        🫂 AI Bestie
+      </a>
+      <a href="onebreath.html">
+        😮‍💨 Breathing
+      </a>
     </div>
+  </div>
+  <div class="dropdown">
+    <button class="nav-btn">
+      🧠 Tools
+    </button>
+    <div class="dropdown-content">
+      <a href="mental.html">
+        🧠 Mental Tools
+      </a>
+      <a href="reflect.html">
+        📝 Reflect
+      </a>
+      <a href="reframe.html">
+        💭 Reframe
+      </a>
+      <a href="emotion-radar.html">
+        📡 Emotion Radar
+      </a>
+      <a href="selfcare.html">
+        🧘 Selfcare
+      </a>
+      <a href="selfcare-planner.html">
+        📓 Planner
+      </a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="nav-btn">
+      🌈 Comfort
+    </button>
+    <div class="dropdown-content">
+      <a href="music.html">
+        🎵 Music
+      </a>
+      <a href="lofiroom.html">
+        🌙 Lofi Room
+      </a>
+      <a href="videos.html">
+        📺 Videos
+      </a>
+      <a href="virtualpet.html">
+        🐾 Virtual Pet
+      </a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="nav-btn">
+      📖 Journal
+    </button>
+    <div class="dropdown-content">
+      <a href="letters.html">
+        ✉️ Letters
+      </a>
+      <a href="goodthings.html">
+        🌱 Good Things
+      </a>
+      <a href="todayistayed.html">
+        📌 Today I Stayed
+      </a>
+      <a href="yourenough.html">
+        💙 You're Enough
+      </a>
+    </div>
+  </div>
+  <button
+    class="nav-btn"
+    onclick="navigateTo('2048.html')">
+    🎮 2048
+  </button>
+  <button
+    class="nav-btn"
+    onclick="navigateTo('chatroom.html')">
+    💬 Chat Room
+  </button>
 </div>
-
-<script>
-body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
+<div
+  style="
+    display:flex;
+    gap:10px;
+    align-items:center;
+  ">
+  <button
+    onclick="toggleDarkMode()"
+    class="nav-btn"
+    title="Toggle Theme">
+    🌗
+  </button>
+  <button
+    onclick="activateLockdown()"
+    class="nav-btn"
+    style="
+      background:#e74c3c;
+      color:white;
+    ">
+    🔒
+  </button>
+  <button
+    onclick="logout()"
+    class="nav-btn"
+    style="
+      background:#ff6b6b;
+      color:white;
+    ">
+    Logout
+  </button>
+  <span
+    class="hamburger"
+    onclick="toggleMobileMenu()">
+    ☰
+  </span>
+</div>
+  </nav>
+  <!-- =====================================================
+       LOCKDOWN
+       ===================================================== -->
+  <div id="lockdown">
+<h1>
+  🛡️ Lockdown Active
+</h1>
+<p>
+  Everything hidden. You are safe.
+</p>
+<input
+  id="unlockKey"
+  type="password"
+  placeholder="Enter key">
+<button
+  class="unlock-btn"
+  onclick="deactivateLockdown()">
+  Return
+</button>
+  </div>
+  <!-- =====================================================
+       FLOATING BESTIE
+       ===================================================== -->
+  <div
+    class="floating-bestie"
+    onclick="openBestieModal()">
+🫂
+  </div>
+  <!-- =====================================================
+       BESTIE MODAL
+       ===================================================== -->
+  <div id="bestieModal">
+<div class="bestie-modal-box">
+  <div class="bestie-modal-header">
+    <h3>
+      🫂 Talking to Bestie...
+    </h3>
+    <button
+      class="bestie-close"
+      onclick="closeBestieModal()">
+      ✕
+    </button>
+  </div>
+  <iframe
+    src="bestie.html"
+    title="AI Bestie">
+  </iframe>
+</div>
+  </div>
+  <!-- =====================================================
+       MAIN
+       ===================================================== -->
+  <main>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-icon">
+    📓
+  </div>
+  <h1>
+    Self-Care Planner
+  </h1>
+  <p>
+    Small intentions. No pressure.
+    Just support.
+  </p>
+</section>
+<!-- NOTICE -->
+<div class="notice">
+  <strong>
+    🌱 Keep it gentle:
+  </strong>
+  This planner isn't a checklist you have to
+  complete perfectly. Missing a day doesn't
+  erase the days you showed up. Pick things
+  that feel realistic for you.
+</div>
+<!-- ===================================================
+     WEEK SUMMARY
+     =================================================== -->
+<section class="section">
+  <div class="section-title">
+    <span style="font-size:1.8rem;">
+      📊
+    </span>
+    <h2>
+      Your Week
+    </h2>
+  </div>
+  <p class="section-description">
+    Give each day one small intention and one
+    type of care. That's enough.
+  </p>
+  <div class="week-summary">
+    <div class="summary-card">
+      <span
+        class="number"
+        id="plannedCount">
+        0
+      </span>
+      <span>
+        Days with an intention
+      </span>
+    </div>
+    <div class="summary-card">
+      <span
+        class="number"
+        id="completedCount">
+        0
+      </span>
+      <span>
+        Days marked as done
+      </span>
+    </div>
+    <div class="summary-card">
+      <span
+        class="number"
+        id="careCount">
+        0
+      </span>
+      <span>
+        Care choices made
+      </span>
+    </div>
+  </div>
+  <div
+    class="planner-grid"
+    id="planner">
+  </div>
+  <div class="button-row">
+    <button
+      class="action-btn"
+      onclick="saveWeek()">
+      💾 Save My Week
+    </button>
+    <button
+      class="action-btn gray"
+      onclick="clearCurrentWeek()">
+      ↺ Start Fresh
+    </button>
+  </div>
+</section>
+<!-- ===================================================
+     SAVED WEEKS
+     =================================================== -->
+<section class="section">
+  <div class="section-title">
+    <span style="font-size:1.8rem;">
+      📚
+    </span>
+    <h2>
+      Past Self-Care Weeks
+    </h2>
+  </div>
+  <p class="section-description">
+    Your saved weeks stay on this device.
+    They're a record of the times you made
+    space for yourself.
+  </p>
+  <div id="pastWeeks"></div>
+  <div class="button-row">
+    <button
+      class="action-btn danger"
+      onclick="clearHistory()">
+      🗑️ Clear Saved Weeks
+    </button>
+  </div>
+</section>
+<!-- ===================================================
+     QUICK LINKS
+     =================================================== -->
+<section class="section">
+  <div class="section-title">
+    <span style="font-size:1.8rem;">
+      🧰
+    </span>
+    <h2>
+      Other Lifeline Tools
+    </h2>
+  </div>
+  <p class="section-description">
+    Self-care can look different from day to day.
+    Try another tool if it fits better.
+  </p>
+  <div class="quick-links">
+    <a
+      class="quick-link"
+      href="mental.html">
+      🧠<br>
+      Mental Tools
+    </a>
+    <a
+      class="quick-link"
+      href="selfcare.html">
+      🧘<br>
+      Self-Care
+    </a>
+    <a
+      class="quick-link"
+      href="emotion-radar.html">
+      📡<br>
+      Emotion Radar
+    </a>
+    <a
+      class="quick-link"
+      href="reflect.html">
+      📝<br>
+      Reflect
+    </a>
+    <a
+      class="quick-link"
+      href="onebreath.html">
+      😮‍💨<br>
+      Breathing
+    </a>
+    <a
+      class="quick-link"
+      href="bestie.html">
+      🫂<br>
+      AI Bestie
+    </a>
+  </div>
+</section>
+  </main>
+  <footer>
+My Lifeline • Small steps still count. 💙
+  </footer>
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
+  <script>
+    /* =====================================================
+       THEME
+       ===================================================== */
+    function toggleDarkMode() {
+      const current =
+        document.documentElement
+          .getAttribute('data-theme');
+      const next =
+        current === 'dark'
+          ? 'light'
+          : 'dark';
+      document.documentElement
+        .setAttribute(
+          'data-theme',
+          next
+        );
+      localStorage.setItem(
+        'lifeline-theme',
+        next
+      );
+    }
+    if (
+      localStorage.getItem(
+        'lifeline-theme'
+      ) === 'dark'
+    ) {
+      document.documentElement
+        .setAttribute(
+          'data-theme',
+          'dark'
+        );
+    }
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+    function navigateTo(page) {
+      window.location.href = page;
+    }
+    /* =====================================================
+       MOBILE MENU
+       ===================================================== */
+    function toggleMobileMenu() {
+      const menu =
+        document.getElementById(
+          'navMenu'
+        );
+      menu.classList.toggle(
+        'hidden'
+      );
+    }
+    /* =====================================================
+       LOCKDOWN
+       ===================================================== */
+    function activateLockdown() {
+      const lockdown =
+        document.getElementById(
+          'lockdown'
+        );
+      lockdown.style.display =
+        'flex';
+      setTimeout(() => {
+        const input =
+          document.getElementById(
+            'unlockKey'
+          );
+        if (input) {
+          input.focus();
+        }
+      },100);
+    }
+    function deactivateLockdown() {
+      const key =
+        document.getElementById(
+          'unlockKey'
+        ).value.trim();
+      if (key.length > 0) {
+        document.getElementById(
+          'lockdown'
+        ).style.display =
+          'none';
+        document.getElementById(
+          'unlockKey'
+        ).value = '';
+      }
+    }
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
+    function logout() {
+      if (
+        confirm(
+          "Leave your safe space?"
+        )
+      ) {
+        localStorage.clear();
+        window.location.reload();
+      }
+    }
+    /* =====================================================
+       ESCAPE LOCKDOWN
+       ===================================================== */
+    document.addEventListener(
+      'keydown',
+      function(e) {
+        if (e.key !== 'Escape') {
+          return;
+        }
+        const lockdown =
+          document.getElementById(
+            'lockdown'
+          );
+        if (
+          lockdown.style.display ===
+          'flex'
+        ) {
+          lockdown.style.display =
+            'none';
+        }
+      }
+    );
+    /* =====================================================
+       BESTIE MODAL
+       ===================================================== */
+    function openBestieModal() {
+      document.getElementById(
+        'bestieModal'
+      ).style.display =
+        'flex';
+    }
+    function closeBestieModal() {
+      document.getElementById(
+        'bestieModal'
+      ).style.display =
+        'none';
+    }
+    document.getElementById(
+      'bestieModal'
+    ).addEventListener(
+      'click',
+      function(e) {
+        if (
+          e.target === this
+        ) {
+          closeBestieModal();
+        }
+      }
+    );
+    /* =====================================================
+       PLANNER DATA
+       ===================================================== */
+    const days = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ];
+    const dayIcons = [
+      "🌱",
+      "☀️",
+      "🌿",
+      "💙",
+      "🎧",
+      "🌙",
+      "🌈"
+    ];
+    const careOptions = [
+      "🌿 Calm",
+      "💧 Hydration",
+      "☀️ Fresh air",
+      "🎧 Music",
+      "😴 Rest",
+      "🧠 Reflection",
+      "🍎 Nourishment",
+      "🫂 Connection",
+      "🎨 Creativity",
+      "🧹 Small reset"
+    ];
+    const planner =
+      document.getElementById(
+        "planner"
+      );
+    /* =====================================================
+       BUILD PLANNER
+       ===================================================== */
+    function buildPlanner() {
+      planner.innerHTML = "";
+      days.forEach(
+        (day,index) => {
+          const card =
+            document.createElement(
+              "div"
+            );
+          card.className =
+            "day";
+          const options =
+            careOptions
+              .map(
+                option =>
+                  `<option>${escapeHTML(option)}</option>`
+              )
+              .join("");
+          card.innerHTML = `
+            <div class="day-header">
+              <h3>
+                ${day}
+              </h3>
+              <span class="day-icon">
+                ${dayIcons[index]}
+              </span>
+            </div>
+            <label class="field-label">
+              Gentle intention
+            </label>
+            <textarea
+              class="intention"
+              data-day="${day}"
+              placeholder="One small thing I'd like to do for myself..."
+            ></textarea>
+        <label class="field-label">
+          Type of care
+        </label>
+        <select class="care">
+          ${options}
+        </select>
+        <label
+          class="field-label"
+          style="
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-top:14px;
+            cursor:pointer;
+          ">
+          <input
+            type="checkbox"
+            class="done"
+            style="
+              width:18px;
+              height:18px;
+              accent-color:var(--primary);
+            ">
+          I did something for myself today
+        </label>
+      `;
+      planner.appendChild(
+        card
+      );
+    }
+  );
+  document
+    .querySelectorAll(
+      ".intention,.care,.done"
+    )
+    .forEach(
+      element => {
+        element.addEventListener(
+          "input",
+          updateSummary
+        );
+        element.addEventListener(
+          "change",
+          updateSummary
+        );
+      }
+    );
 }
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
+/* =====================================================
+   SUMMARY
+   ===================================================== */
+function updateSummary() {
+  const intentions =
+    document.querySelectorAll(
+      ".intention"
+    );
+  const care =
+    document.querySelectorAll(
+      ".care"
+    );
+  const done =
+    document.querySelectorAll(
+      ".done"
+    );
+  let planned = 0;
+  intentions.forEach(
+    input => {
+      if (
+        input.value.trim()
+          .length > 0
+      ) {
+        planned++;
+      }
+    }
+  );
+  let careSelected = 0;
+  care.forEach(
+    select => {
+      if (
+        select.value
+      ) {
+        careSelected++;
+      }
+    }
+  );
+  let completed = 0;
+  done.forEach(
+    checkbox => {
+      if (
+        checkbox.checked
+      ) {
+        completed++;
+      }
+    }
+  );
+  document.getElementById(
+    "plannedCount"
+  ).textContent =
+    planned;
+  document.getElementById(
+    "completedCount"
+  ).textContent =
+    completed;
+  document.getElementById(
+    "careCount"
+  ).textContent =
+    careSelected;
 }
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
-
-<h1>Self-Care Planner</h1>
-<p>Small intentions. No pressure. Just support.</p>
-
-<div class="grid" id="planner"></div>
-
-<button onclick="save()">Save My Week</button>
-
-<h2 style="text-align:center;margin-top:40px;color:#00bcd4">Past Self-Care Weeks</h2>
-<p style="text-align:center;color:#666">Proof you showed up for yourself.</p>
-
-<div id="pastWeeks" style="max-width:900px;margin:auto"></div>
-<script>
-const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
-const planner=document.getElementById("planner");
-
-days.forEach((d,i)=>{
-  planner.innerHTML+=`
-    <div class="day">
-      <h3>${d}</h3>
-      <textarea placeholder="One gentle intention…"></textarea>
-      <select>
-        <option>🌿 Calm</option>
-        <option>💧 Hydration</option>
-        <option>☀️ Fresh air</option>
-        <option>🎧 Music</option>
-        <option>😴 Rest</option>
-        <option>🧠 Reflection</option>
-      </select>
-    </div>`;
-});
-
-function save(){
-  const data=[];
-  document.querySelectorAll(".day").forEach(day=>{
-    data.push({
-      text:day.querySelector("textarea").value,
-      mood:day.querySelector("select").value
-    });
+/* =====================================================
+   SAVE CURRENT WEEK
+   ===================================================== */
+function saveWeek() {
+  const week = [];
+  document
+    .querySelectorAll(
+      ".day"
+    )
+    .forEach(
+      (day,index) => {
+        week.push({
+          day:
+            days[index],
+          text:
+            day.querySelector(
+              ".intention"
+            ).value.trim(),
+          care:
+            day.querySelector(
+              ".care"
+            ).value,
+          done:
+            day.querySelector(
+              ".done"
+            ).checked
+        });
+      }
+    );
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "selfCareHistory"
+      ) || "[]"
+    );
+  history.unshift({
+    date:
+      new Date()
+        .toLocaleString(),
+    week:
+      week
   });
-
-  const history = JSON.parse(localStorage.getItem("selfCareHistory") || "[]");
-
-  history.push({
-    date:new Date().toLocaleDateString(),
-    week:data
-  });
-
-  localStorage.setItem("selfCareHistory",JSON.stringify(history));
-  alert("Saved. You’re taking care of yourself 🌱");
+  localStorage.setItem(
+    "selfCareHistory",
+    JSON.stringify(
+      history.slice(0,30)
+    )
+  );
+  saveCurrentWeek();
   renderPast();
+  alert(
+    "Your week was saved on this device. 🌱"
+  );
 }
-
-function renderPast(){
-  const container=document.getElementById("pastWeeks");
-  if(!container) return;
-
-  const history = JSON.parse(localStorage.getItem("selfCareHistory") || "[]");
-  if(history.length===0){
-    container.innerHTML="<p style='text-align:center;color:#777'>No past weeks yet.</p>";
+/* =====================================================
+   CURRENT WEEK AUTO-SAVE
+   ===================================================== */
+function saveCurrentWeek() {
+  const week = [];
+  document
+    .querySelectorAll(
+      ".day"
+    )
+    .forEach(
+      (day,index) => {
+        week.push({
+          text:
+            day.querySelector(
+              ".intention"
+            ).value,
+          care:
+            day.querySelector(
+              ".care"
+            ).value,
+          done:
+            day.querySelector(
+              ".done"
+            ).checked
+        });
+      }
+    );
+  localStorage.setItem(
+    "selfCareCurrentWeek",
+    JSON.stringify(
+      week
+    )
+  );
+}
+/* =====================================================
+   RESTORE CURRENT WEEK
+   ===================================================== */
+function restoreCurrentWeek() {
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "selfCareCurrentWeek"
+      ) || "null"
+    );
+  if (
+    !Array.isArray(saved)
+  ) {
+    updateSummary();
     return;
   }
-
-  container.innerHTML="";
-
-  history.slice().reverse().forEach(entry=>{
-    const div=document.createElement("div");
-    div.style.background="white";
-    div.style.borderRadius="16px";
-    div.style.padding="15px";
-    div.style.margin="15px 0";
-    div.style.boxShadow="0 8px 20px rgba(0,0,0,.1)";
-
-    div.innerHTML=`<strong>${entry.date}</strong><ul style="margin-top:10px"></ul>`;
-    const ul=div.querySelector("ul");
-
-    entry.week.forEach((d,i)=>{
-      ul.innerHTML+=`<li><strong>${days[i]}:</strong> ${d.mood} — ${d.text || "—"}</li>`;
-    });
-
-    container.appendChild(div);
-  });
+  const cards =
+    document.querySelectorAll(
+      ".day"
+    );
+  cards.forEach(
+    (card,index) => {
+      const data =
+        saved[index];
+      if (!data) {
+        return;
+      }
+      const textarea =
+        card.querySelector(
+          ".intention"
+        );
+      const select =
+        card.querySelector(
+          ".care"
+        );
+      const checkbox =
+        card.querySelector(
+          ".done"
+        );
+      textarea.value =
+        data.text || "";
+      if (data.care) {
+        select.value =
+          data.care;
+      }
+      checkbox.checked =
+        Boolean(data.done);
+    }
+  );
+  updateSummary();
 }
-
+/* =====================================================
+   CLEAR CURRENT WEEK
+   ===================================================== */
+function clearCurrentWeek() {
+  if (
+    !confirm(
+      "Start the current planner over? Your saved past weeks will stay."
+    )
+  ) {
+    return;
+  }
+  document
+    .querySelectorAll(
+      ".intention"
+    )
+    .forEach(
+      input => {
+        input.value = "";
+      }
+    );
+  document
+    .querySelectorAll(
+      ".done"
+    )
+    .forEach(
+      checkbox => {
+        checkbox.checked = false;
+      }
+    );
+  document
+    .querySelectorAll(
+      ".care"
+    )
+    .forEach(
+      select => {
+        select.selectedIndex = 0;
+      }
+    );
+  localStorage.removeItem(
+    "selfCareCurrentWeek"
+  );
+  updateSummary();
+}
+/* =====================================================
+   PAST WEEKS
+   ===================================================== */
+function renderPast() {
+  const container =
+    document.getElementById(
+      "pastWeeks"
+    );
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "selfCareHistory"
+      ) || "[]"
+    );
+  if (
+    history.length === 0
+  ) {
+    container.innerHTML = `
+      <p
+        style="
+          text-align:center;
+          color:var(--muted);
+          padding:20px;
+        ">
+        No saved weeks yet.
+        <br>
+        Your first one can start whenever you're ready. 🌱
+      </p>
+    `;
+    return;
+  }
+  container.innerHTML = "";
+  history.forEach(
+    (entry,index) => {
+      const div =
+        document.createElement(
+          "div"
+        );
+      div.className =
+        "saved-week";
+      const header =
+        document.createElement(
+          "div"
+        );
+      header.className =
+        "saved-week-header";
+      header.innerHTML = `
+        <strong>
+          📓 Week saved ${escapeHTML(entry.date)}
+        </strong>
+        <button
+          class="delete-week"
+          onclick="deleteWeek(${index})">
+          Delete
+        </button>
+      `;
+      div.appendChild(
+        header
+      );
+      entry.week.forEach(
+        day => {
+          const row =
+            document.createElement(
+              "div"
+            );
+          row.className =
+            "saved-day";
+          const intention =
+            day.text
+              ? escapeHTML(
+                  day.text
+                )
+              : "<em>No intention entered.</em>";
+          const status =
+            day.done
+              ? "✅ Done"
+              : "○ Not marked done";
+          row.innerHTML = `
+            <strong>
+              ${escapeHTML(day.day)}
+            </strong>
+            <br>
+            <span>
+              ${intention}
+            </span>
+            <br>
+            <span
+              style="
+                color:var(--muted);
+                font-size:.9rem;
+              ">
+              ${escapeHTML(day.care)}
+              • ${status}
+            </span>
+          `;
+          div.appendChild(
+            row
+          );
+        }
+      );
+      container.appendChild(
+        div
+      );
+    }
+  );
+}
+/* =====================================================
+   DELETE WEEK
+   ===================================================== */
+function deleteWeek(index) {
+  const history =
+    JSON.parse(
+      localStorage.getItem(
+        "selfCareHistory"
+      ) || "[]"
+    );
+  history.splice(
+    index,
+    1
+  );
+  localStorage.setItem(
+    "selfCareHistory",
+    JSON.stringify(
+      history
+    )
+  );
+  renderPast();
+}
+/* =====================================================
+   CLEAR HISTORY
+   ===================================================== */
+function clearHistory() {
+  if (
+    !confirm(
+      "Delete all saved self-care weeks from this device?"
+    )
+  ) {
+    return;
+  }
+  localStorage.removeItem(
+    "selfCareHistory"
+  );
+  renderPast();
+}
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
+function escapeHTML(value) {
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+}
+/* =====================================================
+   AUTO-SAVE CURRENT CHANGES
+   ===================================================== */
+document.addEventListener(
+  "input",
+  function(e) {
+    if (
+      e.target.matches(
+        ".intention"
+      )
+    ) {
+      saveCurrentWeek();
+    }
+  }
+);
+document.addEventListener(
+  "change",
+  function(e) {
+    if (
+      e.target.matches(
+        ".care,.done"
+      )
+    ) {
+      saveCurrentWeek();
+    }
+  }
+);
+/* =====================================================
+   STARTUP
+   ===================================================== */
+buildPlanner();
+restoreCurrentWeek();
 renderPast();
-</script>
-
+updateSummary();
+  </script>
 </body>
 </html>
