@@ -375,6 +375,24 @@
       document.documentElement.setAttribute('data-theme', 'dark');
     }
 
+    // ========== SIMPLE NOTIFICATIONS ==========
+    async function askNotificationPermission() {
+      if (!("Notification" in window)) return;
+      if (Notification.permission === "granted") return;
+      if (Notification.permission !== "denied") {
+        await Notification.requestPermission();
+      }
+    }
+
+    function showNotif(title, body) {
+      if (Notification.permission === "granted" && document.hidden) {
+        new Notification(title, {
+          body: body,
+          icon: "/favicon.ico"
+        });
+      }
+    }
+
     // Auth
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -385,6 +403,7 @@
         document.getElementById('logout-btn').style.display = 'block';
         switchToPublic();
         listenForIncomingCalls();
+        askNotificationPermission();
       } else {
         document.getElementById('login-screen').style.display = 'flex';
         document.getElementById('signup-screen').style.display = 'none';
@@ -520,7 +539,7 @@
       document.getElementById('browser-container').innerHTML = '';
     };
 
-    // ========== CALL FUNCTION (FIXED) ==========
+    // ========== CALL FUNCTION ==========
     window.startCall = async (withVideo = true) => {
       if (!selectedMessage || !auth.currentUser) return;
       remoteUid = selectedMessage.data.uid;
@@ -549,7 +568,6 @@
         remoteVideo.srcObject = e.streams[0];
         remoteVideo.play().catch(() => {});
         document.getElementById('call-status').textContent = 'Connected';
-        // hide avatars once video is live
         document.getElementById('remote-avatar-wrap').style.display = 'none';
         document.getElementById('local-avatar-wrap').style.display = 'none';
       };
@@ -578,7 +596,6 @@
       await pc.setLocalDescription(offer);
       await set(ref(db, `calls/${callId}/offer`), { type: offer.type, sdp: offer.sdp });
 
-      // listen for answer
       onValue(ref(db, `calls/${callId}/answer`), async (snap) => {
         const ans = snap.val();
         if (ans && pc && !pc.currentRemoteDescription) {
@@ -588,7 +605,6 @@
         }
       });
 
-      // listen for callee ICE
       onChildAdded(ref(db, `calls/${callId}/calleeCandidates`), (snap) => {
         if (pc) {
           pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
@@ -597,7 +613,6 @@
     };
 
     function listenForIncomingCalls() {
-      // continuous check so no refresh needed
       if (incomingListener) return;
       incomingListener = onValue(ref(db, 'calls'), (snap) => {
         const calls = snap.val() || {};
@@ -618,6 +633,9 @@
           document.getElementById('incoming-name').textContent =
             (found.data.callerName || 'Someone') + ' is calling…';
           popup.style.display = 'block';
+
+          // notification
+          showNotif("Incoming Call", (found.data.callerName || "Someone") + " is calling you");
 
           document.getElementById('accept-call').onclick = () => {
             popup.style.display = 'none';
@@ -674,7 +692,6 @@
         }
       };
 
-      // re-fetch the offer to be safe
       const offerSnap = await get(ref(db, `calls/${id}/offer`));
       const offer = offerSnap.val() || data.offer;
 
@@ -689,7 +706,6 @@
       await set(ref(db, `calls/${id}/answer`), { type: answer.type, sdp: answer.sdp });
       await update(ref(db, `calls/${id}`), { status: 'connected' });
 
-      // listen for caller ICE
       onChildAdded(ref(db, `calls/${id}/callerCandidates`), (snap) => {
         if (pc) {
           pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
@@ -946,6 +962,11 @@
           ${content}
           <div class="timestamp">${time}</div>
         `;
+
+        // notification for new messages when tab is in background
+        if (!isMe) {
+          showNotif(msg.name || "Someone", msg.text || "Sent an image");
+        }
 
         let pressTimer;
         div.addEventListener('contextmenu', e => showContextMenu(e, msg, div));
