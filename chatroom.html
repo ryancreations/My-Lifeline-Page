@@ -125,7 +125,7 @@
     #close-browser { background: #ff3b30; }
     #new-session-btn { background: #007aff; }
 
-    /* ===== CALL SCREEN (Discord style) ===== */
+    /* ===== CALL SCREEN ===== */
     #call-screen {
       position: fixed; inset: 0; background: #000; z-index: 400;
       display: none; flex-direction: column; color: #fff;
@@ -144,7 +144,7 @@
       align-items: center; justify-content: center; gap: 48px; overflow: hidden;
     }
     .avatar-wrap {
-      position: relative; width: 140px; height: 140px;
+      position: relative; width: 140px; height: 140px; z-index: 2;
     }
     .avatar-wrap img {
       width: 100%; height: 100%; border-radius: 50%;
@@ -162,7 +162,7 @@
       position: absolute; border-radius: 12px;
       background: #111; object-fit: cover;
     }
-    #remote-video { inset: 0; width: 100%; height: 100%; }
+    #remote-video { inset: 0; width: 100%; height: 100%; z-index: 1; }
     #local-video {
       bottom: 16px; right: 16px; width: 120px; height: 160px;
       border: 2px solid #333; z-index: 5;
@@ -360,11 +360,10 @@
     };
     let pc = null;
     let localStream = null;
-    let callRef = null;
     let callId = null;
-    let isCaller = false;
     let remoteUid = null;
     let speakingInterval = null;
+    let incomingListener = null;
 
     // Theme
     window.toggleDarkMode = () => {
@@ -464,17 +463,13 @@
             <div style="font-size:14px;opacity:0.7;">Creating watch party</div>
           </div>`;
 
-        const response = await fetch("/api/create-browser", {
-          method: "POST"
-        });
-
+        const response = await fetch("/api/create-browser", { method: "POST" });
         if (!response.ok) {
           const err = await response.json().catch(() => ({}));
           throw new Error(err.error || "Failed to create session");
         }
 
         const data = await response.json();
-
         await set(ref(db, 'active-browser-session'), {
           embed_url: data.embed_url,
           admin_token: data.admin_token,
@@ -482,9 +477,7 @@
           createdAt: Date.now(),
           createdBy: auth.currentUser?.displayName || "Someone"
         });
-
         await loadSession(data);
-
       } catch (err) {
         console.error(err);
         document.getElementById('browser-container').innerHTML = `
@@ -501,11 +494,8 @@
     async function loadSession(data) {
       const container = document.getElementById('browser-container');
       container.innerHTML = '';
-
       try {
-        hbClient = await Hyperbeam(container, data.embed_url, {
-          adminToken: data.admin_token
-        });
+        hbClient = await Hyperbeam(container, data.embed_url, { adminToken: data.admin_token });
       } catch (err) {
         console.error(err);
         container.innerHTML = `
@@ -519,24 +509,18 @@
     }
 
     window.forceNewBrowser = async () => {
-      if (hbClient) {
-        try { hbClient.destroy(); } catch(e) {}
-        hbClient = null;
-      }
+      if (hbClient) { try { hbClient.destroy(); } catch(e) {} hbClient = null; }
       await remove(ref(db, 'active-browser-session'));
       openSharedBrowser();
     };
 
     window.closeSharedBrowser = () => {
-      if (hbClient) {
-        try { hbClient.destroy(); } catch(e) {}
-        hbClient = null;
-      }
+      if (hbClient) { try { hbClient.destroy(); } catch(e) {} hbClient = null; }
       document.getElementById('browser-screen').style.display = 'none';
       document.getElementById('browser-container').innerHTML = '';
     };
 
-    // ========== CALL FUNCTION ==========
+    // ========== CALL FUNCTION (FIXED) ==========
     window.startCall = async (withVideo = true) => {
       if (!selectedMessage || !auth.currentUser) return;
       remoteUid = selectedMessage.data.uid;
@@ -546,42 +530,40 @@
       document.getElementById('call-screen').style.display = 'flex';
       document.getElementById('call-status').textContent = 'Calling…';
 
-      // simple avatar placeholders
       document.getElementById('remote-avatar').src = 'https://i.pravatar.cc/150?u=' + remoteUid;
       document.getElementById('local-avatar').src = 'https://i.pravatar.cc/150?u=' + auth.currentUser.uid;
 
       try {
-        localStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: withVideo
-        });
+        localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: withVideo });
         document.getElementById('local-video').srcObject = localStream;
       } catch (e) {
         alert('Need mic/camera permission');
         return endCall();
       }
 
-      isCaller = true;
       pc = new RTCPeerConnection(servers);
       localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
 
       pc.ontrack = (e) => {
-        document.getElementById('remote-video').srcObject = e.streams[0];
+        const remoteVideo = document.getElementById('remote-video');
+        remoteVideo.srcObject = e.streams[0];
+        remoteVideo.play().catch(() => {});
         document.getElementById('call-status').textContent = 'Connected';
+        // hide avatars once video is live
+        document.getElementById('remote-avatar-wrap').style.display = 'none';
+        document.getElementById('local-avatar-wrap').style.display = 'none';
       };
 
-      // speaking detection for local
       startSpeakingDetection(localStream, 'local-ring');
+
+      const newCallRef = push(ref(db, 'calls'));
+      callId = newCallRef.key;
 
       pc.onicecandidate = (e) => {
         if (e.candidate && callId) {
           push(ref(db, `calls/${callId}/callerCandidates`), e.candidate.toJSON());
         }
       };
-
-      const newCallRef = push(ref(db, 'calls'));
-      callId = newCallRef.key;
-      callRef = newCallRef;
 
       await set(newCallRef, {
         caller: auth.currentUser.uid,
@@ -594,50 +576,65 @@
 
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
-      await set(ref(db, `calls/${callId}/offer`), {
-        type: offer.type,
-        sdp: offer.sdp
-      });
+      await set(ref(db, `calls/${callId}/offer`), { type: offer.type, sdp: offer.sdp });
 
       // listen for answer
       onValue(ref(db, `calls/${callId}/answer`), async (snap) => {
         const ans = snap.val();
-        if (ans && !pc.currentRemoteDescription) {
-          await pc.setRemoteDescription(new RTCSessionDescription(ans));
+        if (ans && pc && !pc.currentRemoteDescription) {
+          try {
+            await pc.setRemoteDescription(new RTCSessionDescription(ans));
+          } catch (err) { console.error(err); }
         }
       });
 
       // listen for callee ICE
       onChildAdded(ref(db, `calls/${callId}/calleeCandidates`), (snap) => {
-        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val()));
+        if (pc) {
+          pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
+        }
       });
     };
 
     function listenForIncomingCalls() {
-      onChildAdded(ref(db, 'calls'), (snap) => {
-        const data = snap.val();
-        if (!data || data.callee !== auth.currentUser?.uid || data.status !== 'ringing' || pc) return;
+      // continuous check so no refresh needed
+      if (incomingListener) return;
+      incomingListener = onValue(ref(db, 'calls'), (snap) => {
+        const calls = snap.val() || {};
+        let found = null;
 
-        // show incoming popup
-        document.getElementById('incoming-name').textContent =
-          (data.callerName || 'Someone') + ' is calling…';
-        document.getElementById('incoming-call').style.display = 'block';
+        for (const id in calls) {
+          const data = calls[id];
+          if (data.callee === auth.currentUser?.uid &&
+              data.status === 'ringing' &&
+              !pc) {
+            found = { id, data };
+            break;
+          }
+        }
 
-        document.getElementById('accept-call').onclick = () => {
-          document.getElementById('incoming-call').style.display = 'none';
-          answerCall(snap.key, data);
-        };
-        document.getElementById('decline-call').onclick = async () => {
-          document.getElementById('incoming-call').style.display = 'none';
-          await update(ref(db, `calls/${snap.key}`), { status: 'declined' });
-        };
+        const popup = document.getElementById('incoming-call');
+        if (found) {
+          document.getElementById('incoming-name').textContent =
+            (found.data.callerName || 'Someone') + ' is calling…';
+          popup.style.display = 'block';
+
+          document.getElementById('accept-call').onclick = () => {
+            popup.style.display = 'none';
+            answerCall(found.id, found.data);
+          };
+          document.getElementById('decline-call').onclick = async () => {
+            popup.style.display = 'none';
+            await update(ref(db, `calls/${found.id}`), { status: 'declined' });
+          };
+        } else {
+          popup.style.display = 'none';
+        }
       });
     }
 
     window.answerCall = async (id, data) => {
       callId = id;
-      callRef = ref(db, `calls/${id}`);
-      isCaller = false;
       remoteUid = data.caller;
 
       document.getElementById('call-screen').style.display = 'flex';
@@ -649,7 +646,7 @@
       try {
         localStream = await navigator.mediaDevices.getUserMedia({
           audio: true,
-          video: data.video
+          video: data.video !== false
         });
         document.getElementById('local-video').srcObject = localStream;
       } catch (e) {
@@ -661,8 +658,12 @@
       localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
 
       pc.ontrack = (e) => {
-        document.getElementById('remote-video').srcObject = e.streams[0];
+        const remoteVideo = document.getElementById('remote-video');
+        remoteVideo.srcObject = e.streams[0];
+        remoteVideo.play().catch(() => {});
         document.getElementById('call-status').textContent = 'Connected';
+        document.getElementById('remote-avatar-wrap').style.display = 'none';
+        document.getElementById('local-avatar-wrap').style.display = 'none';
       };
 
       startSpeakingDetection(localStream, 'local-ring');
@@ -673,18 +674,26 @@
         }
       };
 
-      await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+      // re-fetch the offer to be safe
+      const offerSnap = await get(ref(db, `calls/${id}/offer`));
+      const offer = offerSnap.val() || data.offer;
+
+      if (!offer) {
+        alert('Call offer missing');
+        return endCall();
+      }
+
+      await pc.setRemoteDescription(new RTCSessionDescription(offer));
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
-      await set(ref(db, `calls/${id}/answer`), {
-        type: answer.type,
-        sdp: answer.sdp
-      });
+      await set(ref(db, `calls/${id}/answer`), { type: answer.type, sdp: answer.sdp });
       await update(ref(db, `calls/${id}`), { status: 'connected' });
 
       // listen for caller ICE
       onChildAdded(ref(db, `calls/${id}/callerCandidates`), (snap) => {
-        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val()));
+        if (pc) {
+          pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
+        }
       });
     };
 
@@ -707,10 +716,7 @@
     }
 
     window.endCall = async () => {
-      if (pc) {
-        pc.close();
-        pc = null;
-      }
+      if (pc) { pc.close(); pc = null; }
       if (localStream) {
         localStream.getTracks().forEach(t => t.stop());
         localStream = null;
@@ -722,11 +728,12 @@
       if (callId) {
         try { await remove(ref(db, `calls/${callId}`)); } catch(e) {}
         callId = null;
-        callRef = null;
       }
       document.getElementById('call-screen').style.display = 'none';
       document.getElementById('remote-video').srcObject = null;
       document.getElementById('local-video').srcObject = null;
+      document.getElementById('remote-avatar-wrap').style.display = 'block';
+      document.getElementById('local-avatar-wrap').style.display = 'block';
       document.getElementById('local-ring')?.classList.remove('active');
       document.getElementById('remote-ring')?.classList.remove('active');
     };
