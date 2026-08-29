@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,1260 +8,1323 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
 <style>
-
 :root{
-
---primary:#00bcd4;
---accent:#ff9ff3;
-
---background:
-linear-gradient(135deg,#fff8f0,#e0f7ff);
-
---card:#ffffff;
-
---text:#2c3e50;
-
---shadow:
-rgba(0,0,0,.12);
-
+  --primary:#00bcd4;
+  --accent:#ff9ff3;
+  --background:linear-gradient(135deg,#fff8f0,#e0f7ff);
+  --card:#ffffff;
+  --text:#2c3e50;
+  --muted:#667085;
+  --nav:#87ceeb;
+  --shadow:rgba(0,0,0,.12);
+  --border:#87ceeb;
 }
-
 
 [data-theme="dark"]{
-
---background:
-linear-gradient(135deg,#0f1c2e,#2c1e3a);
-
---card:#2c3e50;
-
---text:#e0f2f1;
-
---primary:#4fc3f7;
-
---accent:#ff79c6;
-
---shadow:
-rgba(0,0,0,.4);
-
+  --background:linear-gradient(135deg,#0f1c2e,#2c1e3a);
+  --card:#2c3e50;
+  --text:#e0f2f1;
+  --muted:#b7c6d1;
+  --primary:#4fc3f7;
+  --accent:#ff79c6;
+  --nav:#1a2639;
+  --shadow:rgba(0,0,0,.4);
+  --border:#4fc3f7;
 }
-
-
 
 *{
-
-margin:0;
-padding:0;
-box-sizing:border-box;
-
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-
+html{
+  min-height:100%;
+}
 
 body{
-
-font-family:
-'Quicksand',
-sans-serif;
-
-background:
-var(--background);
-
-color:
-var(--text);
-
-min-height:100vh;
-
-transition:.5s;
-
+  font-family:'Quicksand',sans-serif;
+  background:var(--background);
+  color:var(--text);
+  min-height:100vh;
+  transition:.4s;
 }
-
-
-
 
 /* =========================
-NAV
+   INDEX-STYLE NAVIGATION
 ========================= */
 
-
-nav{
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-right:0;
-
-background:
-rgba(135,206,235,.97);
-
-padding:14px 20px;
-
-display:flex;
-
-justify-content:center;
-
-gap:12px;
-
-flex-wrap:wrap;
-
-z-index:1000;
-
-box-shadow:
-0 6px 20px var(--shadow);
-
+.site-nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:5000;
+  background:rgba(135,206,235,.97);
+  box-shadow:0 6px 20px var(--shadow);
+  padding:8px 12px;
 }
 
-
-
-[data-theme="dark"] nav{
-
-background:
-rgba(26,38,57,.97);
-
+[data-theme="dark"] .site-nav{
+  background:rgba(26,38,57,.97);
 }
 
-
-
-.nav-btn{
-
-background:white;
-
-color:var(--primary);
-
-border:none;
-
-padding:10px 18px;
-
-border-radius:30px;
-
-font-weight:600;
-
-cursor:pointer;
-
-transition:.3s;
-
+.nav-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  flex-wrap:wrap;
 }
 
-
-
-.nav-btn:hover{
-
-transform:
-translateY(-3px);
-
+.nav-brand{
+  color:white;
+  font-size:1.15rem;
+  font-weight:700;
+  padding:8px 12px;
+  white-space:nowrap;
 }
 
+.nav-group{
+  position:relative;
+}
 
+.nav-group-button,
+.nav-link,
+.nav-action{
+  border:none;
+  background:white;
+  color:#00bcd4;
+  padding:8px 12px;
+  border-radius:20px;
+  font-family:inherit;
+  font-size:.9rem;
+  font-weight:600;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  transition:.25s;
+}
 
+.nav-group-button:hover,
+.nav-link:hover,
+.nav-action:hover{
+  background:#00bcd4;
+  color:white;
+  transform:translateY(-1px);
+}
+
+.nav-dropdown{
+  display:none;
+  position:absolute;
+  top:calc(100% + 7px);
+  left:50%;
+  transform:translateX(-50%);
+  min-width:180px;
+  background:var(--card);
+  border-radius:16px;
+  padding:8px;
+  box-shadow:0 12px 30px var(--shadow);
+  border:1px solid rgba(135,206,235,.4);
+}
+
+.nav-group:hover .nav-dropdown,
+.nav-group:focus-within .nav-dropdown{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.nav-dropdown a{
+  color:var(--text);
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:10px;
+  font-weight:600;
+  font-size:.9rem;
+  text-align:left;
+}
+
+.nav-dropdown a:hover{
+  background:rgba(0,188,212,.12);
+  color:var(--primary);
+}
+
+.nav-spacer{
+  width:1px;
+  height:26px;
+  background:rgba(255,255,255,.45);
+}
+
+@media(max-width:700px){
+  .site-nav{
+    padding:6px;
+  }
+
+  .nav-inner{
+    gap:4px;
+  }
+
+  .nav-brand{
+    width:100%;
+    text-align:center;
+    padding:4px;
+  }
+
+  .nav-group-button,
+  .nav-link,
+  .nav-action{
+    padding:7px 9px;
+    font-size:.82rem;
+  }
+
+  .nav-spacer{
+    display:none;
+  }
+}
 
 /* =========================
-MAIN
+   MAIN
 ========================= */
-
 
 main{
-
-max-width:900px;
-
-margin:
-100px auto 50px;
-
-padding:
-0 20px;
-
+  max-width:900px;
+  margin:125px auto 50px;
+  padding:0 20px;
 }
-
-
-
 
 header{
-
-background:
-linear-gradient(
-135deg,
-var(--primary),
-#81d4fa
-);
-
-color:white;
-
-padding:
-55px 30px;
-
-border-radius:28px;
-
-text-align:center;
-
-box-shadow:
-0 15px 40px var(--shadow);
-
+  background:linear-gradient(
+    135deg,
+    var(--primary),
+    #81d4fa
+  );
+  color:white;
+  padding:55px 30px;
+  border-radius:28px;
+  text-align:center;
+  box-shadow:0 15px 40px var(--shadow);
 }
-
-
 
 header h1{
-
-font-size:2.6rem;
-
-margin-bottom:12px;
-
+  font-size:2.6rem;
+  margin-bottom:12px;
 }
-
-
 
 header p{
-
-font-size:1.1rem;
-
+  font-size:1.1rem;
 }
 
-
-
-
-
 /* =========================
-CARDS
+   CARDS
 ========================= */
-
 
 .card{
-
-background:
-var(--card);
-
-border-radius:22px;
-
-padding:30px;
-
-margin-top:25px;
-
-box-shadow:
-0 10px 30px var(--shadow);
-
-text-align:center;
-
+  background:var(--card);
+  border-radius:22px;
+  padding:30px;
+  margin-top:25px;
+  box-shadow:0 10px 30px var(--shadow);
+  text-align:center;
 }
-
-
 
 .card h2{
-
-color:
-var(--primary);
-
-margin-bottom:15px;
-
+  color:var(--primary);
+  margin-bottom:15px;
 }
 
-
-
+.card p{
+  color:var(--text);
+}
 
 textarea{
-
-width:100%;
-
-height:220px;
-
-padding:20px;
-
-border-radius:18px;
-
-border:
-
-2px solid #87ceeb;
-
-font-family:inherit;
-
-font-size:1.1rem;
-
-background:
-var(--card);
-
-color:
-var(--text);
-
-resize:none;
-
+  width:100%;
+  height:220px;
+  padding:20px;
+  margin-top:15px;
+  border-radius:18px;
+  border:2px solid var(--border);
+  font-family:inherit;
+  font-size:1.1rem;
+  background:var(--card);
+  color:var(--text);
+  resize:vertical;
 }
 
-
+textarea::placeholder{
+  color:var(--muted);
+}
 
 input[type="date"]{
-
-padding:14px;
-
-border-radius:12px;
-
-border:
-
-2px solid #87ceeb;
-
-font-family:inherit;
-
-margin:15px;
-
+  padding:14px;
+  border-radius:12px;
+  border:2px solid var(--border);
+  font-family:inherit;
+  margin:15px;
+  background:var(--card);
+  color:var(--text);
 }
-
-
-
 
 .main-btn{
-
-background:
-var(--primary);
-
-color:white;
-
-border:none;
-
-padding:
-14px 30px;
-
-border-radius:50px;
-
-font-size:1.1rem;
-
-cursor:pointer;
-
-margin-top:15px;
-
+  background:var(--primary);
+  color:white;
+  border:none;
+  padding:14px 30px;
+  border-radius:50px;
+  font-size:1.1rem;
+  font-family:inherit;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:15px;
+  transition:.25s;
 }
-
-
 
 .main-btn:hover{
-
-transform:
-scale(1.05);
-
+  transform:scale(1.05);
+  filter:brightness(.95);
 }
-
-
 
 /* =========================
-LOGIN
+   LETTER ITEMS
 ========================= */
 
+.letter-item{
+  background:var(--background);
+  padding:20px;
+  border-radius:18px;
+  margin:15px 0;
+  text-align:left;
+  border:1px solid rgba(135,206,235,.35);
+}
+
+.letter-item h3{
+  color:var(--primary);
+  margin-bottom:8px;
+}
+
+.letter-preview{
+  line-height:1.6;
+  color:var(--text);
+  word-break:break-word;
+}
+
+.delete-btn{
+  background:#ff6b6b;
+  color:white;
+  border:none;
+  border-radius:20px;
+  padding:8px 14px;
+  margin-top:12px;
+  font-family:inherit;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.delete-btn:hover{
+  filter:brightness(.9);
+}
+
+/* =========================
+   LOGIN
+========================= */
 
 #loginScreen{
-
-position:fixed;
-
-inset:0;
-
-background:
-var(--background);
-
-z-index:9999;
-
+  position:fixed;
+  inset:0;
+  background:var(--background);
+  z-index:9999;
 }
-
-
 
 .login-box{
-
-position:absolute;
-
-top:50%;
-
-left:50%;
-
-transform:
-translate(-50%,-50%);
-
-background:
-var(--card);
-
-padding:45px 30px;
-
-width:90%;
-
-max-width:420px;
-
-border-radius:25px;
-
-text-align:center;
-
-box-shadow:
-0 20px 50px var(--shadow);
-
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:var(--card);
+  padding:45px 30px;
+  width:90%;
+  max-width:420px;
+  border-radius:25px;
+  text-align:center;
+  box-shadow:0 20px 50px var(--shadow);
 }
-
-
 
 .login-box h1{
-
-color:
-var(--primary);
-
-font-size:3rem;
-
+  color:var(--primary);
+  font-size:3rem;
+  margin-bottom:8px;
 }
 
-
+.login-box p{
+  color:var(--text);
+  margin-bottom:12px;
+}
 
 .login-box input{
-
-width:100%;
-
-padding:15px;
-
-margin:10px 0;
-
-border-radius:12px;
-
-border:
-
-2px solid #87ceeb;
-
-font-size:1rem;
-
+  width:100%;
+  padding:15px;
+  margin:10px 0;
+  border-radius:12px;
+  border:2px solid var(--border);
+  font-size:1rem;
+  font-family:inherit;
+  background:var(--card);
+  color:var(--text);
 }
 
-
-
 .hidden{
+  display:none !important;
+}
 
-display:none;
+/* =========================
+   FOOTER
+========================= */
 
-}</style>
+footer{
+  text-align:center;
+  padding:30px 20px 45px;
+  color:var(--muted);
+  font-size:.9rem;
+}
 
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+  main{
+    margin-top:155px;
+    padding:0 12px;
+  }
+
+  header{
+    padding:40px 20px;
+  }
+
+  header h1{
+    font-size:2rem;
+  }
+
+  .card{
+    padding:22px 17px;
+  }
+
+  textarea{
+    height:200px;
+  }
+}
+</style>
 </head>
 
+<body>
 
-<body data-theme="light">
+<!-- =====================================================
+     INDEX-STYLE NAVIGATION
+===================================================== -->
 
+<nav class="site-nav">
 
-<!-- NAVIGATION -->
+  <div class="nav-inner">
 
-<nav>
+    <div class="nav-brand">
+      🫂 My Lifeline
+    </div>
 
-<button class="nav-btn"
-onclick="location.href='index.html'">
+    <!-- SUPPORT -->
+    <div class="nav-group">
+      <button class="nav-group-button">
+        🛡️ Support ▾
+      </button>
 
-🏠 Dashboard
+      <div class="nav-dropdown">
+        <a href="index.html#emergency">🚨 Emergency</a>
+        <a href="bestie.html">🫂 AI Bestie</a>
+        <a href="index.html#breathing">😮‍💨 Breathing</a>
+      </div>
+    </div>
 
-</button>
+    <!-- TOOLS -->
+    <div class="nav-group">
+      <button class="nav-group-button">
+        🧠 Tools ▾
+      </button>
 
+      <div class="nav-dropdown">
+        <a href="mental.html">Mental Tools</a>
+        <a href="reflect.html">📝 Reflect</a>
+        <a href="reframe.html">💭 Reframe</a>
+        <a href="emotion-radar.html">📡 Emotion Radar</a>
+        <a href="selfcare.html">🧘 Selfcare</a>
+        <a href="selfcare-planner.html">📓 Planner</a>
+      </div>
+    </div>
 
-<button class="nav-btn"
-onclick="location.href='bestie.html'">
+    <!-- COMFORT -->
+    <div class="nav-group">
+      <button class="nav-group-button">
+        🌈 Comfort ▾
+      </button>
 
-🫂 Bestie
+      <div class="nav-dropdown">
+        <a href="music.html">🎵 Music</a>
+        <a href="lofiroom.html">🌙 Lofi Room</a>
+        <a href="videos.html">📺 Videos</a>
+        <a href="virtualpet.html">🐾 Virtual Pet</a>
+      </div>
+    </div>
 
-</button>
+    <!-- JOURNAL -->
+    <div class="nav-group">
+      <button class="nav-group-button">
+        📖 Journal ▾
+      </button>
 
+      <div class="nav-dropdown">
+        <a href="letters.html">✉️ Letters</a>
+        <a href="goodthings.html">🌱 Good Things</a>
+        <a href="today.html">📌 Today I Stayed</a>
+        <a href="enough.html">💙 You're Enough</a>
+      </div>
+    </div>
 
-<button class="nav-btn"
-onclick="location.href='virtualpet.html'">
+    <a class="nav-link" href="2048.html">
+      🎮 2048
+    </a>
 
-🐶 Virtual Pet
+    <a class="nav-link" href="chatroom.html">
+      💬 Chat Room
+    </a>
 
-</button>
+    <span class="nav-spacer"></span>
 
+    <button class="nav-action" onclick="toggleDarkMode()" title="Toggle theme">
+      🌗
+    </button>
 
-<button class="nav-btn"
-onclick="toggleDarkMode()">
+    <button class="nav-action" onclick="lockLifeline()" title="Lock Lifeline">
+      🔒
+    </button>
 
-🌗 Theme
+    <button
+      class="nav-action"
+      onclick="logout()"
+      style="background:#ff6b6b;color:white;"
+    >
+      Logout
+    </button>
 
-</button>
-
-
+  </div>
 </nav>
 
 
-
-
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div id="loginScreen">
 
+  <div class="login-box">
 
-<div class="login-box">
+    <h1>🫂 My Lifeline</h1>
 
-<h1>
-🫂 My Lifeline
-</h1>
+    <p>Enter your personal key</p>
 
+    <input
+      id="username"
+      type="text"
+      placeholder="Username"
+      autocomplete="username"
+    >
 
-<p>
-Enter your personal key
-</p>
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
 
+    <button
+      class="main-btn"
+      onclick="checkLogin()"
+    >
+      Enter Safe Space
+    </button>
 
-<input 
-id="username"
-placeholder="Username">
-
-
-<input 
-id="password"
-type="password"
-placeholder="Password">
-
-
-<button class="main-btn"
-onclick="checkLogin()">
-
-Enter Safe Space
-
-</button>
-
-
-</div>
+  </div>
 
 </div>
 
 
-
-
-
-<!-- MAIN CONTENT -->
-
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
 
 <div id="mainContent" class="hidden">
 
+  <main>
 
-<main>
+    <header>
 
+      <h1>
+        💌 Letters From Tomorrow
+      </h1>
 
-<header>
+      <p>
+        Write a letter that future-you can open someday.
+      </p>
 
-<h1>
-💌 Letters From Tomorrow
-</h1>
-
-
-<p>
-Write a letter that future-you can open someday.
-</p>
-
-
-</header>
+    </header>
 
 
+    <!-- WRITE LETTER -->
 
+    <section class="card">
 
+      <h2>
+        ✉️ Write A Letter
+      </h2>
 
-<section class="card">
+      <p>
+        Choose when your message arrives.
+      </p>
 
+      <input
+        type="date"
+        id="deliveryDate"
+      >
 
-<h2>
-✉️ Write A Letter
-</h2>
-
-
-<p>
-Choose when your message arrives.
-</p>
-
-
-<input
-type="date"
-id="deliveryDate">
-
-
-
-<textarea
-id="letterText"
-placeholder="Hey future me...
+      <textarea
+        id="letterText"
+        placeholder="Hey future me...
 
 Remember this...
-">
 
-</textarea>
+Something I want you to know...
 
+You made it this far..."
+      ></textarea>
 
+      <br>
 
-<br>
+      <button
+        class="main-btn"
+        onclick="saveLetter()"
+      >
+        💌 Seal & Send
+      </button>
 
-
-<button class="main-btn"
-onclick="saveLetter()">
-
-💌 Seal & Send
-
-</button>
-
-
-</section>
+    </section>
 
 
+    <!-- UPCOMING -->
+
+    <section class="card">
+
+      <h2>
+        📬 Letters Waiting
+      </h2>
+
+      <div id="upcomingList">
+        No letters yet...
+      </div>
+
+    </section>
 
 
+    <!-- ARRIVING -->
+
+    <section
+      class="card"
+      id="dueLetter"
+    >
+
+      <h2>
+        💙 Arriving Letters
+      </h2>
+
+      <p>
+        Letters that arrive today will appear here.
+      </p>
+
+    </section>
 
 
+    <!-- WHY -->
 
-<section class="card">
+    <section class="card">
 
+      <h2>
+        🌱 Why Write Letters?
+      </h2>
 
-<h2>
-📬 Letters Waiting
-</h2>
+      <p>
+        Sometimes future-you needs a reminder that past-you kept trying.
+      </p>
 
+      <br>
 
-<div id="upcomingList">
+      <p style="font-weight:600;">
 
-No letters yet...
+        Every letter is proof:
+
+        <br><br>
+
+        "You made it here."
+
+        💙
+
+      </p>
+
+    </section>
+
+  </main>
+
+  <footer>
+    My Lifeline — Your safe harbor ❤️
+  </footer>
 
 </div>
 
 
-</section>
+<script>
 
+/* =====================================================
+   THEME
+===================================================== */
 
+function applyTheme(theme){
 
+  document.documentElement.setAttribute(
+    "data-theme",
+    theme
+  );
 
+  localStorage.setItem(
+    "lifeline-theme",
+    theme
+  );
 
-
-<section class="card"
-id="dueLetter">
-
-
-<h2>
-💙 Arriving Letters
-</h2>
-
-
-<p>
-Letters that arrive today will appear here.
-</p>
-
-
-</section>
-
-
-
-
-
-
-<section class="card">
-
-
-<h2>
-🌱 Why Write Letters?
-</h2>
-
-
-<p>
-
-Sometimes future-you needs a reminder that past-you kept trying.
-
-</p>
-
-
-<br>
-
-
-<p style="font-weight:600;">
-
-Every letter is proof:
-
-<br>
-
-"You made it here."
-
-💙
-
-</p>
-
-
-</section>
-
-
-
-</main>
-
-
-</div><script>
-
-
-// =========================
-// THEME SYNC WITH INDEX
-// =========================
+}
 
 
 function toggleDarkMode(){
 
-const current =
-document.documentElement.getAttribute(
-"data-theme"
-);
+  const current =
+    document.documentElement.getAttribute(
+      "data-theme"
+    ) || "light";
 
-
-const newTheme =
-current==="dark"
-?"light"
-:"dark";
-
-
-document.documentElement.setAttribute(
-"data-theme",
-newTheme
-);
-
-
-localStorage.setItem(
-"lifeline-theme",
-newTheme
-);
-
+  applyTheme(
+    current === "dark"
+      ? "light"
+      : "dark"
+  );
 
 }
 
 
+const savedTheme =
+  localStorage.getItem("lifeline-theme");
 
-if(
-localStorage.getItem("lifeline-theme")==="dark"
-){
-
-document.documentElement.setAttribute(
-"data-theme",
-"dark"
-);
-
+if(savedTheme === "dark"){
+  applyTheme("dark");
+}else{
+  applyTheme("light");
 }
 
 
+/* =====================================================
+   LOGIN
+===================================================== */
 
+function showMainContent(){
 
+  document
+    .getElementById("loginScreen")
+    .classList.add("hidden");
 
-// =========================
-// LOGIN
-// =========================
+  document
+    .getElementById("mainContent")
+    .classList.remove("hidden");
+
+}
 
 
 function checkLogin(){
 
+  const user =
+    document
+      .getElementById("username")
+      .value
+      .trim()
+      .toLowerCase();
 
-const user =
-document.getElementById("username")
-.value
-.trim()
-.toLowerCase();
+  const pass =
+    document
+      .getElementById("password")
+      .value
+      .trim();
 
+  if(
 
-const pass =
-document.getElementById("password")
-.value
-.trim();
+    (user === "ryan" && pass === "ITSmf420") ||
 
+    (user === "guest" && pass === "guest") ||
 
+    (user === "visitor" && pass === "welcome") ||
 
-if(
+    (user === "friend" && pass === "lifeline") ||
 
-(user==="ryan" && pass==="ITSmf420") ||
+    (user === "nc" && pass === "boone")
 
-(user==="guest" && pass==="guest") ||
+  ){
 
-(user==="visitor" && pass==="welcome") ||
+    localStorage.setItem(
+      "lifelineAuthenticated",
+      "true"
+    );
 
-(user==="friend" && pass==="lifeline") ||
+    showMainContent();
 
-(user==="nc" && pass==="boone")
+    showUpcoming();
+    checkLetters();
 
-){
+  }else{
 
+    alert(
+      "Incorrect username or password."
+    );
 
-localStorage.setItem(
-"lifelineAuthenticated",
-"true"
-);
-
-
-
-document
-.getElementById("loginScreen")
-.classList.add("hidden");
-
-
-
-document
-.getElementById("mainContent")
-.classList.remove("hidden");
-
+  }
 
 }
-
-
-else{
-
-
-alert(
-"Incorrect username or password."
-);
-
-
-}
-
-
-}
-
-
 
 
 function logout(){
 
+  localStorage.removeItem(
+    "lifelineAuthenticated"
+  );
 
-localStorage.removeItem(
-"lifelineAuthenticated"
-);
-
-
-location.reload();
-
+  location.reload();
 
 }
 
 
+/* =====================================================
+   LOCK
+===================================================== */
 
+function lockLifeline(){
+
+  localStorage.removeItem(
+    "lifelineAuthenticated"
+  );
+
+  location.reload();
+
+}
+
+
+/* =====================================================
+   RESTORE LOGIN
+===================================================== */
 
 if(
-
-localStorage.getItem(
-"lifelineAuthenticated"
-)==="true"
-
+  localStorage.getItem(
+    "lifelineAuthenticated"
+  ) === "true"
 ){
 
-
-document
-.getElementById("loginScreen")
-.classList.add("hidden");
-
-
-
-document
-.getElementById("mainContent")
-.classList.remove("hidden");
-
+  showMainContent();
 
 }
 
 
+/* =====================================================
+   LETTER SYSTEM
+===================================================== */
+
+let letters = [];
+
+try{
+
+  letters =
+    JSON.parse(
+      localStorage.getItem(
+        "futureLetters"
+      ) || "[]"
+    );
+
+  if(!Array.isArray(letters)){
+    letters = [];
+  }
+
+}catch(error){
+
+  letters = [];
+
+}
 
 
-
-
-
-// =========================
-// LETTER SYSTEM
-// =========================
-
-
-
-let letters =
-
-JSON.parse(
-
-localStorage.getItem(
-"futureLetters"
-)
-
-|| "[]"
-
-);
-
-
-
-
-
-
+/* =====================================================
+   SAVE LETTER
+===================================================== */
 
 function saveLetter(){
 
+  const date =
+    document
+      .getElementById("deliveryDate")
+      .value;
 
-const date =
+  const text =
+    document
+      .getElementById("letterText")
+      .value
+      .trim();
 
-document
-.getElementById("deliveryDate")
-.value;
+  if(!date || !text){
 
+    alert(
+      "Add a date and message ❤️"
+    );
 
+    return;
 
-const text =
-
-document
-.getElementById("letterText")
-.value
-.trim();
-
-
-
-
-if(!date || !text){
-
-
-alert(
-"Add a date and message ❤️"
-);
+  }
 
 
-return;
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
 
 
-}
+  if(date <= today){
+
+    alert(
+      "Choose a future date for your letter 💌"
+    );
+
+    return;
+
+  }
 
 
+  letters.push({
+
+    id:
+      Date.now().toString(),
+
+    date:date,
+
+    text:text,
+
+    created:
+      new Date().toLocaleDateString()
+
+  });
 
 
-
-letters.push({
-
-date:date,
-
-text:text,
-
-created:
-new Date()
-.toLocaleDateString()
-
-});
+  localStorage.setItem(
+    "futureLetters",
+    JSON.stringify(letters)
+  );
 
 
+  document
+    .getElementById("letterText")
+    .value = "";
+
+  document
+    .getElementById("deliveryDate")
+    .value = "";
 
 
-
-localStorage.setItem(
-
-"futureLetters",
-
-JSON.stringify(letters)
-
-);
+  alert(
+    "Letter sealed 💌"
+  );
 
 
-
-
-
-document
-.getElementById("letterText")
-.value="";
-
-
-
-
-
-alert(
-"Letter sealed 💌"
-);
-
-
-
-showUpcoming();
-
-
+  showUpcoming();
 
 }
 
 
+/* =====================================================
+   DELETE LETTER
+===================================================== */
+
+function deleteLetter(id){
+
+  const confirmed =
+    confirm(
+      "Delete this letter? This cannot be undone."
+    );
+
+  if(!confirmed){
+    return;
+  }
 
 
+  letters =
+    letters.filter(
+      letter =>
+        String(letter.id) !== String(id)
+    );
 
 
+  localStorage.setItem(
+    "futureLetters",
+    JSON.stringify(letters)
+  );
 
 
+  showUpcoming();
+
+}
+
+
+/* =====================================================
+   UPCOMING LETTERS
+===================================================== */
 
 function showUpcoming(){
 
+  const list =
+    document
+      .getElementById("upcomingList");
 
-const list =
-
-document
-.getElementById("upcomingList");
-
-
-
-list.innerHTML="";
+  if(!list){
+    return;
+  }
 
 
-
-let future =
-
-letters.filter(
-
-letter =>
-
-new Date(letter.date)
->
-new Date()
-
-);
+  list.innerHTML = "";
 
 
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
 
 
-
-if(future.length===0){
-
-
-list.innerHTML=
-
-`
-<p>
-No letters waiting 💌
-</p>
-`;
+  let future =
+    letters.filter(
+      letter =>
+        letter.date > today
+    );
 
 
-return;
+  if(future.length === 0){
 
+    list.innerHTML =
+      `
+        <p>
+          No letters waiting 💌
+        </p>
+      `;
+
+    return;
+
+  }
+
+
+  future.sort(
+    (a,b) =>
+      new Date(a.date) -
+      new Date(b.date)
+  );
+
+
+  future.forEach(letter => {
+
+    const box =
+      document.createElement("div");
+
+    box.className =
+      "letter-item";
+
+
+    const preview =
+      letter.text.length > 160
+        ? letter.text.substring(0,160) + "..."
+        : letter.text;
+
+
+    box.innerHTML = `
+
+      <h3>
+        📬 Arrives:
+        ${formatDate(letter.date)}
+      </h3>
+
+      <p class="letter-preview">
+        ${escapeHTML(preview)}
+      </p>
+
+      <button
+        class="delete-btn"
+        onclick="deleteLetter('${String(letter.id || "").replace(/'/g,"")}')"
+      >
+        Delete Letter
+      </button>
+
+    `;
+
+
+    list.appendChild(box);
+
+  });
 
 }
 
 
-
-
-
-future.sort(
-
-(a,b)=>
-
-new Date(a.date)
--
-new Date(b.date)
-
-);
-
-
-
-
-
-
-future.forEach(letter=>{
-
-
-const box =
-
-document.createElement(
-"div"
-);
-
-
-
-box.style.background=
-"var(--background)";
-
-
-box.style.padding=
-"20px";
-
-
-box.style.borderRadius=
-"18px";
-
-
-box.style.margin=
-"15px 0";
-
-
-
-box.innerHTML=
-
-`
-
-<h3 style="color:var(--primary)">
-
-📬 Arrives:
-
-${new Date(letter.date)
-.toLocaleDateString()}
-
-</h3>
-
-
-<p>
-
-${letter.text.substring(0,120)}
-...
-
-</p>
-
-`;
-
-
-
-list.appendChild(box);
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// =========================
-// CHECK ARRIVING LETTERS
-// =========================
-
-
+/* =====================================================
+   CHECK ARRIVING LETTERS
+===================================================== */
 
 function checkLetters(){
 
+  const area =
+    document
+      .getElementById("dueLetter");
 
-const today =
+  if(!area){
+    return;
+  }
 
-new Date()
-.toISOString()
-.split("T")[0];
 
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
 
 
+  const arriving =
+    letters.filter(
+      letter =>
+        letter.date === today
+    );
 
-const arriving =
 
-letters.find(
+  if(arriving.length === 0){
 
-letter =>
+    area.innerHTML = `
 
-letter.date===today
+      <h2>
+        💙 Arriving Letters
+      </h2>
 
-);
+      <p>
+        Letters that arrive today will appear here.
+      </p>
 
+    `;
 
+    return;
 
+  }
 
-if(!arriving)
-return;
 
+  area.innerHTML = `
 
+    <h2>
+      💌 A Letter Arrived
+    </h2>
 
+    <p>
+      You have ${arriving.length}
+      letter${arriving.length === 1 ? "" : "s"} waiting.
+    </p>
 
+    <div id="arrivingButtons"></div>
 
+  `;
 
-const area =
 
-document
-.getElementById("dueLetter");
+  const buttons =
+    document.getElementById(
+      "arrivingButtons"
+    );
 
 
+  arriving.forEach(letter => {
 
+    const button =
+      document.createElement("button");
 
-area.innerHTML=
+    button.className =
+      "main-btn";
 
-`
+    button.textContent =
+      "Open Letter 💌";
 
-<h2>
-💌 A Letter Arrived
-</h2>
+    button.onclick =
+      function(){
 
+        openArrivingLetter(
+          letter.id
+        );
 
-<p>
-Click below to open your message.
-</p>
+      };
 
 
-<button class="main-btn"
-id="openLetter">
+    buttons.appendChild(button);
 
-Open Letter
-
-</button>
-
-`;
-
-
-
-
-
-document
-.getElementById("openLetter")
-.onclick=function(){
-
-
-
-area.innerHTML=
-
-`
-
-<h2>
-From Past You 💙
-</h2>
-
-
-<p style="
-font-size:1.15rem;
-line-height:1.8;
-">
-
-${arriving.text.replace(
-/\n/g,
-"<br>"
-)}
-
-</p>
-
-
-<br>
-
-
-<strong>
-You made it to this day 💙
-</strong>
-
-`;
-
-
-
-
-
-letters =
-
-letters.filter(
-
-letter =>
-
-letter!==arriving
-
-);
-
-
-
-
-
-localStorage.setItem(
-
-"futureLetters",
-
-JSON.stringify(letters)
-
-);
-
-
-
-};
-
-
+  });
 
 }
 
 
+/* =====================================================
+   OPEN ARRIVING LETTER
+===================================================== */
+
+function openArrivingLetter(id){
+
+  const letter =
+    letters.find(
+      item =>
+        String(item.id) === String(id)
+    );
 
 
+  if(!letter){
+    return;
+  }
+
+
+  const area =
+    document
+      .getElementById("dueLetter");
+
+
+  area.innerHTML = `
+
+    <h2>
+      From Past You 💙
+    </h2>
+
+    <p
+      style="
+        font-size:1.15rem;
+        line-height:1.8;
+        text-align:left;
+        margin-top:20px;
+        white-space:normal;
+        word-break:break-word;
+      "
+    >
+      ${formatLetterText(letter.text)}
+    </p>
+
+    <br>
+
+    <strong>
+      You made it to this day 💙
+    </strong>
+
+  `;
+
+
+  letters =
+    letters.filter(
+      item =>
+        String(item.id) !== String(id)
+    );
+
+
+  localStorage.setItem(
+    "futureLetters",
+    JSON.stringify(letters)
+  );
+
+
+  showUpcoming();
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function formatDate(dateString){
+
+  const parts =
+    dateString.split("-");
+
+  if(parts.length !== 3){
+    return dateString;
+  }
+
+
+  const date =
+    new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2])
+    );
+
+
+  return date.toLocaleDateString(
+    undefined,
+    {
+      year:"numeric",
+      month:"long",
+      day:"numeric"
+    }
+  );
+
+}
+
+
+function escapeHTML(text){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    text;
+
+  return div.innerHTML;
+
+}
+
+
+function formatLetterText(text){
+
+  return escapeHTML(text)
+    .replace(/\n/g,"<br>");
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
 
 showUpcoming();
 
-checkLetters();
+if(
+  localStorage.getItem(
+    "lifelineAuthenticated"
+  ) === "true"
+){
 
+  checkLetters();
 
+}
 
 </script>
 
-
 </body>
-
 </html>
