@@ -23,483 +23,1008 @@
       --input-bg: #1c1c1e;
       --border: rgba(255,255,255,0.15);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
     }
-
+    button {
+      font-family: inherit;
+    }
+    /* ================= HEADER ================= */
     .imessage-header {
-      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
       background: var(--header-bg);
       backdrop-filter: blur(20px);
       border-bottom: 0.5px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
     }
-    .back-btn { color: #007aff; font-size: 17px; background: none; border: none; cursor: pointer; }
-    .header-title { font-size: 17px; font-weight: 600; flex: 1; text-align: center; }
-
+    .back-btn {
+      color: #007aff;
+      font-size: 17px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .header-title {
+      font-size: 17px;
+      font-weight: 600;
+      flex: 1;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    /* ================= CHAT ================= */
     #chat-container {
-      position: fixed; top: 56px; bottom: 70px; left: 0; right: 0;
-      overflow-y: auto; padding: 12px;
-      display: flex; flex-direction: column; gap: 3px;
+      position: fixed;
+      top: 56px;
+      bottom: 70px;
+      left: 0;
+      right: 0;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
       background: var(--bg);
       -webkit-overflow-scrolling: touch;
     }
-
     .message {
-      max-width: 78%; padding: 9px 14px; border-radius: 18px;
-      font-size: 16px; line-height: 1.35; position: relative;
-      word-wrap: break-word; user-select: none;
+      max-width: 78%;
+      padding: 9px 14px;
+      border-radius: 18px;
+      font-size: 16px;
+      line-height: 1.35;
+      position: relative;
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+      user-select: none;
     }
-    .message.sent { background: var(--bubble-sent); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-    .message.received { background: var(--bubble-received); color: var(--text); align-self: flex-start; border-bottom-left-radius: 4px; }
-    .message .sender-name { font-size: 12px; opacity: 0.7; margin-bottom: 3px; font-weight: 500; }
-    .message .timestamp { font-size: 11px; opacity: 0.7; margin-top: 4px; text-align: right; }
-    .message img { max-width: 100%; border-radius: 12px; margin-top: 6px; display: block; }
-    .message a { color: inherit; text-decoration: underline; }
-
+    .message.sent {
+      background: var(--bubble-sent);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .message.received {
+      background: var(--bubble-received);
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    .message .sender-name {
+      font-size: 12px;
+      opacity: 0.7;
+      margin-bottom: 3px;
+      font-weight: 500;
+    }
+    .message .timestamp {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+      text-align: right;
+    }
+    .message img {
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 12px;
+      margin-top: 6px;
+      display: block;
+    }
+    .message a {
+      color: inherit;
+      text-decoration: underline;
+    }
+    /* ================= REPLY ================= */
     #reply-preview {
-      display: none; background: var(--bubble-received); padding: 8px 14px;
-      font-size: 14px; border-left: 4px solid #007aff; margin-bottom: 6px;
-      border-radius: 8px; position: relative;
+      display: none;
+      background: var(--bubble-received);
+      padding: 8px 14px;
+      font-size: 14px;
+      border-left: 4px solid #007aff;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      position: relative;
     }
     #reply-preview .cancel-reply {
-      position: absolute; right: 10px; top: 8px; color: #007aff; cursor: pointer; font-weight: 600;
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      color: #007aff;
+      cursor: pointer;
+      font-weight: 600;
     }
-
+    /* ================= CONTEXT MENU ================= */
     #context-menu {
-      position: fixed; background: var(--input-bg); color: var(--text);
-      border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-      z-index: 1000; display: none; overflow: hidden; min-width: 190px;
+      position: fixed;
+      background: var(--input-bg);
+      color: var(--text);
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      z-index: 1000;
+      display: none;
+      overflow: hidden;
+      min-width: 190px;
     }
     #context-menu button {
-      display: block; width: 100%; padding: 14px 18px; border: none;
-      background: none; text-align: left; font-size: 16px; cursor: pointer; color: var(--text);
+      display: block;
+      width: 100%;
+      padding: 14px 18px;
+      border: none;
+      background: none;
+      text-align: left;
+      font-size: 16px;
+      cursor: pointer;
+      color: var(--text);
     }
-    #context-menu button:active { background: rgba(0,0,0,0.08); }
-    #context-menu button.delete { color: #ff3b30; }
-
+    #context-menu button:active {
+      background: rgba(0,0,0,0.08);
+    }
+    #context-menu button.delete {
+      color: #ff3b30;
+    }
+    /* ================= INPUT ================= */
     .imessage-input-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: var(--header-bg);
       backdrop-filter: blur(20px);
       border-top: 0.5px solid var(--border);
       padding: 8px 12px 14px;
-      display: flex; flex-direction: column; gap: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 90;
     }
-    .input-row { display: flex; align-items: flex-end; gap: 8px; }
+    .input-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
     #message-input {
-      flex: 1; border: none; background: var(--input-bg); color: var(--text);
-      border-radius: 20px; padding: 10px 16px; font-size: 16px; outline: none;
+      flex: 1;
+      border: none;
+      background: var(--input-bg);
+      color: var(--text);
+      border-radius: 20px;
+      padding: 10px 16px;
+      font-size: 16px;
+      outline: none;
       box-shadow: 0 0 0 0.5px var(--border);
     }
-    .icon-btn, #send-btn {
-      width: 36px; height: 36px; border-radius: 50%; border: none;
-      font-size: 18px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0;
+    .icon-btn,
+    #send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
     }
-    .icon-btn { background: var(--bubble-received); color: var(--text); }
-    #send-btn { background: #007aff; color: white; }
-
+    .icon-btn {
+      background: var(--bubble-received);
+      color: var(--text);
+    }
+    #send-btn {
+      background: #007aff;
+      color: white;
+    }
+    #send-btn:disabled {
+      opacity: 0.5;
+    }
+    /* ================= LOGIN ================= */
+    #login-screen,
+    #signup-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px;
+      z-index: 200;
+    }
+    .login-card {
+      background: var(--input-bg);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 430px;
+      width: 100%;
+      margin: auto;
+    }
+    .login-card h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+      color: var(--text);
+    }
+    .login-card input {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 16px;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+    }
+    .login-card input:focus {
+      border-color: #007aff;
+    }
+    .login-card button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+    .btn-blue {
+      background: #007aff;
+      color: white;
+    }
+    .btn-green {
+      background: #34c759;
+      color: white;
+    }
+    .btn-gray {
+      background: var(--bubble-received);
+      color: var(--text);
+    }
+    .error-text {
+      color: #ff3b30;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 14px;
+      min-height: 18px;
+    }
+    .pm-badge {
+      background: #007aff;
+      color: white;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 6px;
+    }
+    /* ================= SHARED BROWSER ================= */
     #browser-screen {
-      position: fixed; inset: 0; background: #111; z-index: 300;
-      display: none; flex-direction: column;
+      position: fixed;
+      inset: 0;
+      background: #111;
+      z-index: 300;
+      display: none;
+      flex-direction: column;
     }
-    #browser-header {
-      height: 48px; background: #1c1c1e; color: white;
-      display: flex; align-items: center; padding: 0 16px; gap: 10px;
+    #browser-layout {
+      display: flex;
+      height: 100%;
+      width: 100%;
     }
-    #browser-container { flex: 1; width: 100%; background: #000; }
-    #close-browser, #new-session-btn {
-      border: none; padding: 7px 14px; border-radius: 8px;
-      font-weight: 600; cursor: pointer; color: white;
+    #browser-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
-    #close-browser { background: #ff3b30; }
-    #new-session-btn { background: #007aff; }
-
+    #browser-topbar {
+      height: 48px;
+      background: #1c1c1e;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+    }
+    #browser-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    #browser-container {
+      flex: 1;
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #browser-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    #new-session-btn,
+    #close-browser {
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      font-size: 13px;
+    }
+    #close-browser {
+      background: #ff3b30;
+    }
+    #new-session-btn {
+      background: #007aff;
+    }
+    /* ================= BROWSER SIDE PANEL ================= */
+    #browser-sidepanel {
+      width: 320px;
+      background: #1c1c1e;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #333;
+      flex-shrink: 0;
+    }
+    .side-tabs {
+      display: flex;
+      border-bottom: 1px solid #333;
+    }
+    .side-tab {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 20px;
+      padding: 14px 0;
+      cursor: pointer;
+    }
+    .side-tab.active {
+      color: white;
+      border-bottom: 2px solid #8b5cf6;
+    }
+    .side-content {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .side-content.active {
+      display: flex;
+    }
+    #side-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .side-msg {
+      max-width: 85%;
+      padding: 8px 12px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+    .side-msg.me {
+      background: #007aff;
+      color: white;
+      align-self: flex-end;
+    }
+    .side-msg.them {
+      background: #2a2a2a;
+      color: white;
+      align-self: flex-start;
+    }
+    .side-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid #333;
+    }
+    .side-input-row input {
+      flex: 1;
+      background: #2a2a2a;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+    .side-input-row button {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #007aff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .side-call-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #2a2a2a;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    /* ================= CALL SCREEN ================= */
     #call-screen {
-      position: fixed; inset: 0; background: #000; z-index: 400;
-      display: none; flex-direction: column; color: #fff;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 400;
+      display: none;
+      flex-direction: column;
+      color: #fff;
     }
     #call-header {
-      height: 56px; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 16px; background: rgba(0,0,0,0.65);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: rgba(0,0,0,0.65);
     }
-    #call-status { font-size: 16px; font-weight: 600; }
+    #call-status {
+      font-size: 16px;
+      font-weight: 600;
+    }
     #end-call {
-      background: #ff3b30; color: #fff; border: none;
-      padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
+      background: #ff3b30;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
     }
     #call-body {
-      flex: 1; position: relative; display: flex;
-      align-items: center; justify-content: center; gap: 48px; overflow: hidden;
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      overflow: hidden;
     }
     .avatar-wrap {
-      position: relative; width: 140px; height: 140px; z-index: 2;
+      position: relative;
+      width: 140px;
+      height: 140px;
+      z-index: 2;
     }
     .avatar-wrap img {
-      width: 100%; height: 100%; border-radius: 50%;
-      object-fit: cover; background: #222;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #222;
     }
     .ring {
-      position: absolute; inset: -8px; border-radius: 50%;
-      border: 4px solid transparent; transition: all 0.15s;
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      transition: all 0.15s;
     }
     .ring.active {
       border-color: #43b581;
       box-shadow: 0 0 22px #43b581;
     }
-    #remote-video, #local-video {
-      position: absolute; border-radius: 12px;
-      background: #111; object-fit: cover;
-    }
-    #remote-video { inset: 0; width: 100%; height: 100%; z-index: 1; }
+    #remote-video,
     #local-video {
-      bottom: 16px; right: 16px; width: 110px; height: 150px;
-      border: 2px solid #333; z-index: 5;
+      position: absolute;
+      border-radius: 12px;
+      background: #111;
+      object-fit: cover;
+    }
+    #remote-video {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    #local-video {
+      bottom: 16px;
+      right: 16px;
+      width: 110px;
+      height: 150px;
+      border: 2px solid #333;
+      z-index: 5;
     }
     #call-controls {
-      display: flex; gap: 16px; justify-content: center; padding: 18px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      padding: 18px;
     }
     #call-controls button {
-      width: 56px; height: 56px; border-radius: 50%; border: none;
-      font-size: 22px; cursor: pointer; background: #2a2a2a; color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      background: #2a2a2a;
+      color: white;
     }
-    #call-controls button.muted { background: #ff3b30; }
-
-    /* Bigger incoming call popup for mobile */
+    #call-controls button.muted {
+      background: #ff3b30;
+    }
+    /* ================= INCOMING CALL ================= */
     #incoming-call {
-      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      background: #1c1c1e; color: white; padding: 24px 28px;
-      border-radius: 20px; z-index: 500; display: none;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.5); text-align: center;
-      min-width: 280px; width: 85%; max-width: 340px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1c1c1e;
+      color: white;
+      padding: 24px 28px;
+      border-radius: 20px;
+      z-index: 500;
+      display: none;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      text-align: center;
+      min-width: 280px;
+      width: 85%;
+      max-width: 340px;
     }
     #incoming-name {
-      font-size: 18px; font-weight: 600; margin-bottom: 18px;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
     }
     #incoming-call button {
-      margin: 6px; padding: 14px 28px; border: none;
-      border-radius: 12px; font-weight: 600; cursor: pointer;
-      font-size: 16px; min-width: 110px;
+      margin: 6px;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 16px;
+      min-width: 110px;
     }
-    #accept-call { background: #34c759; color: white; }
-    #decline-call { background: #ff3b30; color: white; }
-
-    #login-screen, #signup-screen {
-      position: fixed; inset: 0; background: var(--bg);
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 30px; z-index: 200;
+    #accept-call {
+      background: #34c759;
+      color: white;
     }
-    .login-card {
-      background: var(--input-bg); border-radius: 16px; padding: 28px 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    #decline-call {
+      background: #ff3b30;
+      color: white;
     }
-    .login-card h2 { text-align: center; margin-bottom: 24px; font-size: 22px; color: var(--text); }
-    .login-card input {
-      width: 100%; padding: 14px 16px; margin-bottom: 12px;
-      border: 1px solid var(--border); border-radius: 12px;
-      font-size: 16px; background: var(--bg); color: var(--text);
+    /* ================= MOBILE ================= */
+    @media (max-width: 768px) {
+      #browser-layout {
+        flex-direction: column;
+      }
+      #browser-sidepanel {
+        width: 100%;
+        height: 40%;
+        border-left: none;
+        border-top: 1px solid #333;
+      }
+      #browser-topbar {
+        padding: 0 10px;
+      }
+      #browser-title {
+        font-size: 14px;
+      }
+      #new-session-btn,
+      #close-browser {
+        padding: 7px 10px;
+      }
+      .avatar-wrap {
+        width: 110px;
+        height: 110px;
+      }
+      #call-body {
+        gap: 20px;
+      }
     }
-    .login-card button {
-      width: 100%; padding: 14px; border: none; border-radius: 12px;
-      font-size: 16px; font-weight: 600; margin-top: 8px; cursor: pointer;
-    }
-    .btn-blue { background: #007aff; color: white; }
-    .btn-green { background: #34c759; color: white; }
-    .btn-gray { background: var(--bubble-received); color: var(--text); }
-    .error-text { color: #ff3b30; text-align: center; margin-top: 12px; font-size: 14px; }
-    .pm-badge { background: #007aff; color: white; font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
-  
-  /* ========== HYPERBEAM-STYLE SHARED BROWSER ========== */
-#browser-screen {
-  position: fixed;
-  inset: 0;
-  background: #111;
-  z-index: 300;
-  display: none;
-  flex-direction: column;
-}
-
-#browser-layout {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-
-#browser-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-#browser-topbar {
-  height: 48px;
-  background: #1c1c1e;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  flex-shrink: 0;
-}
-
-#browser-title {
-  font-weight: 600;
-  font-size: 15px;
-}
-
-#browser-container {
-  flex: 1;
-  width: 100%;
-  background: #000;
-}
-
-#new-session-btn, #close-browser {
-  border: none;
-  padding: 7px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  color: white;
-  font-size: 13px;
-}
-#close-browser { background: #ff3b30; }
-#new-session-btn { background: #007aff; }
-
-/* Side panel */
-#browser-sidepanel {
-  width: 320px;
-  background: #1c1c1e;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid #333;
-  flex-shrink: 0;
-}
-
-.side-tabs {
-  display: flex;
-  border-bottom: 1px solid #333;
-}
-
-.side-tab {
-  flex: 1;
-  background: none;
-  border: none;
-  color: #888;
-  font-size: 20px;
-  padding: 14px 0;
-  cursor: pointer;
-}
-.side-tab.active {
-  color: white;
-  border-bottom: 2px solid #8b5cf6;
-}
-
-.side-content {
-  display: none;
-  flex: 1;
-  flex-direction: column;
-  overflow: hidden;
-}
-.side-content.active {
-  display: flex;
-}
-
-#side-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.side-msg {
-  max-width: 85%;
-  padding: 8px 12px;
-  border-radius: 14px;
-  font-size: 14px;
-  line-height: 1.3;
-}
-.side-msg.me {
-  background: #007aff;
-  color: white;
-  align-self: flex-end;
-}
-.side-msg.them {
-  background: #2a2a2a;
-  color: white;
-  align-self: flex-start;
-}
-
-.side-input-row {
-  display: flex;
-  gap: 8px;
-  padding: 12px;
-  border-top: 1px solid #333;
-}
-.side-input-row input {
-  flex: 1;
-  background: #2a2a2a;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 14px;
-  color: white;
-  font-size: 14px;
-  outline: none;
-}
-.side-input-row button {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: #007aff;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.side-call-btn {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 10px;
-  border: none;
-  border-radius: 12px;
-  background: #2a2a2a;
-  color: white;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.side-call-btn:active {
-  background: #3a3a3a;
-}
-
-/* Mobile: stack the side panel under the browser */
-@media (max-width: 768px) {
-  #browser-layout {
-    flex-direction: column;
-  }
-  #browser-sidepanel {
-    width: 100%;
-    height: 40%;
-    border-left: none;
-    border-top: 1px solid #333;
-  }
-}
   </style>
 </head>
 <body data-theme="light">
-
+  <!-- ================= HEADER ================= -->
   <div class="imessage-header">
-    <button class="back-btn" id="header-back" onclick="goBack()">← Dashboard</button>
-    <div class="header-title" id="header-title">Lifeline Chat</div>
-    <div style="display:flex; gap:12px;">
-      <button class="back-btn" onclick="toggleDarkMode()">🌓</button>
-      <button class="back-btn" onclick="logout()" id="logout-btn" style="display:none;">Logout</button>
-    </div>
+    <button class="back-btn" id="header-back" onclick="goBack()">
+      ← Dashboard
+    </button>
+<div class="header-title" id="header-title">
+  Lifeline Chat
+</div>
+<div style="display:flex; gap:12px;">
+  <button class="back-btn" onclick="toggleDarkMode()">🌓</button>
+  <button
+    class="back-btn"
+    onclick="logout()"
+    id="logout-btn"
+    style="display:none;"
+  >
+    Logout
+  </button>
+</div>
   </div>
-
+  <!-- ================= CHAT ================= -->
   <div id="chat-container" style="display:none;"></div>
-
+  <!-- ================= CONTEXT MENU ================= -->
   <div id="context-menu">
     <button onclick="replyToMessage()">Reply</button>
     <button onclick="startPrivateMessage()">PM</button>
     <button onclick="startCall(true)">Call</button>
     <button onclick="openSharedBrowser()">Shared Browser</button>
     <button onclick="copyMessage()">Copy</button>
-    <button class="delete" id="delete-btn" onclick="deleteMessage()" style="display:none;">Delete</button>
+<button
+  class="delete"
+  id="delete-btn"
+  onclick="deleteMessage()"
+  style="display:none;"
+>
+  Delete
+</button>
   </div>
-
-  <div class="imessage-input-bar" id="input-bar" style="display:none;">
+  <!-- ================= MESSAGE INPUT ================= -->
+  <div
+    class="imessage-input-bar"
+    id="input-bar"
+    style="display:none;"
+  >
     <div id="reply-preview">
       <span id="reply-text"></span>
-      <span class="cancel-reply" onclick="cancelReply()">✕</span>
+      <span
+        class="cancel-reply"
+        onclick="cancelReply()"
+      >
+        ✕
+      </span>
     </div>
-    <div class="input-row">
-      <button class="icon-btn" onclick="document.getElementById('image-input').click()">📷</button>
-      <input type="file" id="image-input" accept="image/*,.gif" style="display:none;">
-      <input type="text" id="message-input" placeholder="iMessage" autocomplete="off">
-      <button id="send-btn" onclick="sendMessage()">↑</button>
-    </div>
+<div class="input-row">
+  <button
+    class="icon-btn"
+    onclick="document.getElementById('image-input').click()"
+  >
+    📷
+  </button>
+  <input
+    type="file"
+    id="image-input"
+    accept="image/*,.gif"
+    style="display:none;"
+  >
+  <input
+    type="text"
+    id="message-input"
+    placeholder="iMessage"
+    autocomplete="off"
+  >
+  <button id="send-btn" onclick="sendMessage()">↑</button>
+</div>
   </div>
-
+  <!-- ================= SHARED BROWSER ================= -->
   <div id="browser-screen">
-    <div id="browser-header">
-      <span style="flex:1; font-weight:600;">Shared Browser</span>
-      <button id="new-session-btn" onclick="forceNewBrowser()">New Session</button>
-      <button id="close-browser" onclick="closeSharedBrowser()">Close</button>
+<div id="browser-layout">
+  <div id="browser-main">
+    <div id="browser-topbar">
+      <span id="browser-title">
+        Shared Browser
+      </span>
+      <div style="display:flex; gap:8px;">
+        <button
+          id="new-session-btn"
+          onclick="forceNewBrowser()"
+        >
+          New Session
+        </button>
+        <button
+          id="close-browser"
+          onclick="closeSharedBrowser()"
+        >
+          Close
+        </button>
+      </div>
     </div>
     <div id="browser-container"></div>
   </div>
-
+  <!-- SIDE PANEL -->
+  <div id="browser-sidepanel">
+    <div class="side-tabs">
+      <button
+        class="side-tab active"
+        data-tab="chat"
+        onclick="switchSideTab('chat')"
+      >
+        💬
+      </button>
+      <button
+        class="side-tab"
+        data-tab="call"
+        onclick="switchSideTab('call')"
+      >
+        📞
+      </button>
+      <button
+        class="side-tab"
+        data-tab="gifs"
+        onclick="switchSideTab('gifs')"
+      >
+        🖼️
+      </button>
+    </div>
+    <!-- SIDE CHAT -->
+    <div
+      id="side-chat"
+      class="side-content active"
+    >
+      <div id="side-messages"></div>
+      <div class="side-input-row">
+        <input
+          type="text"
+          id="side-message-input"
+          placeholder="Type a message..."
+          autocomplete="off"
+        >
+        <button onclick="sendSideMessage()">↑</button>
+      </div>
+    </div>
+    <!-- SIDE CALL -->
+    <div
+      id="side-call"
+      class="side-content"
+    >
+      <div style="padding:20px; text-align:center;">
+        <p style="margin-bottom:16px; opacity:0.8;">
+          Start a voice/video call while browsing
+        </p>
+        <button
+          class="side-call-btn"
+          onclick="startCallFromBrowser(true)"
+        >
+          📹 Video Call
+        </button>
+        <button
+          class="side-call-btn"
+          onclick="startCallFromBrowser(false)"
+        >
+          🎤 Voice Call
+        </button>
+      </div>
+    </div>
+    <!-- SIDE GIFS -->
+    <div
+      id="side-gifs"
+      class="side-content"
+    >
+      <div style="padding:12px;">
+        <input
+          type="text"
+          id="gif-search"
+          placeholder="Search GIFs..."
+          style="width:100%; padding:10px; border-radius:10px; border:none; background:#2a2a2a; color:white; margin-bottom:12px;"
+        >
+        <div
+          id="gif-results"
+          style="display:grid; grid-template-columns:1fr 1fr; gap:8px; max-height:400px; overflow-y:auto;"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <!-- ================= CALL SCREEN ================= -->
   <div id="call-screen">
-    <div id="call-header">
-      <span id="call-status">Calling…</span>
-      <button id="end-call" onclick="endCall()">End</button>
-    </div>
-    <div id="call-body">
-      <div class="avatar-wrap" id="remote-avatar-wrap">
-        <img id="remote-avatar" src="" alt="">
-        <div class="ring" id="remote-ring"></div>
-      </div>
-      <div class="avatar-wrap" id="local-avatar-wrap">
-        <img id="local-avatar" src="" alt="">
-        <div class="ring" id="local-ring"></div>
-      </div>
-      <video id="remote-video" autoplay playsinline webkit-playsinline></video>
-      <video id="local-video" autoplay playsinline webkit-playsinline muted></video>
-    </div>
-    <div id="call-controls">
-      <button id="mute-btn" onclick="toggleMute()">🎤</button>
-      <button id="video-btn" onclick="toggleVideo()">📷</button>
-    </div>
+<div id="call-header">
+  <span id="call-status">
+    Calling…
+  </span>
+  <button
+    id="end-call"
+    onclick="endCall()"
+  >
+    End
+  </button>
+</div>
+<div id="call-body">
+  <div
+    class="avatar-wrap"
+    id="remote-avatar-wrap"
+  >
+    <img
+      id="remote-avatar"
+      src=""
+      alt=""
+    >
+    <div
+      class="ring"
+      id="remote-ring"
+    ></div>
   </div>
-
+  <div
+    class="avatar-wrap"
+    id="local-avatar-wrap"
+  >
+    <img
+      id="local-avatar"
+      src=""
+      alt=""
+    >
+    <div
+      class="ring"
+      id="local-ring"
+    ></div>
+  </div>
+  <video
+    id="remote-video"
+    autoplay
+    playsinline
+    webkit-playsinline
+  ></video>
+  <video
+    id="local-video"
+    autoplay
+    playsinline
+    webkit-playsinline
+    muted
+  ></video>
+</div>
+<div id="call-controls">
+  <button
+    id="mute-btn"
+    onclick="toggleMute()"
+  >
+    🎤
+  </button>
+  <button
+    id="video-btn"
+    onclick="toggleVideo()"
+  >
+    📷
+  </button>
+</div>
+  </div>
+  <!-- ================= INCOMING CALL ================= -->
   <div id="incoming-call">
-    <div id="incoming-name">Incoming call…</div>
-    <div style="display:flex; justify-content:center; gap:12px;">
-      <button id="accept-call">Accept</button>
-      <button id="decline-call">Decline</button>
-    </div>
+<div id="incoming-name">
+  Incoming call…
+</div>
+<div
+  style="display:flex; justify-content:center; gap:12px;"
+>
+  <button id="accept-call">
+    Accept
+  </button>
+  <button id="decline-call">
+    Decline
+  </button>
+</div>
   </div>
-
+  <!-- ================= LOGIN ================= -->
   <div id="login-screen">
-    <div class="login-card">
-      <h2>Lifeline Chat</h2>
-      <input id="login-email" type="email" placeholder="Email">
-      <input id="login-password" type="password" placeholder="Password">
-      <button class="btn-blue" onclick="login()">Login</button>
-      <button class="btn-green" onclick="showSignup()">Create Account</button>
-      <button class="btn-gray" onclick="signInWithGoogle()">Continue with Google</button>
-      <p id="login-error" class="error-text"></p>
-    </div>
+<div class="login-card">
+  <h2>
+    Lifeline Chat
+  </h2>
+  <input
+    id="login-email"
+    type="email"
+    placeholder="Email"
+    autocomplete="email"
+  >
+  <input
+    id="login-password"
+    type="password"
+    placeholder="Password"
+    autocomplete="current-password"
+  >
+  <button
+    class="btn-blue"
+    id="login-button"
+    onclick="login()"
+  >
+    Login
+  </button>
+  <button
+    class="btn-green"
+    onclick="showSignup()"
+  >
+    Create Account
+  </button>
+  <button
+    class="btn-gray"
+    onclick="signInWithGoogle()"
+  >
+    Continue with Google
+  </button>
+  <p
+    id="login-error"
+    class="error-text"
+  ></p>
+</div>
   </div>
-
-  <div id="signup-screen" style="display:none;">
-    <div class="login-card">
-      <h2>Create Account</h2>
-      <input id="nickname" type="text" placeholder="Nickname">
-      <input id="signup-email" type="email" placeholder="Email">
-      <input id="signup-password" type="password" placeholder="Password">
-      <input id="confirm-password" type="password" placeholder="Confirm Password">
-      <button class="btn-green" onclick="signup()">Sign Up</button>
-      <button class="btn-gray" onclick="showLogin()">Back to Login</button>
-      <p id="signup-error" class="error-text"></p>
-    </div>
+  <!-- ================= SIGNUP ================= -->
+  <div
+    id="signup-screen"
+    style="display:none;"
+  >
+<div class="login-card">
+  <h2>
+    Create Account
+  </h2>
+  <input
+    id="nickname"
+    type="text"
+    placeholder="Nickname"
+    autocomplete="nickname"
+  >
+  <input
+    id="signup-email"
+    type="email"
+    placeholder="Email"
+    autocomplete="email"
+  >
+  <input
+    id="signup-password"
+    type="password"
+    placeholder="Password"
+    autocomplete="new-password"
+  >
+  <input
+    id="confirm-password"
+    type="password"
+    placeholder="Confirm Password"
+    autocomplete="new-password"
+  >
+  <button
+    class="btn-green"
+    onclick="signup()"
+  >
+    Sign Up
+  </button>
+  <button
+    class="btn-gray"
+    onclick="showLogin()"
+  >
+    Back to Login
+  </button>
+  <p
+    id="signup-error"
+    class="error-text"
+  ></p>
+</div>
   </div>
-
+  <!-- ================= FIREBASE / APP ================= -->
   <script type="module">
+    /* =========================================================
+       FIREBASE CONFIG
+       ========================================================= */
     const firebaseConfig = {
       apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
       authDomain: "chatroomnew-739f4.firebaseapp.com",
@@ -509,18 +1034,49 @@
       messagingSenderId: "552292977529",
       appId: "1:552292977529:web:b04e2bc662668847ba7da8"
     };
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, onValue, set, remove, serverTimestamp, get, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      push,
+      onChildAdded,
+      onValue,
+      set,
+      remove,
+      serverTimestamp,
+      get,
+      update,
+      off
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import {
+      getStorage,
+      ref as storageRef,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
     import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
-
+    /* =========================================================
+       INITIALIZE FIREBASE
+       ========================================================= */
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const storage = getStorage(app);
     const auth = getAuth(app);
-
+    /* =========================================================
+       STATE
+       ========================================================= */
     let currentChatRef = null;
     let isPrivate = false;
     let privateWith = null;
@@ -528,697 +1084,1944 @@
     let replyTo = null;
     let unsubscribe = null;
     let hbClient = null;
-
-    const servers = {
-      iceServers: [
-        { urls: 'stun:stun1.l.google.com:19302' },
-        { urls: 'stun:stun2.l.google.com:19302' }
-      ],
-      iceCandidatePoolSize: 10
-    };
     let pc = null;
     let localStream = null;
     let callId = null;
     let remoteUid = null;
     let speakingInterval = null;
     let incomingListener = null;
-    let pendingCall = null; // stores the call while waiting for media
-
-    // Theme
-    window.toggleDarkMode = () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      localStorage.setItem('chat-theme', isDark ? 'light' : 'dark');
+    let pendingCall = null;
+    /* =========================================================
+       WEBRTC
+       ========================================================= */
+    const servers = {
+      iceServers: [
+        {
+          urls: "stun:stun1.l.google.com:19302"
+        },
+        {
+          urls: "stun:stun2.l.google.com:19302"
+        }
+      ],
+      iceCandidatePoolSize: 10
     };
-    if (localStorage.getItem('chat-theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
+    /* =========================================================
+       THEME
+       ========================================================= */
+    window.toggleDarkMode = () => {
+      const isDark =
+        document.documentElement.getAttribute("data-theme") === "dark";
+      const newTheme = isDark ? "light" : "dark";
+      document.documentElement.setAttribute(
+        "data-theme",
+        newTheme
+      );
+      document.body.setAttribute(
+        "data-theme",
+        newTheme
+      );
+      localStorage.setItem(
+        "chat-theme",
+        newTheme
+      );
+    };
+    const savedTheme =
+      localStorage.getItem("chat-theme");
+    if (savedTheme === "dark") {
+      document.documentElement.setAttribute(
+        "data-theme",
+        "dark"
+      );
+      document.body.setAttribute(
+        "data-theme",
+        "dark"
+      );
     }
-
-    // Simple notifications
+    /* =========================================================
+       NOTIFICATIONS
+       ========================================================= */
     async function askNotificationPermission() {
-      if (!("Notification" in window)) return;
-      if (Notification.permission === "granted") return;
+      if (!("Notification" in window)) {
+        return;
+      }
+      if (Notification.permission === "granted") {
+        return;
+      }
       if (Notification.permission !== "denied") {
-        await Notification.requestPermission();
+        try {
+          await Notification.requestPermission();
+        } catch (e) {
+          console.log("Notification permission unavailable");
+        }
       }
     }
-
     function showNotif(title, body) {
-      if (Notification.permission === "granted" && document.hidden) {
-        new Notification(title, { body, icon: "/favicon.ico" });
+      if (
+        "Notification" in window &&
+        Notification.permission === "granted" &&
+        document.hidden
+      ) {
+        try {
+          new Notification(title, {
+            body,
+            icon: "/favicon.ico"
+          });
+        } catch (e) {}
       }
     }
-
-    // Auth
+    /* =========================================================
+       AUTHENTICATION
+       ========================================================= */
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('signup-screen').style.display = 'none';
-        document.getElementById('chat-container').style.display = 'flex';
-        document.getElementById('input-bar').style.display = 'flex';
-        document.getElementById('logout-btn').style.display = 'block';
+        document.getElementById("login-screen").style.display =
+          "none";
+        document.getElementById("signup-screen").style.display =
+          "none";
+        document.getElementById("chat-container").style.display =
+          "flex";
+        document.getElementById("input-bar").style.display =
+          "flex";
+        document.getElementById("logout-btn").style.display =
+          "block";
         switchToPublic();
         listenForIncomingCalls();
         askNotificationPermission();
+        loadSideMessages();
       } else {
-        document.getElementById('login-screen').style.display = 'flex';
-        document.getElementById('signup-screen').style.display = 'none';
-        document.getElementById('chat-container').style.display = 'none';
-        document.getElementById('input-bar').style.display = 'none';
-        document.getElementById('logout-btn').style.display = 'none';
+        document.getElementById("login-screen").style.display =
+          "flex";
+        document.getElementById("signup-screen").style.display =
+          "none";
+        document.getElementById("chat-container").style.display =
+          "none";
+        document.getElementById("input-bar").style.display =
+          "none";
+        document.getElementById("logout-btn").style.display =
+          "none";
+        document.getElementById("header-title").textContent =
+          "Lifeline Chat";
+        if (unsubscribe) {
+          unsubscribe();
+          unsubscribe = null;
+        }
       }
     });
-
+    /* =========================================================
+       LOGIN SCREEN
+       ========================================================= */
     window.showSignup = () => {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('signup-screen').style.display = 'flex';
+      document.getElementById("login-error").textContent = "";
+      document.getElementById("login-screen").style.display =
+        "none";
+      document.getElementById("signup-screen").style.display =
+        "flex";
     };
     window.showLogin = () => {
-      document.getElementById('login-screen').style.display = 'flex';
-      document.getElementById('signup-screen').style.display = 'none';
+      document.getElementById("signup-error").textContent = "";
+      document.getElementById("signup-screen").style.display =
+        "none";
+      document.getElementById("login-screen").style.display =
+        "flex";
     };
-
+    /* =========================================================
+       FIREBASE ERROR TRANSLATION
+       ========================================================= */
+    function friendlyAuthError(error) {
+      const code = error?.code || "";
+      switch (code) {
+        case "auth/invalid-email":
+          return "Please enter a valid email address.";
+        case "auth/missing-password":
+          return "Please enter your password.";
+        case "auth/invalid-credential":
+        case "auth/wrong-password":
+        case "auth/user-not-found":
+          return "Incorrect email or password.";
+        case "auth/email-already-in-use":
+          return "An account already exists with this email.";
+        case "auth/weak-password":
+          return "Password must be at least 6 characters.";
+        case "auth/popup-closed-by-user":
+          return "Google sign-in was cancelled.";
+        case "auth/popup-blocked":
+          return "Your browser blocked the Google sign-in window.";
+        case "auth/network-request-failed":
+          return "Network error. Check your internet connection.";
+        case "auth/too-many-requests":
+          return "Too many attempts. Please wait a little and try again.";
+        default:
+          return error?.message || "Something went wrong. Please try again.";
+      }
+    }
+    /* =========================================================
+       GOOGLE LOGIN
+       ========================================================= */
     window.signInWithGoogle = async () => {
+      const errorEl =
+        document.getElementById("login-error");
+      errorEl.textContent = "";
       try {
-        await signInWithPopup(auth, new GoogleAuthProvider());
+        const provider =
+          new GoogleAuthProvider();
+        await signInWithPopup(
+          auth,
+          provider
+        );
       } catch (err) {
-        document.getElementById('login-error').textContent = err.message;
+        console.error("Google login error:", err);
+        errorEl.textContent =
+          friendlyAuthError(err);
       }
     };
-
-    window.login = () => {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-      signInWithEmailAndPassword(auth, email, password)
-        .catch(err => document.getElementById('login-error').textContent = err.message);
+    /* =========================================================
+       EMAIL LOGIN
+       ========================================================= */
+    window.login = async () => {
+      const email =
+        document.getElementById("login-email").value.trim();
+      const password =
+        document.getElementById("login-password").value;
+      const errorEl =
+        document.getElementById("login-error");
+      const button =
+        document.getElementById("login-button");
+      errorEl.textContent = "";
+      if (!email) {
+        errorEl.textContent =
+          "Please enter your email.";
+        return;
+      }
+      if (!password) {
+        errorEl.textContent =
+          "Please enter your password.";
+        return;
+      }
+      button.disabled = true;
+      button.textContent = "Logging in…";
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+      } catch (err) {
+        console.error("Login error:", err);
+        errorEl.textContent =
+          friendlyAuthError(err);
+      } finally {
+        button.disabled = false;
+        button.textContent = "Login";
+      }
     };
-
+    /* =========================================================
+       SIGNUP
+       ========================================================= */
     window.signup = async () => {
-      const nickname = document.getElementById('nickname').value.trim();
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-      const confirm = document.getElementById('confirm-password').value;
-      const errorEl = document.getElementById('signup-error');
-
-      if (nickname.length < 3) return errorEl.textContent = "Nickname too short";
-      if (password !== confirm) return errorEl.textContent = "Passwords don't match";
-      if (password.length < 6) return errorEl.textContent = "Password too short";
-
-      try {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(cred.user, { displayName: nickname });
-      } catch (err) {
-        errorEl.textContent = err.message;
+      const nickname =
+        document.getElementById("nickname").value.trim();
+      const email =
+        document.getElementById("signup-email").value.trim();
+      const password =
+        document.getElementById("signup-password").value;
+      const confirm =
+        document.getElementById("confirm-password").value;
+      const errorEl =
+        document.getElementById("signup-error");
+      errorEl.textContent = "";
+      if (nickname.length < 3) {
+        errorEl.textContent =
+          "Nickname must be at least 3 characters.";
+        return;
       }
-    };
-
-    window.logout = () => signOut(auth);
-
-    <!-- SHARED BROWSER - Hyperbeam style -->
-<div id="browser-screen">
-  <div id="browser-layout">
-    <!-- Main browser area -->
-    <div id="browser-main">
-      <div id="browser-topbar">
-        <span id="browser-title">Shared Browser</span>
-        <div style="display:flex; gap:8px;">
-          <button id="new-session-btn" onclick="forceNewBrowser()">New Session</button>
-          <button id="close-browser" onclick="closeSharedBrowser()">Close</button>
-        </div>
-      </div>
-      <div id="browser-container"></div>
-    </div>
-
-    <!-- Side panel (exactly like Hyperbeam) -->
-    <div id="browser-sidepanel">
-      <div class="side-tabs">
-        <button class="side-tab active" data-tab="chat" onclick="switchSideTab('chat')">💬</button>
-        <button class="side-tab" data-tab="call" onclick="switchSideTab('call')">📞</button>
-        <button class="side-tab" data-tab="gifs" onclick="switchSideTab('gifs')">🖼️</button>
-      </div>
-
-      <!-- Chat tab -->
-      <div id="side-chat" class="side-content active">
-        <div id="side-messages"></div>
-        <div class="side-input-row">
-          <input type="text" id="side-message-input" placeholder="Type a message..." autocomplete="off">
-          <button onclick="sendSideMessage()">↑</button>
-        </div>
-      </div>
-
-      <!-- Call tab -->
-      <div id="side-call" class="side-content">
-        <div style="padding:20px; text-align:center;">
-          <p style="margin-bottom:16px; opacity:0.8;">Start a voice/video call while browsing</p>
-          <button class="side-call-btn" onclick="startCallFromBrowser(true)">📹 Video Call</button>
-          <button class="side-call-btn" onclick="startCallFromBrowser(false)">🎤 Voice Call</button>
-        </div>
-      </div>
-
-      <!-- GIFs tab -->
-      <div id="side-gifs" class="side-content">
-        <div style="padding:12px;">
-          <input type="text" id="gif-search" placeholder="Search GIFs..." style="width:100%; padding:10px; border-radius:10px; border:none; background:#2a2a2a; color:white; margin-bottom:12px;">
-          <div id="gif-results" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; max-height:400px; overflow-y:auto;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-// Side panel tabs
-window.switchSideTab = (tab) => {
-  document.querySelectorAll('.side-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.side-content').forEach(c => c.classList.remove('active'));
-  
-  document.querySelector(`.side-tab[data-tab="${tab}"]`).classList.add('active');
-  document.getElementById(`side-${tab}`).classList.add('active');
-};
-
-// Side chat (uses the same public chat for now)
-window.sendSideMessage = () => {
-  const input = document.getElementById('side-message-input');
-  const text = input.value.trim();
-  if (!text || !auth.currentUser) return;
-
-  push(ref(db, 'lifeline-chat'), {
-    name: auth.currentUser.displayName || 'Someone',
-    text: text,
-    timestamp: serverTimestamp(),
-    uid: auth.currentUser.uid,
-    type: 'text'
-  });
-  input.value = '';
-};
-
-// Listen for side messages
-function loadSideMessages() {
-  const container = document.getElementById('side-messages');
-  if (!container) return;
-
-  onChildAdded(ref(db, 'lifeline-chat'), (snap) => {
-    const msg = snap.val();
-    if (!msg || !msg.text) return;
-
-    const isMe = msg.uid === auth.currentUser?.uid;
-    const div = document.createElement('div');
-    div.className = `side-msg ${isMe ? 'me' : 'them'}`;
-    div.textContent = (isMe ? '' : msg.name + ': ') + msg.text;
-    container.appendChild(div);
-    container.scrollTop = container.scrollHeight;
-  });
-}
-
-// Call from inside the browser
-window.startCallFromBrowser = (withVideo) => {
-  // You can improve this later to call a specific person
-  alert('Select someone in the main chat and use the Call button, or I can make a better version of this.');
-};
-
-// Simple GIF search (using Tenor)
-document.getElementById('gif-search')?.addEventListener('input', async (e) => {
-  const q = e.target.value.trim();
-  if (q.length < 2) return;
-
-  const res = await fetch(`https://tenor.googleapis.com/v2/search?q=${encodeURIComponent(q)}&key=AIzaSyCxx-YOUR-TENOR-KEY&limit=12`);
-  // Note: You can also use a public demo key or remove the key requirement
-  const data = await res.json();
-  const results = document.getElementById('gif-results');
-  results.innerHTML = '';
-
-  (data.results || []).forEach(gif => {
-    const img = document.createElement('img');
-    img.src = gif.media_formats.tinygif.url;
-    img.style.cssText = 'width:100%; border-radius:8px; cursor:pointer;';
-    img.onclick = () => {
-      push(ref(db, 'lifeline-chat'), {
-        name: auth.currentUser.displayName || 'Someone',
-        imageUrl: gif.media_formats.gif.url,
-        type: 'image',
-        timestamp: serverTimestamp(),
-        uid: auth.currentUser.uid
-      });
-    };
-    results.appendChild(img);
-  });
-});
-
-    // ========== CALLS (MOBILE FIXED) ==========
-    window.startCall = async (withVideo = true) => {
-      if (!selectedMessage || !auth.currentUser) return;
-      remoteUid = selectedMessage.data.uid;
-      if (remoteUid === auth.currentUser.uid) return alert("Can't call yourself");
-
-      document.getElementById('context-menu').style.display = 'none';
-      document.getElementById('call-screen').style.display = 'flex';
-      document.getElementById('call-status').textContent = 'Calling…';
-      document.getElementById('remote-avatar').src = 'https://i.pravatar.cc/150?u=' + remoteUid;
-      document.getElementById('local-avatar').src = 'https://i.pravatar.cc/150?u=' + auth.currentUser.uid;
-
-      try {
-        localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: withVideo });
-        document.getElementById('local-video').srcObject = localStream;
-      } catch (e) {
-        alert('Need mic/camera permission');
-        return endCall();
+      if (!email) {
+        errorEl.textContent =
+          "Please enter an email address.";
+        return;
       }
-
-      pc = new RTCPeerConnection(servers);
-      localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
-
-      pc.ontrack = (e) => {
-        const remoteVideo = document.getElementById('remote-video');
-        remoteVideo.srcObject = e.streams[0];
-        remoteVideo.play().catch(() => {});
-        document.getElementById('call-status').textContent = 'Connected';
-        document.getElementById('remote-avatar-wrap').style.display = 'none';
-        document.getElementById('local-avatar-wrap').style.display = 'none';
-      };
-
-      startSpeakingDetection(localStream, 'local-ring');
-
-      const newCallRef = push(ref(db, 'calls'));
-      callId = newCallRef.key;
-
-      pc.onicecandidate = (e) => {
-        if (e.candidate && callId) {
-          push(ref(db, `calls/${callId}/callerCandidates`), e.candidate.toJSON());
-        }
-      };
-
-      await set(newCallRef, {
-        caller: auth.currentUser.uid,
-        callerName: auth.currentUser.displayName || 'Someone',
-        callee: remoteUid,
-        status: 'ringing',
-        video: withVideo,
-        createdAt: Date.now()
-      });
-
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      await set(ref(db, `calls/${callId}/offer`), { type: offer.type, sdp: offer.sdp });
-
-      onValue(ref(db, `calls/${callId}/answer`), async (snap) => {
-        const ans = snap.val();
-        if (ans && pc && !pc.currentRemoteDescription) {
-          try {
-            await pc.setRemoteDescription(new RTCSessionDescription(ans));
-          } catch (err) { console.error(err); }
-        }
-      });
-
-      onChildAdded(ref(db, `calls/${callId}/calleeCandidates`), (snap) => {
-        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
-      });
-    };
-
-    function listenForIncomingCalls() {
-      if (incomingListener) return;
-      incomingListener = onValue(ref(db, 'calls'), (snap) => {
-        const calls = snap.val() || {};
-        let found = null;
-
-        for (const id in calls) {
-          const data = calls[id];
-          if (data.callee === auth.currentUser?.uid && data.status === 'ringing' && !pc) {
-            found = { id, data };
-            break;
+      if (password.length < 6) {
+        errorEl.textContent =
+          "Password must be at least 6 characters.";
+        return;
+      }
+      if (password !== confirm) {
+        errorEl.textContent =
+          "Passwords don't match.";
+        return;
+      }
+      try {
+        const cred =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+        await updateProfile(
+          cred.user,
+          {
+            displayName: nickname
           }
-        }
-
-        const popup = document.getElementById('incoming-call');
-        if (found) {
-          pendingCall = found;
-          document.getElementById('incoming-name').textContent =
-            (found.data.callerName || 'Someone') + ' is calling…';
-          popup.style.display = 'block';
-          showNotif("Incoming Call", (found.data.callerName || "Someone") + " is calling you");
-        } else {
-          popup.style.display = 'none';
-          pendingCall = null;
-        }
-      });
-    }
-
-    // Critical mobile fix: getUserMedia must be called directly from the tap
-    document.getElementById('accept-call').addEventListener('click', async () => {
-      if (!pendingCall) return;
-      const { id, data } = pendingCall;
-      document.getElementById('incoming-call').style.display = 'none';
-      pendingCall = null;
-      await answerCall(id, data);
-    });
-
-    document.getElementById('decline-call').addEventListener('click', async () => {
-      if (!pendingCall) return;
-      const { id } = pendingCall;
-      document.getElementById('incoming-call').style.display = 'none';
-      pendingCall = null;
-      await update(ref(db, `calls/${id}`), { status: 'declined' });
-    });
-
-    window.answerCall = async (id, data) => {
-      callId = id;
-      remoteUid = data.caller;
-
-      document.getElementById('call-screen').style.display = 'flex';
-      document.getElementById('call-status').textContent = 'Connecting…';
-      document.getElementById('remote-avatar').src = 'https://i.pravatar.cc/150?u=' + remoteUid;
-      document.getElementById('local-avatar').src = 'https://i.pravatar.cc/150?u=' + auth.currentUser.uid;
-
-      // This is called from the Accept button click → works on mobile
+        );
+      } catch (err) {
+        console.error("Signup error:", err);
+        errorEl.textContent =
+          friendlyAuthError(err);
+      }
+    };
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+    window.logout = async () => {
       try {
-        localStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: data.video !== false
-        });
-        const localVideo = document.getElementById('local-video');
-        localVideo.srcObject = localStream;
-        localVideo.play().catch(() => {});
-      } catch (e) {
-        console.error(e);
-        alert('Need mic/camera permission. Please allow and try again.');
-        return endCall();
-      }
-
-      pc = new RTCPeerConnection(servers);
-      localStream.getTracks().forEach(t => pc.addTrack(t, localStream));
-
-      pc.ontrack = (e) => {
-        const remoteVideo = document.getElementById('remote-video');
-        remoteVideo.srcObject = e.streams[0];
-        remoteVideo.play().catch(() => {});
-        document.getElementById('call-status').textContent = 'Connected';
-        document.getElementById('remote-avatar-wrap').style.display = 'none';
-        document.getElementById('local-avatar-wrap').style.display = 'none';
-      };
-
-      startSpeakingDetection(localStream, 'local-ring');
-
-      pc.onicecandidate = (e) => {
-        if (e.candidate) {
-          push(ref(db, `calls/${id}/calleeCandidates`), e.candidate.toJSON());
+        await signOut(auth);
+        if (pc || localStream) {
+          await endCall();
         }
-      };
-
-      const offerSnap = await get(ref(db, `calls/${id}/offer`));
-      const offer = offerSnap.val() || data.offer;
-      if (!offer) {
-        alert('Call offer missing');
-        return endCall();
+      } catch (err) {
+        console.error("Logout error:", err);
       }
-
-      await pc.setRemoteDescription(new RTCSessionDescription(offer));
-      const answer = await pc.createAnswer();
-      await pc.setLocalDescription(answer);
-      await set(ref(db, `calls/${id}/answer`), { type: answer.type, sdp: answer.sdp });
-      await update(ref(db, `calls/${id}`), { status: 'connected' });
-
-      onChildAdded(ref(db, `calls/${id}/callerCandidates`), (snap) => {
-        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
-      });
     };
-
-    function startSpeakingDetection(stream, ringId) {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const analyser = audioCtx.createAnalyser();
-        const source = audioCtx.createMediaStreamSource(stream);
-        source.connect(analyser);
-        analyser.fftSize = 256;
-        const data = new Uint8Array(analyser.frequencyBinCount);
-
-        if (speakingInterval) clearInterval(speakingInterval);
-        speakingInterval = setInterval(() => {
-          analyser.getByteFrequencyData(data);
-          const vol = data.reduce((a, b) => a + b, 0) / data.length;
-          document.getElementById(ringId)?.classList.toggle('active', vol > 18);
-        }, 100);
-      } catch (e) {}
-    }
-
-    window.endCall = async () => {
-      if (pc) { pc.close(); pc = null; }
-      if (localStream) {
-        localStream.getTracks().forEach(t => t.stop());
-        localStream = null;
-      }
-      if (speakingInterval) {
-        clearInterval(speakingInterval);
-        speakingInterval = null;
-      }
-      if (callId) {
-        try { await remove(ref(db, `calls/${callId}`)); } catch(e) {}
-        callId = null;
-      }
-      document.getElementById('call-screen').style.display = 'none';
-      document.getElementById('remote-video').srcObject = null;
-      document.getElementById('local-video').srcObject = null;
-      document.getElementById('remote-avatar-wrap').style.display = 'block';
-      document.getElementById('local-avatar-wrap').style.display = 'block';
-      document.getElementById('local-ring')?.classList.remove('active');
-      document.getElementById('remote-ring')?.classList.remove('active');
-    };
-
-    window.toggleMute = () => {
-      const track = localStream?.getAudioTracks()[0];
-      if (!track) return;
-      track.enabled = !track.enabled;
-      document.getElementById('mute-btn').classList.toggle('muted', !track.enabled);
-    };
-
-    window.toggleVideo = () => {
-      const track = localStream?.getVideoTracks()[0];
-      if (!track) return;
-      track.enabled = !track.enabled;
-      document.getElementById('video-btn').classList.toggle('muted', !track.enabled);
-    };
-
-    // Private chat
+    /* =========================================================
+       PUBLIC / PRIVATE CHAT
+       ========================================================= */
     function getPrivateChatId(uid1, uid2) {
-      return [uid1, uid2].sort().join('_');
+      return [uid1, uid2]
+        .sort()
+        .join("_");
     }
-
     window.startPrivateMessage = () => {
-      if (!selectedMessage || !auth.currentUser) return;
-      const otherUid = selectedMessage.data.uid;
-      const otherName = selectedMessage.data.name;
-      if (otherUid === auth.currentUser.uid) return alert("You can't PM yourself");
-
-      const chatId = getPrivateChatId(auth.currentUser.uid, otherUid);
-      currentChatRef = ref(db, `private-chats/${chatId}`);
+      if (!selectedMessage || !auth.currentUser) {
+        return;
+      }
+      const otherUid =
+        selectedMessage.data.uid;
+      const otherName =
+        selectedMessage.data.name || "Someone";
+      if (otherUid === auth.currentUser.uid) {
+        alert("You can't PM yourself.");
+        return;
+      }
+      const chatId =
+        getPrivateChatId(
+          auth.currentUser.uid,
+          otherUid
+        );
+      currentChatRef =
+        ref(db, `private-chats/${chatId}`);
       isPrivate = true;
-      privateWith = { uid: otherUid, name: otherName };
-
-      document.getElementById('header-title').innerHTML = `PM • ${otherName} <span class="pm-badge">Private</span>`;
-      document.getElementById('header-back').textContent = '← Public Chat';
-      document.getElementById('context-menu').style.display = 'none';
+      privateWith = {
+        uid: otherUid,
+        name: otherName
+      };
+      document.getElementById("header-title").innerHTML =
+        `PM • ${escapeHtml(otherName)}
+         <span class="pm-badge">Private</span>`;
+      document.getElementById("header-back").textContent =
+        "← Public Chat";
+      document.getElementById("context-menu").style.display =
+        "none";
       loadMessages();
     };
-
     window.goBack = () => {
-      if (isPrivate) switchToPublic();
-      else location.href = 'index.html';
+      if (isPrivate) {
+        switchToPublic();
+      } else {
+        location.href = "index.html";
+      }
     };
-
     function switchToPublic() {
-      currentChatRef = ref(db, 'lifeline-chat');
+      currentChatRef =
+        ref(db, "lifeline-chat");
       isPrivate = false;
       privateWith = null;
-      document.getElementById('header-title').textContent = 'Lifeline Chat';
-      document.getElementById('header-back').textContent = '← Dashboard';
+      document.getElementById("header-title").textContent =
+        "Lifeline Chat";
+      document.getElementById("header-back").textContent =
+        "← Dashboard";
       loadMessages();
     }
-
-    // Messages
-    function showContextMenu(e, msgData, element) {
-      e.preventDefault();
-      selectedMessage = { data: msgData, element, key: element.dataset.key };
-      const menu = document.getElementById('context-menu');
-      menu.style.display = 'block';
-      const x = e.clientX || (e.touches && e.touches[0].clientX) || 100;
-      const y = e.clientY || (e.touches && e.touches[0].clientY) || 100;
-      menu.style.left = Math.min(x, window.innerWidth - 210) + 'px';
-      menu.style.top = Math.min(y, window.innerHeight - 280) + 'px';
-      document.getElementById('delete-btn').style.display =
-        (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
+    /* =========================================================
+       HTML ESCAPING
+       ========================================================= */
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
-
-    document.addEventListener('click', () => {
-      document.getElementById('context-menu').style.display = 'none';
+    /* =========================================================
+       LINKIFY
+       ========================================================= */
+    function linkify(text) {
+      const escaped =
+        escapeHtml(text);
+      return escaped.replace(
+        /(https?:\/\/[^\s<]+)/g,
+        (url) => {
+          const cleanUrl =
+            url.replace(/[.,!?;:]+$/, "");
+          if (
+            /\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(cleanUrl) ||
+            cleanUrl.includes("giphy.com") ||
+            cleanUrl.includes("tenor.com")
+          ) {
+            return `
+              <img
+                src="${cleanUrl}"
+                alt="media"
+                style="max-width:100%;border-radius:12px;margin-top:6px;"
+              >
+            `;
+          }
+          return `
+            <a
+              href="${cleanUrl}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >${cleanUrl}</a>
+          `;
+        }
+      );
+    }
+    /* =========================================================
+       CONTEXT MENU
+       ========================================================= */
+    function showContextMenu(
+      e,
+      msgData,
+      element
+    ) {
+      e.preventDefault();
+      selectedMessage = {
+        data: msgData,
+        element,
+        key: element.dataset.key
+      };
+      const menu =
+        document.getElementById("context-menu");
+      menu.style.display = "block";
+      const point =
+        e.touches?.[0] || e.changedTouches?.[0] || e;
+      const x =
+        point?.clientX || 100;
+      const y =
+        point?.clientY || 100;
+      menu.style.left =
+        Math.min(
+          x,
+          window.innerWidth - 210
+        ) + "px";
+      menu.style.top =
+        Math.min(
+          y,
+          window.innerHeight - 280
+        ) + "px";
+      document.getElementById("delete-btn").style.display =
+        msgData.uid === auth.currentUser?.uid
+          ? "block"
+          : "none";
+    }
+    document.addEventListener("click", (e) => {
+      const menu =
+        document.getElementById("context-menu");
+      if (
+        !menu.contains(e.target)
+      ) {
+        menu.style.display = "none";
+      }
     });
-
+    /* =========================================================
+       REPLY
+       ========================================================= */
     window.replyToMessage = () => {
-      if (!selectedMessage) return;
-      replyTo = selectedMessage.data;
-      document.getElementById('reply-preview').style.display = 'block';
-      document.getElementById('reply-text').textContent = `Replying to ${replyTo.name}: ${replyTo.text || 'Image'}`;
-      document.getElementById('context-menu').style.display = 'none';
-      document.getElementById('message-input').focus();
+      if (!selectedMessage) {
+        return;
+      }
+      replyTo =
+        selectedMessage.data;
+      document.getElementById("reply-preview").style.display =
+        "block";
+      document.getElementById("reply-text").textContent =
+        `Replying to ${replyTo.name || "Someone"}: ${
+          replyTo.text || "Image"
+        }`;
+      document.getElementById("context-menu").style.display =
+        "none";
+      document.getElementById("message-input").focus();
     };
-
     window.cancelReply = () => {
       replyTo = null;
-      document.getElementById('reply-preview').style.display = 'none';
+      document.getElementById("reply-preview").style.display =
+        "none";
     };
-
-    window.copyMessage = () => {
-      if (!selectedMessage) return;
-      navigator.clipboard.writeText(selectedMessage.data.text || selectedMessage.data.imageUrl || '');
-      document.getElementById('context-menu').style.display = 'none';
-    };
-
-    window.deleteMessage = async () => {
-      if (!selectedMessage || !selectedMessage.key) return;
-      if (!confirm('Delete this message?')) return;
+    /* =========================================================
+       COPY
+       ========================================================= */
+    window.copyMessage = async () => {
+      if (!selectedMessage) {
+        return;
+      }
+      const value =
+        selectedMessage.data.text ||
+        selectedMessage.data.imageUrl ||
+        "";
       try {
-        const path = isPrivate
-          ? `private-chats/${getPrivateChatId(auth.currentUser.uid, privateWith.uid)}/${selectedMessage.key}`
-          : `lifeline-chat/${selectedMessage.key}`;
-        await remove(ref(db, path));
+        await navigator.clipboard.writeText(value);
+      } catch (e) {
+        console.error("Copy failed:", e);
+      }
+      document.getElementById("context-menu").style.display =
+        "none";
+    };
+    /* =========================================================
+       DELETE
+       ========================================================= */
+    window.deleteMessage = async () => {
+      if (
+        !selectedMessage ||
+        !selectedMessage.key ||
+        !auth.currentUser
+      ) {
+        return;
+      }
+      if (
+        selectedMessage.data.uid !==
+        auth.currentUser.uid
+      ) {
+        return;
+      }
+      if (!confirm("Delete this message?")) {
+        return;
+      }
+      try {
+        const path =
+          isPrivate
+            ? `private-chats/${getPrivateChatId(
+                auth.currentUser.uid,
+                privateWith.uid
+              )}/${selectedMessage.key}`
+            : `lifeline-chat/${selectedMessage.key}`;
+        await remove(
+          ref(db, path)
+        );
         selectedMessage.element.remove();
       } catch (err) {
-        alert('Could not delete message');
+        console.error(err);
+        alert("Could not delete message.");
       }
-      document.getElementById('context-menu').style.display = 'none';
+      document.getElementById("context-menu").style.display =
+        "none";
     };
-
-    window.sendMessage = () => {
-      const input = document.getElementById('message-input');
-      const text = input.value.trim();
-      if (!text || !auth.currentUser || !currentChatRef) return;
-
-      const isMediaLink = /\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(text) ||
-        text.includes('giphy.com') || text.includes('tenor.com');
-
+    /* =========================================================
+       SEND MESSAGE
+       ========================================================= */
+    window.sendMessage = async () => {
+      const input =
+        document.getElementById("message-input");
+      const text =
+        input.value.trim();
+      if (
+        !text ||
+        !auth.currentUser ||
+        !currentChatRef
+      ) {
+        return;
+      }
+      const isMediaLink =
+        /\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(text) ||
+        text.includes("giphy.com") ||
+        text.includes("tenor.com");
       const messageData = {
-        name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
-        timestamp: serverTimestamp(),
-        uid: auth.currentUser.uid
+        name:
+          auth.currentUser.displayName ||
+          auth.currentUser.email?.split("@")[0] ||
+          "Someone",
+        timestamp:
+          serverTimestamp(),
+        uid:
+          auth.currentUser.uid,
+        type:
+          isMediaLink
+            ? "image"
+            : "text"
       };
-
       if (isMediaLink) {
-        messageData.type = 'image';
-        messageData.imageUrl = text;
+        messageData.imageUrl =
+          text;
       } else {
-        messageData.type = 'text';
-        messageData.text = text;
+        messageData.text =
+          text;
       }
-
       if (replyTo) {
-        messageData.replyTo = { name: replyTo.name, text: replyTo.text || 'Image' };
+        messageData.replyTo = {
+          name:
+            replyTo.name || "Someone",
+          text:
+            replyTo.text || "Image"
+        };
       }
-
-      push(currentChatRef, messageData);
-      input.value = '';
-      cancelReply();
-    };
-
-    document.getElementById('image-input').addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file || !auth.currentUser || !currentChatRef) return;
-
-      const btn = document.getElementById('send-btn');
-      btn.textContent = '…';
-      btn.disabled = true;
-
       try {
-        const fileRef = storageRef(storage, `chat-images/${Date.now()}_${file.name}`);
-        await uploadBytes(fileRef, file);
-        const url = await getDownloadURL(fileRef);
-        push(currentChatRef, {
-          name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
-          imageUrl: url,
-          timestamp: serverTimestamp(),
-          uid: auth.currentUser.uid,
-          type: 'image'
-        });
+        await push(
+          currentChatRef,
+          messageData
+        );
+        input.value = "";
+        cancelReply();
       } catch (err) {
-        alert('Image upload failed.');
+        console.error(err);
+        alert(
+          "Message could not be sent."
+        );
       }
-
-      btn.textContent = '↑';
-      btn.disabled = false;
-      e.target.value = '';
-    });
-
-    function linkify(text) {
-      return text.replace(/(https?:\/\/[^\s]+)/g, url => {
-        if (/\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(url) || url.includes('giphy.com') || url.includes('tenor.com')) {
-          return `<img src="${url}" alt="media" style="max-width:100%;border-radius:12px;margin-top:6px;">`;
+    };
+    /* =========================================================
+       IMAGE UPLOAD
+       ========================================================= */
+    document
+      .getElementById("image-input")
+      .addEventListener(
+        "change",
+        async (e) => {
+          const file =
+            e.target.files[0];
+          if (
+            !file ||
+            !auth.currentUser ||
+            !currentChatRef
+          ) {
+            return;
+          }
+          const btn =
+            document.getElementById("send-btn");
+          btn.textContent = "…";
+          btn.disabled = true;
+          try {
+            const safeName =
+              file.name.replace(
+                /[^a-zA-Z0-9._-]/g,
+                "_"
+              );
+            const fileRef =
+              storageRef(
+                storage,
+                `chat-images/${Date.now()}_${safeName}`
+              );
+            await uploadBytes(
+              fileRef,
+              file
+            );
+            const url =
+              await getDownloadURL(fileRef);
+            await push(
+              currentChatRef,
+              {
+                name:
+                  auth.currentUser.displayName ||
+                  auth.currentUser.email?.split("@")[0] ||
+                  "Someone",
+                imageUrl:
+                  url,
+                timestamp:
+                  serverTimestamp(),
+                uid:
+                  auth.currentUser.uid,
+                type:
+                  "image"
+              }
+            );
+          } catch (err) {
+            console.error(
+              "Image upload error:",
+              err
+            );
+            alert(
+              "Image upload failed."
+            );
+          } finally {
+            btn.textContent = "↑";
+            btn.disabled = false;
+            e.target.value = "";
+          }
         }
-        return `<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
-      });
-    }
-
+      );
+    /* =========================================================
+       LOAD MESSAGES
+       ========================================================= */
     function loadMessages() {
-      const container = document.getElementById('chat-container');
-      container.innerHTML = '';
-      if (unsubscribe) { 
-        unsubscribe(); 
-        unsubscribe = null; 
+      const container =
+        document.getElementById("chat-container");
+      container.innerHTML = "";
+      if (unsubscribe) {
+        unsubscribe();
+        unsubscribe = null;
       }
-      if (!currentChatRef) return;
-
+      if (!currentChatRef) {
+        return;
+      }
       let isInitialLoad = true;
-      setTimeout(() => { isInitialLoad = false; }, 800);
-
-      unsubscribe = onChildAdded(currentChatRef, (snap) => {
-        const msg = snap.val();
-        if (!msg) return;
-
-        const isMe = msg.uid === auth.currentUser?.uid;
-        const div = document.createElement('div');
-        div.className = `message ${isMe ? 'sent' : 'received'}`;
-        div.dataset.key = snap.key;
-
-        const time = msg.timestamp
-          ? new Date(msg.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-          : '';
-
-        let content = msg.type === 'image' && msg.imageUrl
-          ? `<img src="${msg.imageUrl}" alt="Image" loading="lazy">`
-          : linkify(msg.text || '');
-
-        let replyHtml = '';
-        if (msg.replyTo) {
-          replyHtml = `
-            <div style="font-size:13px;opacity:0.8;border-left:3px solid ${isMe ? 'rgba(255,255,255,0.5)' : '#007aff'};padding-left:8px;margin-bottom:6px;">
-              <strong>${msg.replyTo.name}</strong><br>${msg.replyTo.text}
-            </div>`;
-        }
-
-        div.innerHTML = `
-          ${!isMe ? `<div class="sender-name">${msg.name}</div>` : ''}
-          ${replyHtml}
-          ${content}
-          <div class="timestamp">${time}</div>
-        `;
-
-        if (!isMe && !isInitialLoad) {
-          showNotif(msg.name || "Someone", msg.text || "Sent an image");
-        }
-
-        let pressTimer;
-        div.addEventListener('contextmenu', e => showContextMenu(e, msg, div));
-        div.addEventListener('touchstart', e => {
-          pressTimer = setTimeout(() => showContextMenu(e, msg, div), 550);
-        }, { passive: true });
-        div.addEventListener('touchend', () => clearTimeout(pressTimer));
-        div.addEventListener('touchmove', () => clearTimeout(pressTimer));
-
-        container.appendChild(div);
-        container.scrollTop = container.scrollHeight;
-      });
+      setTimeout(() => {
+        isInitialLoad = false;
+      }, 800);
+      unsubscribe =
+        onChildAdded(
+          currentChatRef,
+          (snap) => {
+            const msg =
+              snap.val();
+            if (!msg) {
+              return;
+            }
+            const isMe =
+              msg.uid ===
+              auth.currentUser?.uid;
+            const div =
+              document.createElement("div");
+            div.className =
+              `message ${isMe ? "sent" : "received"}`;
+            div.dataset.key =
+              snap.key;
+            let time = "";
+            if (msg.timestamp) {
+              try {
+                time =
+                  new Date(
+                    msg.timestamp
+                  ).toLocaleTimeString(
+                    [],
+                    {
+                      hour: "numeric",
+                      minute: "2-digit"
+                    }
+                  );
+              } catch (e) {}
+            }
+            let content = "";
+            if (
+              msg.type === "image" &&
+              msg.imageUrl
+            ) {
+              content = `
+                <img
+                  src="${escapeHtml(msg.imageUrl)}"
+                  alt="Image"
+                  loading="lazy"
+                >
+              `;
+            } else {
+              content =
+                linkify(msg.text || "");
+            }
+            let replyHtml = "";
+            if (msg.replyTo) {
+              replyHtml = `
+                <div
+                  style="
+                    font-size:13px;
+                    opacity:0.8;
+                    border-left:3px solid ${
+                      isMe
+                        ? "rgba(255,255,255,0.5)"
+                        : "#007aff"
+                    };
+                    padding-left:8px;
+                    margin-bottom:6px;
+                  "
+                >
+                  <strong>
+                    ${escapeHtml(msg.replyTo.name || "Someone")}
+                  </strong>
+                  <br>
+                  ${escapeHtml(msg.replyTo.text || "Image")}
+                </div>
+              `;
+            }
+            div.innerHTML = `
+              ${
+                !isMe
+                  ? `<div class="sender-name">
+                       ${escapeHtml(msg.name || "Someone")}
+                     </div>`
+                  : ""
+              }
+              ${replyHtml}
+              ${content}
+              <div class="timestamp">
+                ${time}
+              </div>
+            `;
+            if (
+              !isMe &&
+              !isInitialLoad
+            ) {
+              showNotif(
+                msg.name || "Someone",
+                msg.text || "Sent an image"
+              );
+            }
+            let pressTimer = null;
+            div.addEventListener(
+              "contextmenu",
+              (e) =>
+                showContextMenu(
+                  e,
+                  msg,
+                  div
+                )
+            );
+            div.addEventListener(
+              "touchstart",
+              (e) => {
+                pressTimer =
+                  setTimeout(
+                    () =>
+                      showContextMenu(
+                        e,
+                        msg,
+                        div
+                      ),
+                    550
+                  );
+              },
+              {
+                passive: true
+              }
+            );
+            div.addEventListener(
+              "touchend",
+              () => {
+                if (pressTimer) {
+                  clearTimeout(
+                    pressTimer
+                  );
+                }
+              }
+            );
+            div.addEventListener(
+              "touchmove",
+              () => {
+                if (pressTimer) {
+                  clearTimeout(
+                    pressTimer
+                  );
+                }
+              }
+            );
+            container.appendChild(div);
+            container.scrollTop =
+              container.scrollHeight;
+          }
+        );
     }
-
-    document.getElementById('message-input')?.addEventListener('keypress', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        sendMessage();
+    /* =========================================================
+       ENTER TO SEND
+       ========================================================= */
+    document
+      .getElementById("message-input")
+      .addEventListener(
+        "keypress",
+        (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+          }
+        }
+      );
+    /* =========================================================
+       SIDE PANEL
+       ========================================================= */
+    window.switchSideTab = (tab) => {
+      document
+        .querySelectorAll(".side-tab")
+        .forEach(
+          (t) =>
+            t.classList.remove("active")
+        );
+      document
+        .querySelectorAll(".side-content")
+        .forEach(
+          (c) =>
+            c.classList.remove("active")
+        );
+      const tabButton =
+        document.querySelector(
+          `.side-tab[data-tab="${tab}"]`
+        );
+      const content =
+        document.getElementById(
+          `side-${tab}`
+        );
+      if (tabButton) {
+        tabButton.classList.add("active");
       }
-    });
+      if (content) {
+        content.classList.add("active");
+      }
+    };
+    window.sendSideMessage = async () => {
+      const input =
+        document.getElementById(
+          "side-message-input"
+        );
+      const text =
+        input.value.trim();
+      if (
+        !text ||
+        !auth.currentUser
+      ) {
+        return;
+      }
+      try {
+        await push(
+          ref(db, "lifeline-chat"),
+          {
+            name:
+              auth.currentUser.displayName ||
+              "Someone",
+            text,
+            timestamp:
+              serverTimestamp(),
+            uid:
+              auth.currentUser.uid,
+            type:
+              "text"
+          }
+        );
+        input.value = "";
+      } catch (err) {
+        console.error(
+          "Side message error:",
+          err
+        );
+      }
+    };
+    function loadSideMessages() {
+      const container =
+        document.getElementById(
+          "side-messages"
+        );
+      if (!container) {
+        return;
+      }
+      container.innerHTML = "";
+      onChildAdded(
+        ref(db, "lifeline-chat"),
+        (snap) => {
+          const msg =
+            snap.val();
+          if (
+            !msg ||
+            !msg.text
+          ) {
+            return;
+          }
+          const isMe =
+            msg.uid ===
+            auth.currentUser?.uid;
+          const div =
+            document.createElement("div");
+          div.className =
+            `side-msg ${
+              isMe ? "me" : "them"
+            }`;
+          div.textContent =
+            isMe
+              ? msg.text
+              : `${msg.name || "Someone"}: ${msg.text}`;
+          container.appendChild(div);
+          container.scrollTop =
+            container.scrollHeight;
+        }
+      );
+    }
+    document
+      .getElementById("side-message-input")
+      .addEventListener(
+        "keypress",
+        (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            sendSideMessage();
+          }
+        }
+      );
+    /* =========================================================
+       GIF SEARCH
+       ========================================================= */
+    const gifSearch =
+      document.getElementById(
+        "gif-search"
+      );
+    let gifSearchTimer = null;
+    gifSearch?.addEventListener(
+      "input",
+      () => {
+        clearTimeout(
+          gifSearchTimer
+        );
+        gifSearchTimer =
+          setTimeout(
+            searchGIFs,
+            450
+          );
+      }
+    );
+    async function searchGIFs() {
+      const q =
+        gifSearch.value.trim();
+      const results =
+        document.getElementById(
+          "gif-results"
+        );
+      if (
+        q.length < 2
+      ) {
+        results.innerHTML = "";
+        return;
+      }
+      /*
+       * IMPORTANT:
+       * Put your Tenor API key in this variable.
+       *
+       * Do not use the placeholder from the old code.
+       */
+      const TENOR_KEY =
+        "AIzaSyCxx-YOUR-TENOR-KEY";
+      if (
+        TENOR_KEY.includes(
+          "YOUR-TENOR-KEY"
+        )
+      ) {
+        results.innerHTML = `
+          <div style="
+            grid-column:1/-1;
+            color:#aaa;
+            font-size:13px;
+            text-align:center;
+            padding:20px;
+          ">
+            Add your Tenor API key to enable GIF search.
+          </div>
+        `;
+        return;
+      }
+      try {
+        const url =
+          `https://tenor.googleapis.com/v2/search?q=${
+            encodeURIComponent(q)
+          }&key=${
+            encodeURIComponent(TENOR_KEY)
+          }&limit=12&media_filter=tinygif,gif`;
+        const res =
+          await fetch(url);
+        if (!res.ok) {
+          throw new Error(
+            "GIF search failed"
+          );
+        }
+        const data =
+          await res.json();
+        results.innerHTML = "";
+        (data.results || [])
+          .forEach((gif) => {
+            const tiny =
+              gif.media_formats?.tinygif?.url;
+            const full =
+              gif.media_formats?.gif?.url;
+            if (!tiny || !full) {
+              return;
+            }
+            const img =
+              document.createElement("img");
+            img.src =
+              tiny;
+            img.alt =
+              "GIF";
+            img.style.cssText =
+              "width:100%;border-radius:8px;cursor:pointer;";
+            img.onclick =
+              async () => {
+                if (!auth.currentUser) {
+                  return;
+                }
+                try {
+                  await push(
+                    ref(
+                      db,
+                      "lifeline-chat"
+                    ),
+                    {
+                      name:
+                        auth.currentUser.displayName ||
+                        "Someone",
+                      imageUrl:
+                        full,
+                      type:
+                        "image",
+                      timestamp:
+                        serverTimestamp(),
+                      uid:
+                        auth.currentUser.uid
+                    }
+                  );
+                } catch (err) {
+                  console.error(
+                    "GIF send error:",
+                    err
+                  );
+                }
+              };
+            results.appendChild(img);
+          });
+      } catch (err) {
+        console.error(
+          "GIF search error:",
+          err
+        );
+        results.innerHTML = `
+          <div style="
+            grid-column:1/-1;
+            color:#ff6b6b;
+            text-align:center;
+            padding:20px;
+          ">
+            GIF search failed.
+          </div>
+        `;
+      }
+    }
+    /* =========================================================
+       SHARED HYPERBEAM BROWSER
+       ========================================================= */
+    window.openSharedBrowser = async () => {
+      if (!auth.currentUser) {
+        return;
+      }
+      document.getElementById(
+        "context-menu"
+      ).style.display = "none";
+      const screen =
+        document.getElementById(
+          "browser-screen"
+        );
+      screen.style.display =
+        "flex";
+      await createHyperbeamSession();
+    };
+    async function createHyperbeamSession() {
+      const container =
+        document.getElementById(
+          "browser-container"
+        );
+      container.innerHTML = `
+        <div style="
+          color:white;
+          height:100%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:16px;
+        ">
+          Starting shared browser…
+        </div>
+      `;
+      try {
+        const response =
+          await fetch(
+            "/api/hyperbeam",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json"
+              }
+            }
+          );
+        const data =
+          await response.json();
+        if (!response.ok) {
+          throw new Error(
+            data.error ||
+            "Unable to start browser"
+          );
+        }
+        if (!data.embed_url) {
+          throw new Error(
+            "Hyperbeam did not return an embed URL."
+          );
+        }
+        /*
+         * Hyperbeam's embed URL is loaded directly.
+         * The server-side API key never reaches the browser.
+         */
+        container.innerHTML = "";
+        const iframe =
+          document.createElement("iframe");
+        iframe.src =
+          data.embed_url;
+        iframe.allow =
+          "autoplay; fullscreen; microphone; camera; clipboard-read; clipboard-write";
+        iframe.allowFullscreen =
+          true;
+        container.appendChild(
+          iframe
+        );
+      } catch (err) {
+        console.error(
+          "Hyperbeam error:",
+          err
+        );
+        container.innerHTML = `
+          <div style="
+            color:white;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding:30px;
+          ">
+            <div style="
+              font-size:18px;
+              font-weight:600;
+              margin-bottom:8px;
+            ">
+              Shared Browser couldn't start
+            </div>
+            <div style="
+              color:#aaa;
+              font-size:14px;
+              max-width:400px;
+            ">
+              ${escapeHtml(err.message)}
+            </div>
+          </div>
+        `;
+      }
+    }
+    window.forceNewBrowser = async () => {
+      await createHyperbeamSession();
+    };
+    window.closeSharedBrowser = () => {
+      const screen =
+        document.getElementById(
+          "browser-screen"
+        );
+      screen.style.display =
+        "none";
+      document.getElementById(
+        "browser-container"
+      ).innerHTML = "";
+    };
+    /* =========================================================
+       CALLS
+       ========================================================= */
+    window.startCall = async (
+      withVideo = true
+    ) => {
+      if (
+        !selectedMessage ||
+        !auth.currentUser
+      ) {
+        return;
+      }
+      remoteUid =
+        selectedMessage.data.uid;
+      if (
+        remoteUid ===
+        auth.currentUser.uid
+      ) {
+        alert(
+          "Can't call yourself."
+        );
+        return;
+      }
+      document.getElementById(
+        "context-menu"
+      ).style.display = "none";
+      document.getElementById(
+        "call-screen"
+      ).style.display = "flex";
+      document.getElementById(
+        "call-status"
+      ).textContent =
+        "Calling…";
+      document.getElementById(
+        "remote-avatar"
+      ).src =
+        "https://i.pravatar.cc/150?u=" +
+        remoteUid;
+      document.getElementById(
+        "local-avatar"
+      ).src =
+        "https://i.pravatar.cc/150?u=" +
+        auth.currentUser.uid;
+      try {
+        localStream =
+          await navigator.mediaDevices.getUserMedia(
+            {
+              audio: true,
+              video: withVideo
+            }
+          );
+        document.getElementById(
+          "local-video"
+        ).srcObject =
+          localStream;
+        document.getElementById(
+          "local-video"
+        ).play().catch(() => {});
+      } catch (e) {
+        console.error(e);
+        alert(
+          "Microphone/camera permission is required."
+        );
+        return endCall();
+      }
+      pc =
+        new RTCPeerConnection(
+          servers
+        );
+      localStream
+        .getTracks()
+        .forEach(
+          (track) =>
+            pc.addTrack(
+              track,
+              localStream
+            )
+        );
+      pc.ontrack =
+        (e) => {
+          const remoteVideo =
+            document.getElementById(
+              "remote-video"
+            );
+          remoteVideo.srcObject =
+            e.streams[0];
+          remoteVideo
+            .play()
+            .catch(() => {});
+          document.getElementById(
+            "call-status"
+          ).textContent =
+            "Connected";
+          document.getElementById(
+            "remote-avatar-wrap"
+          ).style.display =
+            "none";
+          document.getElementById(
+            "local-avatar-wrap"
+          ).style.display =
+            "none";
+        };
+      startSpeakingDetection(
+        localStream,
+        "local-ring"
+      );
+      const newCallRef =
+        push(
+          ref(db, "calls")
+        );
+      callId =
+        newCallRef.key;
+      pc.onicecandidate =
+        (e) => {
+          if (
+            e.candidate &&
+            callId
+          ) {
+            push(
+              ref(
+                db,
+                `calls/${callId}/callerCandidates`
+              ),
+              e.candidate.toJSON()
+            );
+          }
+        };
+      await set(
+        newCallRef,
+        {
+          caller:
+            auth.currentUser.uid,
+          callerName:
+            auth.currentUser.displayName ||
+            "Someone",
+          callee:
+            remoteUid,
+          status:
+            "ringing",
+          video:
+            withVideo,
+          createdAt:
+            Date.now()
+        }
+      );
+      const offer =
+        await pc.createOffer();
+      await pc.setLocalDescription(
+        offer
+      );
+      await set(
+        ref(
+          db,
+          `calls/${callId}/offer`
+        ),
+        {
+          type:
+            offer.type,
+          sdp:
+            offer.sdp
+        }
+      );
+      onValue(
+        ref(
+          db,
+          `calls/${callId}/answer`
+        ),
+        async (snap) => {
+          const answer =
+            snap.val();
+          if (
+            answer &&
+            pc &&
+            !pc.currentRemoteDescription
+          ) {
+            try {
+              await pc.setRemoteDescription(
+                new RTCSessionDescription(
+                  answer
+                )
+              );
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        }
+      );
+      onChildAdded(
+        ref(
+          db,
+          `calls/${callId}/calleeCandidates`
+        ),
+        (snap) => {
+          if (pc) {
+            pc.addIceCandidate(
+              new RTCIceCandidate(
+                snap.val()
+              )
+            ).catch(
+              () => {}
+            );
+          }
+        }
+      );
+    };
+    /* =========================================================
+       INCOMING CALLS
+       ========================================================= */
+    function listenForIncomingCalls() {
+      if (incomingListener) {
+        return;
+      }
+      incomingListener =
+        onValue(
+          ref(db, "calls"),
+          (snap) => {
+            const calls =
+              snap.val() || {};
+            let found = null;
+            for (
+              const id in calls
+            ) {
+              const data =
+                calls[id];
+              if (
+                data.callee ===
+                  auth.currentUser?.uid &&
+                data.status ===
+                  "ringing" &&
+                !pc
+              ) {
+                found = {
+                  id,
+                  data
+                };
+                break;
+              }
+            }
+            const popup =
+              document.getElementById(
+                "incoming-call"
+              );
+            if (found) {
+              pendingCall =
+                found;
+              document.getElementById(
+                "incoming-name"
+              ).textContent =
+                `${
+                  found.data.callerName ||
+                  "Someone"
+                } is calling…`;
+              popup.style.display =
+                "block";
+              showNotif(
+                "Incoming Call",
+                `${
+                  found.data.callerName ||
+                  "Someone"
+                } is calling you`
+              );
+            } else {
+              popup.style.display =
+                "none";
+              pendingCall =
+                null;
+            }
+          }
+        );
+    }
+    /* =========================================================
+       ACCEPT / DECLINE CALL
+       ========================================================= */
+    document
+      .getElementById(
+        "accept-call"
+      )
+      .addEventListener(
+        "click",
+        async () => {
+          if (!pendingCall) {
+            return;
+          }
+          const {
+            id,
+            data
+          } =
+            pendingCall;
+          document.getElementById(
+            "incoming-call"
+          ).style.display =
+            "none";
+          pendingCall =
+            null;
+          await answerCall(
+            id,
+            data
+          );
+        }
+      );
+    document
+      .getElementById(
+        "decline-call"
+      )
+      .addEventListener(
+        "click",
+        async () => {
+          if (!pendingCall) {
+            return;
+          }
+          const {
+            id
+          } =
+            pendingCall;
+          document.getElementById(
+            "incoming-call"
+          ).style.display =
+            "none";
+          pendingCall =
+            null;
+          try {
+            await update(
+              ref(
+                db,
+                `calls/${id}`
+              ),
+              {
+                status:
+                  "declined"
+              }
+            );
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      );
+    /* =========================================================
+       ANSWER CALL
+       ========================================================= */
+    window.answerCall = async (
+      id,
+      data
+    ) => {
+      callId =
+        id;
+      remoteUid =
+        data.caller;
+      document.getElementById(
+        "call-screen"
+      ).style.display =
+        "flex";
+      document.getElementById(
+        "call-status"
+      ).textContent =
+        "Connecting…";
+      document.getElementById(
+        "remote-avatar"
+      ).src =
+        "https://i.pravatar.cc/150?u=" +
+        remoteUid;
+      document.getElementById(
+        "local-avatar"
+      ).src =
+        "https://i.pravatar.cc/150?u=" +
+        auth.currentUser.uid;
+      try {
+        localStream =
+          await navigator.mediaDevices.getUserMedia(
+            {
+              audio: true,
+              video:
+                data.video !== false
+            }
+          );
+        const localVideo =
+          document.getElementById(
+            "local-video"
+          );
+        localVideo.srcObject =
+          localStream;
+        localVideo
+          .play()
+          .catch(() => {});
+      } catch (e) {
+        console.error(e);
+        alert(
+          "Microphone/camera permission is required."
+        );
+        return endCall();
+      }
+      pc =
+        new RTCPeerConnection(
+          servers
+        );
+      localStream
+        .getTracks()
+        .forEach(
+          (track) =>
+            pc.addTrack(
+              track,
+              localStream
+            )
+        );
+      pc.ontrack =
+        (e) => {
+          const remoteVideo =
+            document.getElementById(
+              "remote-video"
+            );
+          remoteVideo.srcObject =
+            e.streams[0];
+          remoteVideo
+            .play()
+            .catch(() => {});
+          document.getElementById(
+            "call-status"
+          ).textContent =
+            "Connected";
+          document.getElementById(
+            "remote-avatar-wrap"
+          ).style.display =
+            "none";
+          document.getElementById(
+            "local-avatar-wrap"
+          ).style.display =
+            "none";
+        };
+      startSpeakingDetection(
+        localStream,
+        "local-ring"
+      );
+      pc.onicecandidate =
+        (e) => {
+          if (e.candidate) {
+            push(
+              ref(
+                db,
+                `calls/${id}/calleeCandidates`
+              ),
+              e.candidate.toJSON()
+            );
+          }
+        };
+      const offerSnap =
+        await get(
+          ref(
+            db,
+            `calls/${id}/offer`
+          )
+        );
+      const offer =
+        offerSnap.val() ||
+        data.offer;
+      if (!offer) {
+        alert(
+          "Call offer missing."
+        );
+        return endCall();
+      }
+      await pc.setRemoteDescription(
+        new RTCSessionDescription(
+          offer
+        )
+      );
+      const answer =
+        await pc.createAnswer();
+      await pc.setLocalDescription(
+        answer
+      );
+      await set(
+        ref(
+          db,
+          `calls/${id}/answer`
+        ),
+        {
+          type:
+            answer.type,
+          sdp:
+            answer.sdp
+        }
+      );
+      await update(
+        ref(
+          db,
+          `calls/${id}`
+        ),
+        {
+          status:
+            "connected"
+        }
+      );
+      onChildAdded(
+        ref(
+          db,
+          `calls/${id}/callerCandidates`
+        ),
+        (snap) => {
+          if (pc) {
+            pc.addIceCandidate(
+              new RTCIceCandidate(
+                snap.val()
+              )
+            ).catch(
+              () => {}
+            );
+          }
+        }
+      );
+    };
+    /* =========================================================
+       SPEAKING DETECTION
+       ========================================================= */
+    function startSpeakingDetection(
+      stream,
+      ringId
+    ) {
+      try {
+        const AudioContext =
+          window.AudioContext ||
+          window.webkitAudioContext;
+        if (!AudioContext) {
+          return;
+        }
+        const audioCtx =
+          new AudioContext();
+        const analyser =
+          audioCtx.createAnalyser();
+        const source =
+          audioCtx.createMediaStreamSource(
+            stream
+          );
+        source.connect(
+          analyser
+        );
+        analyser.fftSize =
+          256;
+        const data =
+          new Uint8Array(
+            analyser.frequencyBinCount
+          );
+        if (speakingInterval) {
+          clearInterval(
+            speakingInterval
+          );
+        }
+        speakingInterval =
+          setInterval(
+            () => {
+              analyser.getByteFrequencyData(
+                data
+              );
+              const vol =
+                data.reduce(
+                  (a, b) => a + b,
+                  0
+                ) / data.length;
+              document
+                .getElementById(ringId)
+                ?.classList.toggle(
+                  "active",
+                  vol > 18
+                );
+            },
+            100
+          );
+      } catch (e) {
+        console.error(
+          "Speaking detection unavailable:",
+          e
+        );
+      }
+    }
+    /* =========================================================
+       END CALL
+       ========================================================= */
+    window.endCall = async () => {
+      if (pc) {
+        try {
+          pc.close();
+        } catch (e) {}
+        pc = null;
+      }
+      if (localStream) {
+        localStream
+          .getTracks()
+          .forEach(
+            (track) =>
+              track.stop()
+          );
+        localStream =
+          null;
+      }
+      if (speakingInterval) {
+        clearInterval(
+          speakingInterval
+        );
+        speakingInterval =
+          null;
+      }
+      if (callId) {
+        try {
+          await remove(
+            ref(
+              db,
+              `calls/${callId}`
+            )
+          );
+        } catch (e) {
+          console.error(
+            "Call cleanup error:",
+            e
+          );
+        }
+        callId =
+          null;
+      }
+      document.getElementById(
+        "call-screen"
+      ).style.display =
+        "none";
+      document.getElementById(
+        "remote-video"
+      ).srcObject =
+        null;
+      document.getElementById(
+        "local-video"
+      ).srcObject =
+        null;
+      document.getElementById(
+        "remote-avatar-wrap"
+      ).style.display =
+        "block";
+      document.getElementById(
+        "local-avatar-wrap"
+      ).style.display =
+        "block";
+      document.getElementById(
+        "local-ring"
+      )?.classList.remove(
+        "active"
+      );
+      document.getElementById(
+        "remote-ring"
+      )?.classList.remove(
+        "active"
+      );
+      remoteUid =
+        null;
+    };
+    /* =========================================================
+       MUTE
+       ========================================================= */
+    window.toggleMute = () => {
+      const track =
+        localStream
+          ?.getAudioTracks()[0];
+      if (!track) {
+        return;
+      }
+      track.enabled =
+        !track.enabled;
+      document.getElementById(
+        "mute-btn"
+      ).classList.toggle(
+        "muted",
+        !track.enabled
+      );
+    };
+    /* =========================================================
+       VIDEO
+       ========================================================= */
+    window.toggleVideo = () => {
+      const track =
+        localStream
+          ?.getVideoTracks()[0];
+      if (!track) {
+        return;
+      }
+      track.enabled =
+        !track.enabled;
+      document.getElementById(
+        "video-btn"
+      ).classList.toggle(
+        "muted",
+        !track.enabled
+      );
+    };
+    /* =========================================================
+       BROWSER CALL BUTTON
+       ========================================================= */
+    window.startCallFromBrowser = (
+      withVideo
+    ) => {
+      document.getElementById(
+        "browser-screen"
+      ).style.display =
+        "none";
+      alert(
+        "Select a person in the main chat, then use the Call option on their message."
+      );
+    };
+    /* =========================================================
+       INITIAL CONSOLE MESSAGE
+       ========================================================= */
+    console.log(
+      "My Lifeline Chat initialized successfully."
+    );
   </script>
 </body>
 </html>
