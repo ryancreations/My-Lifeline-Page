@@ -1,3027 +1,5517 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>Chatroom • My Lifeline</title>
+
   <style>
+
     :root {
+
       --bg: #f2f2f7;
-      --header-bg: rgba(249, 249, 249, 0.94);
+
+      --header-bg: rgba(249,249,249,.94);
+
       --bubble-sent: #007aff;
+
       --bubble-received: #e9e9eb;
+
       --text: #000;
-      --input-bg: white;
-      --border: rgba(0,0,0,0.15);
+
+      --input-bg: #fff;
+
+      --border: rgba(0,0,0,.15);
+
     }
+
     [data-theme="dark"] {
+
       --bg: #000;
-      --header-bg: rgba(28, 28, 30, 0.94);
+
+      --header-bg: rgba(28,28,30,.94);
+
       --bubble-sent: #0a84ff;
+
       --bubble-received: #1c1c1e;
+
       --text: #fff;
+
       --input-bg: #1c1c1e;
-      --border: rgba(255,255,255,0.15);
+
+      --border: rgba(255,255,255,.15);
+
     }
+
     * {
+
       margin: 0;
+
       padding: 0;
+
       box-sizing: border-box;
+
       -webkit-tap-highlight-color: transparent;
+
     }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
-        "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+      font-family: -apple-system,BlinkMacSystemFont,"SF Pro Display",
+
+        "Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+
       background: var(--bg);
+
       color: var(--text);
+
       height: 100vh;
+
       height: 100dvh;
+
       overflow: hidden;
+
     }
-    button {
+
+    button,
+
+    input {
+
       font-family: inherit;
+
     }
-    /* ================= HEADER ================= */
+
     .imessage-header {
+
       position: fixed;
+
       top: 0;
+
       left: 0;
+
       right: 0;
+
       height: 56px;
+
       background: var(--header-bg);
+
       backdrop-filter: blur(20px);
-      border-bottom: 0.5px solid var(--border);
+
+      border-bottom: .5px solid var(--border);
+
       display: flex;
+
       align-items: center;
-      justify-content: space-between;
+
       padding: 0 16px;
+
       z-index: 100;
+
     }
+
     .back-btn {
+
       color: #007aff;
+
       font-size: 17px;
+
       background: none;
+
       border: none;
+
       cursor: pointer;
+
       white-space: nowrap;
+
     }
+
     .header-title {
+
+      flex: 1;
+
+      text-align: center;
+
       font-size: 17px;
+
       font-weight: 600;
-      flex: 1;
-      text-align: center;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+
     }
-    /* ================= CHAT ================= */
+
     #chat-container {
+
       position: fixed;
+
       top: 56px;
+
       bottom: 70px;
+
       left: 0;
+
       right: 0;
+
       overflow-y: auto;
+
       padding: 12px;
+
       display: flex;
+
       flex-direction: column;
+
       gap: 3px;
+
       background: var(--bg);
+
       -webkit-overflow-scrolling: touch;
+
     }
+
     .message {
+
       max-width: 78%;
+
       padding: 9px 14px;
+
       border-radius: 18px;
+
       font-size: 16px;
+
       line-height: 1.35;
-      position: relative;
+
       word-wrap: break-word;
-      overflow-wrap: anywhere;
+
       user-select: none;
+
     }
+
     .message.sent {
+
       background: var(--bubble-sent);
+
       color: white;
+
       align-self: flex-end;
+
       border-bottom-right-radius: 4px;
+
     }
+
     .message.received {
+
       background: var(--bubble-received);
+
       color: var(--text);
+
       align-self: flex-start;
+
       border-bottom-left-radius: 4px;
+
     }
-    .message .sender-name {
+
+    .sender-name {
+
       font-size: 12px;
-      opacity: 0.7;
+
+      opacity: .7;
+
       margin-bottom: 3px;
+
       font-weight: 500;
+
     }
-    .message .timestamp {
+
+    .timestamp {
+
       font-size: 11px;
-      opacity: 0.7;
+
+      opacity: .7;
+
       margin-top: 4px;
+
       text-align: right;
+
     }
+
     .message img {
+
       max-width: 100%;
-      max-height: 400px;
+
       border-radius: 12px;
+
       margin-top: 6px;
+
       display: block;
+
     }
+
     .message a {
+
       color: inherit;
+
       text-decoration: underline;
+
     }
-    /* ================= REPLY ================= */
+
     #reply-preview {
+
       display: none;
+
       background: var(--bubble-received);
+
       padding: 8px 14px;
+
       font-size: 14px;
+
       border-left: 4px solid #007aff;
+
       margin-bottom: 6px;
+
       border-radius: 8px;
+
       position: relative;
+
     }
-    #reply-preview .cancel-reply {
+
+    .cancel-reply {
+
       position: absolute;
+
       right: 10px;
+
       top: 8px;
+
       color: #007aff;
+
       cursor: pointer;
+
       font-weight: 600;
+
     }
-    /* ================= CONTEXT MENU ================= */
+
     #context-menu {
+
       position: fixed;
+
       background: var(--input-bg);
+
       color: var(--text);
+
       border-radius: 14px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+
       z-index: 1000;
+
       display: none;
+
       overflow: hidden;
+
       min-width: 190px;
+
     }
+
     #context-menu button {
+
       display: block;
+
       width: 100%;
+
       padding: 14px 18px;
+
       border: none;
+
       background: none;
+
       text-align: left;
+
       font-size: 16px;
+
       cursor: pointer;
+
       color: var(--text);
+
     }
+
     #context-menu button:active {
-      background: rgba(0,0,0,0.08);
+
+      background: rgba(0,0,0,.08);
+
     }
-    #context-menu button.delete {
+
+    #context-menu .delete {
+
       color: #ff3b30;
+
     }
-    /* ================= INPUT ================= */
+
     .imessage-input-bar {
+
       position: fixed;
+
       bottom: 0;
+
       left: 0;
+
       right: 0;
+
       background: var(--header-bg);
+
       backdrop-filter: blur(20px);
-      border-top: 0.5px solid var(--border);
+
+      border-top: .5px solid var(--border);
+
       padding: 8px 12px 14px;
+
       display: flex;
+
       flex-direction: column;
+
       gap: 6px;
-      z-index: 90;
+
+      z-index: 110;
+
     }
+
     .input-row {
+
       display: flex;
+
       align-items: flex-end;
+
       gap: 8px;
+
     }
+
     #message-input {
+
       flex: 1;
+
       border: none;
+
       background: var(--input-bg);
+
       color: var(--text);
+
       border-radius: 20px;
+
       padding: 10px 16px;
+
       font-size: 16px;
+
       outline: none;
-      box-shadow: 0 0 0 0.5px var(--border);
+
+      box-shadow: 0 0 0 .5px var(--border);
+
     }
+
     .icon-btn,
+
     #send-btn {
+
       width: 36px;
+
       height: 36px;
+
       border-radius: 50%;
+
       border: none;
+
       font-size: 18px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       cursor: pointer;
+
       flex-shrink: 0;
+
     }
+
     .icon-btn {
+
       background: var(--bubble-received);
+
       color: var(--text);
+
     }
+
     #send-btn {
+
       background: #007aff;
+
       color: white;
+
     }
-    #send-btn:disabled {
-      opacity: 0.5;
-    }
-    /* ================= LOGIN ================= */
+
+    /* LOGIN */
+
     #login-screen,
+
     #signup-screen {
+
       position: fixed;
+
       inset: 0;
+
       background: var(--bg);
+
       display: flex;
+
       flex-direction: column;
+
       justify-content: center;
+
       padding: 30px;
+
       z-index: 200;
+
     }
+
     .login-card {
+
       background: var(--input-bg);
+
       border-radius: 16px;
+
       padding: 28px 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 430px;
-      width: 100%;
-      margin: auto;
+
+      box-shadow: 0 4px 20px rgba(0,0,0,.1);
+
     }
+
     .login-card h2 {
+
       text-align: center;
+
       margin-bottom: 24px;
+
       font-size: 22px;
+
       color: var(--text);
+
     }
+
     .login-card input {
+
       width: 100%;
+
       padding: 14px 16px;
+
       margin-bottom: 12px;
+
       border: 1px solid var(--border);
+
       border-radius: 12px;
+
       font-size: 16px;
+
       background: var(--bg);
+
       color: var(--text);
-      outline: none;
+
     }
-    .login-card input:focus {
-      border-color: #007aff;
-    }
+
     .login-card button {
+
       width: 100%;
+
       padding: 14px;
+
       border: none;
+
       border-radius: 12px;
+
       font-size: 16px;
+
       font-weight: 600;
+
       margin-top: 8px;
+
       cursor: pointer;
+
     }
+
     .btn-blue {
+
       background: #007aff;
+
       color: white;
+
     }
+
     .btn-green {
+
       background: #34c759;
+
       color: white;
+
     }
+
     .btn-gray {
+
       background: var(--bubble-received);
+
       color: var(--text);
+
     }
+
     .error-text {
+
       color: #ff3b30;
+
       text-align: center;
+
       margin-top: 12px;
+
       font-size: 14px;
-      min-height: 18px;
+
     }
+
     .pm-badge {
+
       background: #007aff;
+
       color: white;
+
       font-size: 12px;
+
       padding: 2px 8px;
+
       border-radius: 10px;
+
       margin-left: 6px;
+
     }
-    /* ================= SHARED BROWSER ================= */
+
+    /* SHARED BROWSER */
+
     #browser-screen {
+
       position: fixed;
+
       inset: 0;
+
       background: #111;
+
       z-index: 300;
+
       display: none;
+
       flex-direction: column;
+
     }
+
     #browser-layout {
+
       display: flex;
+
       height: 100%;
+
       width: 100%;
+
     }
+
     #browser-main {
+
       flex: 1;
+
       display: flex;
+
       flex-direction: column;
+
       min-width: 0;
+
     }
+
     #browser-topbar {
+
       height: 48px;
+
       background: #1c1c1e;
+
       color: white;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       padding: 0 16px;
+
       flex-shrink: 0;
+
     }
+
     #browser-title {
+
       font-weight: 600;
+
       font-size: 15px;
+
     }
+
     #browser-container {
+
       flex: 1;
+
       width: 100%;
+
+      min-height: 0;
+
       background: #000;
-      overflow: hidden;
+
     }
-    #browser-container iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
+
     #new-session-btn,
+
     #close-browser {
+
       border: none;
+
       padding: 7px 14px;
+
       border-radius: 8px;
+
       font-weight: 600;
+
       cursor: pointer;
+
       color: white;
+
       font-size: 13px;
+
     }
-    #close-browser {
-      background: #ff3b30;
-    }
+
     #new-session-btn {
+
       background: #007aff;
+
     }
-    /* ================= BROWSER SIDE PANEL ================= */
+
+    #close-browser {
+
+      background: #ff3b30;
+
+    }
+
     #browser-sidepanel {
+
       width: 320px;
+
       background: #1c1c1e;
+
       display: flex;
+
       flex-direction: column;
+
       border-left: 1px solid #333;
+
       flex-shrink: 0;
+
     }
+
     .side-tabs {
+
       display: flex;
+
       border-bottom: 1px solid #333;
+
     }
+
     .side-tab {
+
       flex: 1;
+
       background: none;
+
       border: none;
+
       color: #888;
+
       font-size: 20px;
+
       padding: 14px 0;
+
       cursor: pointer;
+
     }
+
     .side-tab.active {
+
       color: white;
+
       border-bottom: 2px solid #8b5cf6;
+
     }
+
     .side-content {
+
       display: none;
+
       flex: 1;
+
       flex-direction: column;
+
       overflow: hidden;
+
     }
+
     .side-content.active {
+
       display: flex;
+
     }
+
     #side-messages {
+
       flex: 1;
+
       overflow-y: auto;
+
       padding: 12px;
+
       display: flex;
+
       flex-direction: column;
+
       gap: 8px;
+
     }
+
     .side-msg {
+
       max-width: 85%;
+
       padding: 8px 12px;
+
       border-radius: 14px;
+
       font-size: 14px;
+
       line-height: 1.3;
-      overflow-wrap: anywhere;
+
     }
+
     .side-msg.me {
+
       background: #007aff;
+
       color: white;
+
       align-self: flex-end;
+
     }
+
     .side-msg.them {
+
       background: #2a2a2a;
+
       color: white;
+
       align-self: flex-start;
+
     }
+
     .side-input-row {
+
       display: flex;
+
       gap: 8px;
+
       padding: 12px;
+
       border-top: 1px solid #333;
+
     }
+
     .side-input-row input {
+
       flex: 1;
+
       background: #2a2a2a;
+
       border: none;
+
       border-radius: 20px;
+
       padding: 10px 14px;
+
       color: white;
+
       font-size: 14px;
+
       outline: none;
+
     }
+
     .side-input-row button {
+
       width: 36px;
+
       height: 36px;
+
       border-radius: 50%;
+
       border: none;
+
       background: #007aff;
+
       color: white;
+
       font-size: 16px;
+
       cursor: pointer;
+
     }
+
     .side-call-btn {
+
       display: block;
+
       width: 100%;
+
       padding: 14px;
+
       margin-bottom: 10px;
+
       border: none;
+
       border-radius: 12px;
+
       background: #2a2a2a;
+
       color: white;
+
       font-size: 15px;
+
       font-weight: 600;
+
       cursor: pointer;
+
     }
-    /* ================= CALL SCREEN ================= */
+
+    /* CALL */
+
     #call-screen {
+
       position: fixed;
+
       inset: 0;
+
       background: #000;
+
       z-index: 400;
+
       display: none;
+
       flex-direction: column;
+
       color: #fff;
+
     }
+
     #call-header {
+
       height: 56px;
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       padding: 0 16px;
-      background: rgba(0,0,0,0.65);
+
+      background: rgba(0,0,0,.65);
+
     }
+
     #call-status {
+
       font-size: 16px;
+
       font-weight: 600;
+
     }
+
     #end-call {
+
       background: #ff3b30;
+
       color: #fff;
+
       border: none;
+
       padding: 8px 16px;
+
       border-radius: 8px;
+
       font-weight: 600;
+
       cursor: pointer;
+
     }
+
     #call-body {
+
       flex: 1;
+
       position: relative;
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
+
       gap: 48px;
+
       overflow: hidden;
+
     }
+
     .avatar-wrap {
+
       position: relative;
+
       width: 140px;
+
       height: 140px;
+
       z-index: 2;
+
     }
+
     .avatar-wrap img {
+
       width: 100%;
+
       height: 100%;
+
       border-radius: 50%;
+
       object-fit: cover;
+
       background: #222;
+
     }
+
     .ring {
+
       position: absolute;
+
       inset: -8px;
+
       border-radius: 50%;
+
       border: 4px solid transparent;
-      transition: all 0.15s;
+
+      transition: all .15s;
+
     }
+
     .ring.active {
+
       border-color: #43b581;
+
       box-shadow: 0 0 22px #43b581;
+
     }
+
     #remote-video,
+
     #local-video {
+
       position: absolute;
+
       border-radius: 12px;
+
       background: #111;
+
       object-fit: cover;
+
     }
+
     #remote-video {
+
       inset: 0;
+
       width: 100%;
+
       height: 100%;
+
       z-index: 1;
+
     }
+
     #local-video {
+
       bottom: 16px;
+
       right: 16px;
+
       width: 110px;
+
       height: 150px;
+
       border: 2px solid #333;
+
       z-index: 5;
+
     }
+
     #call-controls {
+
       display: flex;
+
       gap: 16px;
+
       justify-content: center;
+
       padding: 18px;
+
     }
+
     #call-controls button {
+
       width: 56px;
+
       height: 56px;
+
       border-radius: 50%;
+
       border: none;
+
       font-size: 22px;
+
       cursor: pointer;
+
       background: #2a2a2a;
+
       color: white;
+
     }
+
     #call-controls button.muted {
+
       background: #ff3b30;
+
     }
-    /* ================= INCOMING CALL ================= */
+
     #incoming-call {
+
       position: fixed;
+
       top: 50%;
+
       left: 50%;
-      transform: translate(-50%, -50%);
+
+      transform: translate(-50%,-50%);
+
       background: #1c1c1e;
+
       color: white;
+
       padding: 24px 28px;
+
       border-radius: 20px;
+
       z-index: 500;
+
       display: none;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+
       text-align: center;
+
       min-width: 280px;
+
       width: 85%;
+
       max-width: 340px;
+
     }
+
     #incoming-name {
+
       font-size: 18px;
+
       font-weight: 600;
+
       margin-bottom: 18px;
+
     }
+
     #incoming-call button {
+
       margin: 6px;
+
       padding: 14px 28px;
+
       border: none;
+
       border-radius: 12px;
+
       font-weight: 600;
+
       cursor: pointer;
+
       font-size: 16px;
+
       min-width: 110px;
+
     }
+
     #accept-call {
+
       background: #34c759;
+
       color: white;
+
     }
+
     #decline-call {
+
       background: #ff3b30;
+
       color: white;
+
     }
-    /* ================= MOBILE ================= */
+
+    /* MOBILE */
+
     @media (max-width: 768px) {
+
       #browser-layout {
+
         flex-direction: column;
+
       }
+
+      #browser-main {
+
+        height: 60%;
+
+        flex: none;
+
+      }
+
       #browser-sidepanel {
+
         width: 100%;
+
         height: 40%;
+
         border-left: none;
+
         border-top: 1px solid #333;
+
       }
-      #browser-topbar {
-        padding: 0 10px;
+
+      #browser-container {
+
+        min-height: 0;
+
       }
-      #browser-title {
-        font-size: 14px;
-      }
-      #new-session-btn,
-      #close-browser {
-        padding: 7px 10px;
-      }
-      .avatar-wrap {
-        width: 110px;
-        height: 110px;
-      }
-      #call-body {
-        gap: 20px;
-      }
+
     }
+
   </style>
+
 </head>
+
 <body data-theme="light">
-  <!-- ================= HEADER ================= -->
+
   <div class="imessage-header">
-    <button class="back-btn" id="header-back" onclick="goBack()">
-      ← Dashboard
-    </button>
-<div class="header-title" id="header-title">
-  Lifeline Chat
-</div>
-<div style="display:flex; gap:12px;">
-  <button class="back-btn" onclick="toggleDarkMode()">🌓</button>
-  <button
-    class="back-btn"
-    onclick="logout()"
-    id="logout-btn"
-    style="display:none;"
-  >
-    Logout
-  </button>
-</div>
+
+    <button class="back-btn" id="header-back">← Dashboard</button>
+
+    <div class="header-title" id="header-title">
+
+      Lifeline Chat
+
+    </div>
+
+    <div style="display:flex;gap:12px;">
+
+      <button class="back-btn" id="theme-btn">🌓</button>
+
+      <button class="back-btn" id="logout-btn" style="display:none;">
+
+        Logout
+
+      </button>
+
+    </div>
+
   </div>
-  <!-- ================= CHAT ================= -->
+
   <div id="chat-container" style="display:none;"></div>
-  <!-- ================= CONTEXT MENU ================= -->
+
   <div id="context-menu">
-    <button onclick="replyToMessage()">Reply</button>
-    <button onclick="startPrivateMessage()">PM</button>
-    <button onclick="startCall(true)">Call</button>
-    <button onclick="openSharedBrowser()">Shared Browser</button>
-    <button onclick="copyMessage()">Copy</button>
-<button
-  class="delete"
-  id="delete-btn"
-  onclick="deleteMessage()"
-  style="display:none;"
->
-  Delete
-</button>
+
+    <button id="reply-btn">Reply</button>
+
+    <button id="pm-btn">PM</button>
+
+    <button id="call-btn">Call</button>
+
+    <button id="browser-btn">Shared Browser</button>
+
+    <button id="copy-btn">Copy</button>
+
+    <button class="delete" id="delete-btn" style="display:none;">
+
+      Delete
+
+    </button>
+
   </div>
-  <!-- ================= MESSAGE INPUT ================= -->
-  <div
-    class="imessage-input-bar"
-    id="input-bar"
-    style="display:none;"
-  >
+
+  <div class="imessage-input-bar" id="input-bar" style="display:none;">
+
     <div id="reply-preview">
+
       <span id="reply-text"></span>
-      <span
-        class="cancel-reply"
-        onclick="cancelReply()"
-      >
-        ✕
-      </span>
+
+      <span class="cancel-reply">✕</span>
+
     </div>
-<div class="input-row">
-  <button
-    class="icon-btn"
-    onclick="document.getElementById('image-input').click()"
-  >
-    📷
-  </button>
-  <input
-    type="file"
-    id="image-input"
-    accept="image/*,.gif"
-    style="display:none;"
-  >
-  <input
-    type="text"
-    id="message-input"
-    placeholder="iMessage"
-    autocomplete="off"
-  >
-  <button id="send-btn" onclick="sendMessage()">↑</button>
-</div>
+
+    <div class="input-row">
+
+      <button class="icon-btn" id="image-btn">📷</button>
+
+      <input
+
+        type="file"
+
+        id="image-input"
+
+        accept="image/*,.gif"
+
+        style="display:none;"
+
+      >
+
+      <input
+
+        type="text"
+
+        id="message-input"
+
+        placeholder="iMessage"
+
+        autocomplete="off"
+
+      >
+
+      <button id="send-btn">↑</button>
+
+    </div>
+
   </div>
-  <!-- ================= SHARED BROWSER ================= -->
+
+  <!-- SHARED BROWSER -->
+
   <div id="browser-screen">
-<div id="browser-layout">
-  <div id="browser-main">
-    <div id="browser-topbar">
-      <span id="browser-title">
-        Shared Browser
-      </span>
-      <div style="display:flex; gap:8px;">
-        <button
-          id="new-session-btn"
-          onclick="forceNewBrowser()"
-        >
-          New Session
-        </button>
-        <button
-          id="close-browser"
-          onclick="closeSharedBrowser()"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-    <div id="browser-container"></div>
-  </div>
-  <!-- SIDE PANEL -->
-  <div id="browser-sidepanel">
-    <div class="side-tabs">
-      <button
-        class="side-tab active"
-        data-tab="chat"
-        onclick="switchSideTab('chat')"
-      >
-        💬
-      </button>
-      <button
-        class="side-tab"
-        data-tab="call"
-        onclick="switchSideTab('call')"
-      >
-        📞
-      </button>
-      <button
-        class="side-tab"
-        data-tab="gifs"
-        onclick="switchSideTab('gifs')"
-      >
-        🖼️
-      </button>
-    </div>
-    <!-- SIDE CHAT -->
-    <div
-      id="side-chat"
-      class="side-content active"
-    >
-      <div id="side-messages"></div>
-      <div class="side-input-row">
-        <input
-          type="text"
-          id="side-message-input"
-          placeholder="Type a message..."
-          autocomplete="off"
-        >
-        <button onclick="sendSideMessage()">↑</button>
-      </div>
-    </div>
-    <!-- SIDE CALL -->
-    <div
-      id="side-call"
-      class="side-content"
-    >
-      <div style="padding:20px; text-align:center;">
-        <p style="margin-bottom:16px; opacity:0.8;">
-          Start a voice/video call while browsing
-        </p>
-        <button
-          class="side-call-btn"
-          onclick="startCallFromBrowser(true)"
-        >
-          📹 Video Call
-        </button>
-        <button
-          class="side-call-btn"
-          onclick="startCallFromBrowser(false)"
-        >
-          🎤 Voice Call
-        </button>
-      </div>
-    </div>
-    <!-- SIDE GIFS -->
-    <div
-      id="side-gifs"
-      class="side-content"
-    >
-      <div style="padding:12px;">
-        <input
-          type="text"
-          id="gif-search"
-          placeholder="Search GIFs..."
-          style="width:100%; padding:10px; border-radius:10px; border:none; background:#2a2a2a; color:white; margin-bottom:12px;"
-        >
-        <div
-          id="gif-results"
-          style="display:grid; grid-template-columns:1fr 1fr; gap:8px; max-height:400px; overflow-y:auto;"
-        ></div>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
-  <!-- ================= CALL SCREEN ================= -->
-  <div id="call-screen">
-<div id="call-header">
-  <span id="call-status">
-    Calling…
-  </span>
-  <button
-    id="end-call"
-    onclick="endCall()"
-  >
-    End
-  </button>
-</div>
-<div id="call-body">
-  <div
-    class="avatar-wrap"
-    id="remote-avatar-wrap"
-  >
-    <img
-      id="remote-avatar"
-      src=""
-      alt=""
-    >
-    <div
-      class="ring"
-      id="remote-ring"
-    ></div>
-  </div>
-  <div
-    class="avatar-wrap"
-    id="local-avatar-wrap"
-  >
-    <img
-      id="local-avatar"
-      src=""
-      alt=""
-    >
-    <div
-      class="ring"
-      id="local-ring"
-    ></div>
-  </div>
-  <video
-    id="remote-video"
-    autoplay
-    playsinline
-    webkit-playsinline
-  ></video>
-  <video
-    id="local-video"
-    autoplay
-    playsinline
-    webkit-playsinline
-    muted
-  ></video>
-</div>
-<div id="call-controls">
-  <button
-    id="mute-btn"
-    onclick="toggleMute()"
-  >
-    🎤
-  </button>
-  <button
-    id="video-btn"
-    onclick="toggleVideo()"
-  >
-    📷
-  </button>
-</div>
-  </div>
-  <!-- ================= INCOMING CALL ================= -->
-  <div id="incoming-call">
-<div id="incoming-name">
-  Incoming call…
-</div>
-<div
-  style="display:flex; justify-content:center; gap:12px;"
->
-  <button id="accept-call">
-    Accept
-  </button>
-  <button id="decline-call">
-    Decline
-  </button>
-</div>
-  </div>
-  <!-- ================= LOGIN ================= -->
-  <div id="login-screen">
-<div class="login-card">
-  <h2>
-    Lifeline Chat
-  </h2>
-  <input
-    id="login-email"
-    type="email"
-    placeholder="Email"
-    autocomplete="email"
-  >
-  <input
-    id="login-password"
-    type="password"
-    placeholder="Password"
-    autocomplete="current-password"
-  >
-  <button
-    class="btn-blue"
-    id="login-button"
-    onclick="login()"
-  >
-    Login
-  </button>
-  <button
-    class="btn-green"
-    onclick="showSignup()"
-  >
-    Create Account
-  </button>
-  <button
-    class="btn-gray"
-    onclick="signInWithGoogle()"
-  >
-    Continue with Google
-  </button>
-  <p
-    id="login-error"
-    class="error-text"
-  ></p>
-</div>
-  </div>
-  <!-- ================= SIGNUP ================= -->
-  <div
-    id="signup-screen"
-    style="display:none;"
-  >
-<div class="login-card">
-  <h2>
-    Create Account
-  </h2>
-  <input
-    id="nickname"
-    type="text"
-    placeholder="Nickname"
-    autocomplete="nickname"
-  >
-  <input
-    id="signup-email"
-    type="email"
-    placeholder="Email"
-    autocomplete="email"
-  >
-  <input
-    id="signup-password"
-    type="password"
-    placeholder="Password"
-    autocomplete="new-password"
-  >
-  <input
-    id="confirm-password"
-    type="password"
-    placeholder="Confirm Password"
-    autocomplete="new-password"
-  >
-  <button
-    class="btn-green"
-    onclick="signup()"
-  >
-    Sign Up
-  </button>
-  <button
-    class="btn-gray"
-    onclick="showLogin()"
-  >
-    Back to Login
-  </button>
-  <p
-    id="signup-error"
-    class="error-text"
-  ></p>
-</div>
-  </div>
-  <!-- ================= FIREBASE / APP ================= -->
-  <script type="module">
-    /* =========================================================
-       FIREBASE CONFIG
-       ========================================================= */
-    const firebaseConfig = {
-      apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
-      authDomain: "chatroomnew-739f4.firebaseapp.com",
-      databaseURL: "https://chatroomnew-739f4-default-rtdb.firebaseio.com",
-      projectId: "chatroomnew-739f4",
-      storageBucket: "chatroomnew-739f4.firebasestorage.app",
-      messagingSenderId: "552292977529",
-      appId: "1:552292977529:web:b04e2bc662668847ba7da8"
-    };
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      push,
-      onChildAdded,
-      onValue,
-      set,
-      remove,
-      serverTimestamp,
-      get,
-      update,
-      off
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-    import {
-      getStorage,
-      ref as storageRef,
-      uploadBytes,
-      getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword,
-      updateProfile,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-    import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
-    /* =========================================================
-       INITIALIZE FIREBASE
-       ========================================================= */
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const storage = getStorage(app);
-    const auth = getAuth(app);
-    /* =========================================================
-       STATE
-       ========================================================= */
-    let currentChatRef = null;
-    let isPrivate = false;
-    let privateWith = null;
-    let selectedMessage = null;
-    let replyTo = null;
-    let unsubscribe = null;
-    let hbClient = null;
-    let pc = null;
-    let localStream = null;
-    let callId = null;
-    let remoteUid = null;
-    let speakingInterval = null;
-    let incomingListener = null;
-    let pendingCall = null;
-    /* =========================================================
-       WEBRTC
-       ========================================================= */
-    const servers = {
-      iceServers: [
-        {
-          urls: "stun:stun1.l.google.com:19302"
-        },
-        {
-          urls: "stun:stun2.l.google.com:19302"
-        }
-      ],
-      iceCandidatePoolSize: 10
-    };
-    /* =========================================================
-       THEME
-       ========================================================= */
-    window.toggleDarkMode = () => {
-      const isDark =
-        document.documentElement.getAttribute("data-theme") === "dark";
-      const newTheme = isDark ? "light" : "dark";
-      document.documentElement.setAttribute(
-        "data-theme",
-        newTheme
-      );
-      document.body.setAttribute(
-        "data-theme",
-        newTheme
-      );
-      localStorage.setItem(
-        "chat-theme",
-        newTheme
-      );
-    };
-    const savedTheme =
-      localStorage.getItem("chat-theme");
-    if (savedTheme === "dark") {
-      document.documentElement.setAttribute(
-        "data-theme",
-        "dark"
-      );
-      document.body.setAttribute(
-        "data-theme",
-        "dark"
-      );
-    }
-    /* =========================================================
-       NOTIFICATIONS
-       ========================================================= */
-    async function askNotificationPermission() {
-      if (!("Notification" in window)) {
-        return;
-      }
-      if (Notification.permission === "granted") {
-        return;
-      }
-      if (Notification.permission !== "denied") {
-        try {
-          await Notification.requestPermission();
-        } catch (e) {
-          console.log("Notification permission unavailable");
-        }
-      }
-    }
-    function showNotif(title, body) {
-      if (
-        "Notification" in window &&
-        Notification.permission === "granted" &&
-        document.hidden
-      ) {
-        try {
-          new Notification(title, {
-            body,
-            icon: "/favicon.ico"
-          });
-        } catch (e) {}
-      }
-    }
-    /* =========================================================
-       AUTHENTICATION
-       ========================================================= */
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("login-screen").style.display =
-          "none";
-        document.getElementById("signup-screen").style.display =
-          "none";
-        document.getElementById("chat-container").style.display =
-          "flex";
-        document.getElementById("input-bar").style.display =
-          "flex";
-        document.getElementById("logout-btn").style.display =
-          "block";
-        switchToPublic();
-        listenForIncomingCalls();
-        askNotificationPermission();
-        loadSideMessages();
-      } else {
-        document.getElementById("login-screen").style.display =
-          "flex";
-        document.getElementById("signup-screen").style.display =
-          "none";
-        document.getElementById("chat-container").style.display =
-          "none";
-        document.getElementById("input-bar").style.display =
-          "none";
-        document.getElementById("logout-btn").style.display =
-          "none";
-        document.getElementById("header-title").textContent =
-          "Lifeline Chat";
-        if (unsubscribe) {
-          unsubscribe();
-          unsubscribe = null;
-        }
-      }
-    });
-    /* =========================================================
-       LOGIN SCREEN
-       ========================================================= */
-    window.showSignup = () => {
-      document.getElementById("login-error").textContent = "";
-      document.getElementById("login-screen").style.display =
-        "none";
-      document.getElementById("signup-screen").style.display =
-        "flex";
-    };
-    window.showLogin = () => {
-      document.getElementById("signup-error").textContent = "";
-      document.getElementById("signup-screen").style.display =
-        "none";
-      document.getElementById("login-screen").style.display =
-        "flex";
-    };
-    /* =========================================================
-       FIREBASE ERROR TRANSLATION
-       ========================================================= */
-    function friendlyAuthError(error) {
-      const code = error?.code || "";
-      switch (code) {
-        case "auth/invalid-email":
-          return "Please enter a valid email address.";
-        case "auth/missing-password":
-          return "Please enter your password.";
-        case "auth/invalid-credential":
-        case "auth/wrong-password":
-        case "auth/user-not-found":
-          return "Incorrect email or password.";
-        case "auth/email-already-in-use":
-          return "An account already exists with this email.";
-        case "auth/weak-password":
-          return "Password must be at least 6 characters.";
-        case "auth/popup-closed-by-user":
-          return "Google sign-in was cancelled.";
-        case "auth/popup-blocked":
-          return "Your browser blocked the Google sign-in window.";
-        case "auth/network-request-failed":
-          return "Network error. Check your internet connection.";
-        case "auth/too-many-requests":
-          return "Too many attempts. Please wait a little and try again.";
-        default:
-          return error?.message || "Something went wrong. Please try again.";
-      }
-    }
-    /* =========================================================
-       GOOGLE LOGIN
-       ========================================================= */
-    window.signInWithGoogle = async () => {
-      const errorEl =
-        document.getElementById("login-error");
-      errorEl.textContent = "";
-      try {
-        const provider =
-          new GoogleAuthProvider();
-        await signInWithPopup(
-          auth,
-          provider
-        );
-      } catch (err) {
-        console.error("Google login error:", err);
-        errorEl.textContent =
-          friendlyAuthError(err);
-      }
-    };
-    /* =========================================================
-       EMAIL LOGIN
-       ========================================================= */
-    window.login = async () => {
-      const email =
-        document.getElementById("login-email").value.trim();
-      const password =
-        document.getElementById("login-password").value;
-      const errorEl =
-        document.getElementById("login-error");
-      const button =
-        document.getElementById("login-button");
-      errorEl.textContent = "";
-      if (!email) {
-        errorEl.textContent =
-          "Please enter your email.";
-        return;
-      }
-      if (!password) {
-        errorEl.textContent =
-          "Please enter your password.";
-        return;
-      }
-      button.disabled = true;
-      button.textContent = "Logging in…";
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-      } catch (err) {
-        console.error("Login error:", err);
-        errorEl.textContent =
-          friendlyAuthError(err);
-      } finally {
-        button.disabled = false;
-        button.textContent = "Login";
-      }
-    };
-    /* =========================================================
-       SIGNUP
-       ========================================================= */
-    window.signup = async () => {
-      const nickname =
-        document.getElementById("nickname").value.trim();
-      const email =
-        document.getElementById("signup-email").value.trim();
-      const password =
-        document.getElementById("signup-password").value;
-      const confirm =
-        document.getElementById("confirm-password").value;
-      const errorEl =
-        document.getElementById("signup-error");
-      errorEl.textContent = "";
-      if (nickname.length < 3) {
-        errorEl.textContent =
-          "Nickname must be at least 3 characters.";
-        return;
-      }
-      if (!email) {
-        errorEl.textContent =
-          "Please enter an email address.";
-        return;
-      }
-      if (password.length < 6) {
-        errorEl.textContent =
-          "Password must be at least 6 characters.";
-        return;
-      }
-      if (password !== confirm) {
-        errorEl.textContent =
-          "Passwords don't match.";
-        return;
-      }
-      try {
-        const cred =
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-        await updateProfile(
-          cred.user,
-          {
-            displayName: nickname
-          }
-        );
-      } catch (err) {
-        console.error("Signup error:", err);
-        errorEl.textContent =
-          friendlyAuthError(err);
-      }
-    };
-    /* =========================================================
-       LOGOUT
-       ========================================================= */
-    window.logout = async () => {
-      try {
-        await signOut(auth);
-        if (pc || localStream) {
-          await endCall();
-        }
-      } catch (err) {
-        console.error("Logout error:", err);
-      }
-    };
-    /* =========================================================
-       PUBLIC / PRIVATE CHAT
-       ========================================================= */
-    function getPrivateChatId(uid1, uid2) {
-      return [uid1, uid2]
-        .sort()
-        .join("_");
-    }
-    window.startPrivateMessage = () => {
-      if (!selectedMessage || !auth.currentUser) {
-        return;
-      }
-      const otherUid =
-        selectedMessage.data.uid;
-      const otherName =
-        selectedMessage.data.name || "Someone";
-      if (otherUid === auth.currentUser.uid) {
-        alert("You can't PM yourself.");
-        return;
-      }
-      const chatId =
-        getPrivateChatId(
-          auth.currentUser.uid,
-          otherUid
-        );
-      currentChatRef =
-        ref(db, `private-chats/${chatId}`);
-      isPrivate = true;
-      privateWith = {
-        uid: otherUid,
-        name: otherName
-      };
-      document.getElementById("header-title").innerHTML =
-        `PM • ${escapeHtml(otherName)}
-         <span class="pm-badge">Private</span>`;
-      document.getElementById("header-back").textContent =
-        "← Public Chat";
-      document.getElementById("context-menu").style.display =
-        "none";
-      loadMessages();
-    };
-    window.goBack = () => {
-      if (isPrivate) {
-        switchToPublic();
-      } else {
-        location.href = "index.html";
-      }
-    };
-    function switchToPublic() {
-      currentChatRef =
-        ref(db, "lifeline-chat");
-      isPrivate = false;
-      privateWith = null;
-      document.getElementById("header-title").textContent =
-        "Lifeline Chat";
-      document.getElementById("header-back").textContent =
-        "← Dashboard";
-      loadMessages();
-    }
-    /* =========================================================
-       HTML ESCAPING
-       ========================================================= */
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-    /* =========================================================
-       LINKIFY
-       ========================================================= */
-    function linkify(text) {
-      const escaped =
-        escapeHtml(text);
-      return escaped.replace(
-        /(https?:\/\/[^\s<]+)/g,
-        (url) => {
-          const cleanUrl =
-            url.replace(/[.,!?;:]+$/, "");
-          if (
-            /\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(cleanUrl) ||
-            cleanUrl.includes("giphy.com") ||
-            cleanUrl.includes("tenor.com")
-          ) {
-            return `
-              <img
-                src="${cleanUrl}"
-                alt="media"
-                style="max-width:100%;border-radius:12px;margin-top:6px;"
-              >
-            `;
-          }
-          return `
-            <a
-              href="${cleanUrl}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >${cleanUrl}</a>
-          `;
-        }
-      );
-    }
-    /* =========================================================
-       CONTEXT MENU
-       ========================================================= */
-    function showContextMenu(
-      e,
-      msgData,
-      element
-    ) {
-      e.preventDefault();
-      selectedMessage = {
-        data: msgData,
-        element,
-        key: element.dataset.key
-      };
-      const menu =
-        document.getElementById("context-menu");
-      menu.style.display = "block";
-      const point =
-        e.touches?.[0] || e.changedTouches?.[0] || e;
-      const x =
-        point?.clientX || 100;
-      const y =
-        point?.clientY || 100;
-      menu.style.left =
-        Math.min(
-          x,
-          window.innerWidth - 210
-        ) + "px";
-      menu.style.top =
-        Math.min(
-          y,
-          window.innerHeight - 280
-        ) + "px";
-      document.getElementById("delete-btn").style.display =
-        msgData.uid === auth.currentUser?.uid
-          ? "block"
-          : "none";
-    }
-    document.addEventListener("click", (e) => {
-      const menu =
-        document.getElementById("context-menu");
-      if (
-        !menu.contains(e.target)
-      ) {
-        menu.style.display = "none";
-      }
-    });
-    /* =========================================================
-       REPLY
-       ========================================================= */
-    window.replyToMessage = () => {
-      if (!selectedMessage) {
-        return;
-      }
-      replyTo =
-        selectedMessage.data;
-      document.getElementById("reply-preview").style.display =
-        "block";
-      document.getElementById("reply-text").textContent =
-        `Replying to ${replyTo.name || "Someone"}: ${
-          replyTo.text || "Image"
-        }`;
-      document.getElementById("context-menu").style.display =
-        "none";
-      document.getElementById("message-input").focus();
-    };
-    window.cancelReply = () => {
-      replyTo = null;
-      document.getElementById("reply-preview").style.display =
-        "none";
-    };
-    /* =========================================================
-       COPY
-       ========================================================= */
-    window.copyMessage = async () => {
-      if (!selectedMessage) {
-        return;
-      }
-      const value =
-        selectedMessage.data.text ||
-        selectedMessage.data.imageUrl ||
-        "";
-      try {
-        await navigator.clipboard.writeText(value);
-      } catch (e) {
-        console.error("Copy failed:", e);
-      }
-      document.getElementById("context-menu").style.display =
-        "none";
-    };
-    /* =========================================================
-       DELETE
-       ========================================================= */
-    window.deleteMessage = async () => {
-      if (
-        !selectedMessage ||
-        !selectedMessage.key ||
-        !auth.currentUser
-      ) {
-        return;
-      }
-      if (
-        selectedMessage.data.uid !==
-        auth.currentUser.uid
-      ) {
-        return;
-      }
-      if (!confirm("Delete this message?")) {
-        return;
-      }
-      try {
-        const path =
-          isPrivate
-            ? `private-chats/${getPrivateChatId(
-                auth.currentUser.uid,
-                privateWith.uid
-              )}/${selectedMessage.key}`
-            : `lifeline-chat/${selectedMessage.key}`;
-        await remove(
-          ref(db, path)
-        );
-        selectedMessage.element.remove();
-      } catch (err) {
-        console.error(err);
-        alert("Could not delete message.");
-      }
-      document.getElementById("context-menu").style.display =
-        "none";
-    };
-    /* =========================================================
-       SEND MESSAGE
-       ========================================================= */
-    window.sendMessage = async () => {
-      const input =
-        document.getElementById("message-input");
-      const text =
-        input.value.trim();
-      if (
-        !text ||
-        !auth.currentUser ||
-        !currentChatRef
-      ) {
-        return;
-      }
-      const isMediaLink =
-        /\.(gif|png|jpg|jpeg|webp)(\?.*)?$/i.test(text) ||
-        text.includes("giphy.com") ||
-        text.includes("tenor.com");
-      const messageData = {
-        name:
-          auth.currentUser.displayName ||
-          auth.currentUser.email?.split("@")[0] ||
-          "Someone",
-        timestamp:
-          serverTimestamp(),
-        uid:
-          auth.currentUser.uid,
-        type:
-          isMediaLink
-            ? "image"
-            : "text"
-      };
-      if (isMediaLink) {
-        messageData.imageUrl =
-          text;
-      } else {
-        messageData.text =
-          text;
-      }
-      if (replyTo) {
-        messageData.replyTo = {
-          name:
-            replyTo.name || "Someone",
-          text:
-            replyTo.text || "Image"
-        };
-      }
-      try {
-        await push(
-          currentChatRef,
-          messageData
-        );
-        input.value = "";
-        cancelReply();
-      } catch (err) {
-        console.error(err);
-        alert(
-          "Message could not be sent."
-        );
-      }
-    };
-    /* =========================================================
-       IMAGE UPLOAD
-       ========================================================= */
-    document
-      .getElementById("image-input")
-      .addEventListener(
-        "change",
-        async (e) => {
-          const file =
-            e.target.files[0];
-          if (
-            !file ||
-            !auth.currentUser ||
-            !currentChatRef
-          ) {
-            return;
-          }
-          const btn =
-            document.getElementById("send-btn");
-          btn.textContent = "…";
-          btn.disabled = true;
-          try {
-            const safeName =
-              file.name.replace(
-                /[^a-zA-Z0-9._-]/g,
-                "_"
-              );
-            const fileRef =
-              storageRef(
-                storage,
-                `chat-images/${Date.now()}_${safeName}`
-              );
-            await uploadBytes(
-              fileRef,
-              file
-            );
-            const url =
-              await getDownloadURL(fileRef);
-            await push(
-              currentChatRef,
-              {
-                name:
-                  auth.currentUser.displayName ||
-                  auth.currentUser.email?.split("@")[0] ||
-                  "Someone",
-                imageUrl:
-                  url,
-                timestamp:
-                  serverTimestamp(),
-                uid:
-                  auth.currentUser.uid,
-                type:
-                  "image"
-              }
-            );
-          } catch (err) {
-            console.error(
-              "Image upload error:",
-              err
-            );
-            alert(
-              "Image upload failed."
-            );
-          } finally {
-            btn.textContent = "↑";
-            btn.disabled = false;
-            e.target.value = "";
-          }
-        }
-      );
-    /* =========================================================
-       LOAD MESSAGES
-       ========================================================= */
-    function loadMessages() {
-      const container =
-        document.getElementById("chat-container");
-      container.innerHTML = "";
-      if (unsubscribe) {
-        unsubscribe();
-        unsubscribe = null;
-      }
-      if (!currentChatRef) {
-        return;
-      }
-      let isInitialLoad = true;
-      setTimeout(() => {
-        isInitialLoad = false;
-      }, 800);
-      unsubscribe =
-        onChildAdded(
-          currentChatRef,
-          (snap) => {
-            const msg =
-              snap.val();
-            if (!msg) {
-              return;
-            }
-            const isMe =
-              msg.uid ===
-              auth.currentUser?.uid;
-            const div =
-              document.createElement("div");
-            div.className =
-              `message ${isMe ? "sent" : "received"}`;
-            div.dataset.key =
-              snap.key;
-            let time = "";
-            if (msg.timestamp) {
-              try {
-                time =
-                  new Date(
-                    msg.timestamp
-                  ).toLocaleTimeString(
-                    [],
-                    {
-                      hour: "numeric",
-                      minute: "2-digit"
-                    }
-                  );
-              } catch (e) {}
-            }
-            let content = "";
-            if (
-              msg.type === "image" &&
-              msg.imageUrl
-            ) {
-              content = `
-                <img
-                  src="${escapeHtml(msg.imageUrl)}"
-                  alt="Image"
-                  loading="lazy"
-                >
-              `;
-            } else {
-              content =
-                linkify(msg.text || "");
-            }
-            let replyHtml = "";
-            if (msg.replyTo) {
-              replyHtml = `
-                <div
-                  style="
-                    font-size:13px;
-                    opacity:0.8;
-                    border-left:3px solid ${
-                      isMe
-                        ? "rgba(255,255,255,0.5)"
-                        : "#007aff"
-                    };
-                    padding-left:8px;
-                    margin-bottom:6px;
-                  "
-                >
-                  <strong>
-                    ${escapeHtml(msg.replyTo.name || "Someone")}
-                  </strong>
-                  <br>
-                  ${escapeHtml(msg.replyTo.text || "Image")}
-                </div>
-              `;
-            }
-            div.innerHTML = `
-              ${
-                !isMe
-                  ? `<div class="sender-name">
-                       ${escapeHtml(msg.name || "Someone")}
-                     </div>`
-                  : ""
-              }
-              ${replyHtml}
-              ${content}
-              <div class="timestamp">
-                ${time}
-              </div>
-            `;
-            if (
-              !isMe &&
-              !isInitialLoad
-            ) {
-              showNotif(
-                msg.name || "Someone",
-                msg.text || "Sent an image"
-              );
-            }
-            let pressTimer = null;
-            div.addEventListener(
-              "contextmenu",
-              (e) =>
-                showContextMenu(
-                  e,
-                  msg,
-                  div
-                )
-            );
-            div.addEventListener(
-              "touchstart",
-              (e) => {
-                pressTimer =
-                  setTimeout(
-                    () =>
-                      showContextMenu(
-                        e,
-                        msg,
-                        div
-                      ),
-                    550
-                  );
-              },
-              {
-                passive: true
-              }
-            );
-            div.addEventListener(
-              "touchend",
-              () => {
-                if (pressTimer) {
-                  clearTimeout(
-                    pressTimer
-                  );
-                }
-              }
-            );
-            div.addEventListener(
-              "touchmove",
-              () => {
-                if (pressTimer) {
-                  clearTimeout(
-                    pressTimer
-                  );
-                }
-              }
-            );
-            container.appendChild(div);
-            container.scrollTop =
-              container.scrollHeight;
-          }
-        );
-    }
-    /* =========================================================
-       ENTER TO SEND
-       ========================================================= */
-    document
-      .getElementById("message-input")
-      .addEventListener(
-        "keypress",
-        (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            sendMessage();
-          }
-        }
-      );
-    /* =========================================================
-       SIDE PANEL
-       ========================================================= */
-    window.switchSideTab = (tab) => {
-      document
-        .querySelectorAll(".side-tab")
-        .forEach(
-          (t) =>
-            t.classList.remove("active")
-        );
-      document
-        .querySelectorAll(".side-content")
-        .forEach(
-          (c) =>
-            c.classList.remove("active")
-        );
-      const tabButton =
-        document.querySelector(
-          `.side-tab[data-tab="${tab}"]`
-        );
-      const content =
-        document.getElementById(
-          `side-${tab}`
-        );
-      if (tabButton) {
-        tabButton.classList.add("active");
-      }
-      if (content) {
-        content.classList.add("active");
-      }
-    };
-    window.sendSideMessage = async () => {
-      const input =
-        document.getElementById(
-          "side-message-input"
-        );
-      const text =
-        input.value.trim();
-      if (
-        !text ||
-        !auth.currentUser
-      ) {
-        return;
-      }
-      try {
-        await push(
-          ref(db, "lifeline-chat"),
-          {
-            name:
-              auth.currentUser.displayName ||
-              "Someone",
-            text,
-            timestamp:
-              serverTimestamp(),
-            uid:
-              auth.currentUser.uid,
-            type:
-              "text"
-          }
-        );
-        input.value = "";
-      } catch (err) {
-        console.error(
-          "Side message error:",
-          err
-        );
-      }
-    };
-    function loadSideMessages() {
-      const container =
-        document.getElementById(
-          "side-messages"
-        );
-      if (!container) {
-        return;
-      }
-      container.innerHTML = "";
-      onChildAdded(
-        ref(db, "lifeline-chat"),
-        (snap) => {
-          const msg =
-            snap.val();
-          if (
-            !msg ||
-            !msg.text
-          ) {
-            return;
-          }
-          const isMe =
-            msg.uid ===
-            auth.currentUser?.uid;
-          const div =
-            document.createElement("div");
-          div.className =
-            `side-msg ${
-              isMe ? "me" : "them"
-            }`;
-          div.textContent =
-            isMe
-              ? msg.text
-              : `${msg.name || "Someone"}: ${msg.text}`;
-          container.appendChild(div);
-          container.scrollTop =
-            container.scrollHeight;
-        }
-      );
-    }
-    document
-      .getElementById("side-message-input")
-      .addEventListener(
-        "keypress",
-        (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            sendSideMessage();
-          }
-        }
-      );
-    /* =========================================================
-       GIF SEARCH
-       ========================================================= */
-    const gifSearch =
-      document.getElementById(
-        "gif-search"
-      );
-    let gifSearchTimer = null;
-    gifSearch?.addEventListener(
-      "input",
-      () => {
-        clearTimeout(
-          gifSearchTimer
-        );
-        gifSearchTimer =
-          setTimeout(
-            searchGIFs,
-            450
-          );
-      }
-    );
-    async function searchGIFs() {
-      const q =
-        gifSearch.value.trim();
-      const results =
-        document.getElementById(
-          "gif-results"
-        );
-      if (
-        q.length < 2
-      ) {
-        results.innerHTML = "";
-        return;
-      }
-      /*
-       * IMPORTANT:
-       * Put your Tenor API key in this variable.
-       *
-       * Do not use the placeholder from the old code.
-       */
-      const TENOR_KEY =
-        "AIzaSyCxx-YOUR-TENOR-KEY";
-      if (
-        TENOR_KEY.includes(
-          "YOUR-TENOR-KEY"
-        )
-      ) {
-        results.innerHTML = `
-          <div style="
-            grid-column:1/-1;
-            color:#aaa;
-            font-size:13px;
-            text-align:center;
-            padding:20px;
-          ">
-            Add your Tenor API key to enable GIF search.
+
+    <div id="browser-layout">
+
+      <div id="browser-main">
+
+        <div id="browser-topbar">
+
+          <span id="browser-title">Shared Browser</span>
+
+          <div style="display:flex;gap:8px;">
+
+            <button id="new-session-btn">
+
+              New Session
+
+            </button>
+
+            <button id="close-browser">
+
+              Close
+
+            </button>
+
           </div>
-        `;
-        return;
-      }
-      try {
-        const url =
-          `https://tenor.googleapis.com/v2/search?q=${
-            encodeURIComponent(q)
-          }&key=${
-            encodeURIComponent(TENOR_KEY)
-          }&limit=12&media_filter=tinygif,gif`;
-        const res =
-          await fetch(url);
-        if (!res.ok) {
-          throw new Error(
-            "GIF search failed"
-          );
-        }
-        const data =
-          await res.json();
-        results.innerHTML = "";
-        (data.results || [])
-          .forEach((gif) => {
-            const tiny =
-              gif.media_formats?.tinygif?.url;
-            const full =
-              gif.media_formats?.gif?.url;
-            if (!tiny || !full) {
-              return;
-            }
-            const img =
-              document.createElement("img");
-            img.src =
-              tiny;
-            img.alt =
-              "GIF";
-            img.style.cssText =
-              "width:100%;border-radius:8px;cursor:pointer;";
-            img.onclick =
-              async () => {
-                if (!auth.currentUser) {
-                  return;
-                }
-                try {
-                  await push(
-                    ref(
-                      db,
-                      "lifeline-chat"
-                    ),
-                    {
-                      name:
-                        auth.currentUser.displayName ||
-                        "Someone",
-                      imageUrl:
-                        full,
-                      type:
-                        "image",
-                      timestamp:
-                        serverTimestamp(),
-                      uid:
-                        auth.currentUser.uid
-                    }
-                  );
-                } catch (err) {
-                  console.error(
-                    "GIF send error:",
-                    err
-                  );
-                }
-              };
-            results.appendChild(img);
-          });
-      } catch (err) {
-        console.error(
-          "GIF search error:",
-          err
-        );
-        results.innerHTML = `
-          <div style="
-            grid-column:1/-1;
-            color:#ff6b6b;
-            text-align:center;
-            padding:20px;
-          ">
-            GIF search failed.
-          </div>
-        `;
-      }
-    }
-    /* =========================================================
-       SHARED HYPERBEAM BROWSER
-       ========================================================= */
-    window.openSharedBrowser = async () => {
-      if (!auth.currentUser) {
-        return;
-      }
-      document.getElementById(
-        "context-menu"
-      ).style.display = "none";
-      const screen =
-        document.getElementById(
-          "browser-screen"
-        );
-      screen.style.display =
-        "flex";
-      await createHyperbeamSession();
-    };
-    async function createHyperbeamSession() {
-      const container =
-        document.getElementById(
-          "browser-container"
-        );
-      container.innerHTML = `
-        <div style="
-          color:white;
-          height:100%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-size:16px;
-        ">
-          Starting shared browser…
+
         </div>
-      `;
-      try {
-        const response =
-          await fetch(
-            "/api/hyperbeam",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type":
-                  "application/json"
-              }
-            }
-          );
-        const data =
-          await response.json();
-        if (!response.ok) {
-          throw new Error(
-            data.error ||
-            "Unable to start browser"
-          );
-        }
-        if (!data.embed_url) {
-          throw new Error(
-            "Hyperbeam did not return an embed URL."
-          );
-        }
-        /*
-         * Hyperbeam's embed URL is loaded directly.
-         * The server-side API key never reaches the browser.
-         */
-        container.innerHTML = "";
-        const iframe =
-          document.createElement("iframe");
-        iframe.src =
-          data.embed_url;
-        iframe.allow =
-          "autoplay; fullscreen; microphone; camera; clipboard-read; clipboard-write";
-        iframe.allowFullscreen =
-          true;
-        container.appendChild(
-          iframe
-        );
-      } catch (err) {
-        console.error(
-          "Hyperbeam error:",
-          err
-        );
-        container.innerHTML = `
-          <div style="
-            color:white;
-            height:100%;
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            text-align:center;
-            padding:30px;
-          ">
-            <div style="
-              font-size:18px;
-              font-weight:600;
-              margin-bottom:8px;
-            ">
-              Shared Browser couldn't start
-            </div>
-            <div style="
-              color:#aaa;
-              font-size:14px;
-              max-width:400px;
-            ">
-              ${escapeHtml(err.message)}
-            </div>
+
+        <div id="browser-container"></div>
+
+      </div>
+
+      <div id="browser-sidepanel">
+
+        <div class="side-tabs">
+
+          <button class="side-tab active" data-tab="chat">
+
+            💬
+
+          </button>
+
+          <button class="side-tab" data-tab="call">
+
+            📞
+
+          </button>
+
+          <button class="side-tab" data-tab="gifs">
+
+            🖼️
+
+          </button>
+
+        </div>
+
+        <div id="side-chat" class="side-content active">
+
+          <div id="side-messages"></div>
+
+          <div class="side-input-row">
+
+            <input
+
+              type="text"
+
+              id="side-message-input"
+
+              placeholder="Type a message..."
+
+              autocomplete="off"
+
+            >
+
+            <button id="side-send-btn">
+
+              ↑
+
+            </button>
+
           </div>
-        `;
-      }
+
+        </div>
+
+        <div id="side-call" class="side-content">
+
+          <div style="padding:20px;text-align:center;color:white;">
+
+            <p style="margin-bottom:16px;opacity:.8;">
+
+              Start a call while browsing
+
+            </p>
+
+            <button class="side-call-btn" id="browser-video-call">
+
+              📹 Video Call
+
+            </button>
+
+            <button class="side-call-btn" id="browser-voice-call">
+
+              🎤 Voice Call
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <div id="side-gifs" class="side-content">
+
+          <div style="padding:12px;">
+
+            <input
+
+              type="text"
+
+              id="gif-search"
+
+              placeholder="Search GIFs..."
+
+              style="width:100%;padding:10px;border-radius:10px;border:none;background:#2a2a2a;color:white;"
+
+            >
+
+            <div
+
+              id="gif-results"
+
+              style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;max-height:400px;overflow-y:auto;"
+
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CALL SCREEN -->
+
+  <div id="call-screen">
+
+    <div id="call-header">
+
+      <span id="call-status">Calling…</span>
+
+      <button id="end-call">End</button>
+
+    </div>
+
+    <div id="call-body">
+
+      <div class="avatar-wrap" id="remote-avatar-wrap">
+
+        <img id="remote-avatar" src="" alt="">
+
+        <div class="ring" id="remote-ring"></div>
+
+      </div>
+
+      <div class="avatar-wrap" id="local-avatar-wrap">
+
+        <img id="local-avatar" src="" alt="">
+
+        <div class="ring" id="local-ring"></div>
+
+      </div>
+
+      <video
+
+        id="remote-video"
+
+        autoplay
+
+        playsinline
+
+        webkit-playsinline
+
+      ></video>
+
+      <video
+
+        id="local-video"
+
+        autoplay
+
+        playsinline
+
+        webkit-playsinline
+
+        muted
+
+      ></video>
+
+    </div>
+
+    <div id="call-controls">
+
+      <button id="mute-btn">🎤</button>
+
+      <button id="video-btn">📷</button>
+
+    </div>
+
+  </div>
+
+  <!-- INCOMING CALL -->
+
+  <div id="incoming-call">
+
+    <div id="incoming-name">
+
+      Incoming call…
+
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:12px;">
+
+      <button id="accept-call">Accept</button>
+
+      <button id="decline-call">Decline</button>
+
+    </div>
+
+  </div>
+
+  <!-- LOGIN -->
+
+  <div id="login-screen">
+
+    <div class="login-card">
+
+      <h2>Lifeline Chat</h2>
+
+      <input
+
+        id="login-email"
+
+        type="email"
+
+        placeholder="Email"
+
+        autocomplete="email"
+
+      >
+
+      <input
+
+        id="login-password"
+
+        type="password"
+
+        placeholder="Password"
+
+        autocomplete="current-password"
+
+      >
+
+      <button class="btn-blue" id="login-btn">
+
+        Login
+
+      </button>
+
+      <button class="btn-green" id="signup-show-btn">
+
+        Create Account
+
+      </button>
+
+      <button class="btn-gray" id="google-btn">
+
+        Continue with Google
+
+      </button>
+
+      <p id="login-error" class="error-text"></p>
+
+    </div>
+
+  </div>
+
+  <!-- SIGNUP -->
+
+  <div id="signup-screen" style="display:none;">
+
+    <div class="login-card">
+
+      <h2>Create Account</h2>
+
+      <input
+
+        id="nickname"
+
+        type="text"
+
+        placeholder="Nickname"
+
+        autocomplete="nickname"
+
+      >
+
+      <input
+
+        id="signup-email"
+
+        type="email"
+
+        placeholder="Email"
+
+        autocomplete="email"
+
+      >
+
+      <input
+
+        id="signup-password"
+
+        type="password"
+
+        placeholder="Password"
+
+        autocomplete="new-password"
+
+      >
+
+      <input
+
+        id="confirm-password"
+
+        type="password"
+
+        placeholder="Confirm Password"
+
+        autocomplete="new-password"
+
+      >
+
+      <button class="btn-green" id="signup-btn">
+
+        Sign Up
+
+      </button>
+
+      <button class="btn-gray" id="login-show-btn">
+
+        Back to Login
+
+      </button>
+
+      <p id="signup-error" class="error-text"></p>
+
+    </div>
+
+  </div>
+
+  <script type="module">
+
+    /*
+
+     * ============================================================
+
+     * FIREBASE
+
+     * ============================================================
+
+     */
+
+    import {
+
+      initializeApp
+
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+    import {
+
+      getDatabase,
+
+      ref,
+
+      push,
+
+      onChildAdded,
+
+      onValue,
+
+      set,
+
+      remove,
+
+      serverTimestamp,
+
+      get,
+
+      update
+
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+    import {
+
+      getStorage,
+
+      ref as storageRef,
+
+      uploadBytes,
+
+      getDownloadURL
+
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+    import {
+
+      getAuth,
+
+      GoogleAuthProvider,
+
+      signInWithPopup,
+
+      signInWithEmailAndPassword,
+
+      createUserWithEmailAndPassword,
+
+      updateProfile,
+
+      onAuthStateChanged,
+
+      signOut
+
+    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    /*
+
+     * IMPORTANT:
+
+     * This is the current Hyperbeam browser SDK.
+
+     *
+
+     * The frontend does NOT call engine.hyperbeam.com directly.
+
+     * It calls /api/create-browser.js.
+
+     *
+
+     * Your create-browser.js creates the session and returns:
+
+     *   embed_url
+
+     *   admin_token
+
+     *   session_id
+
+     */
+
+    import Hyperbeam from
+
+      "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
+
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
+
+      authDomain: "chatroomnew-739f4.firebaseapp.com",
+
+      databaseURL: "https://chatroomnew-739f4-default-rtdb.firebaseio.com",
+
+      projectId: "chatroomnew-739f4",
+
+      storageBucket: "chatroomnew-739f4.firebasestorage.app",
+
+      messagingSenderId: "552292977529",
+
+      appId: "1:552292977529:web:b04e2bc662668847ba7da8"
+
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const db = getDatabase(app);
+
+    const storage = getStorage(app);
+
+    const auth = getAuth(app);
+
+    /*
+
+     * ============================================================
+
+     * STATE
+
+     * ============================================================
+
+     */
+
+    let currentChatRef = null;
+
+    let isPrivate = false;
+
+    let privateWith = null;
+
+    let selectedMessage = null;
+
+    let replyTo = null;
+
+    let unsubscribe = null;
+
+    let sideMessagesUnsubscribe = null;
+
+    let hbClient = null;
+
+    let hbSessionId = null;
+
+    let pc = null;
+
+    let localStream = null;
+
+    let callId = null;
+
+    let remoteUid = null;
+
+    let speakingInterval = null;
+
+    let incomingListener = null;
+
+    let pendingCall = null;
+
+    const servers = {
+
+      iceServers: [
+
+        {
+
+          urls: "stun:stun1.l.google.com:19302"
+
+        },
+
+        {
+
+          urls: "stun:stun2.l.google.com:19302"
+
+        }
+
+      ],
+
+      iceCandidatePoolSize: 10
+
+    };
+
+    /*
+
+     * ============================================================
+
+     * THEME
+
+     * ============================================================
+
+     */
+
+    const savedTheme = localStorage.getItem("chat-theme");
+
+    if (savedTheme === "dark") {
+
+      document.body.setAttribute("data-theme", "dark");
+
     }
-    window.forceNewBrowser = async () => {
-      await createHyperbeamSession();
-    };
-    window.closeSharedBrowser = () => {
-      const screen =
-        document.getElementById(
-          "browser-screen"
-        );
-      screen.style.display =
-        "none";
-      document.getElementById(
-        "browser-container"
-      ).innerHTML = "";
-    };
-    /* =========================================================
-       CALLS
-       ========================================================= */
-    window.startCall = async (
-      withVideo = true
-    ) => {
-      if (
-        !selectedMessage ||
-        !auth.currentUser
-      ) {
-        return;
+
+    document.getElementById("theme-btn").addEventListener("click", () => {
+
+      const dark =
+
+        document.body.getAttribute("data-theme") === "dark";
+
+      document.body.setAttribute(
+
+        "data-theme",
+
+        dark ? "light" : "dark"
+
+      );
+
+      localStorage.setItem(
+
+        "chat-theme",
+
+        dark ? "light" : "dark"
+
+      );
+
+    });
+
+    /*
+
+     * ============================================================
+
+     * AUTH
+
+     * ============================================================
+
+     */
+
+    onAuthStateChanged(auth, async user => {
+
+      if (user) {
+
+        document.getElementById("login-screen").style.display =
+
+          "none";
+
+        document.getElementById("signup-screen").style.display =
+
+          "none";
+
+        document.getElementById("chat-container").style.display =
+
+          "flex";
+
+        document.getElementById("input-bar").style.display =
+
+          "flex";
+
+        document.getElementById("logout-btn").style.display =
+
+          "block";
+
+        switchToPublic();
+
+        listenForIncomingCalls();
+
+      } else {
+
+        document.getElementById("login-screen").style.display =
+
+          "flex";
+
+        document.getElementById("signup-screen").style.display =
+
+          "none";
+
+        document.getElementById("chat-container").style.display =
+
+          "none";
+
+        document.getElementById("input-bar").style.display =
+
+          "none";
+
+        document.getElementById("logout-btn").style.display =
+
+          "none";
+
+        closeSharedBrowser();
+
       }
-      remoteUid =
-        selectedMessage.data.uid;
-      if (
-        remoteUid ===
-        auth.currentUser.uid
-      ) {
-        alert(
-          "Can't call yourself."
-        );
-        return;
-      }
-      document.getElementById(
-        "context-menu"
-      ).style.display = "none";
-      document.getElementById(
-        "call-screen"
-      ).style.display = "flex";
-      document.getElementById(
-        "call-status"
-      ).textContent =
-        "Calling…";
-      document.getElementById(
-        "remote-avatar"
-      ).src =
-        "https://i.pravatar.cc/150?u=" +
-        remoteUid;
-      document.getElementById(
-        "local-avatar"
-      ).src =
-        "https://i.pravatar.cc/150?u=" +
-        auth.currentUser.uid;
-      try {
-        localStream =
-          await navigator.mediaDevices.getUserMedia(
-            {
-              audio: true,
-              video: withVideo
-            }
-          );
-        document.getElementById(
-          "local-video"
-        ).srcObject =
-          localStream;
-        document.getElementById(
-          "local-video"
-        ).play().catch(() => {});
-      } catch (e) {
-        console.error(e);
-        alert(
-          "Microphone/camera permission is required."
-        );
-        return endCall();
-      }
-      pc =
-        new RTCPeerConnection(
-          servers
-        );
-      localStream
-        .getTracks()
-        .forEach(
-          (track) =>
-            pc.addTrack(
-              track,
-              localStream
-            )
-        );
-      pc.ontrack =
-        (e) => {
-          const remoteVideo =
-            document.getElementById(
-              "remote-video"
-            );
-          remoteVideo.srcObject =
-            e.streams[0];
-          remoteVideo
-            .play()
-            .catch(() => {});
-          document.getElementById(
-            "call-status"
-          ).textContent =
-            "Connected";
-          document.getElementById(
-            "remote-avatar-wrap"
-          ).style.display =
-            "none";
-          document.getElementById(
-            "local-avatar-wrap"
-          ).style.display =
-            "none";
-        };
-      startSpeakingDetection(
-        localStream,
-        "local-ring"
-      );
-      const newCallRef =
-        push(
-          ref(db, "calls")
-        );
-      callId =
-        newCallRef.key;
-      pc.onicecandidate =
-        (e) => {
-          if (
-            e.candidate &&
-            callId
-          ) {
-            push(
-              ref(
-                db,
-                `calls/${callId}/callerCandidates`
-              ),
-              e.candidate.toJSON()
-            );
-          }
-        };
-      await set(
-        newCallRef,
-        {
-          caller:
-            auth.currentUser.uid,
-          callerName:
-            auth.currentUser.displayName ||
-            "Someone",
-          callee:
-            remoteUid,
-          status:
-            "ringing",
-          video:
-            withVideo,
-          createdAt:
-            Date.now()
-        }
-      );
-      const offer =
-        await pc.createOffer();
-      await pc.setLocalDescription(
-        offer
-      );
-      await set(
-        ref(
-          db,
-          `calls/${callId}/offer`
-        ),
-        {
-          type:
-            offer.type,
-          sdp:
-            offer.sdp
-        }
-      );
-      onValue(
-        ref(
-          db,
-          `calls/${callId}/answer`
-        ),
-        async (snap) => {
-          const answer =
-            snap.val();
-          if (
-            answer &&
-            pc &&
-            !pc.currentRemoteDescription
-          ) {
-            try {
-              await pc.setRemoteDescription(
-                new RTCSessionDescription(
-                  answer
-                )
-              );
-            } catch (err) {
-              console.error(err);
-            }
-          }
-        }
-      );
-      onChildAdded(
-        ref(
-          db,
-          `calls/${callId}/calleeCandidates`
-        ),
-        (snap) => {
-          if (pc) {
-            pc.addIceCandidate(
-              new RTCIceCandidate(
-                snap.val()
-              )
-            ).catch(
-              () => {}
-            );
-          }
-        }
-      );
-    };
-    /* =========================================================
-       INCOMING CALLS
-       ========================================================= */
-    function listenForIncomingCalls() {
-      if (incomingListener) {
-        return;
-      }
-      incomingListener =
-        onValue(
-          ref(db, "calls"),
-          (snap) => {
-            const calls =
-              snap.val() || {};
-            let found = null;
-            for (
-              const id in calls
-            ) {
-              const data =
-                calls[id];
-              if (
-                data.callee ===
-                  auth.currentUser?.uid &&
-                data.status ===
-                  "ringing" &&
-                !pc
-              ) {
-                found = {
-                  id,
-                  data
-                };
-                break;
-              }
-            }
-            const popup =
-              document.getElementById(
-                "incoming-call"
-              );
-            if (found) {
-              pendingCall =
-                found;
-              document.getElementById(
-                "incoming-name"
-              ).textContent =
-                `${
-                  found.data.callerName ||
-                  "Someone"
-                } is calling…`;
-              popup.style.display =
-                "block";
-              showNotif(
-                "Incoming Call",
-                `${
-                  found.data.callerName ||
-                  "Someone"
-                } is calling you`
-              );
-            } else {
-              popup.style.display =
-                "none";
-              pendingCall =
-                null;
-            }
-          }
-        );
-    }
-    /* =========================================================
-       ACCEPT / DECLINE CALL
-       ========================================================= */
-    document
-      .getElementById(
-        "accept-call"
-      )
-      .addEventListener(
-        "click",
-        async () => {
-          if (!pendingCall) {
-            return;
-          }
-          const {
-            id,
-            data
-          } =
-            pendingCall;
-          document.getElementById(
-            "incoming-call"
-          ).style.display =
-            "none";
-          pendingCall =
-            null;
-          await answerCall(
-            id,
-            data
-          );
-        }
-      );
-    document
-      .getElementById(
-        "decline-call"
-      )
-      .addEventListener(
-        "click",
-        async () => {
-          if (!pendingCall) {
-            return;
-          }
-          const {
-            id
-          } =
-            pendingCall;
-          document.getElementById(
-            "incoming-call"
-          ).style.display =
-            "none";
-          pendingCall =
-            null;
-          try {
-            await update(
-              ref(
-                db,
-                `calls/${id}`
-              ),
-              {
-                status:
-                  "declined"
-              }
-            );
-          } catch (e) {
-            console.error(e);
-          }
-        }
-      );
-    /* =========================================================
-       ANSWER CALL
-       ========================================================= */
-    window.answerCall = async (
-      id,
-      data
-    ) => {
-      callId =
-        id;
-      remoteUid =
-        data.caller;
-      document.getElementById(
-        "call-screen"
-      ).style.display =
-        "flex";
-      document.getElementById(
-        "call-status"
-      ).textContent =
-        "Connecting…";
-      document.getElementById(
-        "remote-avatar"
-      ).src =
-        "https://i.pravatar.cc/150?u=" +
-        remoteUid;
-      document.getElementById(
-        "local-avatar"
-      ).src =
-        "https://i.pravatar.cc/150?u=" +
-        auth.currentUser.uid;
-      try {
-        localStream =
-          await navigator.mediaDevices.getUserMedia(
-            {
-              audio: true,
-              video:
-                data.video !== false
-            }
-          );
-        const localVideo =
-          document.getElementById(
-            "local-video"
-          );
-        localVideo.srcObject =
-          localStream;
-        localVideo
-          .play()
-          .catch(() => {});
-      } catch (e) {
-        console.error(e);
-        alert(
-          "Microphone/camera permission is required."
-        );
-        return endCall();
-      }
-      pc =
-        new RTCPeerConnection(
-          servers
-        );
-      localStream
-        .getTracks()
-        .forEach(
-          (track) =>
-            pc.addTrack(
-              track,
-              localStream
-            )
-        );
-      pc.ontrack =
-        (e) => {
-          const remoteVideo =
-            document.getElementById(
-              "remote-video"
-            );
-          remoteVideo.srcObject =
-            e.streams[0];
-          remoteVideo
-            .play()
-            .catch(() => {});
-          document.getElementById(
-            "call-status"
-          ).textContent =
-            "Connected";
-          document.getElementById(
-            "remote-avatar-wrap"
-          ).style.display =
-            "none";
-          document.getElementById(
-            "local-avatar-wrap"
-          ).style.display =
-            "none";
-        };
-      startSpeakingDetection(
-        localStream,
-        "local-ring"
-      );
-      pc.onicecandidate =
-        (e) => {
-          if (e.candidate) {
-            push(
-              ref(
-                db,
-                `calls/${id}/calleeCandidates`
-              ),
-              e.candidate.toJSON()
-            );
-          }
-        };
-      const offerSnap =
-        await get(
-          ref(
-            db,
-            `calls/${id}/offer`
-          )
-        );
-      const offer =
-        offerSnap.val() ||
-        data.offer;
-      if (!offer) {
-        alert(
-          "Call offer missing."
-        );
-        return endCall();
-      }
-      await pc.setRemoteDescription(
-        new RTCSessionDescription(
-          offer
-        )
-      );
-      const answer =
-        await pc.createAnswer();
-      await pc.setLocalDescription(
-        answer
-      );
-      await set(
-        ref(
-          db,
-          `calls/${id}/answer`
-        ),
-        {
-          type:
-            answer.type,
-          sdp:
-            answer.sdp
-        }
-      );
-      await update(
-        ref(
-          db,
-          `calls/${id}`
-        ),
-        {
-          status:
-            "connected"
-        }
-      );
-      onChildAdded(
-        ref(
-          db,
-          `calls/${id}/callerCandidates`
-        ),
-        (snap) => {
-          if (pc) {
-            pc.addIceCandidate(
-              new RTCIceCandidate(
-                snap.val()
-              )
-            ).catch(
-              () => {}
-            );
-          }
-        }
-      );
-    };
-    /* =========================================================
-       SPEAKING DETECTION
-       ========================================================= */
-    function startSpeakingDetection(
-      stream,
-      ringId
-    ) {
-      try {
-        const AudioContext =
-          window.AudioContext ||
-          window.webkitAudioContext;
-        if (!AudioContext) {
-          return;
-        }
-        const audioCtx =
-          new AudioContext();
-        const analyser =
-          audioCtx.createAnalyser();
-        const source =
-          audioCtx.createMediaStreamSource(
-            stream
-          );
-        source.connect(
-          analyser
-        );
-        analyser.fftSize =
-          256;
-        const data =
-          new Uint8Array(
-            analyser.frequencyBinCount
-          );
-        if (speakingInterval) {
-          clearInterval(
-            speakingInterval
-          );
-        }
-        speakingInterval =
-          setInterval(
-            () => {
-              analyser.getByteFrequencyData(
-                data
-              );
-              const vol =
-                data.reduce(
-                  (a, b) => a + b,
-                  0
-                ) / data.length;
-              document
-                .getElementById(ringId)
-                ?.classList.toggle(
-                  "active",
-                  vol > 18
-                );
-            },
-            100
-          );
-      } catch (e) {
-        console.error(
-          "Speaking detection unavailable:",
-          e
-        );
-      }
-    }
-    /* =========================================================
-       END CALL
-       ========================================================= */
-    window.endCall = async () => {
-      if (pc) {
-        try {
-          pc.close();
-        } catch (e) {}
-        pc = null;
-      }
-      if (localStream) {
-        localStream
-          .getTracks()
-          .forEach(
-            (track) =>
-              track.stop()
-          );
-        localStream =
-          null;
-      }
-      if (speakingInterval) {
-        clearInterval(
-          speakingInterval
-        );
-        speakingInterval =
-          null;
-      }
-      if (callId) {
-        try {
-          await remove(
-            ref(
-              db,
-              `calls/${callId}`
-            )
-          );
-        } catch (e) {
-          console.error(
-            "Call cleanup error:",
-            e
-          );
-        }
-        callId =
-          null;
-      }
-      document.getElementById(
-        "call-screen"
-      ).style.display =
-        "none";
-      document.getElementById(
-        "remote-video"
-      ).srcObject =
-        null;
-      document.getElementById(
-        "local-video"
-      ).srcObject =
-        null;
-      document.getElementById(
-        "remote-avatar-wrap"
-      ).style.display =
-        "block";
-      document.getElementById(
-        "local-avatar-wrap"
-      ).style.display =
-        "block";
-      document.getElementById(
-        "local-ring"
-      )?.classList.remove(
-        "active"
-      );
-      document.getElementById(
-        "remote-ring"
-      )?.classList.remove(
-        "active"
-      );
-      remoteUid =
-        null;
-    };
-    /* =========================================================
-       MUTE
-       ========================================================= */
-    window.toggleMute = () => {
-      const track =
-        localStream
-          ?.getAudioTracks()[0];
-      if (!track) {
-        return;
-      }
-      track.enabled =
-        !track.enabled;
-      document.getElementById(
-        "mute-btn"
-      ).classList.toggle(
-        "muted",
-        !track.enabled
-      );
-    };
-    /* =========================================================
-       VIDEO
-       ========================================================= */
-    window.toggleVideo = () => {
-      const track =
-        localStream
-          ?.getVideoTracks()[0];
-      if (!track) {
-        return;
-      }
-      track.enabled =
-        !track.enabled;
-      document.getElementById(
-        "video-btn"
-      ).classList.toggle(
-        "muted",
-        !track.enabled
-      );
-    };
-    /* =========================================================
-       BROWSER CALL BUTTON
-       ========================================================= */
-    window.startCallFromBrowser = (
-      withVideo
-    ) => {
-      document.getElementById(
-        "browser-screen"
-      ).style.display =
-        "none";
-      alert(
-        "Select a person in the main chat, then use the Call option on their message."
-      );
-    };
-    /* =========================================================
-       INITIAL CONSOLE MESSAGE
-       ========================================================= */
-    console.log(
-      "My Lifeline Chat initialized successfully."
+
+    });
+
+    document.getElementById("login-btn").addEventListener(
+
+      "click",
+
+      login
+
     );
+
+    document.getElementById("google-btn").addEventListener(
+
+      "click",
+
+      signInWithGoogle
+
+    );
+
+    document.getElementById("signup-btn").addEventListener(
+
+      "click",
+
+      signup
+
+    );
+
+    document.getElementById("signup-show-btn").addEventListener(
+
+      "click",
+
+      showSignup
+
+    );
+
+    document.getElementById("login-show-btn").addEventListener(
+
+      "click",
+
+      showLogin
+
+    );
+
+    document.getElementById("logout-btn").addEventListener(
+
+      "click",
+
+      () => signOut(auth)
+
+    );
+
+    async function login() {
+
+      const email =
+
+        document.getElementById("login-email").value.trim();
+
+      const password =
+
+        document.getElementById("login-password").value;
+
+      const error =
+
+        document.getElementById("login-error");
+
+      error.textContent = "";
+
+      if (!email || !password) {
+
+        error.textContent =
+
+          "Enter your email and password.";
+
+        return;
+
+      }
+
+      try {
+
+        await signInWithEmailAndPassword(
+
+          auth,
+
+          email,
+
+          password
+
+        );
+
+      } catch (err) {
+
+        error.textContent =
+
+          friendlyAuthError(err);
+
+      }
+
+    }
+
+    async function signInWithGoogle() {
+
+      const error =
+
+        document.getElementById("login-error");
+
+      error.textContent = "";
+
+      try {
+
+        const provider =
+
+          new GoogleAuthProvider();
+
+        await signInWithPopup(
+
+          auth,
+
+          provider
+
+        );
+
+      } catch (err) {
+
+        error.textContent =
+
+          friendlyAuthError(err);
+
+      }
+
+    }
+
+    async function signup() {
+
+      const nickname =
+
+        document.getElementById("nickname").value.trim();
+
+      const email =
+
+        document.getElementById("signup-email").value.trim();
+
+      const password =
+
+        document.getElementById("signup-password").value;
+
+      const confirm =
+
+        document.getElementById("confirm-password").value;
+
+      const error =
+
+        document.getElementById("signup-error");
+
+      error.textContent = "";
+
+      if (nickname.length < 3) {
+
+        error.textContent =
+
+          "Nickname must be at least 3 characters.";
+
+        return;
+
+      }
+
+      if (password.length < 6) {
+
+        error.textContent =
+
+          "Password must be at least 6 characters.";
+
+        return;
+
+      }
+
+      if (password !== confirm) {
+
+        error.textContent =
+
+          "Passwords don't match.";
+
+        return;
+
+      }
+
+      try {
+
+        const cred =
+
+          await createUserWithEmailAndPassword(
+
+            auth,
+
+            email,
+
+            password
+
+          );
+
+        await updateProfile(
+
+          cred.user,
+
+          {
+
+            displayName: nickname
+
+          }
+
+        );
+
+      } catch (err) {
+
+        error.textContent =
+
+          friendlyAuthError(err);
+
+      }
+
+    }
+
+    function friendlyAuthError(err) {
+
+      const code = err?.code || "";
+
+      const errors = {
+
+        "auth/invalid-email":
+
+          "Please enter a valid email address.",
+
+        "auth/invalid-credential":
+
+          "Email or password is incorrect.",
+
+        "auth/user-not-found":
+
+          "No account was found with that email.",
+
+        "auth/wrong-password":
+
+          "Email or password is incorrect.",
+
+        "auth/email-already-in-use":
+
+          "An account already uses that email.",
+
+        "auth/weak-password":
+
+          "Password is too weak.",
+
+        "auth/popup-closed-by-user":
+
+          "Google sign-in was cancelled.",
+
+        "auth/too-many-requests":
+
+          "Too many attempts. Please try again later."
+
+      };
+
+      return errors[code] ||
+
+        err?.message ||
+
+        "Something went wrong.";
+
+    }
+
+    function showSignup() {
+
+      document.getElementById("login-screen").style.display =
+
+        "none";
+
+      document.getElementById("signup-screen").style.display =
+
+        "flex";
+
+    }
+
+    function showLogin() {
+
+      document.getElementById("signup-screen").style.display =
+
+        "none";
+
+      document.getElementById("login-screen").style.display =
+
+        "flex";
+
+    }
+
+    /*
+
+     * ============================================================
+
+     * NOTIFICATIONS
+
+     * ============================================================
+
+     */
+
+    async function askNotificationPermission() {
+
+      if (!("Notification" in window)) return;
+
+      if (Notification.permission === "default") {
+
+        try {
+
+          await Notification.requestPermission();
+
+        } catch {}
+
+      }
+
+    }
+
+    function showNotif(title, body) {
+
+      if (
+
+        "Notification" in window &&
+
+        Notification.permission === "granted" &&
+
+        document.hidden
+
+      ) {
+
+        try {
+
+          new Notification(
+
+            title,
+
+            {
+
+              body,
+
+              icon: "/favicon.ico"
+
+            }
+
+          );
+
+        } catch {}
+
+      }
+
+    }
+
+    /*
+
+     * ============================================================
+
+     * PUBLIC / PRIVATE CHAT
+
+     * ============================================================
+
+     */
+
+    function getPrivateChatId(uid1, uid2) {
+
+      return [uid1, uid2]
+
+        .sort()
+
+        .join("_");
+
+    }
+
+    function switchToPublic() {
+
+      currentChatRef =
+
+        ref(db, "lifeline-chat");
+
+      isPrivate = false;
+
+      privateWith = null;
+
+      document.getElementById("header-title").textContent =
+
+        "Lifeline Chat";
+
+      document.getElementById("header-back").textContent =
+
+        "← Dashboard";
+
+      loadMessages();
+
+    }
+
+    function startPrivateMessage() {
+
+      if (!selectedMessage || !auth.currentUser) return;
+
+      const otherUid =
+
+        selectedMessage.data.uid;
+
+      const otherName =
+
+        selectedMessage.data.name || "User";
+
+      if (otherUid === auth.currentUser.uid) {
+
+        alert("You can't PM yourself.");
+
+        return;
+
+      }
+
+      const chatId =
+
+        getPrivateChatId(
+
+          auth.currentUser.uid,
+
+          otherUid
+
+        );
+
+      currentChatRef =
+
+        ref(db, `private-chats/${chatId}`);
+
+      isPrivate = true;
+
+      privateWith = {
+
+        uid: otherUid,
+
+        name: otherName
+
+      };
+
+      document.getElementById("header-title").innerHTML =
+
+        `PM • ${escapeHtml(otherName)}
+
+        <span class="pm-badge">Private</span>`;
+
+      document.getElementById("header-back").textContent =
+
+        "← Public Chat";
+
+      closeContextMenu();
+
+      loadMessages();
+
+    }
+
+    document.getElementById("header-back")
+
+      .addEventListener("click", () => {
+
+        if (isPrivate) {
+
+          switchToPublic();
+
+        } else {
+
+          location.href = "index.html";
+
+        }
+
+      });
+
+    /*
+
+     * ============================================================
+
+     * MESSAGES
+
+     * ============================================================
+
+     */
+
+    function loadMessages() {
+
+      const container =
+
+        document.getElementById("chat-container");
+
+      container.innerHTML = "";
+
+      if (unsubscribe) {
+
+        unsubscribe();
+
+        unsubscribe = null;
+
+      }
+
+      if (!currentChatRef) return;
+
+      let initialLoad = true;
+
+      setTimeout(() => {
+
+        initialLoad = false;
+
+      }, 1000);
+
+      unsubscribe =
+
+        onChildAdded(
+
+          currentChatRef,
+
+          snap => {
+
+            const msg = snap.val();
+
+            if (!msg) return;
+
+            const isMe =
+
+              msg.uid === auth.currentUser?.uid;
+
+            const div =
+
+              document.createElement("div");
+
+            div.className =
+
+              `message ${isMe ? "sent" : "received"}`;
+
+            div.dataset.key =
+
+              snap.key;
+
+            const time =
+
+              msg.timestamp
+
+                ? new Date(msg.timestamp)
+
+                    .toLocaleTimeString([], {
+
+                      hour: "numeric",
+
+                      minute: "2-digit"
+
+                    })
+
+                : "";
+
+            let content = "";
+
+            if (
+
+              msg.type === "image" &&
+
+              msg.imageUrl
+
+            ) {
+
+              const img =
+
+                document.createElement("img");
+
+              img.src = msg.imageUrl;
+
+              img.alt = "Image";
+
+              img.loading = "lazy";
+
+              div.appendChild(img);
+
+            } else {
+
+              const text =
+
+                document.createElement("div");
+
+              text.innerHTML =
+
+                linkify(msg.text || "");
+
+              div.appendChild(text);
+
+            }
+
+            if (!isMe && msg.name) {
+
+              const sender =
+
+                document.createElement("div");
+
+              sender.className =
+
+                "sender-name";
+
+              sender.textContent =
+
+                msg.name;
+
+              div.prepend(sender);
+
+            }
+
+            if (msg.replyTo) {
+
+              const reply =
+
+                document.createElement("div");
+
+              reply.style.cssText =
+
+                `font-size:13px;
+
+                 opacity:.8;
+
+                 border-left:3px solid ${
+
+                   isMe
+
+                     ? "rgba(255,255,255,.5)"
+
+                     : "#007aff"
+
+                 };
+
+                 padding-left:8px;
+
+                 margin-bottom:6px;`;
+
+              reply.textContent =
+
+                `${msg.replyTo.name}: ${msg.replyTo.text}`;
+
+              div.prepend(reply);
+
+            }
+
+            const timestamp =
+
+              document.createElement("div");
+
+            timestamp.className =
+
+              "timestamp";
+
+            timestamp.textContent =
+
+              time;
+
+            div.appendChild(timestamp);
+
+            if (!isMe && !initialLoad) {
+
+              showNotif(
+
+                msg.name || "Someone",
+
+                msg.text || "Sent an image"
+
+              );
+
+            }
+
+            addMessageLongPress(
+
+              div,
+
+              msg
+
+            );
+
+            container.appendChild(div);
+
+            container.scrollTop =
+
+              container.scrollHeight;
+
+          }
+
+        );
+
+    }
+
+    function addMessageLongPress(
+
+      div,
+
+      msg
+
+    ) {
+
+      let timer = null;
+
+      div.addEventListener(
+
+        "contextmenu",
+
+        event => {
+
+          event.preventDefault();
+
+          showContextMenu(
+
+            event,
+
+            msg,
+
+            div
+
+          );
+
+        }
+
+      );
+
+      div.addEventListener(
+
+        "touchstart",
+
+        event => {
+
+          timer =
+
+            setTimeout(() => {
+
+              showContextMenu(
+
+                event,
+
+                msg,
+
+                div
+
+              );
+
+            }, 550);
+
+        },
+
+        {
+
+          passive: true
+
+        }
+
+      );
+
+      div.addEventListener(
+
+        "touchend",
+
+        () => {
+
+          clearTimeout(timer);
+
+        }
+
+      );
+
+      div.addEventListener(
+
+        "touchmove",
+
+        () => {
+
+          clearTimeout(timer);
+
+        }
+
+      );
+
+    }
+
+    function linkify(text) {
+
+      const escaped =
+
+        escapeHtml(text);
+
+      return escaped.replace(
+
+        /(https?:\/\/[^\s<]+)/g,
+
+        url => {
+
+          return `<a href="${url}"
+
+            target="_blank"
+
+            rel="noopener noreferrer">${url}</a>`;
+
+        }
+
+      );
+
+    }
+
+    function escapeHtml(value) {
+
+      return String(value)
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+
+    }
+
+    /*
+
+     * ============================================================
+
+     * SEND
+
+     * ============================================================
+
+     */
+
+    function sendMessage() {
+
+      const input =
+
+        document.getElementById("message-input");
+
+      const text =
+
+        input.value.trim();
+
+      if (
+
+        !text ||
+
+        !auth.currentUser ||
+
+        !currentChatRef
+
+      ) return;
+
+      const data = {
+
+        name:
+
+          auth.currentUser.displayName ||
+
+          auth.currentUser.email?.split("@")[0] ||
+
+          "Someone",
+
+        timestamp:
+
+          serverTimestamp(),
+
+        uid:
+
+          auth.currentUser.uid,
+
+        type:
+
+          "text",
+
+        text
+
+      };
+
+      if (replyTo) {
+
+        data.replyTo = {
+
+          name:
+
+            replyTo.name || "Someone",
+
+          text:
+
+            replyTo.text || "Image"
+
+        };
+
+      }
+
+      push(
+
+        currentChatRef,
+
+        data
+
+      );
+
+      input.value = "";
+
+      cancelReply();
+
+    }
+
+    document.getElementById("send-btn")
+
+      .addEventListener(
+
+        "click",
+
+        sendMessage
+
+      );
+
+    document.getElementById("message-input")
+
+      .addEventListener(
+
+        "keydown",
+
+        event => {
+
+          if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendMessage();
+
+          }
+
+        }
+
+      );
+
+    /*
+
+     * ============================================================
+
+     * IMAGES
+
+     * ============================================================
+
+     */
+
+    document.getElementById("image-btn")
+
+      .addEventListener(
+
+        "click",
+
+        () => {
+
+          document
+
+            .getElementById("image-input")
+
+            .click();
+
+        }
+
+      );
+
+    document.getElementById("image-input")
+
+      .addEventListener(
+
+        "change",
+
+        async event => {
+
+          const file =
+
+            event.target.files?.[0];
+
+          if (
+
+            !file ||
+
+            !auth.currentUser ||
+
+            !currentChatRef
+
+          ) return;
+
+          const btn =
+
+            document.getElementById("send-btn");
+
+          btn.textContent = "…";
+
+          btn.disabled = true;
+
+          try {
+
+            const safeName =
+
+              file.name.replace(
+
+                /[^a-zA-Z0-9._-]/g,
+
+                "_"
+
+              );
+
+            const fileRef =
+
+              storageRef(
+
+                storage,
+
+                `chat-images/${Date.now()}_${safeName}`
+
+              );
+
+            await uploadBytes(
+
+              fileRef,
+
+              file
+
+            );
+
+            const url =
+
+              await getDownloadURL(
+
+                fileRef
+
+              );
+
+            await push(
+
+              currentChatRef,
+
+              {
+
+                name:
+
+                  auth.currentUser.displayName ||
+
+                  auth.currentUser.email?.split("@")[0] ||
+
+                  "Someone",
+
+                imageUrl:
+
+                  url,
+
+                timestamp:
+
+                  serverTimestamp(),
+
+                uid:
+
+                  auth.currentUser.uid,
+
+                type:
+
+                  "image"
+
+              }
+
+            );
+
+          } catch (err) {
+
+            console.error(err);
+
+            alert(
+
+              "Image upload failed. Check your Firebase Storage rules."
+
+            );
+
+          } finally {
+
+            btn.textContent = "↑";
+
+            btn.disabled = false;
+
+            event.target.value = "";
+
+          }
+
+        }
+
+      );
+
+    /*
+
+     * ============================================================
+
+     * REPLY / CONTEXT MENU
+
+     * ============================================================
+
+     */
+
+    function showContextMenu(
+
+      event,
+
+      msgData,
+
+      element
+
+    ) {
+
+      event.preventDefault();
+
+      selectedMessage = {
+
+        data: msgData,
+
+        element,
+
+        key: element.dataset.key
+
+      };
+
+      const menu =
+
+        document.getElementById("context-menu");
+
+      menu.style.display =
+
+        "block";
+
+      const point =
+
+        event.touches?.[0] ||
+
+        event.changedTouches?.[0] ||
+
+        event;
+
+      const x =
+
+        point?.clientX || 100;
+
+      const y =
+
+        point?.clientY || 100;
+
+      menu.style.left =
+
+        Math.min(
+
+          x,
+
+          window.innerWidth - 210
+
+        ) + "px";
+
+      menu.style.top =
+
+        Math.min(
+
+          y,
+
+          window.innerHeight - 300
+
+        ) + "px";
+
+      document.getElementById("delete-btn")
+
+        .style.display =
+
+          msgData.uid === auth.currentUser?.uid
+
+            ? "block"
+
+            : "none";
+
+    }
+
+    function closeContextMenu() {
+
+      document.getElementById(
+
+        "context-menu"
+
+      ).style.display = "none";
+
+    }
+
+    document.addEventListener(
+
+      "click",
+
+      event => {
+
+        if (
+
+          !event.target.closest("#context-menu") &&
+
+          !event.target.closest(".message")
+
+        ) {
+
+          closeContextMenu();
+
+        }
+
+      }
+
+    );
+
+    document.getElementById("reply-btn")
+
+      .addEventListener(
+
+        "click",
+
+        () => {
+
+          if (!selectedMessage) return;
+
+          replyTo =
+
+            selectedMessage.data;
+
+          document.getElementById(
+
+            "reply-preview"
+
+          ).style.display = "block";
+
+          document.getElementById(
+
+            "reply-text"
+
+          ).textContent =
+
+            `Replying to ${
+
+              replyTo.name || "Someone"
+
+            }: ${
+
+              replyTo.text || "Image"
+
+            }`;
+
+          closeContextMenu();
+
+          document.getElementById(
+
+            "message-input"
+
+          ).focus();
+
+        }
+
+      );
+
+    function cancelReply() {
+
+      replyTo = null;
+
+      document.getElementById(
+
+        "reply-preview"
+
+      ).style.display = "none";
+
+    }
+
+    document.querySelector(".cancel-reply")
+
+      .addEventListener(
+
+        "click",
+
+        cancelReply
+
+      );
+
+    document.getElementById("copy-btn")
+
+      .addEventListener(
+
+        "click",
+
+        async () => {
+
+          if (!selectedMessage) return;
+
+          const text =
+
+            selectedMessage.data.text ||
+
+            selectedMessage.data.imageUrl ||
+
+            "";
+
+          try {
+
+            await navigator.clipboard.writeText(
+
+              text
+
+            );
+
+          } catch {}
+
+          closeContextMenu();
+
+        }
+
+      );
+
+    document.getElementById("delete-btn")
+
+      .addEventListener(
+
+        "click",
+
+        async () => {
+
+          if (
+
+            !selectedMessage ||
+
+            !selectedMessage.key
+
+          ) return;
+
+          if (!confirm("Delete this message?"))
+
+            return;
+
+          try {
+
+            const path =
+
+              isPrivate
+
+                ? `private-chats/${
+
+                    getPrivateChatId(
+
+                      auth.currentUser.uid,
+
+                      privateWith.uid
+
+                    )
+
+                  }/${selectedMessage.key}`
+
+                : `lifeline-chat/${selectedMessage.key}`;
+
+            await remove(
+
+              ref(db, path)
+
+            );
+
+            selectedMessage.element.remove();
+
+          } catch (err) {
+
+            console.error(err);
+
+            alert(
+
+              "Could not delete message."
+
+            );
+
+          }
+
+          closeContextMenu();
+
+        }
+
+      );
+
+    document.getElementById("pm-btn")
+
+      .addEventListener(
+
+        "click",
+
+        startPrivateMessage
+
+      );
+
+    document.getElementById("call-btn")
+
+      .addEventListener(
+
+        "click",
+
+        () => startCall(true)
+
+      );
+
+    document.getElementById("browser-btn")
+
+      .addEventListener(
+
+        "click",
+
+        openSharedBrowser
+
+      );
+
+    /*
+
+     * ============================================================
+
+     * HYPERBEAM SHARED BROWSER
+
+     *
+
+     * FIX:
+
+     *
+
+     * The Hyperbeam SDK expects:
+
+     *
+
+     *   Hyperbeam(container, embedURL, options)
+
+     *
+
+     * NOT:
+
+     *
+
+     *   Hyperbeam({ url: ... })
+
+     *
+
+     * The embed_url returned by the API is already a complete URL.
+
+     * We pass it directly to Hyperbeam.
+
+     *
+
+     * This removes the "String did not match the expected pattern"
+
+     * error caused by the previous initialization.
+
+     * ============================================================
+
+     */
+
+    async function openSharedBrowser() {
+
+      closeContextMenu();
+
+      if (!auth.currentUser) {
+
+        alert(
+
+          "Please log in first."
+
+        );
+
+        return;
+
+      }
+
+      const screen =
+
+        document.getElementById(
+
+          "browser-screen"
+
+        );
+
+      screen.style.display =
+
+        "flex";
+
+      try {
+
+        await createHyperbeamBrowser();
+
+        loadSideMessages();
+
+      } catch (err) {
+
+        console.error(
+
+          "Shared Browser error:",
+
+          err
+
+        );
+
+        screen.style.display =
+
+          "none";
+
+        alert(
+
+          "Shared Browser couldn't start.\n\n" +
+
+          getHyperbeamErrorMessage(err)
+
+        );
+
+      }
+
+    }
+
+    async function createHyperbeamBrowser() {
+
+      /*
+
+       * If a browser is already connected, don't create another
+
+       * session unnecessarily.
+
+       */
+
+      if (hbClient) {
+
+        return hbClient;
+
+      }
+
+      const container =
+
+        document.getElementById(
+
+          "browser-container"
+
+        );
+
+      container.innerHTML = "";
+
+      const response =
+
+        await fetch(
+
+          "/api/create-browser.js",
+
+          {
+
+            method: "POST",
+
+            headers: {
+
+              "Content-Type":
+
+                "application/json"
+
+            },
+
+            cache: "no-store"
+
+          }
+
+        );
+
+      /*
+
+       * Read the response safely so a Vercel HTML error page
+
+       * doesn't produce a confusing JSON error.
+
+       */
+
+      const contentType =
+
+        response.headers.get(
+
+          "content-type"
+
+        ) || "";
+
+      let data;
+
+      if (
+
+        contentType.includes(
+
+          "application/json"
+
+        )
+
+      ) {
+
+        data =
+
+          await response.json();
+
+      } else {
+
+        const text =
+
+          await response.text();
+
+        throw new Error(
+
+          `create-browser API returned ${
+
+            response.status
+
+          } instead of JSON: ${
+
+            text.slice(0, 180)
+
+          }`
+
+        );
+
+      }
+
+      if (!response.ok) {
+
+        throw new Error(
+
+          data?.error ||
+
+          `Hyperbeam API returned HTTP ${response.status}`
+
+        );
+
+      }
+
+      if (
+
+        !data ||
+
+        typeof data.embed_url !== "string" ||
+
+        !data.embed_url
+
+      ) {
+
+        throw new Error(
+
+          "Hyperbeam did not return a valid embed_url."
+
+        );
+
+      }
+
+      /*
+
+       * This is the important part.
+
+       *
+
+       * Hyperbeam's current JavaScript SDK documentation
+
+       * uses the embed_url directly as the second argument.
+
+       */
+
+      hbClient =
+
+        await Hyperbeam(
+
+          container,
+
+          data.embed_url,
+
+          {
+
+            adminToken:
+
+              data.admin_token || undefined,
+
+            timeout:
+
+              10000,
+
+            delegateKeyboard:
+
+              true
+
+          }
+
+        );
+
+      hbSessionId =
+
+        data.session_id || null;
+
+      /*
+
+       * Keep the title updated when possible.
+
+       */
+
+      try {
+
+        if (
+
+          hbClient.tabs &&
+
+          hbClient.tabs.onUpdated
+
+        ) {
+
+          hbClient.tabs.onUpdated
+
+            .addListener(
+
+              (tabId, changeInfo) => {
+
+                if (
+
+                  changeInfo?.title
+
+                ) {
+
+                  document.getElementById(
+
+                    "browser-title"
+
+                  ).textContent =
+
+                    changeInfo.title;
+
+                }
+
+              }
+
+            );
+
+        }
+
+      } catch (err) {
+
+        console.warn(
+
+          "Could not attach Hyperbeam tab listener:",
+
+          err
+
+        );
+
+      }
+
+      return hbClient;
+
+    }
+
+    function getHyperbeamErrorMessage(err) {
+
+      const message =
+
+        err?.message ||
+
+        String(err);
+
+      if (
+
+        message.toLowerCase()
+
+          .includes("expected pattern")
+
+      ) {
+
+        return (
+
+          "Hyperbeam rejected the browser URL. " +
+
+          "Make sure create-browser.js is returning " +
+
+          "the embed_url supplied by Hyperbeam."
+
+        );
+
+      }
+
+      return message;
+
+    }
+
+    async function forceNewBrowser() {
+
+      /*
+
+       * Destroy the local SDK connection first.
+
+       * The backend creates a fresh session on the next request.
+
+       */
+
+      if (hbClient) {
+
+        try {
+
+          if (
+
+            typeof hbClient.destroy ===
+
+            "function"
+
+          ) {
+
+            await hbClient.destroy();
+
+          }
+
+        } catch (err) {
+
+          console.warn(
+
+            "Could not destroy Hyperbeam client:",
+
+            err
+
+          );
+
+        }
+
+      }
+
+      hbClient = null;
+
+      hbSessionId = null;
+
+      document.getElementById(
+
+        "browser-container"
+
+      ).innerHTML = "";
+
+      try {
+
+        await createHyperbeamBrowser();
+
+      } catch (err) {
+
+        console.error(err);
+
+        alert(
+
+          "Could not start a new browser.\n\n" +
+
+          getHyperbeamErrorMessage(err)
+
+        );
+
+      }
+
+    }
+
+    function closeSharedBrowser() {
+
+      const screen =
+
+        document.getElementById(
+
+          "browser-screen"
+
+        );
+
+      screen.style.display =
+
+        "none";
+
+      if (sideMessagesUnsubscribe) {
+
+        sideMessagesUnsubscribe();
+
+        sideMessagesUnsubscribe = null;
+
+      }
+
+      /*
+
+       * Don't terminate the Hyperbeam session here.
+
+       * Closing the UI only disconnects this page.
+
+       */
+
+      if (hbClient) {
+
+        try {
+
+          if (
+
+            typeof hbClient.destroy ===
+
+            "function"
+
+          ) {
+
+            hbClient.destroy();
+
+          }
+
+        } catch {}
+
+      }
+
+      hbClient = null;
+
+      hbSessionId = null;
+
+      document.getElementById(
+
+        "browser-container"
+
+      ).innerHTML = "";
+
+    }
+
+    document.getElementById(
+
+      "new-session-btn"
+
+    ).addEventListener(
+
+      "click",
+
+      forceNewBrowser
+
+    );
+
+    document.getElementById(
+
+      "close-browser"
+
+    ).addEventListener(
+
+      "click",
+
+      closeSharedBrowser
+
+    );
+
+    /*
+
+     * ============================================================
+
+     * SIDE PANEL
+
+     * ============================================================
+
+     */
+
+    document.querySelectorAll(
+
+      ".side-tab"
+
+    ).forEach(tab => {
+
+      tab.addEventListener(
+
+        "click",
+
+        () => {
+
+          const name =
+
+            tab.dataset.tab;
+
+          document.querySelectorAll(
+
+            ".side-tab"
+
+          ).forEach(
+
+            t => t.classList.remove("active")
+
+          );
+
+          document.querySelectorAll(
+
+            ".side-content"
+
+          ).forEach(
+
+            c => c.classList.remove("active")
+
+          );
+
+          tab.classList.add("active");
+
+          document.getElementById(
+
+            `side-${name}`
+
+          ).classList.add("active");
+
+        }
+
+      );
+
+    });
+
+    function loadSideMessages() {
+
+      const container =
+
+        document.getElementById(
+
+          "side-messages"
+
+        );
+
+      if (!container) return;
+
+      if (sideMessagesUnsubscribe) {
+
+        sideMessagesUnsubscribe();
+
+      }
+
+      container.innerHTML = "";
+
+      sideMessagesUnsubscribe =
+
+        onChildAdded(
+
+          ref(db, "lifeline-chat"),
+
+          snap => {
+
+            const msg =
+
+              snap.val();
+
+            if (
+
+              !msg ||
+
+              !msg.text
+
+            ) return;
+
+            const isMe =
+
+              msg.uid ===
+
+              auth.currentUser?.uid;
+
+            const div =
+
+              document.createElement("div");
+
+            div.className =
+
+              `side-msg ${
+
+                isMe ? "me" : "them"
+
+              }`;
+
+            div.textContent =
+
+              isMe
+
+                ? msg.text
+
+                : `${msg.name || "Someone"}: ${msg.text}`;
+
+            container.appendChild(div);
+
+            container.scrollTop =
+
+              container.scrollHeight;
+
+          }
+
+        );
+
+    }
+
+    async function sendSideMessage() {
+
+      const input =
+
+        document.getElementById(
+
+          "side-message-input"
+
+        );
+
+      const text =
+
+        input.value.trim();
+
+      if (
+
+        !text ||
+
+        !auth.currentUser
+
+      ) return;
+
+      await push(
+
+        ref(db, "lifeline-chat"),
+
+        {
+
+          name:
+
+            auth.currentUser.displayName ||
+
+            auth.currentUser.email?.split("@")[0] ||
+
+            "Someone",
+
+          text,
+
+          timestamp:
+
+            serverTimestamp(),
+
+          uid:
+
+            auth.currentUser.uid,
+
+          type:
+
+            "text"
+
+        }
+
+      );
+
+      input.value = "";
+
+    }
+
+    document.getElementById(
+
+      "side-send-btn"
+
+    ).addEventListener(
+
+      "click",
+
+      sendSideMessage
+
+    );
+
+    document.getElementById(
+
+      "side-message-input"
+
+    ).addEventListener(
+
+      "keydown",
+
+      event => {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          sendSideMessage();
+
+        }
+
+      }
+
+    );
+
+    /*
+
+     * ============================================================
+
+     * BROWSER CALL BUTTONS
+
+     * ============================================================
+
+     */
+
+    document.getElementById(
+
+      "browser-video-call"
+
+    ).addEventListener(
+
+      "click",
+
+      () => {
+
+        closeSharedBrowser();
+
+        if (selectedMessage) {
+
+          startCall(true);
+
+        } else {
+
+          alert(
+
+            "Select a person's message first, then use Call."
+
+          );
+
+        }
+
+      }
+
+    );
+
+    document.getElementById(
+
+      "browser-voice-call"
+
+    ).addEventListener(
+
+      "click",
+
+      () => {
+
+        closeSharedBrowser();
+
+        if (selectedMessage) {
+
+          startCall(false);
+
+        } else {
+
+          alert(
+
+            "Select a person's message first, then use Call."
+
+          );
+
+        }
+
+      }
+
+    );
+
+    /*
+
+     * ============================================================
+
+     * GIFS
+
+     * ============================================================
+
+     *
+
+     * The previous version contained a fake Tenor API key.
+
+     * That would always fail.
+
+     *
+
+     * Instead, this keeps the GIF panel available without
+
+     * pretending an API key exists.
+
+     */
+
+    document.getElementById(
+
+      "gif-search"
+
+    ).addEventListener(
+
+      "input",
+
+      event => {
+
+        const results =
+
+          document.getElementById(
+
+            "gif-results"
+
+          );
+
+        const query =
+
+          event.target.value.trim();
+
+        results.innerHTML = "";
+
+        if (query.length < 2) {
+
+          return;
+
+        }
+
+        const notice =
+
+          document.createElement("div");
+
+        notice.style.cssText =
+
+          "grid-column:1/-1;color:#aaa;font-size:13px;padding:8px;";
+
+        notice.textContent =
+
+          "GIF search needs a configured Tenor/GIPHY API key.";
+
+        results.appendChild(notice);
+
+      }
+
+    );
+
+    /*
+
+     * ============================================================
+
+     * WEBRTC CALLS
+
+     * ============================================================
+
+     */
+
+    async function startCall(withVideo = true) {
+
+      if (
+
+        !selectedMessage ||
+
+        !auth.currentUser
+
+      ) return;
+
+      remoteUid =
+
+        selectedMessage.data.uid;
+
+      if (
+
+        remoteUid ===
+
+        auth.currentUser.uid
+
+      ) {
+
+        alert(
+
+          "You can't call yourself."
+
+        );
+
+        return;
+
+      }
+
+      closeContextMenu();
+
+      document.getElementById(
+
+        "call-screen"
+
+      ).style.display = "flex";
+
+      document.getElementById(
+
+        "call-status"
+
+      ).textContent =
+
+        "Calling…";
+
+      document.getElementById(
+
+        "remote-avatar"
+
+      ).src =
+
+        "https://i.pravatar.cc/150?u=" +
+
+        encodeURIComponent(remoteUid);
+
+      document.getElementById(
+
+        "local-avatar"
+
+      ).src =
+
+        "https://i.pravatar.cc/150?u=" +
+
+        encodeURIComponent(
+
+          auth.currentUser.uid
+
+        );
+
+      try {
+
+        localStream =
+
+          await navigator.mediaDevices
+
+            .getUserMedia({
+
+              audio: true,
+
+              video: withVideo
+
+            });
+
+      } catch (err) {
+
+        console.error(err);
+
+        alert(
+
+          "Microphone/camera permission is required for calls."
+
+        );
+
+        endCall();
+
+        return;
+
+      }
+
+      document.getElementById(
+
+        "local-video"
+
+      ).srcObject =
+
+        localStream;
+
+      pc =
+
+        new RTCPeerConnection(
+
+          servers
+
+        );
+
+      localStream
+
+        .getTracks()
+
+        .forEach(
+
+          track =>
+
+            pc.addTrack(
+
+              track,
+
+              localStream
+
+            )
+
+        );
+
+      pc.ontrack =
+
+        event => {
+
+          const video =
+
+            document.getElementById(
+
+              "remote-video"
+
+            );
+
+          video.srcObject =
+
+            event.streams[0];
+
+          video.play().catch(() => {});
+
+          document.getElementById(
+
+            "call-status"
+
+          ).textContent =
+
+            "Connected";
+
+          document.getElementById(
+
+            "remote-avatar-wrap"
+
+          ).style.display =
+
+            "none";
+
+          document.getElementById(
+
+            "local-avatar-wrap"
+
+          ).style.display =
+
+            "none";
+
+        };
+
+      startSpeakingDetection(
+
+        localStream,
+
+        "local-ring"
+
+      );
+
+      const newCallRef =
+
+        push(ref(db, "calls"));
+
+      callId =
+
+        newCallRef.key;
+
+      pc.onicecandidate =
+
+        event => {
+
+          if (
+
+            event.candidate &&
+
+            callId
+
+          ) {
+
+            push(
+
+              ref(
+
+                db,
+
+                `calls/${callId}/callerCandidates`
+
+              ),
+
+              event.candidate.toJSON()
+
+            );
+
+          }
+
+        };
+
+      await set(
+
+        newCallRef,
+
+        {
+
+          caller:
+
+            auth.currentUser.uid,
+
+          callerName:
+
+            auth.currentUser.displayName ||
+
+            "Someone",
+
+          callee:
+
+            remoteUid,
+
+          status:
+
+            "ringing",
+
+          video:
+
+            withVideo,
+
+          createdAt:
+
+            Date.now()
+
+        }
+
+      );
+
+      const offer =
+
+        await pc.createOffer();
+
+      await pc.setLocalDescription(
+
+        offer
+
+      );
+
+      await set(
+
+        ref(
+
+          db,
+
+          `calls/${callId}/offer`
+
+        ),
+
+        {
+
+          type:
+
+            offer.type,
+
+          sdp:
+
+            offer.sdp
+
+        }
+
+      );
+
+      onValue(
+
+        ref(
+
+          db,
+
+          `calls/${callId}/answer`
+
+        ),
+
+        async snap => {
+
+          const answer =
+
+            snap.val();
+
+          if (
+
+            answer &&
+
+            pc &&
+
+            !pc.currentRemoteDescription
+
+          ) {
+
+            try {
+
+              await pc.setRemoteDescription(
+
+                new RTCSessionDescription(
+
+                  answer
+
+                )
+
+              );
+
+            } catch {}
+
+          }
+
+        }
+
+      );
+
+      onChildAdded(
+
+        ref(
+
+          db,
+
+          `calls/${callId}/calleeCandidates`
+
+        ),
+
+        snap => {
+
+          if (pc) {
+
+            pc.addIceCandidate(
+
+              new RTCIceCandidate(
+
+                snap.val()
+
+              )
+
+            ).catch(() => {});
+
+          }
+
+        }
+
+      );
+
+    }
+
+    function listenForIncomingCalls() {
+
+      if (incomingListener) return;
+
+      incomingListener =
+
+        onValue(
+
+          ref(db, "calls"),
+
+          snap => {
+
+            const calls =
+
+              snap.val() || {};
+
+            let found = null;
+
+            for (
+
+              const id in calls
+
+            ) {
+
+              const data =
+
+                calls[id];
+
+              if (
+
+                data.callee ===
+
+                  auth.currentUser?.uid &&
+
+                data.status ===
+
+                  "ringing" &&
+
+                !pc
+
+              ) {
+
+                found = {
+
+                  id,
+
+                  data
+
+                };
+
+                break;
+
+              }
+
+            }
+
+            const popup =
+
+              document.getElementById(
+
+                "incoming-call"
+
+              );
+
+            if (found) {
+
+              pendingCall =
+
+                found;
+
+              document.getElementById(
+
+                "incoming-name"
+
+              ).textContent =
+
+                `${
+
+                  found.data.callerName ||
+
+                  "Someone"
+
+                } is calling…`;
+
+              popup.style.display =
+
+                "block";
+
+              showNotif(
+
+                "Incoming Call",
+
+                `${
+
+                  found.data.callerName ||
+
+                  "Someone"
+
+                } is calling you`
+
+              );
+
+            } else {
+
+              popup.style.display =
+
+                "none";
+
+              pendingCall =
+
+                null;
+
+            }
+
+          }
+
+        );
+
+    }
+
+    document.getElementById(
+
+      "accept-call"
+
+    ).addEventListener(
+
+      "click",
+
+      async () => {
+
+        if (!pendingCall) return;
+
+        const call =
+
+          pendingCall;
+
+        pendingCall =
+
+          null;
+
+        document.getElementById(
+
+          "incoming-call"
+
+        ).style.display =
+
+          "none";
+
+        await answerCall(
+
+          call.id,
+
+          call.data
+
+        );
+
+      }
+
+    );
+
+    document.getElementById(
+
+      "decline-call"
+
+    ).addEventListener(
+
+      "click",
+
+      async () => {
+
+        if (!pendingCall) return;
+
+        const call =
+
+          pendingCall;
+
+        pendingCall =
+
+          null;
+
+        document.getElementById(
+
+          "incoming-call"
+
+        ).style.display =
+
+          "none";
+
+        await update(
+
+          ref(
+
+            db,
+
+            `calls/${call.id}`
+
+          ),
+
+          {
+
+            status:
+
+              "declined"
+
+          }
+
+        );
+
+      }
+
+    );
+
+    async function answerCall(
+
+      id,
+
+      data
+
+    ) {
+
+      callId =
+
+        id;
+
+      remoteUid =
+
+        data.caller;
+
+      document.getElementById(
+
+        "call-screen"
+
+      ).style.display =
+
+        "flex";
+
+      document.getElementById(
+
+        "call-status"
+
+      ).textContent =
+
+        "Connecting…";
+
+      try {
+
+        localStream =
+
+          await navigator.mediaDevices
+
+            .getUserMedia({
+
+              audio: true,
+
+              video:
+
+                data.video !== false
+
+            });
+
+      } catch (err) {
+
+        alert(
+
+          "Microphone/camera permission is required."
+
+        );
+
+        endCall();
+
+        return;
+
+      }
+
+      document.getElementById(
+
+        "local-video"
+
+      ).srcObject =
+
+        localStream;
+
+      pc =
+
+        new RTCPeerConnection(
+
+          servers
+
+        );
+
+      localStream
+
+        .getTracks()
+
+        .forEach(
+
+          track =>
+
+            pc.addTrack(
+
+              track,
+
+              localStream
+
+            )
+
+        );
+
+      pc.ontrack =
+
+        event => {
+
+          const video =
+
+            document.getElementById(
+
+              "remote-video"
+
+            );
+
+          video.srcObject =
+
+            event.streams[0];
+
+          video.play().catch(() => {});
+
+          document.getElementById(
+
+            "call-status"
+
+          ).textContent =
+
+            "Connected";
+
+          document.getElementById(
+
+            "remote-avatar-wrap"
+
+          ).style.display =
+
+            "none";
+
+          document.getElementById(
+
+            "local-avatar-wrap"
+
+          ).style.display =
+
+            "none";
+
+        };
+
+      startSpeakingDetection(
+
+        localStream,
+
+        "local-ring"
+
+      );
+
+      pc.onicecandidate =
+
+        event => {
+
+          if (event.candidate) {
+
+            push(
+
+              ref(
+
+                db,
+
+                `calls/${id}/calleeCandidates`
+
+              ),
+
+              event.candidate.toJSON()
+
+            );
+
+          }
+
+        };
+
+      const offerSnap =
+
+        await get(
+
+          ref(
+
+            db,
+
+            `calls/${id}/offer`
+
+          )
+
+        );
+
+      const offer =
+
+        offerSnap.val() ||
+
+        data.offer;
+
+      if (!offer) {
+
+        alert(
+
+          "Call offer is missing."
+
+        );
+
+        endCall();
+
+        return;
+
+      }
+
+      await pc.setRemoteDescription(
+
+        new RTCSessionDescription(
+
+          offer
+
+        )
+
+      );
+
+      const answer =
+
+        await pc.createAnswer();
+
+      await pc.setLocalDescription(
+
+        answer
+
+      );
+
+      await set(
+
+        ref(
+
+          db,
+
+          `calls/${id}/answer`
+
+        ),
+
+        {
+
+          type:
+
+            answer.type,
+
+          sdp:
+
+            answer.sdp
+
+        }
+
+      );
+
+      await update(
+
+        ref(
+
+          db,
+
+          `calls/${id}`
+
+        ),
+
+        {
+
+          status:
+
+            "connected"
+
+        }
+
+      );
+
+      onChildAdded(
+
+        ref(
+
+          db,
+
+          `calls/${id}/callerCandidates`
+
+        ),
+
+        snap => {
+
+          if (pc) {
+
+            pc.addIceCandidate(
+
+              new RTCIceCandidate(
+
+                snap.val()
+
+              )
+
+            ).catch(() => {});
+
+          }
+
+        }
+
+      );
+
+    }
+
+    function startSpeakingDetection(
+
+      stream,
+
+      ringId
+
+    ) {
+
+      try {
+
+        const AudioContext =
+
+          window.AudioContext ||
+
+          window.webkitAudioContext;
+
+        if (!AudioContext)
+
+          return;
+
+        const ctx =
+
+          new AudioContext();
+
+        const analyser =
+
+          ctx.createAnalyser();
+
+        const source =
+
+          ctx.createMediaStreamSource(
+
+            stream
+
+          );
+
+        source.connect(
+
+          analyser
+
+        );
+
+        analyser.fftSize =
+
+          256;
+
+        const data =
+
+          new Uint8Array(
+
+            analyser.frequencyBinCount
+
+          );
+
+        if (speakingInterval) {
+
+          clearInterval(
+
+            speakingInterval
+
+          );
+
+        }
+
+        speakingInterval =
+
+          setInterval(
+
+            () => {
+
+              analyser.getByteFrequencyData(
+
+                data
+
+              );
+
+              const volume =
+
+                data.reduce(
+
+                  (a,b) => a + b,
+
+                  0
+
+                ) / data.length;
+
+              document.getElementById(
+
+                ringId
+
+              )?.classList.toggle(
+
+                "active",
+
+                volume > 18
+
+              );
+
+            },
+
+            100
+
+          );
+
+      } catch {}
+
+    }
+
+    async function endCall() {
+
+      if (pc) {
+
+        pc.close();
+
+        pc = null;
+
+      }
+
+      if (localStream) {
+
+        localStream
+
+          .getTracks()
+
+          .forEach(
+
+            track =>
+
+              track.stop()
+
+          );
+
+        localStream = null;
+
+      }
+
+      if (speakingInterval) {
+
+        clearInterval(
+
+          speakingInterval
+
+        );
+
+        speakingInterval =
+
+          null;
+
+      }
+
+      if (callId) {
+
+        try {
+
+          await remove(
+
+            ref(
+
+              db,
+
+              `calls/${callId}`
+
+            )
+
+          );
+
+        } catch {}
+
+        callId = null;
+
+      }
+
+      document.getElementById(
+
+        "call-screen"
+
+      ).style.display =
+
+        "none";
+
+      document.getElementById(
+
+        "remote-video"
+
+      ).srcObject =
+
+        null;
+
+      document.getElementById(
+
+        "local-video"
+
+      ).srcObject =
+
+        null;
+
+      document.getElementById(
+
+        "remote-avatar-wrap"
+
+      ).style.display =
+
+        "block";
+
+      document.getElementById(
+
+        "local-avatar-wrap"
+
+      ).style.display =
+
+        "block";
+
+      document.getElementById(
+
+        "local-ring"
+
+      )?.classList.remove(
+
+        "active"
+
+      );
+
+      document.getElementById(
+
+        "remote-ring"
+
+      )?.classList.remove(
+
+        "active"
+
+      );
+
+    }
+
+    document.getElementById(
+
+      "end-call"
+
+    ).addEventListener(
+
+      "click",
+
+      endCall
+
+    );
+
+    document.getElementById(
+
+      "mute-btn"
+
+    ).addEventListener(
+
+      "click",
+
+      () => {
+
+        const track =
+
+          localStream?.getAudioTracks()[0];
+
+        if (!track) return;
+
+        track.enabled =
+
+          !track.enabled;
+
+        document.getElementById(
+
+          "mute-btn"
+
+        ).classList.toggle(
+
+          "muted",
+
+          !track.enabled
+
+        );
+
+      }
+
+    );
+
+    document.getElementById(
+
+      "video-btn"
+
+    ).addEventListener(
+
+      "click",
+
+      () => {
+
+        const track =
+
+          localStream?.getVideoTracks()[0];
+
+        if (!track) return;
+
+        track.enabled =
+
+          !track.enabled;
+
+        document.getElementById(
+
+          "video-btn"
+
+        ).classList.toggle(
+
+          "muted",
+
+          !track.enabled
+
+        );
+
+      }
+
+    );
+
+    /*
+
+     * ============================================================
+
+     * INITIALIZE
+
+     * ============================================================
+
+     */
+
+    askNotificationPermission();
+
   </script>
+
 </body>
+
 </html>
