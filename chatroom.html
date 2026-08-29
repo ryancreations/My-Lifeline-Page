@@ -106,7 +106,6 @@
     .icon-btn { background: var(--bubble-received); color: var(--text); }
     #send-btn { background: #007aff; color: white; }
 
-    /* Shared Browser */
     #browser-screen {
       position: fixed; inset: 0; background: #111; z-index: 300;
       display: none; flex-direction: column;
@@ -115,9 +114,7 @@
       height: 48px; background: #1c1c1e; color: white;
       display: flex; align-items: center; padding: 0 16px; gap: 10px;
     }
-    #browser-container {
-      flex: 1; width: 100%; background: #000;
-    }
+    #browser-container { flex: 1; width: 100%; background: #000; }
     #close-browser, #new-session-btn {
       border: none; padding: 7px 14px; border-radius: 8px;
       font-weight: 600; cursor: pointer; color: white;
@@ -125,7 +122,6 @@
     #close-browser { background: #ff3b30; }
     #new-session-btn { background: #007aff; }
 
-    /* ===== CALL SCREEN ===== */
     #call-screen {
       position: fixed; inset: 0; background: #000; z-index: 400;
       display: none; flex-direction: column; color: #fff;
@@ -176,7 +172,6 @@
     }
     #call-controls button.muted { background: #ff3b30; }
 
-    /* Incoming call banner */
     #incoming-call {
       position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
       background: #1c1c1e; color: white; padding: 16px 24px;
@@ -191,7 +186,6 @@
     #accept-call { background: #34c759; color: white; }
     #decline-call { background: #ff3b30; color: white; }
 
-    /* Login */
     #login-screen, #signup-screen {
       position: fixed; inset: 0; background: var(--bg);
       display: flex; flex-direction: column; justify-content: center;
@@ -253,7 +247,6 @@
     </div>
   </div>
 
-  <!-- Shared Browser -->
   <div id="browser-screen">
     <div id="browser-header">
       <span style="flex:1; font-weight:600;">Shared Browser</span>
@@ -263,7 +256,6 @@
     <div id="browser-container"></div>
   </div>
 
-  <!-- CALL SCREEN -->
   <div id="call-screen">
     <div id="call-header">
       <span id="call-status">Calling…</span>
@@ -287,14 +279,12 @@
     </div>
   </div>
 
-  <!-- Incoming call popup -->
   <div id="incoming-call">
     <div id="incoming-name">Incoming call…</div>
     <button id="accept-call">Accept</button>
     <button id="decline-call">Decline</button>
   </div>
 
-  <!-- LOGIN -->
   <div id="login-screen">
     <div class="login-card">
       <h2>Lifeline Chat</h2>
@@ -349,8 +339,8 @@
     let replyTo = null;
     let unsubscribe = null;
     let hbClient = null;
+    let messagesLoaded = false;
 
-    // ===== CALL VARIABLES =====
     const servers = {
       iceServers: [
         { urls: 'stun:stun1.l.google.com:19302' },
@@ -375,7 +365,7 @@
       document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    // ========== SIMPLE NOTIFICATIONS ==========
+    // Simple notifications
     async function askNotificationPermission() {
       if (!("Notification" in window)) return;
       if (Notification.permission === "granted") return;
@@ -386,10 +376,7 @@
 
     function showNotif(title, body) {
       if (Notification.permission === "granted" && document.hidden) {
-        new Notification(title, {
-          body: body,
-          icon: "/favicon.ico"
-        });
+        new Notification(title, { body, icon: "/favicon.ico" });
       }
     }
 
@@ -458,7 +445,7 @@
 
     window.logout = () => signOut(auth);
 
-    // ========== SHARED BROWSER ==========
+    // Shared Browser
     window.openSharedBrowser = async () => {
       document.getElementById('context-menu').style.display = 'none';
       document.getElementById('browser-screen').style.display = 'flex';
@@ -539,7 +526,7 @@
       document.getElementById('browser-container').innerHTML = '';
     };
 
-    // ========== CALL FUNCTION ==========
+    // ========== CALLS ==========
     window.startCall = async (withVideo = true) => {
       if (!selectedMessage || !auth.currentUser) return;
       remoteUid = selectedMessage.data.uid;
@@ -548,7 +535,6 @@
       document.getElementById('context-menu').style.display = 'none';
       document.getElementById('call-screen').style.display = 'flex';
       document.getElementById('call-status').textContent = 'Calling…';
-
       document.getElementById('remote-avatar').src = 'https://i.pravatar.cc/150?u=' + remoteUid;
       document.getElementById('local-avatar').src = 'https://i.pravatar.cc/150?u=' + auth.currentUser.uid;
 
@@ -606,9 +592,7 @@
       });
 
       onChildAdded(ref(db, `calls/${callId}/calleeCandidates`), (snap) => {
-        if (pc) {
-          pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
-        }
+        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
       });
     };
 
@@ -620,9 +604,7 @@
 
         for (const id in calls) {
           const data = calls[id];
-          if (data.callee === auth.currentUser?.uid &&
-              data.status === 'ringing' &&
-              !pc) {
+          if (data.callee === auth.currentUser?.uid && data.status === 'ringing' && !pc) {
             found = { id, data };
             break;
           }
@@ -633,8 +615,6 @@
           document.getElementById('incoming-name').textContent =
             (found.data.callerName || 'Someone') + ' is calling…';
           popup.style.display = 'block';
-
-          // notification
           showNotif("Incoming Call", (found.data.callerName || "Someone") + " is calling you");
 
           document.getElementById('accept-call').onclick = () => {
@@ -657,7 +637,6 @@
 
       document.getElementById('call-screen').style.display = 'flex';
       document.getElementById('call-status').textContent = 'Connecting…';
-
       document.getElementById('remote-avatar').src = 'https://i.pravatar.cc/150?u=' + remoteUid;
       document.getElementById('local-avatar').src = 'https://i.pravatar.cc/150?u=' + auth.currentUser.uid;
 
@@ -692,9 +671,9 @@
         }
       };
 
+      // Get the offer (re-fetch to be safe)
       const offerSnap = await get(ref(db, `calls/${id}/offer`));
       const offer = offerSnap.val() || data.offer;
-
       if (!offer) {
         alert('Call offer missing');
         return endCall();
@@ -707,9 +686,7 @@
       await update(ref(db, `calls/${id}`), { status: 'connected' });
 
       onChildAdded(ref(db, `calls/${id}/callerCandidates`), (snap) => {
-        if (pc) {
-          pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
-        }
+        if (pc) pc.addIceCandidate(new RTCIceCandidate(snap.val())).catch(() => {});
       });
     };
 
@@ -768,7 +745,7 @@
       document.getElementById('video-btn').classList.toggle('muted', !track.enabled);
     };
 
-    // ========== PRIVATE CHAT ==========
+    // Private chat
     function getPrivateChatId(uid1, uid2) {
       return [uid1, uid2].sort().join('_');
     }
@@ -804,7 +781,7 @@
       loadMessages();
     }
 
-    // ========== MESSAGES ==========
+    // Messages
     function showContextMenu(e, msgData, element) {
       e.preventDefault();
       selectedMessage = { data: msgData, element, key: element.dataset.key };
@@ -931,6 +908,11 @@
       if (unsubscribe) { unsubscribe(); unsubscribe = null; }
       if (!currentChatRef) return;
 
+      messagesLoaded = false;
+
+      // Small delay so we don't notify for the initial load
+      setTimeout(() => { messagesLoaded = true; }, 1500);
+
       unsubscribe = onChildAdded(currentChatRef, (snap) => {
         const msg = snap.val();
         if (!msg) return;
@@ -963,8 +945,8 @@
           <div class="timestamp">${time}</div>
         `;
 
-        // notification for new messages when tab is in background
-        if (!isMe) {
+        // Only notify after the chat has finished loading
+        if (!isMe && messagesLoaded) {
           showNotif(msg.name || "Someone", msg.text || "Sent an image");
         }
 
