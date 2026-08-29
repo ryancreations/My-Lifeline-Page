@@ -4,201 +4,1342 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Videos • My Lifeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{background:linear-gradient(to bottom,#fff8f0,#e0f7ff);font-family:'Quicksand',sans-serif;color:#333;transition:all .5s}
-    .login-box{background:white;padding:50px 30px;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.3);text-align:center;max-width:420px;width:90%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999}
-    .login-box h1{font-size:3em;color:#00bcd4;margin-bottom:10px}
-    .login-box input{width:100%;padding:16px;margin:12px 0;border:2px solid #87ceeb;border-radius:12px;font-size:1.1em}
-    .login-box button{background:#00bcd4;color:white;padding:16px 40px;border-radius:50px;font-size:1.3em;width:100%;border:none;cursor:pointer}
-    .login-box button:hover{background:#0097a7}
-    .hidden{display:none}
-
-    /* COMPACT NAVIGATION */
-    nav{position:fixed;top:0;width:100%;background:#87ceeb;padding:8px 0;z-index:1000;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-    nav button{background:white;color:#00bcd4;border:none;padding:8px 14px;border-radius:20px;cursor:pointer;font-weight:600;font-size:0.95em;transition:.3s}
-    nav button:hover{background:#00bcd4;color:white}
-    @media(max-width:600px){nav{gap:4px;padding:6px 0}nav button{padding:6px 10px;font-size:0.9em}}
-
-    main{margin-top:70px;max-width:900px;margin:auto;padding:15px}
-    header{background:#87ceeb;color:white;padding:35px;text-align:center;border-radius:15px}
-    .section{background:#f0fbff;border:2px solid #87ceeb;border-radius:15px;padding:25px;margin:25px 0;box-shadow:0 6px 15px rgba(0,0,0,.08)}
-    .section h2{color:#00bcd4;text-align:center;margin-bottom:20px;font-size:1.8em}
-    iframe{width:100%;height:400px;border:none;border-radius:12px;box-shadow:0 6px 15px rgba(0,0,0,.2)}
-    ul{list-style:none;padding:0}
-    ul li{background:#e0f7ff;margin:12px 0;padding:18px;border-radius:10px;text-align:center}
-    ul li a{color:#00bcd4;text-decoration:none;font-weight:600;font-size:1.3em}
-    ul li a:hover{text-decoration:underline}
-    .view-toggle{background:#fff;padding:15px;border-radius:12px;margin:20px 0;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1)}
-    .view-toggle button{margin:5px;padding:12px 20px;font-size:1.1em;background:#00bcd4;color:white;border:none;border-radius:10px;cursor:pointer}
-    .view-toggle button:hover{background:#0097a7}
-    .view-toggle p{font-size:0.9em;color:#666;margin-top:10px}
-    @media(max-width:600px){iframe{height:220px}}
-
-    /* Mobile / Desktop Forced Styles */
-    body.mobile-mode nav button { padding: 6px 10px; font-size: 0.9em; }
-    body.mobile-mode iframe { height: 220px; }
-    body.mobile-mode .section { padding: 18px; }
-    body.desktop-mode iframe { height: 400px; }
-    body.desktop-mode .section { padding: 25px; }
+    :root {
+      --primary: #00bcd4;
+      --accent: #ff9ff3;
+      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+      --card: #ffffff;
+      --text: #2c3e50;
+      --muted: #667788;
+      --box: #f7f7ff;
+      --border: rgba(0, 188, 212, 0.18);
+      --shadow: rgba(0, 0, 0, 0.12);
+      --nav-bg: rgba(135, 206, 235, 0.97);
+    }
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
+      --card: #2c3e50;
+      --text: #e0f2f1;
+      --muted: #b7c7d1;
+      --box: #34495e;
+      --border: rgba(79, 195, 247, 0.2);
+      --shadow: rgba(0, 0, 0, 0.4);
+      --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --nav-bg: rgba(26, 38, 57, 0.97);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.5s ease, color 0.3s ease;
+    }
+    /* =====================================================
+       LOGIN
+       ===================================================== */
+    .hidden {
+      display: none !important;
+    }
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+    }
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: var(--card);
+      padding: 45px 30px;
+      border-radius: 28px;
+      text-align: center;
+      box-shadow: 0 20px 50px var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .login-icon {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+    }
+    .login-box h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+    .login-box p {
+      color: var(--muted);
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 15px 17px;
+      margin: 7px 0;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: var(--box);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+    .login-box input:focus {
+      border-color: var(--primary);
+    }
+    .login-button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px 25px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .login-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.25);
+    }
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .nav-menu.hidden {
+      display: none;
+    }
+    .nav-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 9px 16px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 4px 12px var(--shadow);
+      white-space: nowrap;
+    }
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 188, 212, 0.3);
+    }
+    [data-theme="dark"] .nav-btn {
+      background: #3b5065;
+      color: #dff8ff;
+    }
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 225px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 15px 35px var(--shadow);
+      padding: 8px 0;
+      overflow: hidden;
+      z-index: 1001;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 12px 20px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .dropdown-content a:hover {
+      background: rgba(0, 188, 212, 0.12);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logout-btn {
+      background: #ff6b6b !important;
+      color: white !important;
+    }
+    .lock-btn {
+      background: #e74c3c !important;
+      color: white !important;
+    }
+    .hamburger {
+      display: none;
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--text);
+      padding: 6px 10px;
+    }
+    /* =====================================================
+       LOCKDOWN
+       ===================================================== */
+    #lockdown {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #111;
+      z-index: 9999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 30px;
+    }
+    #lockdown h1 {
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+    }
+    #lockdown p {
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+    #unlockKey {
+      padding: 16px 24px;
+      width: 90%;
+      max-width: 340px;
+      border-radius: 999px;
+      border: none;
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 18px 0;
+    }
+    .unlock-btn {
+      padding: 14px 40px;
+      font-size: 1.1rem;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+    }
+    /* =====================================================
+       FLOATING BESTIE
+       ===================================================== */
+    .floating-bestie {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 70px;
+      height: 70px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      cursor: pointer;
+      z-index: 900;
+      box-shadow: 0 10px 30px rgba(255, 159, 243, 0.5);
+      transition: transform 0.3s;
+    }
+    .floating-bestie:hover {
+      transform: scale(1.1);
+    }
+    /* =====================================================
+       BESTIE MODAL
+       ===================================================== */
+    #bestieModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .bestie-window {
+      width: 100%;
+      max-width: 850px;
+      height: 85vh;
+      background: var(--card);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .bestie-header {
+      height: 60px;
+      padding: 12px 18px;
+      background: var(--nav-bg);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .bestie-header h3 {
+      font-size: 1.1rem;
+    }
+    .close-bestie {
+      background: transparent !important;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .bestie-window iframe {
+      width: 100%;
+      height: calc(100% - 60px);
+      border: none;
+    }
+    /* =====================================================
+       MAIN
+       ===================================================== */
+    main {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 115px 20px 70px;
+    }
+    /* =====================================================
+       HERO
+       ===================================================== */
+    .hero {
+      background: linear-gradient(135deg, #00bcd4, #a8e6cf);
+      color: white;
+      padding: 50px 30px;
+      border-radius: 30px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 40px rgba(0, 188, 212, 0.3);
+    }
+    .hero-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.08rem;
+      opacity: 0.95;
+    }
+    /* =====================================================
+       SECTIONS
+       ===================================================== */
+    .section {
+      background: var(--card);
+      padding: 30px;
+      border-radius: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .section-title h2 {
+      font-size: 1.55rem;
+    }
+    .section-description {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    /* =====================================================
+       VIEW MODE
+       ===================================================== */
+    .view-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      border: none;
+      padding: 13px 22px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: white;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+    .action-btn.secondary {
+      background: #ff6b9d;
+    }
+    .action-btn.gray {
+      background: #718096;
+    }
+    /* =====================================================
+       VIDEO CARDS
+       ===================================================== */
+    .video-card {
+      background: var(--box);
+      border: 1px solid var(--border);
+      padding: 22px;
+      border-radius: 22px;
+      margin-top: 18px;
+    }
+    .video-card:first-child {
+      margin-top: 0;
+    }
+    .video-card h3 {
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #111;
+      box-shadow: 0 8px 22px var(--shadow);
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    /* =====================================================
+       LINK GRID
+       ===================================================== */
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .comfort-link {
+      background: var(--box);
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      transition: 0.25s;
+    }
+    .comfort-link:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+    .comfort-link span {
+      display: block;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    /* =====================================================
+       YOUTUBERS
+       ===================================================== */
+    .creator-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .creator-link {
+      background: var(--box);
+      border: 1px solid var(--border);
+      padding: 18px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: var(--text);
+      text-align: center;
+      font-weight: 700;
+      transition: 0.25s;
+    }
+    .creator-link:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+    }
+    /* =====================================================
+       MOBILE / DESKTOP MODES
+       ===================================================== */
+    body.mobile-mode main {
+      max-width: 720px;
+    }
+    body.mobile-mode .hero {
+      padding: 35px 20px;
+    }
+    body.mobile-mode .hero h1 {
+      font-size: 2rem;
+    }
+    body.mobile-mode .section {
+      padding: 20px;
+    }
+    body.mobile-mode .link-grid,
+    body.mobile-mode .creator-grid {
+      grid-template-columns: 1fr;
+    }
+    body.mobile-mode .video-card {
+      padding: 16px;
+    }
+    body.desktop-mode main {
+      max-width: 1100px;
+    }
+    body.desktop-mode .video-wrapper {
+      aspect-ratio: 16 / 9;
+    }
+    /* =====================================================
+       RESPONSIVE
+       ===================================================== */
+    @media (max-width: 1000px) {
+      .nav-menu {
+        display: none;
+      }
+      .nav-menu:not(.hidden) {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: var(--card);
+        padding: 15px;
+        box-shadow: 0 10px 30px var(--shadow);
+        max-height: calc(100vh - 72px);
+        overflow-y: auto;
+      }
+      .nav-menu .nav-btn,
+      .nav-menu .dropdown {
+        width: 100%;
+      }
+      .nav-menu .nav-btn {
+        width: 100%;
+      }
+      .dropdown-content {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        margin-top: 5px;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .hamburger {
+        display: block;
+      }
+    }
+    @media (max-width: 700px) {
+      nav {
+        padding: 12px 14px;
+      }
+      .logo {
+        font-size: 1.25rem;
+      }
+      .nav-right {
+        gap: 5px;
+      }
+      .nav-right .nav-btn {
+        padding: 8px 11px;
+      }
+      main {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+      .hero {
+        padding: 38px 20px;
+      }
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .section {
+        padding: 22px;
+      }
+      .link-grid,
+      .creator-grid {
+        grid-template-columns: 1fr;
+      }
+      .floating-bestie {
+        width: 60px;
+        height: 60px;
+        right: 18px;
+        bottom: 18px;
+        font-size: 1.9rem;
+      }
+      .bestie-window {
+        height: 90vh;
+      }
+    }
   </style>
 </head>
-<body>
-<!-- Shared Sticky Nav + Floating Bestie -->
-<nav style="position: fixed; top: 0; width: 100%; background: #87ceeb; padding: 12px 0; display: flex; justify-content: center; gap: 15px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-wrap: wrap;">
-    <button onclick="location.href='index.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🏠 Dashboard</button>
-    <button onclick="location.href='bestie.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🫂 Bestie</button>
-    <button onclick="location.href='pet.html'" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🐶 Virtual Pet</button>
-    <button onclick="toggleDarkMode()" style="background:white; color:#00bcd4; border:none; padding:10px 18px; border-radius:25px; font-weight:600; cursor:pointer;">🌙 Dark Mode</button>
-</nav>
-
-<!-- Floating Bestie Orb -->
-<div onclick="openBestieModal()" style="position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: #ff9ff3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 6px 20px rgba(255,159,243,0.5); cursor: pointer; z-index: 9999; transition: transform 0.3s;">
-    🫂
+<body data-theme="light">
+  <!-- =====================================================
+       LOGIN SCREEN
+       ===================================================== -->
+  <div id="loginScreen">
+<div class="login-box">
+  <div class="login-icon">
+    🎬
+  </div>
+  <h1>My Lifeline</h1>
+  <p>
+    Enter your personal key to access your comfort videos.
+  </p>
+  <input
+    type="text"
+    id="username"
+    placeholder="Username"
+    autocomplete="username"
+  >
+  <input
+    type="password"
+    id="password"
+    placeholder="Password"
+    autocomplete="current-password"
+  >
+  <button
+    class="login-button"
+    onclick="checkLogin()">
+    Enter Safe Space
+  </button>
 </div>
-
-<!-- Bestie Modal (simple version) -->
-<div id="bestieModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:10000; align-items:center; justify-content:center;">
-    <div style="background:white; width:90%; max-width:800px; height:85%; border-radius:20px; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
-        <div style="padding:15px; background:#87ceeb; color:white; display:flex; justify-content:space-between; align-items:center;">
-            <h3>🫂 Talking to Bestie...</h3>
-            <button onclick="closeBestieModal()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">✕</button>
-        </div>
-        <iframe src="bestie.html" style="width:100%; height:calc(100% - 60px); border:none;"></iframe>
+  </div>
+  <!-- =====================================================
+       MAIN CONTENT
+       ===================================================== -->
+  <div id="mainContent" class="hidden">
+<!-- ===================================================
+     NAVIGATION
+     =================================================== -->
+<nav>
+  <div class="logo">
+    <span>🫂</span>
+    My Lifeline
+  </div>
+  <div class="nav-menu" id="navMenu">
+    <button
+      class="nav-btn"
+      onclick="navigateTo('index.html')">
+      🏠 Dashboard
+    </button>
+    <div class="dropdown">
+      <button class="nav-btn">
+        🛡️ Support
+      </button>
+      <div class="dropdown-content">
+        <a href="emergency.html">
+          🚨 Emergency
+        </a>
+        <a href="bestie.html">
+          🫂 AI Bestie
+        </a>
+        <a href="onebreath.html">
+          😮‍💨 Breathing
+        </a>
+      </div>
     </div>
+    <div class="dropdown">
+      <button class="nav-btn">
+        🧠 Tools
+      </button>
+      <div class="dropdown-content">
+        <a href="mental.html">
+          🧠 Mental Tools
+        </a>
+        <a href="reflect.html">
+          📝 Reflect
+        </a>
+        <a href="reframe.html">
+          💭 Reframe
+        </a>
+        <a href="emotion-radar.html">
+          📡 Emotion Radar
+        </a>
+        <a href="selfcare.html">
+          🧘 Selfcare
+        </a>
+        <a href="selfcare-planner.html">
+          📓 Planner
+        </a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="nav-btn">
+        🌈 Comfort
+      </button>
+      <div class="dropdown-content">
+        <a href="music.html">
+          🎵 Music
+        </a>
+        <a href="lofiroom.html">
+          🌙 Lofi Room
+        </a>
+        <a href="videos.html">
+          📺 Videos
+        </a>
+        <a href="virtualpet.html">
+          🐾 Virtual Pet
+        </a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="nav-btn">
+        📖 Journal
+      </button>
+      <div class="dropdown-content">
+        <a href="letters.html">
+          ✉️ Letters
+        </a>
+        <a href="goodthings.html">
+          🌱 Good Things
+        </a>
+        <a href="todayistayed.html">
+          📌 Today I Stayed
+        </a>
+        <a href="yourenough.html">
+          💙 You're Enough
+        </a>
+      </div>
+    </div>
+    <button
+      class="nav-btn"
+      onclick="navigateTo('2048.html')">
+      🎮 2048
+    </button>
+    <button
+      class="nav-btn"
+      onclick="navigateTo('chatroom.html')">
+      💬 Chat Room
+    </button>
+  </div>
+  <div class="nav-right">
+    <button
+      onclick="toggleDarkMode()"
+      class="nav-btn"
+      title="Toggle Theme">
+      🌗
+    </button>
+    <button
+      onclick="activateLockdown()"
+      class="nav-btn lock-btn"
+      title="Lock Page">
+      🔒
+    </button>
+    <button
+      onclick="logout()"
+      class="nav-btn logout-btn">
+      Logout
+    </button>
+    <span
+      class="hamburger"
+      onclick="toggleMobileMenu()">
+      ☰
+    </span>
+  </div>
+</nav>
+<!-- =====================================================
+     LOCKDOWN
+     ===================================================== -->
+<div id="lockdown">
+  <h1>🛡️ Lockdown Active</h1>
+  <p>
+    Everything hidden. You are safe.
+  </p>
+  <input
+    id="unlockKey"
+    type="password"
+    placeholder="Enter key"
+  >
+  <button
+    class="unlock-btn"
+    onclick="deactivateLockdown()">
+    Return
+  </button>
 </div>
-
-<script>
-  body.dark-mode {
-    background: linear-gradient(to bottom, #1e3a5f, #2c1e3a) !important;
-    color: #ddd;
-}
-body.dark-mode .chat-container, body.dark-mode header, body.dark-mode .message.bestie {
-    background: #2c3e50;
-}
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-}
-
-function openBestieModal() {
-    document.getElementById('bestieModal').style.display = 'flex';
-}
-
-function closeBestieModal() {
-    document.getElementById('bestieModal').style.display = 'none';
-}
-
-// Load dark mode preference
-if (localStorage.getItem('darkMode') === 'true') document.body.classList.add('dark-mode');
-</script>
-<!-- LOGIN SCREEN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <h1>My Lifeline</h1>
-    <p>Enter your personal key</p>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="checkLogin()">Enter Safe Space</button>
+<!-- =====================================================
+     FLOATING BESTIE
+     ===================================================== -->
+<div
+  class="floating-bestie"
+  onclick="openBestieModal()"
+  title="Talk to Bestie">
+  🫂
+</div>
+<!-- =====================================================
+     BESTIE MODAL
+     ===================================================== -->
+<div id="bestieModal">
+  <div class="bestie-window">
+    <div class="bestie-header">
+      <h3>
+        🫂 Talking to Bestie...
+      </h3>
+      <button
+        class="close-bestie"
+        onclick="closeBestieModal()">
+        ✕
+      </button>
+    </div>
+    <iframe
+      src="bestie.html"
+      title="AI Bestie">
+    </iframe>
   </div>
 </div>
-
-<!-- MAIN VIDEOS PAGE -->
-<div id="mainContent" class="hidden">
-<nav>
-  <button onclick="location.href='index.html'">Dashboard</button>
-  <button onclick="logout()" style="background:#ff6b6b;color:white;padding:8px 14px;border:none;border-radius:20px;font-weight:600;font-size:0.95em;cursor:pointer;transition:.3s">Log Out</button>
-</nav>
-  <main>
-    <header>
-      <h1>Comfort Videos</h1>
-      <p>Escape, laugh, rest — all your favorites in one place</p>
-    </header>
-
-    <!-- View Mode Toggle -->
-    <div class="section view-toggle">
-      <h2>View Mode</h2>
-      <button onclick="setView('mobile')">Mobile View</button>
-      <button onclick="setView('desktop')">Desktop View</button>
-      <p>Switch anytime — best for your screen</p>
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-icon">
+      📺
     </div>
-
-    <div class="section">
-      <h2>Dukes of Hazzard – Season 4 Episode 1 (Mrs. Daisy Hogg)</h2>
-      <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4" allowfullscreen></iframe>
+    <h1>
+      Comfort Videos
+    </h1>
+    <p>
+      Escape, laugh, relax, and give yourself a little room
+      to breathe.
+    </p>
+  </section>
+  <!-- VIEW MODE -->
+  <section class="section">
+    <div class="section-title">
+      <span style="font-size:1.8rem;">
+        🖥️
+      </span>
+      <h2>
+        View Mode
+      </h2>
     </div>
-
-    <div class="section">
-      <h2>Dukes of Hazzard – Season 7 Episode 3 (Dr. Jekyll And Mr. Duke)</h2>
-      <iframe src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4" allowfullscreen></iframe>
+    <p class="section-description">
+      Choose the layout that feels best on your current
+      screen. Your choice is remembered on this device.
+    </p>
+    <div class="view-controls">
+      <button
+        class="action-btn"
+        onclick="setView('mobile')">
+        📱 Mobile View
+      </button>
+      <button
+        class="action-btn secondary"
+        onclick="setView('desktop')">
+        🖥️ Desktop View
+      </button>
     </div>
-
-    <div class="section">
-      <h2>Streaming Services</h2>
-      <ul>
-        <li><a href="https://www.netflix.com" target="_blank">Netflix</a></li>
-        <li><a href="https://www.hulu.com" target="_blank">Hulu</a></li>
-        <li><a href="https://www.primevideo.com" target="_blank">Prime Video</a></li>
-        <li><a href="https://www.tubitv.com" target="_blank">Tubi (Free)</a></li>
-        <li><a href="https://www.pluto.tv" target="_blank">Pluto TV (Free)</a></li>
-      </ul>
+  </section>
+  <!-- ===================================================
+       FEATURED VIDEOS
+       =================================================== -->
+  <section class="section">
+    <div class="section-title">
+      <span style="font-size:1.8rem;">
+        🎞️
+      </span>
+      <h2>
+        Comfort TV
+      </h2>
     </div>
-
-    <div class="section">
-      <h2>YouTubers You Love</h2>
-      <ul>
-        <li><a href="https://www.youtube.com/@FamLaurenRP" target="_blank">FamLaurenRP</a></li>
-        <li><a href="https://www.youtube.com/@Elanip" target="_blank">Elanip</a></li>
-        <li><a href="https://www.youtube.com/@Treyten." target="_blank">Treyten</a></li>
-        <li><a href="https://www.youtube.com/@KallMeKrisToo" target="_blank">KallMeKris</a></li>
-      </ul>
+    <p class="section-description">
+      Pick something familiar and let yourself relax for a
+      little while.
+    </p>
+    <!-- VIDEO 1 -->
+    <div class="video-card">
+      <h3>
+        Dukes of Hazzard – Season 4 Episode 1
+        (Mrs. Daisy Hogg)
+      </h3>
+      <div class="video-wrapper">
+        <iframe
+          src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4"
+          allowfullscreen
+          loading="lazy"
+          title="Dukes of Hazzard Season 4 Episode 1">
+        </iframe>
+      </div>
     </div>
-  </main>
-
+    <!-- VIDEO 2 -->
+    <div class="video-card">
+      <h3>
+        Dukes of Hazzard – Season 7 Episode 3
+        (Dr. Jekyll And Mr. Duke)
+      </h3>
+      <div class="video-wrapper">
+        <iframe
+          src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4"
+          allowfullscreen
+          loading="lazy"
+          title="Dukes of Hazzard Season 7 Episode 3">
+        </iframe>
+      </div>
+    </div>
+  </section>
+  <!-- ===================================================
+       STREAMING SERVICES
+       =================================================== -->
+  <section class="section">
+    <div class="section-title">
+      <span style="font-size:1.8rem;">
+        🍿
+      </span>
+      <h2>
+        Streaming Services
+      </h2>
+    </div>
+    <p class="section-description">
+      More places to find something comfortable to watch.
+    </p>
+    <div class="link-grid">
+      <a
+        class="comfort-link"
+        href="https://www.netflix.com"
+        target="_blank"
+        rel="noopener noreferrer">
+        <span>🔴</span>
+        Netflix
+      </a>
+      <a
+        class="comfort-link"
+        href="https://www.hulu.com"
+        target="_blank"
+        rel="noopener noreferrer">
+        <span>🟢</span>
+        Hulu
+      </a>
+      <a
+        class="comfort-link"
+        href="https://www.primevideo.com"
+        target="_blank"
+        rel="noopener noreferrer">
+        <span>🔵</span>
+        Prime Video
+      </a>
+      <a
+        class="comfort-link"
+        href="https://www.tubitv.com"
+        target="_blank"
+        rel="noopener noreferrer">
+        <span>📺</span>
+        Tubi — Free
+      </a>
+      <a
+        class="comfort-link"
+        href="https://www.pluto.tv"
+        target="_blank"
+        rel="noopener noreferrer">
+        <span>🪐</span>
+        Pluto TV — Free
+      </a>
+    </div>
+  </section>
+  <!-- ===================================================
+       YOUTUBERS
+       =================================================== -->
+  <section class="section">
+    <div class="section-title">
+      <span style="font-size:1.8rem;">
+        ▶️
+      </span>
+      <h2>
+        YouTubers You Love
+      </h2>
+    </div>
+    <p class="section-description">
+      Your saved creator shortcuts.
+    </p>
+    <div class="creator-grid">
+      <a
+        class="creator-link"
+        href="https://www.youtube.com/@FamLaurenRP"
+        target="_blank"
+        rel="noopener noreferrer">
+        ▶️ FamLaurenRP
+      </a>
+      <a
+        class="creator-link"
+        href="https://www.youtube.com/@Elanip"
+        target="_blank"
+        rel="noopener noreferrer">
+        ▶️ Elanip
+      </a>
+      <a
+        class="creator-link"
+        href="https://www.youtube.com/@Treyten."
+        target="_blank"
+        rel="noopener noreferrer">
+        ▶️ Treyten
+      </a>
+      <a
+        class="creator-link"
+        href="https://www.youtube.com/@KallMeKrisToo"
+        target="_blank"
+        rel="noopener noreferrer">
+        ▶️ KallMeKris
+      </a>
+    </div>
+  </section>
+  <!-- ===================================================
+       OTHER COMFORT TOOLS
+       =================================================== -->
+  <section class="section">
+    <div class="section-title">
+      <span style="font-size:1.8rem;">
+        🌈
+      </span>
+      <h2>
+        Other Comfort Tools
+      </h2>
+    </div>
+    <p class="section-description">
+      If videos aren't what you need right now, try one
+      of the other spaces in My Lifeline.
+    </p>
+    <div class="link-grid">
+      <a
+        class="comfort-link"
+        href="music.html">
+        <span>🎵</span>
+        Music
+      </a>
+      <a
+        class="comfort-link"
+        href="lofiroom.html">
+        <span>🌙</span>
+        Lofi Room
+      </a>
+      <a
+        class="comfort-link"
+        href="virtualpet.html">
+        <span>🐾</span>
+        Virtual Pet
+      </a>
+      <a
+        class="comfort-link"
+        href="bestie.html">
+        <span>🫂</span>
+        AI Bestie
+      </a>
+      <a
+        class="comfort-link"
+        href="onebreath.html">
+        <span>😮‍💨</span>
+        Breathing
+      </a>
+      <a
+        class="comfort-link"
+        href="selfcare.html">
+        <span>🧘</span>
+        Self-Care
+      </a>
+    </div>
+  </section>
+</main>
+<!-- FOOTER -->
+<footer>
+  My Lifeline • Comfort, distraction, and a little room to breathe 💙
+</footer>
+  </div>
+  <!-- =====================================================
+       JAVASCRIPT
+       ===================================================== -->
   <script>
-  function logout() {
-    localStorage.removeItem('lifelineAuthenticated');
-    location.href = 'index.html';
-  }
-    function checkLogin(){
-  const user = document.getElementById('username').value.trim();
-  const pass = document.getElementById('password').value.trim();
-
-  // Main account + all guest options (case-insensitive for username)
-  if(
-    (user.toLowerCase() === "ryan" && pass === "ITSmf420") ||
-    (user.toLowerCase() === "guest" && pass === "guest") ||
-    (user.toLowerCase() === "visitor" && pass === "welcome") ||
-    (user.toLowerCase() === "friend" && pass === "lifeline") ||
-    (user.toLowerCase() === "nc" && pass === "boone")
-  ){
-    localStorage.setItem('lifelineAuthenticated', 'true');
-    document.getElementById('loginScreen').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-  } else {
-    alert("Incorrect username or password.");
-  }
-}
+    /* =====================================================
+       THEME
+       ===================================================== */
+    function toggleDarkMode() {
+      const currentTheme =
+        document.documentElement.getAttribute('data-theme');
+      const newTheme =
+        currentTheme === 'dark'
+          ? 'light'
+          : 'dark';
+      document.documentElement.setAttribute(
+        'data-theme',
+        newTheme
+      );
+      localStorage.setItem(
+        'lifeline-theme',
+        newTheme
+      );
+    }
+    /* =====================================================
+       LOAD THEME
+       ===================================================== */
+    const savedTheme =
+      localStorage.getItem('lifeline-theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute(
+        'data-theme',
+        savedTheme
+      );
+    }
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+    function navigateTo(page) {
+      window.location.href = page;
+    }
+    /* =====================================================
+       MOBILE MENU
+       ===================================================== */
+    function toggleMobileMenu() {
+      const menu =
+        document.getElementById('navMenu');
+      menu.classList.toggle('hidden');
+    }
+    /* =====================================================
+       LOCKDOWN
+       ===================================================== */
+    function activateLockdown() {
+      document.getElementById(
+        'lockdown'
+      ).style.display = 'flex';
+      setTimeout(() => {
+        const input =
+          document.getElementById('unlockKey');
+        if (input) {
+          input.focus();
+        }
+      }, 100);
+    }
+    function deactivateLockdown() {
+      const key =
+        document.getElementById('unlockKey')
+          .value
+          .trim();
+      if (key.length > 0) {
+        document.getElementById(
+          'lockdown'
+        ).style.display = 'none';
+        document.getElementById(
+          'unlockKey'
+        ).value = '';
+      }
+    }
+    /* =====================================================
+       ESCAPE LOCKDOWN
+       ===================================================== */
+    document.addEventListener(
+      'keydown',
+      function(event) {
+        if (event.key !== 'Escape') {
+          return;
+        }
+        const lockdown =
+          document.getElementById('lockdown');
+        if (
+          lockdown &&
+          lockdown.style.display === 'flex'
+        ) {
+          lockdown.style.display = 'none';
+        }
+      }
+    );
+    /* =====================================================
+       BESTIE MODAL
+       ===================================================== */
+    function openBestieModal() {
+      document.getElementById(
+        'bestieModal'
+      ).style.display = 'flex';
+    }
+    function closeBestieModal() {
+      document.getElementById(
+        'bestieModal'
+      ).style.display = 'none';
+    }
+    document.getElementById(
+      'bestieModal'
+    ).addEventListener(
+      'click',
+      function(event) {
+        if (event.target === this) {
+          closeBestieModal();
+        }
+      }
+    );
+    /* =====================================================
+       LOGIN
+       ===================================================== */
+    function checkLogin() {
+      const user =
+        document.getElementById('username')
+          .value
+          .trim();
+      const pass =
+        document.getElementById('password')
+          .value
+          .trim();
+      const validLogin =
+        (
+          user.toLowerCase() === 'ryan' &&
+          pass === 'ITSmf420'
+        )
+        ||
+        (
+          user.toLowerCase() === 'guest' &&
+          pass === 'guest'
+        )
+        ||
+        (
+          user.toLowerCase() === 'visitor' &&
+          pass === 'welcome'
+        )
+        ||
+        (
+          user.toLowerCase() === 'friend' &&
+          pass === 'lifeline'
+        )
+        ||
+        (
+          user.toLowerCase() === 'nc' &&
+          pass === 'boone'
+        );
+      if (validLogin) {
+        localStorage.setItem(
+          'lifelineAuthenticated',
+          'true'
+        );
+        document.getElementById(
+          'loginScreen'
+        ).classList.add('hidden');
+        document.getElementById(
+          'mainContent'
+        ).classList.remove('hidden');
+      } else {
+        alert(
+          'Incorrect username or password.'
+        );
+      }
+    }
+    /* =====================================================
+       LOGOUT
+       ===================================================== */
     function logout() {
-      localStorage.removeItem('lifelineAuthenticated');
-      location.reload();
+      localStorage.removeItem(
+        'lifelineAuthenticated'
+      );
+      window.location.reload();
     }
-    if (localStorage.getItem('lifelineAuthenticated') === 'true') {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainContent').classList.remove('hidden');
-    }
-
-    // Mobile / Desktop View Toggle
+    /* =====================================================
+       ENTER KEY LOGIN
+       ===================================================== */
+    document.addEventListener(
+      'keydown',
+      function(event) {
+        if (
+          event.key === 'Enter' &&
+          !document.getElementById(
+            'loginScreen'
+          ).classList.contains('hidden')
+        ) {
+          checkLogin();
+        }
+      }
+    );
+    /* =====================================================
+       VIEW MODE
+       ===================================================== */
     function setView(mode) {
-      document.body.classList.remove('mobile-mode', 'desktop-mode');
-      if (mode === 'mobile') document.body.classList.add('mobile-mode');
-      else document.body.classList.add('desktop-mode');
-      localStorage.setItem('viewMode', mode);
+      document.body.classList.remove(
+        'mobile-mode',
+        'desktop-mode'
+      );
+      if (mode === 'mobile') {
+        document.body.classList.add(
+          'mobile-mode'
+        );
+      } else {
+        document.body.classList.add(
+          'desktop-mode'
+        );
+      }
+      localStorage.setItem(
+        'viewMode',
+        mode
+      );
     }
-    const savedView = localStorage.getItem('viewMode');
-    if (savedView) setView(savedView);
+    /* =====================================================
+       STARTUP
+       ===================================================== */
+    const savedView =
+      localStorage.getItem('viewMode');
+    if (savedView) {
+      setView(savedView);
+    } else {
+      setView('desktop');
+    }
+    if (
+      localStorage.getItem(
+        'lifelineAuthenticated'
+      ) === 'true'
+    ) {
+      document.getElementById(
+        'loginScreen'
+      ).classList.add('hidden');
+      document.getElementById(
+        'mainContent'
+      ).classList.remove('hidden');
+    }
   </script>
-</div>
 </body>
 </html>
