@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chatroom • My Lifeline</title>
   <style>
     :root {
@@ -30,6 +30,7 @@
       background: var(--bg);
       color: var(--text);
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
     }
 
@@ -49,6 +50,7 @@
       overflow-y: auto; padding: 12px;
       display: flex; flex-direction: column; gap: 3px;
       background: var(--bg);
+      -webkit-overflow-scrolling: touch;
     }
 
     .message {
@@ -160,28 +162,33 @@
     }
     #remote-video { inset: 0; width: 100%; height: 100%; z-index: 1; }
     #local-video {
-      bottom: 16px; right: 16px; width: 120px; height: 160px;
+      bottom: 16px; right: 16px; width: 110px; height: 150px;
       border: 2px solid #333; z-index: 5;
     }
     #call-controls {
       display: flex; gap: 16px; justify-content: center; padding: 18px;
     }
     #call-controls button {
-      width: 52px; height: 52px; border-radius: 50%; border: none;
-      font-size: 20px; cursor: pointer; background: #2a2a2a; color: white;
+      width: 56px; height: 56px; border-radius: 50%; border: none;
+      font-size: 22px; cursor: pointer; background: #2a2a2a; color: white;
     }
     #call-controls button.muted { background: #ff3b30; }
 
+    /* Bigger incoming call popup for mobile */
     #incoming-call {
-      position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
-      background: #1c1c1e; color: white; padding: 16px 24px;
-      border-radius: 16px; z-index: 500; display: none;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.4); text-align: center;
-      min-width: 260px;
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #1c1c1e; color: white; padding: 24px 28px;
+      border-radius: 20px; z-index: 500; display: none;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5); text-align: center;
+      min-width: 280px; width: 85%; max-width: 340px;
+    }
+    #incoming-name {
+      font-size: 18px; font-weight: 600; margin-bottom: 18px;
     }
     #incoming-call button {
-      margin: 8px 6px 0; padding: 8px 18px; border: none;
-      border-radius: 8px; font-weight: 600; cursor: pointer;
+      margin: 6px; padding: 14px 28px; border: none;
+      border-radius: 12px; font-weight: 600; cursor: pointer;
+      font-size: 16px; min-width: 110px;
     }
     #accept-call { background: #34c759; color: white; }
     #decline-call { background: #ff3b30; color: white; }
@@ -270,8 +277,8 @@
         <img id="local-avatar" src="" alt="">
         <div class="ring" id="local-ring"></div>
       </div>
-      <video id="remote-video" autoplay playsinline></video>
-      <video id="local-video" autoplay playsinline muted></video>
+      <video id="remote-video" autoplay playsinline webkit-playsinline></video>
+      <video id="local-video" autoplay playsinline webkit-playsinline muted></video>
     </div>
     <div id="call-controls">
       <button id="mute-btn" onclick="toggleMute()">🎤</button>
@@ -281,8 +288,10 @@
 
   <div id="incoming-call">
     <div id="incoming-name">Incoming call…</div>
-    <button id="accept-call">Accept</button>
-    <button id="decline-call">Decline</button>
+    <div style="display:flex; justify-content:center; gap:12px;">
+      <button id="accept-call">Accept</button>
+      <button id="decline-call">Decline</button>
+    </div>
   </div>
 
   <div id="login-screen">
@@ -353,6 +362,7 @@
     let remoteUid = null;
     let speakingInterval = null;
     let incomingListener = null;
+    let pendingCall = null; // stores the call while waiting for media
 
     // Theme
     window.toggleDarkMode = () => {
@@ -525,7 +535,7 @@
       document.getElementById('browser-container').innerHTML = '';
     };
 
-    // Calls
+    // ========== CALLS (MOBILE FIXED) ==========
     window.startCall = async (withVideo = true) => {
       if (!selectedMessage || !auth.currentUser) return;
       remoteUid = selectedMessage.data.uid;
@@ -611,24 +621,34 @@
 
         const popup = document.getElementById('incoming-call');
         if (found) {
+          pendingCall = found;
           document.getElementById('incoming-name').textContent =
             (found.data.callerName || 'Someone') + ' is calling…';
           popup.style.display = 'block';
           showNotif("Incoming Call", (found.data.callerName || "Someone") + " is calling you");
-
-          document.getElementById('accept-call').onclick = () => {
-            popup.style.display = 'none';
-            answerCall(found.id, found.data);
-          };
-          document.getElementById('decline-call').onclick = async () => {
-            popup.style.display = 'none';
-            await update(ref(db, `calls/${found.id}`), { status: 'declined' });
-          };
         } else {
           popup.style.display = 'none';
+          pendingCall = null;
         }
       });
     }
+
+    // Critical mobile fix: getUserMedia must be called directly from the tap
+    document.getElementById('accept-call').addEventListener('click', async () => {
+      if (!pendingCall) return;
+      const { id, data } = pendingCall;
+      document.getElementById('incoming-call').style.display = 'none';
+      pendingCall = null;
+      await answerCall(id, data);
+    });
+
+    document.getElementById('decline-call').addEventListener('click', async () => {
+      if (!pendingCall) return;
+      const { id } = pendingCall;
+      document.getElementById('incoming-call').style.display = 'none';
+      pendingCall = null;
+      await update(ref(db, `calls/${id}`), { status: 'declined' });
+    });
 
     window.answerCall = async (id, data) => {
       callId = id;
@@ -639,14 +659,18 @@
       document.getElementById('remote-avatar').src = 'https://i.pravatar.cc/150?u=' + remoteUid;
       document.getElementById('local-avatar').src = 'https://i.pravatar.cc/150?u=' + auth.currentUser.uid;
 
+      // This is called from the Accept button click → works on mobile
       try {
         localStream = await navigator.mediaDevices.getUserMedia({
           audio: true,
           video: data.video !== false
         });
-        document.getElementById('local-video').srcObject = localStream;
+        const localVideo = document.getElementById('local-video');
+        localVideo.srcObject = localStream;
+        localVideo.play().catch(() => {});
       } catch (e) {
-        alert('Need mic/camera permission');
+        console.error(e);
+        alert('Need mic/camera permission. Please allow and try again.');
         return endCall();
       }
 
@@ -690,7 +714,7 @@
 
     function startSpeakingDetection(stream, ringId) {
       try {
-        const audioCtx = new AudioContext();
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const analyser = audioCtx.createAnalyser();
         const source = audioCtx.createMediaStreamSource(stream);
         source.connect(analyser);
