@@ -113,20 +113,17 @@
     }
     #browser-header {
       height: 48px; background: #1c1c1e; color: white;
-      display: flex; align-items: center; padding: 0 16px; gap: 12px;
+      display: flex; align-items: center; padding: 0 16px; gap: 10px;
     }
     #browser-container {
-      flex: 1; width: 100%; background: #000; position: relative;
+      flex: 1; width: 100%; background: #000;
     }
-    #close-browser {
-      background: #ff3b30; color: white; border: none;
-      padding: 7px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
+    #close-browser, #new-session-btn {
+      border: none; padding: 7px 14px; border-radius: 8px;
+      font-weight: 600; cursor: pointer; color: white;
     }
-    #new-session-btn {
-      background: #007aff; color: white; border: none;
-      padding: 7px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;
-      margin-right: 8px;
-    }
+    #close-browser { background: #ff3b30; }
+    #new-session-btn { background: #007aff; }
 
     /* Login */
     #login-screen, #signup-screen {
@@ -168,7 +165,6 @@
 
   <div id="chat-container" style="display:none;"></div>
 
-  <!-- Context Menu -->
   <div id="context-menu">
     <button onclick="replyToMessage()">Reply</button>
     <button onclick="startPrivateMessage()">PM</button>
@@ -190,7 +186,7 @@
     </div>
   </div>
 
-  <!-- Shared Browser Screen -->
+  <!-- Shared Browser -->
   <div id="browser-screen">
     <div id="browser-header">
       <span style="flex:1; font-weight:600;">Shared Browser</span>
@@ -213,7 +209,6 @@
     </div>
   </div>
 
-  <!-- SIGNUP -->
   <div id="signup-screen" style="display:none;">
     <div class="login-card">
       <h2>Create Account</h2>
@@ -239,7 +234,7 @@
     };
 
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, onValue, set, remove, serverTimestamp, off } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getDatabase, ref, push, onChildAdded, onValue, set, remove, serverTimestamp, get } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
     import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
     import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
@@ -330,37 +325,31 @@
 
     window.logout = () => signOut(auth);
 
-    // ========== SHARED BROWSER (Hyperbeam) ==========
+    // ========== SHARED BROWSER ==========
     window.openSharedBrowser = async () => {
       document.getElementById('context-menu').style.display = 'none';
       document.getElementById('browser-screen').style.display = 'flex';
       document.getElementById('browser-container').innerHTML = `
         <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
           <div>Looking for shared browser...</div>
-          <div style="font-size:14px;opacity:0.7;">Joining if one already exists</div>
         </div>`;
 
       try {
-        const sessionRef = ref(db, 'active-browser-session');
-
-        // Check if a session already exists
-        const existing = await new Promise((resolve) => {
-          onValue(sessionRef, (snap) => {
-            resolve(snap.val());
-          }, { onlyOnce: true });
-        });
+        // 1. Check if a session already exists
+        const snapshot = await get(ref(db, 'active-browser-session'));
+        const existing = snapshot.val();
 
         if (existing && existing.embed_url) {
-          // Join the existing session
-          await loadHyperbeamSession(existing);
+          // Join existing session
+          await loadSession(existing);
           return;
         }
 
-        // No session exists → create a new one
+        // 2. No session → create a new one
         document.getElementById('browser-container').innerHTML = `
           <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
             <div>Starting shared browser...</div>
-            <div style="font-size:14px;opacity:0.7;">Creating watch party...</div>
+            <div style="font-size:14px;opacity:0.7;">Creating watch party</div>
           </div>`;
 
         const response = await fetch("/api/create-browser", {
@@ -374,7 +363,7 @@
 
         const data = await response.json();
 
-        // Save session so the other person can join
+        // Save so the other person can join
         await set(ref(db, 'active-browser-session'), {
           embed_url: data.embed_url,
           admin_token: data.admin_token,
@@ -383,7 +372,7 @@
           createdBy: auth.currentUser?.displayName || "Someone"
         });
 
-        await loadHyperbeamSession(data);
+        await loadSession(data);
 
       } catch (err) {
         console.error(err);
@@ -398,7 +387,7 @@
       }
     };
 
-    async function loadHyperbeamSession(data) {
+    async function loadSession(data) {
       const container = document.getElementById('browser-container');
       container.innerHTML = '';
 
@@ -407,7 +396,7 @@
           adminToken: data.admin_token
         });
       } catch (err) {
-        console.error("Hyperbeam load error:", err);
+        console.error(err);
         container.innerHTML = `
           <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
             <div>Failed to load browser</div>
@@ -418,7 +407,7 @@
       }
     }
 
-    // Force create a brand new session
+    // Start a completely new session
     window.forceNewBrowser = async () => {
       if (hbClient) {
         try { hbClient.destroy(); } catch(e) {}
@@ -444,14 +433,9 @@
 
     window.startPrivateMessage = () => {
       if (!selectedMessage || !auth.currentUser) return;
-
       const otherUid = selectedMessage.data.uid;
       const otherName = selectedMessage.data.name;
-
-      if (otherUid === auth.currentUser.uid) {
-        alert("You can't PM yourself");
-        return;
-      }
+      if (otherUid === auth.currentUser.uid) return alert("You can't PM yourself");
 
       const chatId = getPrivateChatId(auth.currentUser.uid, otherUid);
       currentChatRef = ref(db, `private-chats/${chatId}`);
@@ -461,7 +445,6 @@
       document.getElementById('header-title').innerHTML = `PM • ${otherName} <span class="pm-badge">Private</span>`;
       document.getElementById('header-back').textContent = '← Public Chat';
       document.getElementById('context-menu').style.display = 'none';
-
       loadMessages();
     };
 
@@ -483,14 +466,12 @@
     function showContextMenu(e, msgData, element) {
       e.preventDefault();
       selectedMessage = { data: msgData, element, key: element.dataset.key };
-
       const menu = document.getElementById('context-menu');
       menu.style.display = 'block';
       const x = e.clientX || (e.touches && e.touches[0].clientX) || 100;
       const y = e.clientY || (e.touches && e.touches[0].clientY) || 100;
       menu.style.left = Math.min(x, window.innerWidth - 210) + 'px';
       menu.style.top = Math.min(y, window.innerHeight - 250) + 'px';
-
       document.getElementById('delete-btn').style.display =
         (msgData.uid === auth.currentUser?.uid) ? 'block' : 'none';
     }
@@ -522,7 +503,6 @@
     window.deleteMessage = async () => {
       if (!selectedMessage || !selectedMessage.key) return;
       if (!confirm('Delete this message?')) return;
-
       try {
         const path = isPrivate
           ? `private-chats/${getPrivateChatId(auth.currentUser.uid, privateWith.uid)}/${selectedMessage.key}`
@@ -558,10 +538,7 @@
       }
 
       if (replyTo) {
-        messageData.replyTo = {
-          name: replyTo.name,
-          text: replyTo.text || 'Image'
-        };
+        messageData.replyTo = { name: replyTo.name, text: replyTo.text || 'Image' };
       }
 
       push(currentChatRef, messageData);
@@ -581,7 +558,6 @@
         const fileRef = storageRef(storage, `chat-images/${Date.now()}_${file.name}`);
         await uploadBytes(fileRef, file);
         const url = await getDownloadURL(fileRef);
-
         push(currentChatRef, {
           name: auth.currentUser.displayName || auth.currentUser.email.split('@')[0],
           imageUrl: url,
@@ -590,7 +566,6 @@
           type: 'image'
         });
       } catch (err) {
-        console.error(err);
         alert('Image upload failed.');
       }
 
@@ -611,12 +586,7 @@
     function loadMessages() {
       const container = document.getElementById('chat-container');
       container.innerHTML = '';
-
-      if (unsubscribe) {
-        unsubscribe();
-        unsubscribe = null;
-      }
-
+      if (unsubscribe) { unsubscribe(); unsubscribe = null; }
       if (!currentChatRef) return;
 
       unsubscribe = onChildAdded(currentChatRef, (snap) => {
@@ -632,12 +602,9 @@
           ? new Date(msg.timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
           : '';
 
-        let content = '';
-        if (msg.type === 'image' && msg.imageUrl) {
-          content = `<img src="${msg.imageUrl}" alt="Image" loading="lazy">`;
-        } else {
-          content = linkify(msg.text || '');
-        }
+        let content = msg.type === 'image' && msg.imageUrl
+          ? `<img src="${msg.imageUrl}" alt="Image" loading="lazy">`
+          : linkify(msg.text || '');
 
         let replyHtml = '';
         if (msg.replyTo) {
