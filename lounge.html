@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Lounge • My Lifeline</title>
-
   <link
     href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   >
-
   <style>
     :root {
       --primary: #00bcd4;
@@ -26,7 +23,6 @@
       --mine: linear-gradient(135deg,#00bcd4,#4fc3f7);
       --theirs: rgba(255,255,255,.96);
     }
-
     [data-theme="dark"] {
       --primary: #4fc3f7;
       --accent: #ff79c6;
@@ -41,19 +37,16 @@
       --mine: linear-gradient(135deg,#0288d1,#4fc3f7);
       --theirs: rgba(52,73,94,.96);
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     html,
     body {
       width: 100%;
       height: 100%;
     }
-
     body {
       font-family: "Quicksand", sans-serif;
       background: var(--bg);
@@ -61,1004 +54,662 @@
       color: var(--text);
       overflow: hidden;
     }
-
     button,
     input,
     textarea {
       font-family: inherit;
     }
-
     button {
       cursor: pointer;
     }
-
-    /* ================= HEADER ================= */
-
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-
       height: 70px;
-
       display: flex;
       align-items: center;
-
       padding: 0 22px;
-
       background: var(--card);
       backdrop-filter: blur(18px);
-
       border-bottom: 1px solid var(--border);
-
       box-shadow: 0 4px 18px var(--shadow);
-
       z-index: 50;
     }
-
     .header-left {
       display: flex;
       align-items: center;
       gap: 12px;
       min-width: 0;
     }
-
     .back-btn {
       border: none;
       background: transparent;
       color: var(--primary);
-
       font-size: 18px;
       font-weight: 700;
-
       padding: 8px;
       border-radius: 10px;
     }
-
     .back-btn:hover {
       background: var(--box);
     }
-
     .logo {
       width: 42px;
       height: 42px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       border-radius: 14px;
-
-      background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--accent)
-      );
-
+      background: linear-gradient(135deg,var(--primary),var(--accent));
       color: white;
       font-size: 21px;
-
       box-shadow: 0 5px 14px var(--shadow);
     }
-
     .header-title {
       min-width: 0;
     }
-
     .header-title h1 {
       font-size: 19px;
       font-weight: 700;
       line-height: 1.1;
     }
-
     .header-title p {
       color: var(--muted);
       font-size: 12px;
       margin-top: 2px;
     }
-
     .header-actions {
       margin-left: auto;
-
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .header-btn {
       width: 40px;
       height: 40px;
-
       border: 1px solid var(--border);
       border-radius: 12px;
-
       background: var(--box);
       color: var(--text);
-
       font-size: 17px;
     }
-
     .header-btn:hover {
       transform: translateY(-1px);
     }
-
-    /* ================= APP ================= */
-
     .app {
       position: fixed;
-
       top: 70px;
       bottom: 0;
       left: 0;
       right: 0;
-
       display: flex;
       flex-direction: column;
-
       max-width: 1050px;
       margin: auto;
-
       width: 100%;
     }
-
-    /* ================= WELCOME ================= */
-
     .welcome {
       margin: 14px 16px 8px;
-
       padding: 13px 16px;
-
       border-radius: 18px;
-
       background: var(--card);
-
       border: 1px solid var(--border);
-
       box-shadow: 0 6px 22px var(--shadow);
-
       flex-shrink: 0;
     }
-
     .welcome strong {
       font-size: 15px;
     }
-
     .welcome span {
       color: var(--muted);
       font-size: 13px;
       display: block;
       margin-top: 2px;
     }
-
-    /* ================= CHAT ================= */
-
     #messages {
       flex: 1;
-
       overflow-y: auto;
-
       padding: 8px 16px 125px;
-
       display: flex;
       flex-direction: column;
-
       gap: 9px;
-
       scroll-behavior: smooth;
     }
-
     #messages::-webkit-scrollbar {
       width: 7px;
     }
-
     #messages::-webkit-scrollbar-thumb {
       background: var(--border);
       border-radius: 10px;
     }
-
     .message {
       max-width: min(78%, 650px);
-
       padding: 11px 14px;
-
       border-radius: 18px;
-
       background: var(--theirs);
-
       border: 1px solid var(--border);
-
       box-shadow: 0 4px 15px var(--shadow);
-
       animation: messageIn .18s ease;
     }
-
     @keyframes messageIn {
       from {
         opacity: 0;
         transform: translateY(5px);
       }
-
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-
     .message.mine {
       align-self: flex-end;
-
       background: var(--mine);
       color: white;
-
       border: none;
-
       border-bottom-right-radius: 5px;
     }
-
     .message.theirs {
       align-self: flex-start;
-
       border-bottom-left-radius: 5px;
     }
-
     .message-name {
       font-size: 12px;
       font-weight: 700;
-
       margin-bottom: 4px;
-
       opacity: .78;
     }
-
     .message-text {
       font-size: 15px;
       line-height: 1.45;
-
       white-space: pre-wrap;
       overflow-wrap: anywhere;
     }
-
     .message-time {
       font-size: 10px;
       margin-top: 5px;
       opacity: .65;
       text-align: right;
     }
-
     .message-image {
       max-width: 100%;
       max-height: 420px;
-
       display: block;
-
       margin-top: 5px;
-
       border-radius: 13px;
-
       object-fit: contain;
     }
-
     .reply-box {
       padding: 7px 9px;
-
       margin-bottom: 7px;
-
       border-left: 3px solid var(--accent);
-
       background: rgba(0,0,0,.06);
-
       border-radius: 8px;
-
       font-size: 12px;
     }
-
     .mine .reply-box {
       background: rgba(255,255,255,.16);
     }
-
     .reply-name {
       font-weight: 700;
       margin-bottom: 2px;
     }
-
-    /* ================= EMPTY ================= */
-
     .empty {
       margin: auto;
-
       text-align: center;
-
       max-width: 380px;
-
       padding: 35px 20px;
-
       color: var(--muted);
     }
-
     .empty-icon {
       font-size: 46px;
       margin-bottom: 10px;
     }
-
     .empty h2 {
       color: var(--text);
       font-size: 20px;
       margin-bottom: 5px;
     }
-
-    /* ================= INPUT ================= */
-
     .input-area {
       position: fixed;
-
       left: 0;
       right: 0;
       bottom: 0;
-
       z-index: 40;
-
       padding: 10px 16px 18px;
-
       background: var(--card);
-
       backdrop-filter: blur(20px);
-
       border-top: 1px solid var(--border);
-
       box-shadow: 0 -5px 22px var(--shadow);
     }
-
     .input-inner {
       max-width: 1018px;
       margin: auto;
     }
-
     #reply-preview {
       display: none;
-
       margin-bottom: 8px;
-
       padding: 9px 12px;
-
       border-radius: 12px;
-
       background: var(--box);
-
       border-left: 4px solid var(--primary);
-
       font-size: 12px;
-
       position: relative;
     }
-
     #reply-preview strong {
       display: block;
       margin-bottom: 2px;
     }
-
     .cancel-reply {
       position: absolute;
-
       top: 8px;
       right: 10px;
-
       border: none;
       background: transparent;
-
       color: var(--accent);
-
       font-size: 16px;
       font-weight: 700;
     }
-
     .composer {
       display: flex;
       align-items: flex-end;
       gap: 8px;
     }
-
     .composer-btn {
       flex-shrink: 0;
-
       width: 42px;
       height: 42px;
-
       border-radius: 14px;
-
       border: 1px solid var(--border);
-
       background: var(--box);
       color: var(--text);
-
       font-size: 18px;
     }
-
     #message-input {
       flex: 1;
-
       min-height: 42px;
       max-height: 120px;
-
       resize: none;
-
       border: 1px solid var(--border);
-
       border-radius: 17px;
-
       background: var(--box);
-
       color: var(--text);
-
       padding: 11px 14px;
-
       outline: none;
-
       font-size: 15px;
     }
-
     #message-input:focus {
       border-color: var(--primary);
     }
-
     #send-btn {
-      background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--accent)
-      );
-
+      background: linear-gradient(135deg,var(--primary),var(--accent));
       color: white;
-
       border: none;
     }
-
     #send-btn:disabled {
       opacity: .5;
       cursor: not-allowed;
     }
-
     #image-input {
       display: none;
     }
-
-    /* ================= MENU ================= */
-
     #context-menu {
       display: none;
-
       position: fixed;
-
       z-index: 100;
-
       min-width: 190px;
-
       overflow: hidden;
-
       background: var(--card-solid);
-
       border: 1px solid var(--border);
-
       border-radius: 15px;
-
       box-shadow: 0 12px 35px var(--shadow);
     }
-
     #context-menu button {
       display: block;
-
       width: 100%;
-
       padding: 12px 15px;
-
       border: none;
-
       background: transparent;
-
       color: var(--text);
-
       text-align: left;
-
       font-size: 14px;
     }
-
     #context-menu button:hover {
       background: var(--box);
     }
-
     #context-menu .danger {
       color: #ff5c6c;
     }
-
-    /* ================= AUTH ================= */
-
     .auth-screen {
       position: fixed;
       inset: 0;
-
       z-index: 200;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       padding: 20px;
-
       background: var(--bg);
     }
-
     .auth-card {
       width: min(430px, 100%);
-
       padding: 30px 25px;
-
       background: var(--card);
-
       border: 1px solid var(--border);
-
       border-radius: 24px;
-
       box-shadow: 0 12px 40px var(--shadow);
     }
-
     .auth-logo {
       width: 65px;
       height: 65px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       margin: 0 auto 15px;
-
       border-radius: 20px;
-
-      background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--accent)
-      );
-
+      background: linear-gradient(135deg,var(--primary),var(--accent));
       color: white;
-
       font-size: 30px;
-
       box-shadow: 0 8px 20px var(--shadow);
     }
-
     .auth-card h2 {
       text-align: center;
-
       font-size: 24px;
-
       margin-bottom: 5px;
     }
-
     .auth-card .subtitle {
       text-align: center;
-
       color: var(--muted);
-
       font-size: 13px;
-
       margin-bottom: 22px;
     }
-
     .auth-card input {
       width: 100%;
-
       padding: 13px 14px;
-
       margin-bottom: 10px;
-
       border: 1px solid var(--border);
-
       border-radius: 13px;
-
       background: var(--box);
-
       color: var(--text);
-
       outline: none;
-
       font-size: 15px;
     }
-
     .auth-card input:focus {
       border-color: var(--primary);
     }
-
     .auth-btn {
       width: 100%;
-
       padding: 13px;
-
       margin-top: 7px;
-
       border: none;
-
       border-radius: 13px;
-
       font-size: 15px;
-
       font-weight: 700;
-
-      background: linear-gradient(
-        135deg,
-        var(--primary),
-        var(--accent)
-      );
-
+      background: linear-gradient(135deg,var(--primary),var(--accent));
       color: white;
     }
-
     .auth-btn.secondary {
       background: var(--box);
       color: var(--text);
       border: 1px solid var(--border);
     }
-
     .auth-error {
       min-height: 20px;
-
       margin-top: 10px;
-
       text-align: center;
-
       color: #ff5c6c;
-
       font-size: 13px;
     }
-
-    /* ================= MOBILE ================= */
-
     @media (max-width: 650px) {
       header {
         height: 62px;
         padding: 0 12px;
       }
-
       .app {
         top: 62px;
       }
-
       .header-title h1 {
         font-size: 17px;
       }
-
       .header-title p {
         display: none;
       }
-
       .logo {
         width: 38px;
         height: 38px;
       }
-
       .welcome {
         margin: 9px 10px 5px;
       }
-
       #messages {
         padding-left: 10px;
         padding-right: 10px;
       }
-
       .message {
         max-width: 87%;
       }
-
       .input-area {
         padding: 8px 9px 12px;
       }
-
       .composer-btn {
         width: 40px;
         height: 40px;
       }
-
       #message-input {
         font-size: 16px;
       }
     }
   </style>
 </head>
-
 <body>
-
   <!-- ================= AUTH ================= -->
-
   <section id="login-screen" class="auth-screen">
     <div class="auth-card">
-
-      <div class="auth-logo">🌙</div>
-
-      <h2>Welcome to the Lounge</h2>
-
-      <p class="subtitle">
-        A calm place to talk with the My Lifeline community.
-      </p>
-
-      <input
-        id="login-email"
-        type="email"
-        placeholder="Email"
-        autocomplete="email"
-      >
-
-      <input
-        id="login-password"
-        type="password"
-        placeholder="Password"
-        autocomplete="current-password"
-      >
-
-      <button class="auth-btn" id="login-btn">
-        Sign In
-      </button>
-
-      <button class="auth-btn secondary" id="google-btn">
-        Continue with Google
-      </button>
-
-      <button class="auth-btn secondary" id="signup-show-btn">
-        Create an Account
-      </button>
-
-      <p id="login-error" class="auth-error"></p>
-
-    </div>
+  <div class="auth-logo">🌙</div>
+  <h2>Welcome to the Lounge</h2>
+  <p class="subtitle">
+    A calm place to talk with the My Lifeline community.
+  </p>
+  <input
+    id="login-email"
+    type="email"
+    placeholder="Email"
+    autocomplete="email"
+  >
+  <input
+    id="login-password"
+    type="password"
+    placeholder="Password"
+    autocomplete="current-password"
+  >
+  <button class="auth-btn" id="login-btn">
+    Sign In
+  </button>
+  <button class="auth-btn secondary" id="google-btn">
+    Continue with Google
+  </button>
+  <button class="auth-btn secondary" id="signup-show-btn">
+    Create an Account
+  </button>
+  <p id="login-error" class="auth-error"></p>
+</div>
   </section>
-
-
   <!-- ================= SIGNUP ================= -->
-
   <section
     id="signup-screen"
     class="auth-screen"
     style="display:none;"
   >
     <div class="auth-card">
-
-      <div class="auth-logo">✨</div>
-
-      <h2>Create Your Account</h2>
-
-      <p class="subtitle">
-        Join the My Lifeline Lounge.
-      </p>
-
-      <input
-        id="signup-nickname"
-        type="text"
-        placeholder="Nickname"
-        autocomplete="nickname"
-      >
-
-      <input
-        id="signup-email"
-        type="email"
-        placeholder="Email"
-        autocomplete="email"
-      >
-
-      <input
-        id="signup-password"
-        type="password"
-        placeholder="Password"
-        autocomplete="new-password"
-      >
-
-      <input
-        id="signup-confirm"
-        type="password"
-        placeholder="Confirm Password"
-        autocomplete="new-password"
-      >
-
-      <button class="auth-btn" id="signup-btn">
-        Create Account
-      </button>
-
-      <button class="auth-btn secondary" id="login-show-btn">
-        Back to Sign In
-      </button>
-
-      <p id="signup-error" class="auth-error"></p>
-
-    </div>
+  <div class="auth-logo">✨</div>
+  <h2>Create Your Account</h2>
+  <p class="subtitle">
+    Join the My Lifeline Lounge.
+  </p>
+  <input
+    id="signup-nickname"
+    type="text"
+    placeholder="Nickname"
+    autocomplete="nickname"
+  >
+  <input
+    id="signup-email"
+    type="email"
+    placeholder="Email"
+    autocomplete="email"
+  >
+  <input
+    id="signup-password"
+    type="password"
+    placeholder="Password"
+    autocomplete="new-password"
+  >
+  <input
+    id="signup-confirm"
+    type="password"
+    placeholder="Confirm Password"
+    autocomplete="new-password"
+  >
+  <button class="auth-btn" id="signup-btn">
+    Create Account
+  </button>
+  <button class="auth-btn secondary" id="login-show-btn">
+    Back to Sign In
+  </button>
+  <p id="signup-error" class="auth-error"></p>
+</div>
   </section>
-
-
   <!-- ================= MAIN ================= -->
-
   <header id="main-header" style="display:none;">
-
-    <div class="header-left">
-
-      <button
-        class="back-btn"
-        id="back-btn"
-        title="Back to Dashboard"
-      >
-        ←
-      </button>
-
-      <div class="logo">
-        🌙
-      </div>
-
-      <div class="header-title">
-        <h1>Lounge</h1>
-        <p>My Lifeline community chat</p>
-      </div>
-
-    </div>
-
-    <div class="header-actions">
-
-      <button
-        class="header-btn"
-        id="theme-btn"
-        title="Toggle dark mode"
-      >
-        🌙
-      </button>
-
-      <button
-        class="header-btn"
-        id="logout-btn"
-        title="Sign out"
-      >
-        ↪
-      </button>
-
-    </div>
-
+<div class="header-left">
+  <button
+    class="back-btn"
+    id="back-btn"
+    title="Back to Dashboard"
+  >
+    ←
+  </button>
+  <div class="logo">
+    🌙
+  </div>
+  <div class="header-title">
+    <h1>Lounge</h1>
+    <p>My Lifeline community chat</p>
+  </div>
+</div>
+<div class="header-actions">
+  <button
+    class="header-btn"
+    id="theme-btn"
+    title="Toggle dark mode"
+  >
+    🌙
+  </button>
+  <button
+    class="header-btn"
+    id="logout-btn"
+    title="Sign out"
+  >
+    ↪
+  </button>
+</div>
   </header>
-
-
   <main
     class="app"
     id="main-app"
     style="display:none;"
   >
-
-    <div class="welcome">
-
-      <strong id="welcome-name">
-        Welcome to the Lounge 🌙
-      </strong>
-
-      <span>
-        Be kind, support each other, and take things one message at a time.
-      </span>
-
+<div class="welcome">
+  <strong id="welcome-name">
+    Welcome to the Lounge 🌙
+  </strong>
+  <span>
+    Be kind, support each other, and take things one message at a time.
+  </span>
+</div>
+<div id="messages">
+  <div class="empty" id="empty-state">
+    <div class="empty-icon">
+      🌙
     </div>
-
-
-    <div id="messages">
-
-      <div class="empty" id="empty-state">
-
-        <div class="empty-icon">
-          🌙
-        </div>
-
-        <h2>Welcome to the Lounge</h2>
-
-        <p>
-          There aren't any messages here yet.
-          Start the conversation.
-        </p>
-
-      </div>
-
-    </div>
-
+    <h2>Welcome to the Lounge</h2>
+    <p>
+      There aren't any messages here yet.
+      Start the conversation.
+    </p>
+  </div>
+</div>
   </main>
-
-
   <!-- ================= INPUT ================= -->
-
   <div
     class="input-area"
     id="input-area"
     style="display:none;"
   >
-
-    <div class="input-inner">
-
-      <div id="reply-preview">
-
-        <button
-          class="cancel-reply"
-          id="cancel-reply"
-          title="Cancel reply"
-        >
-          ×
-        </button>
-
-        <strong id="reply-name"></strong>
-
-        <span id="reply-text"></span>
-
-      </div>
-
-
-      <div class="composer">
-
-        <button
-          class="composer-btn"
-          id="image-btn"
-          title="Send image"
-        >
-          🖼️
-        </button>
-
-        <input
-          type="file"
-          id="image-input"
-          accept="image/*"
-        >
-
-        <textarea
-          id="message-input"
-          rows="1"
-          placeholder="Message the Lounge..."
-        ></textarea>
-
-        <button
-          class="composer-btn"
-          id="send-btn"
-          title="Send"
-        >
-          ↑
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ================= CONTEXT MENU ================= -->
-
-  <div id="context-menu">
-
-    <button id="reply-btn">
-      ↩️ Reply
-    </button>
-
-    <button id="copy-btn">
-      📋 Copy
-    </button>
-
-    <button id="pm-btn">
-      💬 Private Message
-    </button>
-
+<div class="input-inner">
+  <div id="reply-preview">
     <button
-      id="delete-btn"
-      class="danger"
+      class="cancel-reply"
+      id="cancel-reply"
+      title="Cancel reply"
     >
-      🗑️ Delete
+      ×
     </button>
-
+    <strong id="reply-name"></strong>
+    <span id="reply-text"></span>
   </div>
-
-
+  <div class="composer">
+    <button
+      class="composer-btn"
+      id="image-btn"
+      title="Send image"
+    >
+      🖼️
+    </button>
+    <input
+      type="file"
+      id="image-input"
+      accept="image/*"
+    >
+    <textarea
+      id="message-input"
+      rows="1"
+      placeholder="Message the Lounge..."
+    ></textarea>
+    <button
+      class="composer-btn"
+      id="send-btn"
+      title="Send"
+    >
+      ↑
+    </button>
+  </div>
+</div>
+  </div>
+  <!-- ================= CONTEXT MENU ================= -->
+  <div id="context-menu">
+<button id="reply-btn">
+  ↩️ Reply
+</button>
+<button id="copy-btn">
+  📋 Copy
+</button>
+<button id="pm-btn">
+  💬 Private Message
+</button>
+<button
+  id="delete-btn"
+  class="danger"
+>
+  🗑️ Delete
+</button>
+  </div>
   <!-- ================= FIREBASE ================= -->
-
   <script type="module">
-
     import {
       initializeApp
     } from
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-
-
     import {
       getDatabase,
       ref,
@@ -1068,8 +719,6 @@
       serverTimestamp
     } from
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-
-
     import {
       getStorage,
       ref as storageRef,
@@ -1077,8 +726,6 @@
       getDownloadURL
     } from
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
-
-
     import {
       getAuth,
       GoogleAuthProvider,
@@ -1090,680 +737,461 @@
       signOut
     } from
       "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-
     /*
      * ============================================================
-     * SAME FIREBASE PROJECT AS CHATROOM.HTML
+     * FIREBASE PROJECT
      * ============================================================
      */
-
     const firebaseConfig = {
-
       apiKey:
         "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
-
       authDomain:
         "chatroomnew-739f4.firebaseapp.com",
-
       databaseURL:
         "https://chatroomnew-739f4-default-rtdb.firebaseio.com",
-
       projectId:
         "chatroomnew-739f4",
-
       storageBucket:
         "chatroomnew-739f4.firebasestorage.app",
-
       messagingSenderId:
         "552292977529",
-
       appId:
         "1:552292977529:web:b04e2bc662668847ba7da8"
     };
-
-
     const app =
       initializeApp(firebaseConfig);
-
-
     const db =
       getDatabase(app);
-
-
     const storage =
       getStorage(app);
-
-
     const auth =
       getAuth(app);
-
-
+    /*
+     * ============================================================
+     * LOUNGE DATABASE PATHS
+     *
+     * IMPORTANT:
+     * These are intentionally DIFFERENT from chatroom.html.
+     *
+     * Chatroom:
+     *   lifeline-chat
+     *
+     * Lounge:
+     *   lifeline-lounge
+     *
+     * Chatroom images:
+     *   chat-images/
+     *
+     * Lounge images:
+     *   lounge-images/
+     * ============================================================
+     */
+    const LOUNGE_CHAT_PATH =
+      "lifeline-lounge";
+    const LOUNGE_IMAGE_PATH =
+      "lounge-images";
     /*
      * ============================================================
      * STATE
      * ============================================================
      */
-
     let unsubscribeMessages = null;
-
     let selectedMessage = null;
-
     let replyTo = null;
-
-
     /*
      * ============================================================
      * ELEMENTS
      * ============================================================
      */
-
     const loginScreen =
       document.getElementById("login-screen");
-
     const signupScreen =
       document.getElementById("signup-screen");
-
     const mainHeader =
       document.getElementById("main-header");
-
     const mainApp =
       document.getElementById("main-app");
-
     const inputArea =
       document.getElementById("input-area");
-
     const messages =
       document.getElementById("messages");
-
-    const emptyState =
-      document.getElementById("empty-state");
-
     const contextMenu =
       document.getElementById("context-menu");
-
-
     /*
      * ============================================================
      * THEME
      * ============================================================
      */
-
     function applyTheme() {
-
       const saved =
         localStorage.getItem("lifeline-theme");
-
       document.documentElement.setAttribute(
         "data-theme",
         saved === "dark"
           ? "dark"
           : "light"
       );
-
     }
-
-
     function toggleTheme() {
-
       const dark =
         document.documentElement.getAttribute(
           "data-theme"
         ) === "dark";
-
-
       const theme =
         dark ? "light" : "dark";
-
-
       document.documentElement.setAttribute(
         "data-theme",
         theme
       );
-
-
       localStorage.setItem(
         "lifeline-theme",
         theme
       );
-
     }
-
-
     applyTheme();
-
-
     document
       .getElementById("theme-btn")
       .addEventListener(
         "click",
         toggleTheme
       );
-
-
     /*
      * ============================================================
      * AUTH ERROR HANDLING
      * ============================================================
      */
-
     function friendlyAuthError(error) {
-
       const code =
         error?.code || "";
-
-
       const errors = {
-
         "auth/invalid-email":
           "Please enter a valid email address.",
-
         "auth/invalid-credential":
           "Email or password is incorrect.",
-
         "auth/user-not-found":
           "No account was found with that email.",
-
         "auth/wrong-password":
           "Email or password is incorrect.",
-
         "auth/email-already-in-use":
           "An account already uses that email.",
-
         "auth/weak-password":
           "Password must be at least 6 characters.",
-
         "auth/popup-closed-by-user":
           "Google sign-in was cancelled.",
-
         "auth/too-many-requests":
           "Too many attempts. Please try again later."
-
       };
-
-
       return (
         errors[code] ||
         error?.message ||
         "Something went wrong."
       );
-
     }
-
-
     /*
      * ============================================================
      * LOGIN
      * ============================================================
      */
-
     async function login() {
-
       const email =
         document
           .getElementById("login-email")
           .value
           .trim();
-
-
       const password =
         document
           .getElementById("login-password")
           .value;
-
-
       const error =
         document.getElementById(
           "login-error"
         );
-
-
       error.textContent = "";
-
-
       if (!email || !password) {
-
         error.textContent =
           "Enter your email and password.";
-
         return;
-
       }
-
-
       try {
-
         await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
-
       } catch (err) {
-
         error.textContent =
           friendlyAuthError(err);
-
       }
-
     }
-
-
     document
       .getElementById("login-btn")
       .addEventListener(
         "click",
         login
       );
-
-
     document
       .getElementById("login-password")
       .addEventListener(
         "keydown",
         event => {
-
           if (event.key === "Enter") {
-
             event.preventDefault();
-
             login();
-
           }
-
         }
       );
-
-
     /*
      * ============================================================
      * GOOGLE LOGIN
      * ============================================================
      */
-
     async function googleLogin() {
-
       const error =
         document.getElementById(
           "login-error"
         );
-
-
       error.textContent = "";
-
-
       try {
-
         const provider =
           new GoogleAuthProvider();
-
-
         await signInWithPopup(
           auth,
           provider
         );
-
       } catch (err) {
-
         error.textContent =
           friendlyAuthError(err);
-
       }
-
     }
-
-
     document
       .getElementById("google-btn")
       .addEventListener(
         "click",
         googleLogin
       );
-
-
     /*
      * ============================================================
      * SIGNUP
      * ============================================================
      */
-
     async function signup() {
-
       const nickname =
         document
           .getElementById("signup-nickname")
           .value
           .trim();
-
-
       const email =
         document
           .getElementById("signup-email")
           .value
           .trim();
-
-
       const password =
         document
           .getElementById("signup-password")
           .value;
-
-
       const confirm =
         document
           .getElementById("signup-confirm")
           .value;
-
-
       const error =
         document.getElementById(
           "signup-error"
         );
-
-
       error.textContent = "";
-
-
       if (!nickname) {
-
         error.textContent =
           "Please choose a nickname.";
-
         return;
-
       }
-
-
       if (!email || !password) {
-
         error.textContent =
           "Please fill out all fields.";
-
         return;
-
       }
-
-
       if (password.length < 6) {
-
         error.textContent =
           "Password must be at least 6 characters.";
-
         return;
-
       }
-
-
       if (password !== confirm) {
-
         error.textContent =
           "Passwords don't match.";
-
         return;
-
       }
-
-
       try {
-
         const credential =
           await createUserWithEmailAndPassword(
             auth,
             email,
             password
           );
-
-
         await updateProfile(
           credential.user,
           {
             displayName: nickname
           }
         );
-
       } catch (err) {
-
         error.textContent =
           friendlyAuthError(err);
-
       }
-
     }
-
-
     document
       .getElementById("signup-btn")
       .addEventListener(
         "click",
         signup
       );
-
-
     document
       .getElementById("signup-show-btn")
       .addEventListener(
         "click",
         () => {
-
           loginScreen.style.display =
             "none";
-
           signupScreen.style.display =
             "flex";
-
         }
       );
-
-
     document
       .getElementById("login-show-btn")
       .addEventListener(
         "click",
         () => {
-
           signupScreen.style.display =
             "none";
-
           loginScreen.style.display =
             "flex";
-
         }
       );
-
-
     /*
      * ============================================================
      * AUTH STATE
      * ============================================================
      */
-
     onAuthStateChanged(
       auth,
       user => {
-
         if (user) {
-
           loginScreen.style.display =
             "none";
-
           signupScreen.style.display =
             "none";
-
           mainHeader.style.display =
             "flex";
-
           mainApp.style.display =
             "flex";
-
           inputArea.style.display =
             "block";
-
-
           const name =
             user.displayName ||
             user.email?.split("@")[0] ||
             "there";
-
-
           document.getElementById(
             "welcome-name"
           ).textContent =
             `Welcome, ${name} 🌙`;
-
-
           loadMessages();
-
         } else {
-
           loginScreen.style.display =
             "flex";
-
           signupScreen.style.display =
             "none";
-
           mainHeader.style.display =
             "none";
-
           mainApp.style.display =
             "none";
-
           inputArea.style.display =
             "none";
-
-
           if (unsubscribeMessages) {
-
             unsubscribeMessages();
-
             unsubscribeMessages = null;
-
           }
-
         }
-
       }
     );
-
-
     /*
      * ============================================================
-     * LOAD EXISTING PUBLIC LOUNGE MESSAGES
+     * LOAD LOUNGE MESSAGES
      *
      * IMPORTANT:
-     * Uses the same "lifeline-chat" path as chatroom.html.
+     * This reads ONLY from:
+     *
+     *   lifeline-lounge
+     *
+     * It does NOT read lifeline-chat.
      * ============================================================
      */
-
     function loadMessages() {
-
       messages.innerHTML = "";
-
-
       unsubscribeMessages?.();
-
-
-      const chatRef =
+      const loungeRef =
         ref(
           db,
-          "lifeline-chat"
+          LOUNGE_CHAT_PATH
         );
-
-
       unsubscribeMessages =
         onChildAdded(
-          chatRef,
+          loungeRef,
           snapshot => {
-
             const data =
               snapshot.val();
-
-
             if (!data) return;
-
-
             renderMessage(
               snapshot.key,
               data
             );
-
           }
         );
-
     }
-
-
     /*
      * ============================================================
      * RENDER MESSAGE
      * ============================================================
      */
-
     function renderMessage(
       key,
       data
     ) {
-
-      emptyState?.remove();
-
-
+      const oldEmpty =
+        document.getElementById(
+          "empty-state"
+        );
+      oldEmpty?.remove();
       const user =
         auth.currentUser;
-
-
       const isMine =
         data.uid === user?.uid;
-
-
       const message =
         document.createElement("div");
-
-
       message.className =
         `message ${
           isMine
             ? "mine"
             : "theirs"
         }`;
-
-
       message.dataset.key =
         key;
-
-
       message.addEventListener(
         "contextmenu",
         event => {
-
           showContextMenu(
             event,
             data,
             message,
             key
           );
-
         }
       );
-
-
-      /*
-       * Mobile long press
-       */
-
       let pressTimer = null;
-
-
       message.addEventListener(
         "touchstart",
         event => {
-
           pressTimer =
             setTimeout(
               () => {
-
                 const touch =
                   event.touches[0];
-
-
                 showContextMenu(
                   {
                     preventDefault() {},
@@ -1774,194 +1202,107 @@
                   message,
                   key
                 );
-
               },
               600
             );
-
         },
         {
           passive: true
         }
       );
-
-
       message.addEventListener(
         "touchend",
         () => {
-
           clearTimeout(
             pressTimer
           );
-
         }
       );
-
-
-      /*
-       * Name
-       */
-
       const name =
         document.createElement(
           "div"
         );
-
-
       name.className =
         "message-name";
-
-
       name.textContent =
         data.name ||
         "Someone";
-
-
       message.appendChild(
         name
       );
-
-
-      /*
-       * Reply preview
-       */
-
       if (data.replyTo) {
-
         const reply =
           document.createElement(
             "div"
           );
-
-
         reply.className =
           "reply-box";
-
-
         const replyName =
           document.createElement(
             "div"
           );
-
-
         replyName.className =
           "reply-name";
-
-
         replyName.textContent =
           data.replyTo.name ||
           "Someone";
-
-
         const replyText =
           document.createElement(
             "div"
           );
-
-
         replyText.textContent =
           data.replyTo.text ||
           "Image";
-
-
         reply.appendChild(
           replyName
         );
-
-
         reply.appendChild(
           replyText
         );
-
-
         message.appendChild(
           reply
         );
-
       }
-
-
-      /*
-       * Image
-       */
-
       if (
         data.type === "image" &&
         data.imageUrl
       ) {
-
         const image =
           document.createElement(
             "img"
           );
-
-
         image.className =
           "message-image";
-
-
         image.src =
           data.imageUrl;
-
-
         image.alt =
           "Shared image";
-
-
         image.loading =
           "lazy";
-
-
         message.appendChild(
           image
         );
-
       }
-
-
-      /*
-       * Text
-       */
-
       if (data.text) {
-
         const text =
           document.createElement(
             "div"
           );
-
-
         text.className =
           "message-text";
-
-
         text.textContent =
           data.text;
-
-
         message.appendChild(
           text
         );
-
       }
-
-
-      /*
-       * Timestamp
-       */
-
       const time =
         document.createElement(
           "div"
         );
-
-
       time.className =
         "message-time";
-
-
       if (data.timestamp) {
-
         time.textContent =
           new Date(
             data.timestamp
@@ -1972,776 +1313,502 @@
               minute: "2-digit"
             }
           );
-
       }
-
-
       message.appendChild(
         time
       );
-
-
       messages.appendChild(
         message
       );
-
-
       messages.scrollTop =
         messages.scrollHeight;
-
     }
-
-
     /*
      * ============================================================
      * SEND TEXT MESSAGE
+     *
+     * Writes ONLY to lifeline-lounge.
      * ============================================================
      */
-
     async function sendMessage() {
-
       const input =
         document.getElementById(
           "message-input"
         );
-
-
       const text =
         input.value.trim();
-
-
       if (
         !text ||
         !auth.currentUser
       ) return;
-
-
       const data = {
-
         name:
           auth.currentUser.displayName ||
           auth.currentUser.email?.split("@")[0] ||
           "Someone",
-
         timestamp:
           serverTimestamp(),
-
         uid:
           auth.currentUser.uid,
-
         type:
           "text",
-
         text
-
       };
-
-
       if (replyTo) {
-
         data.replyTo = {
-
           name:
             replyTo.name ||
             "Someone",
-
           text:
             replyTo.text ||
             "Image"
-
         };
-
       }
-
-
       try {
-
         await push(
           ref(
             db,
-            "lifeline-chat"
+            LOUNGE_CHAT_PATH
           ),
           data
         );
-
-
         input.value = "";
-
         input.style.height =
           "42px";
-
         cancelReply();
-
       } catch (err) {
-
         console.error(err);
-
         alert(
           "Message could not be sent."
         );
-
       }
-
     }
-
-
     document
       .getElementById("send-btn")
       .addEventListener(
         "click",
         sendMessage
       );
-
-
     document
       .getElementById("message-input")
       .addEventListener(
         "keydown",
         event => {
-
           if (
             event.key === "Enter" &&
             !event.shiftKey
           ) {
-
             event.preventDefault();
-
             sendMessage();
-
           }
-
         }
       );
-
-
     /*
      * ============================================================
-     * AUTO RESIZE TEXTAREA
+     * AUTO RESIZE
      * ============================================================
      */
-
     document
       .getElementById("message-input")
       .addEventListener(
         "input",
         event => {
-
           event.target.style.height =
             "42px";
-
           event.target.style.height =
             Math.min(
               event.target.scrollHeight,
               120
             ) + "px";
-
         }
       );
-
-
     /*
      * ============================================================
      * IMAGE UPLOAD
      *
-     * Same Storage location used by chatroom.html:
-     * chat-images/...
+     * Images are stored in:
+     *
+     *   lounge-images/
+     *
+     * NOT chat-images/
      * ============================================================
      */
-
     document
       .getElementById("image-btn")
       .addEventListener(
         "click",
         () => {
-
           document
             .getElementById("image-input")
             .click();
-
         }
       );
-
-
     document
       .getElementById("image-input")
       .addEventListener(
         "change",
         async event => {
-
           const file =
             event.target.files?.[0];
-
-
           if (
             !file ||
             !auth.currentUser
           ) return;
-
-
           const sendButton =
             document.getElementById(
               "send-btn"
             );
-
-
           sendButton.textContent =
             "…";
-
           sendButton.disabled =
             true;
-
-
           try {
-
             const safeName =
               file.name.replace(
                 /[^a-zA-Z0-9._-]/g,
                 "_"
               );
-
-
             const fileRef =
               storageRef(
                 storage,
-                `chat-images/${Date.now()}_${safeName}`
+                `${LOUNGE_IMAGE_PATH}/${Date.now()}_${safeName}`
               );
-
-
             await uploadBytes(
               fileRef,
               file
             );
-
-
             const url =
               await getDownloadURL(
                 fileRef
               );
-
-
             const data = {
-
               name:
                 auth.currentUser.displayName ||
                 auth.currentUser.email?.split("@")[0] ||
                 "Someone",
-
               imageUrl:
                 url,
-
               timestamp:
                 serverTimestamp(),
-
               uid:
                 auth.currentUser.uid,
-
               type:
                 "image"
-
             };
-
-
             if (replyTo) {
-
               data.replyTo = {
-
                 name:
                   replyTo.name ||
                   "Someone",
-
                 text:
                   replyTo.text ||
                   "Image"
-
               };
-
             }
-
-
             await push(
               ref(
                 db,
-                "lifeline-chat"
+                LOUNGE_CHAT_PATH
               ),
               data
             );
-
-
             cancelReply();
-
           } catch (err) {
-
             console.error(err);
-
             alert(
               "Image upload failed. Check your Firebase Storage rules."
             );
-
           } finally {
-
             sendButton.textContent =
               "↑";
-
             sendButton.disabled =
               false;
-
             event.target.value =
               "";
-
           }
-
         }
       );
-
-
     /*
      * ============================================================
      * CONTEXT MENU
      * ============================================================
      */
-
     function showContextMenu(
       event,
       data,
       element,
       key
     ) {
-
       event.preventDefault();
-
-
       selectedMessage = {
-
         data,
         element,
         key
-
       };
-
-
       const menuWidth =
         200;
-
-
       const menuHeight =
         170;
-
-
       let x =
         event.clientX;
-
-
       let y =
         event.clientY;
-
-
       if (
         x + menuWidth >
         window.innerWidth
       ) {
-
         x =
           window.innerWidth -
           menuWidth -
           10;
-
       }
-
-
       if (
         y + menuHeight >
         window.innerHeight
       ) {
-
         y =
           window.innerHeight -
           menuHeight -
           10;
-
       }
-
-
       contextMenu.style.left =
         Math.max(10, x) + "px";
-
-
       contextMenu.style.top =
         Math.max(10, y) + "px";
-
-
       contextMenu.style.display =
         "block";
-
     }
-
-
     function closeContextMenu() {
-
       contextMenu.style.display =
         "none";
-
       selectedMessage =
         null;
-
     }
-
-
     document.addEventListener(
       "click",
       event => {
-
         if (
           !contextMenu.contains(
             event.target
           )
         ) {
-
           closeContextMenu();
-
         }
-
       }
     );
-
-
     /*
      * ============================================================
      * REPLY
      * ============================================================
      */
-
     document
       .getElementById("reply-btn")
       .addEventListener(
         "click",
         () => {
-
           if (!selectedMessage)
             return;
-
-
           replyTo =
             selectedMessage.data;
-
-
           document.getElementById(
             "reply-name"
           ).textContent =
             replyTo.name ||
             "Someone";
-
-
           document.getElementById(
             "reply-text"
           ).textContent =
             replyTo.text ||
             "Image";
-
-
           document.getElementById(
             "reply-preview"
           ).style.display =
             "block";
-
-
           document
             .getElementById(
               "message-input"
             )
             .focus();
-
-
           closeContextMenu();
-
         }
       );
-
-
     function cancelReply() {
-
       replyTo =
         null;
-
-
       document.getElementById(
         "reply-preview"
       ).style.display =
         "none";
-
     }
-
-
     document
       .getElementById("cancel-reply")
       .addEventListener(
         "click",
         cancelReply
       );
-
-
     /*
      * ============================================================
      * COPY
      * ============================================================
      */
-
     document
       .getElementById("copy-btn")
       .addEventListener(
         "click",
         async () => {
-
           if (!selectedMessage)
             return;
-
-
           const text =
             selectedMessage.data.text ||
             selectedMessage.data.imageUrl ||
             "";
-
-
           if (!text) {
-
             closeContextMenu();
-
             return;
-
           }
-
-
           try {
-
             await navigator.clipboard
               .writeText(text);
-
           } catch (err) {
-
             console.warn(err);
-
           }
-
-
           closeContextMenu();
-
         }
       );
-
-
     /*
      * ============================================================
      * DELETE
      *
-     * Only allow deleting your own messages.
+     * IMPORTANT:
+     * Deletes ONLY from lifeline-lounge.
      * ============================================================
      */
-
     document
       .getElementById("delete-btn")
       .addEventListener(
         "click",
         async () => {
-
           if (
             !selectedMessage ||
             !auth.currentUser
           ) return;
-
-
           const data =
             selectedMessage.data;
-
-
           if (
             data.uid !==
             auth.currentUser.uid
           ) {
-
             alert(
               "You can only delete your own messages."
             );
-
             closeContextMenu();
-
             return;
-
           }
-
-
           if (
             !confirm(
               "Delete this message?"
             )
           ) {
-
             closeContextMenu();
-
             return;
-
           }
-
-
           try {
-
             await remove(
               ref(
                 db,
-                `lifeline-chat/${selectedMessage.key}`
+                `${LOUNGE_CHAT_PATH}/${selectedMessage.key}`
               )
             );
-
-
             selectedMessage.element.remove();
-
-
           } catch (err) {
-
             console.error(err);
-
             alert(
               "Could not delete message."
             );
-
           }
-
-
           closeContextMenu();
-
         }
       );
-
-
     /*
      * ============================================================
      * PRIVATE MESSAGE
      *
-     * Keeps the same private-chat database structure used by
-     * chatroom.html.
+     * This continues using the existing PM
+     * system in chatroom.html.
      * ============================================================
      */
-
     document
       .getElementById("pm-btn")
       .addEventListener(
         "click",
         () => {
-
           if (!selectedMessage)
             return;
-
-
           const otherUid =
             selectedMessage.data.uid;
-
-
           const otherName =
             selectedMessage.data.name ||
             "User";
-
-
           if (
             otherUid ===
             auth.currentUser.uid
           ) {
-
             alert(
               "You can't PM yourself."
             );
-
             closeContextMenu();
-
             return;
-
           }
-
-
           const ids = [
-
             auth.currentUser.uid,
-
             otherUid
-
           ].sort();
-
-
           const chatId =
             ids.join("_");
-
-
-          /*
-           * Open the existing chatroom's PM
-           * system rather than inventing a
-           * second private-message system.
-           */
-
           window.location.href =
             `chatroom.html?pm=${encodeURIComponent(chatId)}&user=${encodeURIComponent(otherUid)}&name=${encodeURIComponent(otherName)}`;
-
         }
       );
-
-
     /*
      * ============================================================
      * DASHBOARD / LOGOUT
      * ============================================================
      */
-
     document
       .getElementById("back-btn")
       .addEventListener(
         "click",
         () => {
-
           window.location.href =
             "index.html";
-
         }
       );
-
-
     document
       .getElementById("logout-btn")
       .addEventListener(
         "click",
         async () => {
-
           try {
-
             await signOut(auth);
-
           } catch (err) {
-
             console.error(err);
-
           }
-
         }
       );
-
-
     /*
      * ============================================================
      * ESCAPE / CLOSE
      * ============================================================
      */
-
     document.addEventListener(
       "keydown",
       event => {
-
         if (event.key === "Escape") {
-
           closeContextMenu();
-
           cancelReply();
-
         }
-
       }
     );
-
   </script>
-
 </body>
 </html>
