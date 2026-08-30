@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Lifeline • Music Visualizer</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #00bcd4;
+      --accent: #ff9ff3;
+      --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+      --card: #ffffff;
+      --text: #2c3e50;
+      --muted: #6b7b8c;
+      --shadow: rgba(0,0,0,0.12);
+      --canvas-bg: #07131f;
+    }
+
+    [data-theme="dark"] {
+      --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
+      --card: #2c3e50;
+      --text: #e0f2f1;
+      --muted: #b8c7d1;
+      --primary: #4fc3f7;
+      --accent: #ff79c6;
+      --shadow: rgba(0,0,0,0.4);
+      --canvas-bg: #050b14;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--bg-light);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.6s ease, color 0.3s ease;
+    }
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(135, 206, 235, 0.97);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    [data-theme="dark"] nav {
+      background: rgba(26, 38, 57, 0.97);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-menu.hidden {
+      display: none;
+    }
+
+    .nav-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px var(--shadow);
+      white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,188,212,0.3);
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--card);
+      min-width: 240px;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px var(--shadow);
+      overflow: hidden;
+      z-index: 1001;
+      padding: 8px 0;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 14px 22px;
+      color: var(--text);
+      text-decoration: none;
+      transition: background 0.25s;
+    }
+
+    .dropdown-content a:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      max-width: 1280px;
+      margin: 100px auto 80px;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary), #81d4fa);
+      color: white;
+      padding: 55px 30px;
+      border-radius: 28px;
+      margin-bottom: 30px;
+      box-shadow: 0 15px 40px rgba(0,188,212,0.25);
+    }
+
+    header h1 {
+      font-size: 2.6rem;
+      margin-bottom: 12px;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* =========================
+       VISUALIZER
+    ========================= */
+
+    .visualizer-card {
+      background: var(--card);
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: 0 12px 35px var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 430px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--canvas-bg);
+      box-shadow:
+        inset 0 0 50px rgba(0,0,0,0.4),
+        0 10px 30px var(--shadow);
+    }
+
+    #visualizer {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .visualizer-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .visualizer-message {
+      color: rgba(255,255,255,0.8);
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: opacity 0.3s;
+    }
+
+    .visualizer-message.hidden {
+      opacity: 0;
+    }
+
+    /* =========================
+       SONG INFO
+    ========================= */
+
+    .song-info {
+      text-align: center;
+      padding: 22px 10px 12px;
+    }
+
+    .song-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .song-status {
+      color: var(--muted);
+      margin-top: 5px;
+      font-size: 0.95rem;
+    }
+
+    /* =========================
+       CONTROLS
+    ========================= */
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .control-btn {
+      width: 54px;
+      height: 54px;
+      border: none;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 7px 18px rgba(0,188,212,0.25);
+      transition: all 0.3s;
+    }
+
+    .control-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .control-btn.main {
+      width: 66px;
+      height: 66px;
+      font-size: 1.4rem;
+      background: var(--accent);
+      box-shadow: 0 8px 22px rgba(255,159,243,0.35);
+    }
+
+    /* =========================
+       FILE UPLOAD
+    ========================= */
+
+    .upload-area {
+      border: 2px dashed var(--primary);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: 22px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .upload-area:hover {
+      background: rgba(0,188,212,0.07);
+      transform: translateY(-2px);
+    }
+
+    .upload-area i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .upload-area h3 {
+      margin-bottom: 6px;
+    }
+
+    .upload-area p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    #audioFile {
+      display: none;
+    }
+
+    /* =========================
+       SETTINGS
+    ========================= */
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .setting {
+      background: rgba(0,188,212,0.06);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .setting label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .setting-value {
+      color: var(--primary);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid rgba(0,188,212,0.25);
+      border-radius: 12px;
+      background: var(--card);
+      color: var(--text);
+      font-family: inherit;
+      font-weight: 600;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: var(--primary);
+    }
+
+    /* =========================
+       TIP CARD
+    ========================= */
+
+    .tip-card {
+      background: linear-gradient(
+        135deg,
+        rgba(0,188,212,0.12),
+        rgba(255,159,243,0.12)
+      );
+      border-radius: 22px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .tip-card i {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .tip-card p {
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       FLOATING BESTIE
+    ========================= */
+
+    .floating-bestie {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 78px;
+      height: 78px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      box-shadow: 0 12px 35px rgba(255,159,243,0.55);
+      cursor: pointer;
+      z-index: 999;
+      transition: all 0.4s;
+    }
+
+    .floating-bestie:hover {
+      transform: scale(1.15) rotate(12deg);
+    }
+
+    /* =========================
+       LOCKDOWN
+    ========================= */
+
+    #lockdown {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.98);
+      color: white;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      gap: 30px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #777;
+      font-size: 0.95rem;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(135, 206, 235, 0.98);
+        flex-direction: column;
+        padding: 20px;
+        gap: 10px;
+        box-shadow: 0 10px 20px var(--shadow);
+      }
+
+      [data-theme="dark"] .nav-menu {
+        background: rgba(26, 38, 57, 0.98);
+      }
+
+      .nav-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .dropdown {
+        width: 100%;
+      }
+
+      .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background: rgba(255,255,255,0.9);
+        width: 100%;
+      }
+
+      [data-theme="dark"] .dropdown-content {
+        background: rgba(44,62,80,0.9);
+      }
+
+      header h1 {
+        font-size: 2.1rem;
+      }
+
+      header {
+        padding: 42px 20px;
+      }
+
+      .canvas-wrapper {
+        height: 330px;
+      }
+
+      .visualizer-card {
+        padding: 16px;
+      }
+
+      .floating-bestie {
+        width: 65px;
+        height: 65px;
+        font-size: 2.3rem;
+        right: 18px;
+        bottom: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      main {
+        padding: 0 12px;
+      }
+
+      .canvas-wrapper {
+        height: 270px;
+      }
+
+      .controls {
+        gap: 8px;
+      }
+
+      .control-btn {
+        width: 48px;
+        height: 48px;
+      }
+
+      .control-btn.main {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+
+  <!-- =========================
+       NAVIGATION
+  ========================= -->
+
+  <nav>
+
+    <div class="logo">
+      <span>🫂</span> My Lifeline
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+
+      <button class="nav-btn" onclick="navigateTo('index.html')">
+        🏠 Dashboard
+      </button>
+
+      <div class="dropdown">
+        <button class="nav-btn">🛡️ Support</button>
+
+        <div class="dropdown-content">
+          <a href="emergency.html">🚨 Emergency</a>
+          <a href="bestie.html">🫂 AI Bestie</a>
+          <a href="onebreath.html">😮‍💨 Breathing</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">🧠 Tools</button>
+
+        <div class="dropdown-content">
+          <a href="mental.html">Mental Tools</a>
+          <a href="reflect.html">📝 Reflect</a>
+          <a href="reframe.html">💭 Reframe</a>
+          <a href="emotion-radar.html">📡 Emotion Radar</a>
+          <a href="selfcare.html">🧘 Selfcare</a>
+          <a href="selfcare-planner.html">📓 Planner</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">🌈 Comfort</button>
+
+        <div class="dropdown-content">
+          <a href="music.html">🎵 Music</a>
+          <a href="musicroom.html">🎧 Music Room</a>
+          <a href="lofiroom.html">🌙 Lofi Room</a>
+          <a href="visualizer.html">📊 Music Visualizer</a>
+          <a href="videos.html">📺 Videos</a>
+          <a href="virtualpet.html">🐾 Virtual Pet</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">📖 Journal</button>
+
+        <div class="dropdown-content">
+          <a href="letters.html">✉️ Letters</a>
+          <a href="goodthings.html">🌱 Good Things</a>
+          <a href="todayistayed.html">📌 Today I Stayed</a>
+          <a href="yourenough.html">💙 You're Enough</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="nav-btn">💬 Chat Room</button>
+
+        <div class="dropdown-content">
+          <a href="chatroom.html">💬 Chat Room</a>
+          <a href="lounge.html">🎧 Lounge</a>
+        </div>
+      </div>
+
+      <button class="nav-btn" onclick="navigateTo('2048.html')">
+        🎮 2048
+      </button>
+
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center;">
+
+      <button
+        onclick="toggleDarkMode()"
+        class="nav-btn"
+        title="Toggle Theme"
+      >
+        🌗
+      </button>
+
+      <button
+        onclick="activateLockdown()"
+        class="nav-btn"
+        style="background:#e74c3c;color:white;"
+      >
+        🔒
+      </button>
+
+      <button
+        onclick="logout()"
+        class="nav-btn"
+        style="background:#ff6b6b;color:white;"
+      >
+        Logout
+      </button>
+
+      <span
+        class="hamburger"
+        onclick="toggleMobileMenu()"
+      >
+        ☰
+      </span>
+
+    </div>
+
+  </nav>
+
+  <!-- FLOATING BESTIE -->
+
+  <div
+    class="floating-bestie"
+    onclick="navigateTo('bestie.html')"
+    title="Talk to AI Bestie"
+  >
+    🫂
+  </div>
+
+  <!-- LOCKDOWN -->
+
+  <div id="lockdown">
+
+    <h1 style="font-size:3.4rem;">
+      🛡️ Lockdown Active
+    </h1>
+
+    <p>
+      Everything hidden. You are safe.
+    </p>
+
+    <input
+      id="unlockKey"
+      type="password"
+      placeholder="Enter key"
+      style="
+        padding:16px 24px;
+        width:90%;
+        max-width:340px;
+        border-radius:999px;
+        border:none;
+        font-size:1.1rem;
+        text-align:center;
+      "
+    >
+
+    <button
+      onclick="deactivateLockdown()"
+      style="
+        padding:14px 40px;
+        font-size:1.1rem;
+        background:#27ae60;
+        color:white;
+        border:none;
+        border-radius:999px;
+        cursor:pointer;
+      "
+    >
+      Return
+    </button>
+
+  </div>
+
+  <!-- =========================
+       MAIN
+  ========================= -->
+
+  <main>
+
+    <header>
+      <h1>📊 Music Visualizer</h1>
+
+      <p>
+        Load your music and watch it come alive.
+        A little visual companion for your favorite sounds.
+      </p>
+    </header>
+
+    <!-- VISUALIZER -->
+
+    <section class="visualizer-card">
+
+      <div class="canvas-wrapper">
+
+        <canvas id="visualizer"></canvas>
+
+        <div class="visualizer-overlay">
+          <div
+            class="visualizer-message"
+            id="visualizerMessage"
+          >
+            🎵 Choose a song to get started
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SONG INFO -->
+
+      <div class="song-info">
+
+        <div
+          class="song-title"
+          id="songTitle"
+        >
+          No song loaded
+        </div>
+
+        <div
+          class="song-status"
+          id="songStatus"
+        >
+          Select an audio file below
+        </div>
+
+      </div>
+
+      <!-- CONTROLS -->
+
+      <div class="controls">
+
+        <button
+          class="control-btn"
+          onclick="restartSong()"
+          title="Restart"
+        >
+          <i class="fas fa-rotate-left"></i>
+        </button>
+
+        <button
+          class="control-btn main"
+          id="playButton"
+          onclick="togglePlay()"
+          title="Play / Pause"
+        >
+          <i class="fas fa-play"></i>
+        </button>
+
+        <button
+          class="control-btn"
+          onclick="stopSong()"
+          title="Stop"
+        >
+          <i class="fas fa-stop"></i>
+        </button>
+
+      </div>
+
+      <!-- UPLOAD -->
+
+      <label
+        class="upload-area"
+        for="audioFile"
+      >
+
+        <i class="fas fa-cloud-arrow-up"></i>
+
+        <h3>Choose Your Music</h3>
+
+        <p>
+          Click here to select an audio file from your device
+        </p>
+
+        <p style="margin-top:6px;">
+          MP3, WAV, OGG and other browser-supported audio
+        </p>
+
+      </label>
+
+      <input
+        type="file"
+        id="audioFile"
+        accept="audio/*"
+      >
+
+    </section>
+
+    <!-- SETTINGS -->
+
+    <section class="visualizer-card">
+
+      <h2 style="margin-bottom:4px;">
+        🎨 Visualizer Settings
+      </h2>
+
+      <p style="color:var(--muted);">
+        Make the visualizer feel like yours.
+      </p>
+
+      <div class="settings-grid">
+
+        <!-- VISUAL STYLE -->
+
+        <div class="setting">
+
+          <label>
+            <span>Visualizer</span>
+          </label>
+
+          <select id="visualizerStyle">
+
+            <option value="bars">
+              📊 Frequency Bars
+            </option>
+
+            <option value="wave">
+              🌊 Waveform
+            </option>
+
+            <option value="circle">
+              🔵 Circular
+            </option>
+
+            <option value="mirror">
+              🪞 Mirror Bars
+            </option>
+
+          </select>
+
+        </div>
+
+        <!-- SENSITIVITY -->
+
+        <div class="setting">
+
+          <label>
+            <span>Sensitivity</span>
+
+            <span
+              class="setting-value"
+              id="sensitivityValue"
+            >
+              1.0x
+            </span>
+          </label>
+
+          <input
+            type="range"
+            id="sensitivity"
+            min="0.5"
+            max="2.5"
+            step="0.1"
+            value="1"
+          >
+
+        </div>
+
+        <!-- BAR COUNT -->
+
+        <div class="setting">
+
+          <label>
+            <span>Detail</span>
+
+            <span
+              class="setting-value"
+              id="detailValue"
+            >
+              64
+            </span>
+          </label>
+
+          <input
+            type="range"
+            id="detail"
+            min="16"
+            max="128"
+            step="8"
+            value="64"
+          >
+
+        </div>
+
+        <!-- GLOW -->
+
+        <div class="setting">
+
+          <label>
+            <span>Glow</span>
+
+            <span
+              class="setting-value"
+              id="glowValue"
+            >
+              60%
+            </span>
+          </label>
+
+          <input
+            type="range"
+            id="glow"
+            min="0"
+            max="100"
+            value="60"
+          >
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- VOLUME -->
+
+    <section class="visualizer-card">
+
+      <h2 style="margin-bottom:4px;">
+        🔊 Volume
+      </h2>
+
+      <p style="color:var(--muted); margin-bottom:18px;">
+        Adjust the music volume.
+      </p>
+
+      <div style="display:flex; align-items:center; gap:14px;">
+
+        <i
+          class="fas fa-volume-low"
+          style="color:var(--primary);"
+        ></i>
+
+        <input
+          type="range"
+          id="volume"
+          min="0"
+          max="1"
+          step="0.01"
+          value="1"
+          style="flex:1;"
+        >
+
+        <i
+          class="fas fa-volume-high"
+          style="color:var(--primary);"
+        ></i>
+
+      </div>
+
+      <div
+        id="volumeValue"
+        style="
+          text-align:center;
+          margin-top:8px;
+          color:var(--primary);
+          font-weight:700;
+        "
+      >
+        100%
+      </div>
+
+    </section>
+
+    <!-- TIP -->
+
+    <div class="tip-card">
+
+      <i class="fas fa-headphones"></i>
+
+      <h2 style="margin-bottom:8px;">
+        Your Music Space
+      </h2>
+
+      <p>
+        Sometimes you don't need to do anything with the music.
+        You can just sit back, listen, and let the visualizer move
+        with it. Take your time. 💙
+      </p>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p>
+      My Lifeline — Your safe harbor ❤️
+    </p>
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    /* =========================
+       NAVIGATION
+    ========================= */
+
+    function navigateTo(page) {
+      window.location.href = page;
+    }
+
+
+    /* =========================
+       DARK MODE
+    ========================= */
+
+    function toggleDarkMode() {
+
+      const isDark =
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      document.documentElement.setAttribute(
+        'data-theme',
+        isDark ? 'light' : 'dark'
+      );
+
+      localStorage.setItem(
+        'lifeline-theme',
+        isDark ? 'light' : 'dark'
+      );
+
+    }
+
+    if (
+      localStorage.getItem('lifeline-theme') === 'dark'
+    ) {
+
+      document.documentElement.setAttribute(
+        'data-theme',
+        'dark'
+      );
+
+    }
+
+
+    /* =========================
+       LOCKDOWN
+    ========================= */
+
+    function activateLockdown() {
+
+      document.getElementById(
+        'lockdown'
+      ).style.display = 'flex';
+
+    }
+
+    function deactivateLockdown() {
+
+      const key =
+        document.getElementById(
+          'unlockKey'
+        ).value.trim();
+
+      if (key.length > 0) {
+
+        document.getElementById(
+          'lockdown'
+        ).style.display = 'none';
+
+        document.getElementById(
+          'unlockKey'
+        ).value = '';
+
+      }
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+      if (
+        confirm("Leave your safe space?")
+      ) {
+
+        localStorage.clear();
+        window.location.reload();
+
+      }
+
+    }
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    function toggleMobileMenu() {
+
+      const menu =
+        document.getElementById('navMenu');
+
+      menu.classList.toggle('hidden');
+
+    }
+
+
+    /* =========================
+       AUDIO
+    ========================= */
+
+    let audio = null;
+    let audioURL = null;
+
+    let audioContext = null;
+    let analyser = null;
+    let sourceNode = null;
+
+    let animationFrame = null;
+
+    let isAudioReady = false;
+
+    const canvas =
+      document.getElementById('visualizer');
+
+    const ctx =
+      canvas.getContext('2d');
+
+    const fileInput =
+      document.getElementById('audioFile');
+
+    const playButton =
+      document.getElementById('playButton');
+
+    const songTitle =
+      document.getElementById('songTitle');
+
+    const songStatus =
+      document.getElementById('songStatus');
+
+    const visualizerMessage =
+      document.getElementById('visualizerMessage');
+
+    const volumeSlider =
+      document.getElementById('volume');
+
+    const volumeValue =
+      document.getElementById('volumeValue');
+
+    const sensitivitySlider =
+      document.getElementById('sensitivity');
+
+    const sensitivityValue =
+      document.getElementById('sensitivityValue');
+
+    const detailSlider =
+      document.getElementById('detail');
+
+    const detailValue =
+      document.getElementById('detailValue');
+
+    const glowSlider =
+      document.getElementById('glow');
+
+    const glowValue =
+      document.getElementById('glowValue');
+
+    const visualizerStyle =
+      document.getElementById('visualizerStyle');
+
+
+    /* =========================
+       CANVAS SIZE
+    ========================= */
+
+    function resizeCanvas() {
+
+      const rect =
+        canvas.getBoundingClientRect();
+
+      const dpr =
+        window.devicePixelRatio || 1;
+
+      canvas.width =
+        rect.width * dpr;
+
+      canvas.height =
+        rect.height * dpr;
+
+      ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+      );
+
+    }
+
+    window.addEventListener(
+      'resize',
+      resizeCanvas
+    );
+
+    resizeCanvas();
+
+
+    /* =========================
+       LOAD AUDIO
+    ========================= */
+
+    fileInput.addEventListener(
+      'change',
+      function(event) {
+
+        const file =
+          event.target.files[0];
+
+        if (!file) return;
+
+        if (audioURL) {
+          URL.revokeObjectURL(audioURL);
+        }
+
+        audioURL =
+          URL.createObjectURL(file);
+
+        if (audio) {
+
+          audio.pause();
+
+          audio.src = '';
+
+        }
+
+        audio =
+          new Audio();
+
+        audio.src =
+          audioURL;
+
+        audio.preload =
+          'auto';
+
+        audio.crossOrigin =
+          'anonymous';
+
+        audio.volume =
+          parseFloat(
+            volumeSlider.value
+          );
+
+        audio.addEventListener(
+          'loadedmetadata',
+          function() {
+
+            isAudioReady = true;
+
+            songTitle.textContent =
+              file.name;
+
+            songStatus.textContent =
+              formatTime(audio.duration);
+
+            visualizerMessage.classList.add(
+              'hidden'
+            );
+
+            playButton.innerHTML =
+              '<i class="fas fa-play"></i>';
+
+          }
+        );
+
+        audio.addEventListener(
+          'timeupdate',
+          function() {
+
+            if (!audio.duration) return;
+
+            songStatus.textContent =
+              formatTime(audio.currentTime)
+              + ' / '
+              + formatTime(audio.duration);
+
+          }
+        );
+
+        audio.addEventListener(
+          'ended',
+          function() {
+
+            playButton.innerHTML =
+              '<i class="fas fa-play"></i>';
+
+          }
+        );
+
+        audio.addEventListener(
+          'error',
+          function() {
+
+            songStatus.textContent =
+              'This audio file could not be played.';
+
+          }
+        );
+
+        setupAudioContext();
+
+      }
+    );
+
+
+    /* =========================
+       AUDIO CONTEXT
+    ========================= */
+
+    function setupAudioContext() {
+
+      if (!audio) return;
+
+      if (!audioContext) {
+
+        audioContext =
+          new (
+            window.AudioContext ||
+            window.webkitAudioContext
+          )();
+
+      }
+
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+
+      if (!analyser) {
+
+        analyser =
+          audioContext.createAnalyser();
+
+        analyser.fftSize = 2048;
+
+        analyser.smoothingTimeConstant =
+          0.82;
+
+      }
+
+      if (sourceNode) {
+
+        try {
+          sourceNode.disconnect();
+        } catch (e) {}
+
+      }
+
+      sourceNode =
+        audioContext.createMediaElementSource(
+          audio
+        );
+
+      sourceNode.connect(analyser);
+
+      analyser.connect(
+        audioContext.destination
+      );
+
+    }
+
+
+    /* =========================
+       PLAY / PAUSE
+    ========================= */
+
+    async function togglePlay() {
+
+      if (!audio || !isAudioReady) {
+
+        songStatus.textContent =
+          'Choose a music file first.';
+
+        return;
+
+      }
+
+      if (!audioContext) {
+        setupAudioContext();
+      }
+
+      if (
+        audioContext &&
+        audioContext.state === 'suspended'
+      ) {
+
+        await audioContext.resume();
+
+      }
+
+      if (audio.paused) {
+
+        try {
+
+          await audio.play();
+
+          playButton.innerHTML =
+            '<i class="fas fa-pause"></i>';
+
+          startVisualizer();
+
+        } catch (error) {
+
+          songStatus.textContent =
+            'Press play again to start the audio.';
+
+        }
+
+      } else {
+
+        audio.pause();
+
+        playButton.innerHTML =
+          '<i class="fas fa-play"></i>';
+
+      }
+
+    }
+
+
+    /* =========================
+       STOP
+    ========================= */
+
+    function stopSong() {
+
+      if (!audio) return;
+
+      audio.pause();
+
+      audio.currentTime = 0;
+
+      playButton.innerHTML =
+        '<i class="fas fa-play"></i>';
+
+      songStatus.textContent =
+        formatTime(0)
+        + ' / '
+        + formatTime(audio.duration);
+
+    }
+
+
+    /* =========================
+       RESTART
+    ========================= */
+
+    function restartSong() {
+
+      if (!audio || !isAudioReady) return;
+
+      audio.currentTime = 0;
+
+      audio.play()
+        .then(() => {
+
+          playButton.innerHTML =
+            '<i class="fas fa-pause"></i>';
+
+          startVisualizer();
+
+        })
+        .catch(() => {});
+
+    }
+
+
+    /* =========================
+       VOLUME
+    ========================= */
+
+    volumeSlider.addEventListener(
+      'input',
+      function() {
+
+        const value =
+          parseFloat(
+            volumeSlider.value
+          );
+
+        if (audio) {
+          audio.volume = value;
+        }
+
+        volumeValue.textContent =
+          Math.round(value * 100)
+          + '%';
+
+      }
+    );
+
+
+    /* =========================
+       SENSITIVITY
+    ========================= */
+
+    sensitivitySlider.addEventListener(
+      'input',
+      function() {
+
+        sensitivityValue.textContent =
+          parseFloat(
+            sensitivitySlider.value
+          ).toFixed(1)
+          + 'x';
+
+      }
+    );
+
+
+    /* =========================
+       DETAIL
+    ========================= */
+
+    detailSlider.addEventListener(
+      'input',
+      function() {
+
+        detailValue.textContent =
+          detailSlider.value;
+
+      }
+    );
+
+
+    /* =========================
+       GLOW
+    ========================= */
+
+    glowSlider.addEventListener(
+      'input',
+      function() {
+
+        glowValue.textContent =
+          glowSlider.value
+          + '%';
+
+      }
+    );
+
+
+    /* =========================
+       VISUALIZER LOOP
+    ========================= */
+
+    function startVisualizer() {
+
+      if (animationFrame) {
+        cancelAnimationFrame(
+          animationFrame
+        );
+      }
+
+      drawVisualizer();
+
+    }
+
+
+    function drawVisualizer() {
+
+      animationFrame =
+        requestAnimationFrame(
+          drawVisualizer
+        );
+
+      resizeCanvas();
+
+      const width =
+        canvas.clientWidth;
+
+      const height =
+        canvas.clientHeight;
+
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      /* Background */
+
+      const gradient =
+        ctx.createLinearGradient(
+          0,
+          0,
+          width,
+          height
+        );
+
+      gradient.addColorStop(
+        0,
+        '#06131f'
+      );
+
+      gradient.addColorStop(
+        0.5,
+        '#0b2030'
+      );
+
+      gradient.addColorStop(
+        1,
+        '#170b25'
+      );
+
+      ctx.fillStyle =
+        gradient;
+
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      if (!analyser) {
+
+        drawIdle(width, height);
+
+        return;
+
+      }
+
+      const style =
+        visualizerStyle.value;
+
+      if (style === 'wave') {
+
+        drawWave(
+          width,
+          height
+        );
+
+      } else if (style === 'circle') {
+
+        drawCircle(
+          width,
+          height
+        );
+
+      } else if (style === 'mirror') {
+
+        drawMirror(
+          width,
+          height
+        );
+
+      } else {
+
+        drawBars(
+          width,
+          height
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       IDLE VISUAL
+    ========================= */
+
+    function drawIdle(
+      width,
+      height
+    ) {
+
+      const centerX =
+        width / 2;
+
+      const centerY =
+        height / 2;
+
+      const time =
+        Date.now() / 1000;
+
+      const pulse =
+        45 + Math.sin(time * 2) * 8;
+
+      ctx.beginPath();
+
+      ctx.arc(
+        centerX,
+        centerY,
+        pulse,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.strokeStyle =
+        'rgba(79,195,247,0.35)';
+
+      ctx.lineWidth = 3;
+
+      ctx.stroke();
+
+    }
+
+
+    /* =========================
+       BARS
+    ========================= */
+
+    function drawBars(
+      width,
+      height
+    ) {
+
+      const bufferLength =
+        analyser.frequencyBinCount;
+
+      const data =
+        new Uint8Array(
+          bufferLength
+        );
+
+      analyser.getByteFrequencyData(
+        data
+      );
+
+      const desiredBars =
+        parseInt(
+          detailSlider.value
+        );
+
+      const step =
+        Math.max(
+          1,
+          Math.floor(
+            bufferLength /
+            desiredBars
+          )
+        );
+
+      const bars =
+        Math.floor(
+          bufferLength / step
+        );
+
+      const gap = 3;
+
+      const barWidth =
+        Math.max(
+          2,
+          (width - gap * bars) / bars
+        );
+
+      const sensitivity =
+        parseFloat(
+          sensitivitySlider.value
+        );
+
+      const glow =
+        parseInt(
+          glowSlider.value
+        );
+
+      ctx.shadowBlur =
+        glow * 0.35;
+
+      for (
+        let i = 0;
+        i < bars;
+        i++
+      ) {
+
+        let value =
+          data[i * step] || 0;
+
+        value =
+          Math.min(
+            255,
+            value * sensitivity
+          );
+
+        const barHeight =
+          Math.max(
+            3,
+            (value / 255)
+            * height
+            * 0.88
+          );
+
+        const x =
+          i * (barWidth + gap);
+
+        const y =
+          height - barHeight;
+
+        const gradient =
+          ctx.createLinearGradient(
+            0,
+            y,
+            0,
+            height
+          );
+
+        gradient.addColorStop(
+          0,
+          '#ff79c6'
+        );
+
+        gradient.addColorStop(
+          0.5,
+          '#4fc3f7'
+        );
+
+        gradient.addColorStop(
+          1,
+          '#00bcd4'
+        );
+
+        ctx.fillStyle =
+          gradient;
+
+        ctx.shadowColor =
+          '#4fc3f7';
+
+        ctx.fillRect(
+          x,
+          y,
+          barWidth,
+          barHeight
+        );
+
+      }
+
+      ctx.shadowBlur = 0;
+
+    }
+
+
+    /* =========================
+       WAVEFORM
+    ========================= */
+
+    function drawWave(
+      width,
+      height
+    ) {
+
+      const bufferLength =
+        analyser.fftSize;
+
+      const data =
+        new Uint8Array(
+          bufferLength
+        );
+
+      analyser.getByteTimeDomainData(
+        data
+      );
+
+      const gradient =
+        ctx.createLinearGradient(
+          0,
+          0,
+          width,
+          0
+        );
+
+      gradient.addColorStop(
+        0,
+        '#00bcd4'
+      );
+
+      gradient.addColorStop(
+        0.5,
+        '#4fc3f7'
+      );
+
+      gradient.addColorStop(
+        1,
+        '#ff79c6'
+      );
+
+      ctx.beginPath();
+
+      ctx.lineWidth = 4;
+
+      ctx.strokeStyle =
+        gradient;
+
+      ctx.shadowColor =
+        '#4fc3f7';
+
+      ctx.shadowBlur =
+        parseInt(
+          glowSlider.value
+        ) * 0.35;
+
+      const sliceWidth =
+        width / bufferLength;
+
+      let x = 0;
+
+      for (
+        let i = 0;
+        i < bufferLength;
+        i++
+      ) {
+
+        const v =
+          data[i] / 128.0;
+
+        const y =
+          v * height / 2;
+
+        if (i === 0) {
+
+          ctx.moveTo(
+            x,
+            y
+          );
+
+        } else {
+
+          ctx.lineTo(
+            x,
+            y
+          );
+
+        }
+
+        x += sliceWidth;
+
+      }
+
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
+
+    }
+
+
+    /* =========================
+       CIRCLE
+    ========================= */
+
+    function drawCircle(
+      width,
+      height
+    ) {
+
+      const bufferLength =
+        analyser.frequencyBinCount;
+
+      const data =
+        new Uint8Array(
+          bufferLength
+        );
+
+      analyser.getByteFrequencyData(
+        data
+      );
+
+      const centerX =
+        width / 2;
+
+      const centerY =
+        height / 2;
+
+      const baseRadius =
+        Math.min(
+          width,
+          height
+        ) * 0.18;
+
+      const desired =
+        parseInt(
+          detailSlider.value
+        );
+
+      const step =
+        Math.max(
+          1,
+          Math.floor(
+            bufferLength / desired
+          )
+        );
+
+      const sensitivity =
+        parseFloat(
+          sensitivitySlider.value
+        );
+
+      const glow =
+        parseInt(
+          glowSlider.value
+        );
+
+      ctx.shadowBlur =
+        glow * 0.4;
+
+      for (
+        let i = 0;
+        i < bufferLength;
+        i += step
+      ) {
+
+        const value =
+          data[i] || 0;
+
+        const normalized =
+          Math.min(
+            1,
+            (value / 255)
+            * sensitivity
+          );
+
+        const angle =
+          (i / bufferLength)
+          * Math.PI
+          * 2;
+
+        const radius =
+          baseRadius
+          + normalized
+          * Math.min(width,height)
+          * 0.25;
+
+        const x1 =
+          centerX
+          + Math.cos(angle)
+          * baseRadius;
+
+        const y1 =
+          centerY
+          + Math.sin(angle)
+          * baseRadius;
+
+        const x2 =
+          centerX
+          + Math.cos(angle)
+          * radius;
+
+        const y2 =
+          centerY
+          + Math.sin(angle)
+          * radius;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+          x1,
+          y1
+        );
+
+        ctx.lineTo(
+          x2,
+          y2
+        );
+
+        const hue =
+          (i / bufferLength)
+          * 300;
+
+        ctx.strokeStyle =
+          `hsl(${180 + hue}, 90%, 65%)`;
+
+        ctx.lineWidth = 3;
+
+        ctx.shadowColor =
+          ctx.strokeStyle;
+
+        ctx.stroke();
+
+      }
+
+      ctx.shadowBlur = 0;
+
+      /* Center circle */
+
+      const centerGradient =
+        ctx.createRadialGradient(
+          centerX,
+          centerY,
+          5,
+          centerX,
+          centerY,
+          baseRadius
+        );
+
+      centerGradient.addColorStop(
+        0,
+        'rgba(255,121,198,0.8)'
+      );
+
+      centerGradient.addColorStop(
+        1,
+        'rgba(79,195,247,0.05)'
+      );
+
+      ctx.fillStyle =
+        centerGradient;
+
+      ctx.beginPath();
+
+      ctx.arc(
+        centerX,
+        centerY,
+        baseRadius,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+
+    }
+
+
+    /* =========================
+       MIRROR
+    ========================= */
+
+    function drawMirror(
+      width,
+      height
+    ) {
+
+      const bufferLength =
+        analyser.frequencyBinCount;
+
+      const data =
+        new Uint8Array(
+          bufferLength
+        );
+
+      analyser.getByteFrequencyData(
+        data
+      );
+
+      const desiredBars =
+        parseInt(
+          detailSlider.value
+        );
+
+      const step =
+        Math.max(
+          1,
+          Math.floor(
+            bufferLength /
+            desiredBars
+          )
+        );
+
+      const bars =
+        Math.floor(
+          bufferLength / step
+        );
+
+      const gap = 3;
+
+      const barWidth =
+        Math.max(
+          2,
+          (width - gap * bars) / bars
+        );
+
+      const centerY =
+        height / 2;
+
+      const sensitivity =
+        parseFloat(
+          sensitivitySlider.value
+        );
+
+      const glow =
+        parseInt(
+          glowSlider.value
+        );
+
+      ctx.shadowBlur =
+        glow * 0.4;
+
+      for (
+        let i = 0;
+        i < bars;
+        i++
+      ) {
+
+        const value =
+          data[i * step] || 0;
+
+        const normalized =
+          Math.min(
+            1,
+            (value / 255)
+            * sensitivity
+          );
+
+        const barHeight =
+          Math.max(
+            2,
+            normalized
+            * height
+            * 0.42
+          );
+
+        const x =
+          i * (barWidth + gap);
+
+        const gradient =
+          ctx.createLinearGradient(
+            0,
+            centerY - barHeight,
+            0,
+            centerY + barHeight
+          );
+
+        gradient.addColorStop(
+          0,
+          '#ff79c6'
+        );
+
+        gradient.addColorStop(
+          0.5,
+          '#4fc3f7'
+        );
+
+        gradient.addColorStop(
+          1,
+          '#00bcd4'
+        );
+
+        ctx.fillStyle =
+          gradient;
+
+        ctx.shadowColor =
+          '#4fc3f7';
+
+        ctx.fillRect(
+          x,
+          centerY - barHeight,
+          barWidth,
+          barHeight
+        );
+
+        ctx.fillRect(
+          x,
+          centerY,
+          barWidth,
+          barHeight
+        );
+
+      }
+
+      ctx.shadowBlur = 0;
+
+    }
+
+
+    /* =========================
+       TIME
+    ========================= */
+
+    function formatTime(seconds) {
+
+      if (
+        !seconds ||
+        !isFinite(seconds)
+      ) {
+        return '0:00';
+      }
+
+      const minutes =
+        Math.floor(
+          seconds / 60
+        );
+
+      const remaining =
+        Math.floor(
+          seconds % 60
+        );
+
+      return (
+        minutes +
+        ':' +
+        remaining
+          .toString()
+          .padStart(2, '0')
+      );
+
+    }
+
+
+    /* =========================
+       KEYBOARD SHORTCUTS
+    ========================= */
+
+    document.addEventListener(
+      'keydown',
+      function(event) {
+
+        /* Escape closes lockdown */
+
+        if (
+          event.key === 'Escape'
+        ) {
+
+          const lockdown =
+            document.getElementById(
+              'lockdown'
+            );
+
+          if (
+            lockdown.style.display === 'flex'
+          ) {
+
+            lockdown.style.display =
+              'none';
+
+          }
+
+        }
+
+        /* Space = play/pause */
+
+        if (
+          event.code === 'Space' &&
+          event.target.tagName !== 'INPUT' &&
+          event.target.tagName !== 'SELECT'
+        ) {
+
+          event.preventDefault();
+
+          togglePlay();
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>
