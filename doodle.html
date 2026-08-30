@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Lifeline • Doodle Pad</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root {
+    --primary: #00bcd4;
+    --accent: #ff9ff3;
+    --bg-light: linear-gradient(135deg, #fff8f0 0%, #e0f7ff 100%);
+    --card: #ffffff;
+    --text: #2c3e50;
+    --shadow: rgba(0,0,0,0.12);
+    --canvas-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+    --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
+    --card: #2c3e50;
+    --text: #e0f2f1;
+    --primary: #4fc3f7;
+    --accent: #ff79c6;
+    --shadow: rgba(0,0,0,0.4);
+    --canvas-bg: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--bg-light);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.6s ease;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(135, 206, 235, 0.97);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+[data-theme="dark"] nav {
+    background: rgba(26, 38, 57, 0.97);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-menu.hidden {
+    display: none;
+}
+
+.nav-btn {
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px var(--shadow);
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.nav-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,188,212,0.3);
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--card);
+    min-width: 240px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px var(--shadow);
+    overflow: hidden;
+    z-index: 1001;
+    padding: 8px 0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 14px 22px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background 0.25s;
+}
+
+.dropdown-content a:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 8px;
+}
+
+/* MAIN */
+
+main {
+    max-width: 1200px;
+    margin: 100px auto 80px;
+    padding: 0 20px;
+}
+
+header {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), #81d4fa);
+    color: white;
+    padding: 45px 30px;
+    border-radius: 28px;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 40px rgba(0,188,212,0.25);
+}
+
+header h1 {
+    font-size: 2.6rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.15rem;
+}
+
+/* DOODLE CARD */
+
+.doodle-card {
+    background: var(--card);
+    border-radius: 26px;
+    padding: 24px;
+    box-shadow: 0 10px 30px var(--shadow);
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.tool-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(128,128,128,0.08);
+    padding: 8px 12px;
+    border-radius: 18px;
+}
+
+.tool-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+#colorPicker {
+    width: 42px;
+    height: 36px;
+    border: none;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+#brushSize {
+    width: 110px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+#sizeValue {
+    min-width: 42px;
+    font-weight: 600;
+}
+
+.tool-btn {
+    border: none;
+    padding: 11px 16px;
+    border-radius: 999px;
+    background: white;
+    color: var(--primary);
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--shadow);
+    transition: all 0.25s;
+}
+
+.tool-btn:hover {
+    transform: translateY(-2px);
+}
+
+.tool-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.tool-btn.danger {
+    background: #ff6b6b;
+    color: white;
+}
+
+.tool-btn.save {
+    background: #27ae60;
+    color: white;
+}
+
+/* CANVAS */
+
+.canvas-wrapper {
+    width: 100%;
+    background: #e9eef2;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.08);
+}
+
+#doodleCanvas {
+    display: block;
+    width: 100%;
+    height: 600px;
+    background: var(--canvas-bg);
+    border-radius: 14px;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.status {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    opacity: 0.75;
+}
+
+/* TIPS */
+
+.tips {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.tip {
+    background: rgba(0,188,212,0.08);
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+}
+
+.tip i {
+    color: var(--primary);
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+/* FLOATING BESTIE */
+
+.floating-bestie {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 78px;
+    height: 78px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.8rem;
+    box-shadow: 0 12px 35px rgba(255,159,243,0.55);
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.4s;
+}
+
+.floating-bestie:hover {
+    transform: scale(1.15) rotate(12deg);
+}
+
+/* LOCKDOWN */
+
+#lockdown {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.98);
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    gap: 30px;
+    text-align: center;
+    padding: 20px;
+}
+
+#lockdown input {
+    padding: 16px 24px;
+    width: 90%;
+    max-width: 340px;
+    border-radius: 999px;
+    border: none;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+#lockdown button {
+    padding: 14px 40px;
+    font-size: 1.1rem;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+}
+
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #777;
+    font-size: 0.95rem;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .hamburger {
+        display: block;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(135, 206, 235, 0.98);
+        flex-direction: column;
+        padding: 20px;
+        gap: 10px;
+        box-shadow: 0 10px 20px var(--shadow);
+    }
+
+    [data-theme="dark"] .nav-menu {
+        background: rgba(26, 38, 57, 0.98);
+    }
+
+    .nav-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background: rgba(255,255,255,0.9);
+    }
+
+    [data-theme="dark"] .dropdown-content {
+        background: rgba(44,62,80,0.9);
+    }
+
+    header h1 {
+        font-size: 2.1rem;
+    }
+
+    #doodleCanvas {
+        height: 450px;
+    }
+
+    .doodle-card {
+        padding: 16px;
+    }
+
+    .floating-bestie {
+        width: 65px;
+        height: 65px;
+        font-size: 2.2rem;
+        bottom: 18px;
+        right: 18px;
+    }
+}
+</style>
+</head>
+
+<body data-theme="light">
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="logo">
+        <span>🫂</span> My Lifeline
+    </div>
+
+    <div class="nav-menu" id="navMenu">
+
+        <button class="nav-btn" onclick="navigateTo('index.html')">
+            🏠 Dashboard
+        </button>
+
+        <div class="dropdown">
+
+            <button class="nav-btn">🛡️ Support</button>
+
+            <div class="dropdown-content">
+                <a href="emergency.html">🚨 Emergency</a>
+                <a href="bestie.html">🫂 AI Bestie</a>
+                <a href="onebreath.html">😮‍💨 Breathing</a>
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <button class="nav-btn">🧠 Tools</button>
+
+            <div class="dropdown-content">
+                <a href="mental.html">Mental Tools</a>
+                <a href="reflect.html">📝 Reflect</a>
+                <a href="reframe.html">💭 Reframe</a>
+                <a href="emotion-radar.html">📡 Emotion Radar</a>
+                <a href="selfcare.html">🧘 Selfcare</a>
+                <a href="selfcare-planner.html">📓 Planner</a>
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <button class="nav-btn">🌈 Comfort</button>
+
+            <div class="dropdown-content">
+                <a href="music.html">🎵 Music</a>
+                <a href="lofiroom.html">🌙 Lofi Room</a>
+                <a href="videos.html">📺 Videos</a>
+                <a href="virtualpet.html">🐾 Virtual Pet</a>
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <button class="nav-btn">📖 Journal</button>
+
+            <div class="dropdown-content">
+                <a href="letters.html">✉️ Letters</a>
+                <a href="goodthings.html">🌱 Good Things</a>
+                <a href="todayistayed.html">📌 Today I Stayed</a>
+                <a href="yourenough.html">💙 You're Enough</a>
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <button class="nav-btn">💬 Chat Room</button>
+
+            <div class="dropdown-content">
+                <a href="chatroom.html">💬 Chat Room</a>
+                <a href="lounge.html">~ Lounge</a>
+            </div>
+
+        </div>
+
+        <button class="nav-btn" onclick="navigateTo('2048.html')">
+            🎮 2048
+        </button>
+
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center;">
+
+        <button
+            onclick="toggleDarkMode()"
+            class="nav-btn"
+            title="Toggle Theme">
+            🌗
+        </button>
+
+        <button
+            onclick="activateLockdown()"
+            class="nav-btn"
+            style="background:#e74c3c;color:white;">
+            🔒
+        </button>
+
+        <button
+            onclick="logout()"
+            class="nav-btn"
+            style="background:#ff6b6b;color:white;">
+            Logout
+        </button>
+
+        <span
+            class="hamburger"
+            onclick="toggleMobileMenu()">
+            ☰
+        </span>
+
+    </div>
+
+</nav>
+
+<!-- FLOATING BESTIE -->
+
+<div
+    class="floating-bestie"
+    onclick="navigateTo('bestie.html')"
+    title="Talk to AI Bestie">
+    🫂
+</div>
+
+<!-- LOCKDOWN -->
+
+<div id="lockdown">
+
+    <h1 style="font-size:3.4rem;">
+        🛡️ Lockdown Active
+    </h1>
+
+    <p>
+        Everything hidden. You are safe.
+    </p>
+
+    <input
+        id="unlockKey"
+        type="password"
+        placeholder="Enter key">
+
+    <button onclick="deactivateLockdown()">
+        Return
+    </button>
+
+</div>
+
+<!-- MAIN -->
+
+<main>
+
+    <header>
+
+        <h1>🎨 Doodle Pad</h1>
+
+        <p>
+            Put whatever is in your head onto the page.
+            There are no rules and no wrong way to draw.
+        </p>
+
+    </header>
+
+    <section class="doodle-card">
+
+        <!-- TOOLBAR -->
+
+        <div class="toolbar">
+
+            <div class="tool-group">
+
+                <span class="tool-label">
+                    🎨 Color
+                </span>
+
+                <input
+                    type="color"
+                    id="colorPicker"
+                    value="#00bcd4">
+
+            </div>
+
+            <div class="tool-group">
+
+                <span class="tool-label">
+                    🖌️ Size
+                </span>
+
+                <input
+                    type="range"
+                    id="brushSize"
+                    min="1"
+                    max="50"
+                    value="6">
+
+                <span id="sizeValue">
+                    6px
+                </span>
+
+            </div>
+
+            <button
+                class="tool-btn active"
+                id="brushBtn"
+                onclick="setTool('brush')">
+                🖌️ Brush
+            </button>
+
+            <button
+                class="tool-btn"
+                id="eraserBtn"
+                onclick="setTool('eraser')">
+                🧽 Eraser
+            </button>
+
+            <button
+                class="tool-btn"
+                onclick="undo()">
+                ↩️ Undo
+            </button>
+
+            <button
+                class="tool-btn danger"
+                onclick="clearCanvas()">
+                🗑️ Clear
+            </button>
+
+            <button
+                class="tool-btn save"
+                onclick="saveDrawing()">
+                💾 Save
+            </button>
+
+        </div>
+
+        <!-- CANVAS -->
+
+        <div class="canvas-wrapper">
+
+            <canvas id="doodleCanvas"></canvas>
+
+        </div>
+
+        <div class="status" id="status">
+            ✨ Start doodling — this space is yours.
+        </div>
+
+        <!-- TIPS -->
+
+        <div class="tips">
+
+            <div class="tip">
+
+                <div>
+                    <i class="fas fa-paintbrush"></i>
+                </div>
+
+                <strong>Draw freely</strong>
+
+                <p>
+                    Scribble, sketch, write, or make something completely random.
+                </p>
+
+            </div>
+
+            <div class="tip">
+
+                <div>
+                    <i class="fas fa-eraser"></i>
+                </div>
+
+                <strong>No mistakes</strong>
+
+                <p>
+                    Use the eraser or undo button whenever you want.
+                </p>
+
+            </div>
+
+            <div class="tip">
+
+                <div>
+                    <i class="fas fa-heart"></i>
+                </div>
+
+                <strong>Make it yours</strong>
+
+                <p>
+                    Try different colors and brush sizes.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+
+    <p>
+        My Lifeline — Your safe harbor ❤️
+    </p>
+
+</footer>
+
+<script>
+
+/* =========================================
+   THEME
+========================================= */
+
+function toggleDarkMode() {
+
+    const isDark =
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+    document.documentElement.setAttribute(
+        'data-theme',
+        isDark ? 'light' : 'dark'
+    );
+
+    localStorage.setItem(
+        'lifeline-theme',
+        isDark ? 'light' : 'dark'
+    );
+}
+
+if (localStorage.getItem('lifeline-theme') === 'dark') {
+
+    document.documentElement.setAttribute(
+        'data-theme',
+        'dark'
+    );
+
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function navigateTo(page) {
+    window.location.href = page;
+}
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+function toggleMobileMenu() {
+
+    const menu = document.getElementById('navMenu');
+
+    menu.classList.toggle('hidden');
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+function logout() {
+
+    if (confirm("Leave your safe space?")) {
+
+        localStorage.clear();
+
+        window.location.reload();
+
+    }
+
+}
+
+
+/* =========================================
+   LOCKDOWN
+========================================= */
+
+function activateLockdown() {
+
+    document.getElementById('lockdown').style.display = 'flex';
+
+}
+
+function deactivateLockdown() {
+
+    const key =
+        document.getElementById('unlockKey').value.trim();
+
+    if (key.length > 0) {
+
+        document.getElementById('lockdown').style.display = 'none';
+
+        document.getElementById('unlockKey').value = '';
+
+    }
+
+}
+
+
+/* =========================================
+   DOODLE CANVAS
+========================================= */
+
+const canvas =
+    document.getElementById('doodleCanvas');
+
+const ctx =
+    canvas.getContext('2d');
+
+const colorPicker =
+    document.getElementById('colorPicker');
+
+const brushSize =
+    document.getElementById('brushSize');
+
+const sizeValue =
+    document.getElementById('sizeValue');
+
+const status =
+    document.getElementById('status');
+
+let drawing = false;
+
+let currentTool = 'brush';
+
+let history = [];
+
+let lastX = 0;
+let lastY = 0;
+
+
+/* =========================================
+   CANVAS SIZING
+========================================= */
+
+function resizeCanvas() {
+
+    const oldCanvas = document.createElement('canvas');
+
+    oldCanvas.width = canvas.width;
+    oldCanvas.height = canvas.height;
+
+    if (canvas.width > 0 && canvas.height > 0) {
+        oldCanvas.getContext('2d').drawImage(canvas, 0, 0);
+    }
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    const dpr =
+        window.devicePixelRatio || 1;
+
+    canvas.width =
+        Math.floor(rect.width * dpr);
+
+    canvas.height =
+        Math.floor(rect.height * dpr);
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    if (oldCanvas.width > 0 && oldCanvas.height > 0) {
+
+        ctx.drawImage(
+            oldCanvas,
+            0,
+            0,
+            oldCanvas.width,
+            oldCanvas.height,
+            0,
+            0,
+            rect.width,
+            rect.height
+        );
+
+    }
+
+}
+
+window.addEventListener(
+    'resize',
+    resizeCanvas
+);
+
+resizeCanvas();
+
+
+/* =========================================
+   SAVE HISTORY
+========================================= */
+
+function saveHistory() {
+
+    if (history.length >= 30) {
+        history.shift();
+    }
+
+    history.push(
+        canvas.toDataURL()
+    );
+
+}
+
+
+/* =========================================
+   GET POSITION
+========================================= */
+
+function getPosition(event) {
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+    let clientX;
+    let clientY;
+
+    if (event.touches && event.touches.length) {
+
+        clientX =
+            event.touches[0].clientX;
+
+        clientY =
+            event.touches[0].clientY;
+
+    } else {
+
+        clientX =
+            event.clientX;
+
+        clientY =
+            event.clientY;
+
+    }
+
+    return {
+
+        x: clientX - rect.left,
+
+        y: clientY - rect.top
+
+    };
+
+}
+
+
+/* =========================================
+   START DRAWING
+========================================= */
+
+function startDrawing(event) {
+
+    event.preventDefault();
+
+    drawing = true;
+
+    saveHistory();
+
+    const position =
+        getPosition(event);
+
+    lastX = position.x;
+    lastY = position.y;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        lastX,
+        lastY
+    );
+
+    ctx.lineTo(
+        lastX + 0.01,
+        lastY + 0.01
+    );
+
+    ctx.stroke();
+
+}
+
+
+/* =========================================
+   DRAW
+========================================= */
+
+function draw(event) {
+
+    if (!drawing) return;
+
+    event.preventDefault();
+
+    const position =
+        getPosition(event);
+
+    const x = position.x;
+    const y = position.y;
+
+    ctx.lineWidth =
+        Number(brushSize.value);
+
+    if (currentTool === 'eraser') {
+
+        ctx.globalCompositeOperation =
+            'destination-out';
+
+    } else {
+
+        ctx.globalCompositeOperation =
+            'source-over';
+
+        ctx.strokeStyle =
+            colorPicker.value;
+
+    }
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        lastX,
+        lastY
+    );
+
+    ctx.lineTo(
+        x,
+        y
+    );
+
+    ctx.stroke();
+
+    lastX = x;
+    lastY = y;
+
+}
+
+
+/* =========================================
+   STOP DRAWING
+========================================= */
+
+function stopDrawing(event) {
+
+    if (!drawing) return;
+
+    if (event) {
+        event.preventDefault();
+    }
+
+    drawing = false;
+
+    ctx.globalCompositeOperation =
+        'source-over';
+
+    status.textContent =
+        '✨ Keep going — there is no wrong way to doodle.';
+
+}
+
+
+/* =========================================
+   MOUSE EVENTS
+========================================= */
+
+canvas.addEventListener(
+    'mousedown',
+    startDrawing
+);
+
+canvas.addEventListener(
+    'mousemove',
+    draw
+);
+
+canvas.addEventListener(
+    'mouseup',
+    stopDrawing
+);
+
+canvas.addEventListener(
+    'mouseleave',
+    stopDrawing
+);
+
+
+/* =========================================
+   TOUCH EVENTS
+========================================= */
+
+canvas.addEventListener(
+    'touchstart',
+    startDrawing,
+    { passive: false }
+);
+
+canvas.addEventListener(
+    'touchmove',
+    draw,
+    { passive: false }
+);
+
+canvas.addEventListener(
+    'touchend',
+    stopDrawing,
+    { passive: false }
+);
+
+canvas.addEventListener(
+    'touchcancel',
+    stopDrawing,
+    { passive: false }
+);
+
+
+/* =========================================
+   TOOL SELECTION
+========================================= */
+
+function setTool(tool) {
+
+    currentTool = tool;
+
+    const brushBtn =
+        document.getElementById('brushBtn');
+
+    const eraserBtn =
+        document.getElementById('eraserBtn');
+
+    brushBtn.classList.remove('active');
+    eraserBtn.classList.remove('active');
+
+    if (tool === 'brush') {
+
+        brushBtn.classList.add('active');
+
+        status.textContent =
+            '🖌️ Brush selected — start drawing!';
+
+    } else {
+
+        eraserBtn.classList.add('active');
+
+        status.textContent =
+            '🧽 Eraser selected — erase anything you want.';
+
+    }
+
+}
+
+
+/* =========================================
+   BRUSH SIZE
+========================================= */
+
+brushSize.addEventListener(
+    'input',
+    function() {
+
+        sizeValue.textContent =
+            this.value + 'px';
+
+    }
+);
+
+
+/* =========================================
+   UNDO
+========================================= */
+
+function undo() {
+
+    if (history.length === 0) {
+
+        status.textContent =
+            'Nothing to undo yet.';
+
+        return;
+
+    }
+
+    const previous =
+        history.pop();
+
+    const image =
+        new Image();
+
+    image.onload = function() {
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        const rect =
+            canvas.getBoundingClientRect();
+
+        ctx.drawImage(
+            image,
+            0,
+            0,
+            rect.width,
+            rect.height
+        );
+
+    };
+
+    image.src = previous;
+
+    status.textContent =
+        '↩️ Undone!';
+
+}
+
+
+/* =========================================
+   CLEAR
+========================================= */
+
+function clearCanvas() {
+
+    if (!confirm('Clear your entire doodle?')) {
+        return;
+    }
+
+    saveHistory();
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.globalCompositeOperation =
+        'source-over';
+
+    status.textContent =
+        '🧼 Canvas cleared. Fresh page!';
+
+}
+
+
+/* =========================================
+   SAVE / DOWNLOAD
+========================================= */
+
+function saveDrawing() {
+
+    const link =
+        document.createElement('a');
+
+    link.download =
+        'my-lifeline-doodle.png';
+
+    link.href =
+        canvas.toDataURL('image/png');
+
+    link.click();
+
+    status.textContent =
+        '💾 Your doodle has been saved!';
+
+}
+
+
+/* =========================================
+   ESCAPE KEY
+========================================= */
+
+document.addEventListener(
+    'keydown',
+    function(e) {
+
+        if (e.key === 'Escape') {
+
+            const lockdown =
+                document.getElementById('lockdown');
+
+            if (
+                lockdown.style.display === 'flex'
+            ) {
+
+                lockdown.style.display = 'none';
+
+            }
+
+        }
+
+        if (
+            (e.ctrlKey || e.metaKey) &&
+            e.key.toLowerCase() === 'z'
+        ) {
+
+            e.preventDefault();
+
+            undo();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
