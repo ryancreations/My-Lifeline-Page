@@ -1128,7 +1128,7 @@
       const loungeRef =
         ref(
           db,
-          LOUNGE_CHAT_PATH
+          LOUNGE_CHAT
         );
       unsubscribeMessages =
         onChildAdded(
@@ -1368,7 +1368,7 @@
         await push(
           ref(
             db,
-            LOUNGE_CHAT_PATH
+            LOUNGE_CHAT
           ),
           data
         );
@@ -1471,7 +1471,7 @@
             const fileRef =
               storageRef(
                 storage,
-                `${LOUNGE_IMAGE_PATH}/${Date.now()}_${safeName}`
+                `${LOUNGE_IMAGE}/${Date.now()}_${safeName}`
               );
             await uploadBytes(
               fileRef,
@@ -1508,7 +1508,7 @@
             await push(
               ref(
                 db,
-                LOUNGE_CHAT_PATH
+                LOUNGE_CHAT
               ),
               data
             );
@@ -1716,7 +1716,7 @@
             await remove(
               ref(
                 db,
-                `${LOUNGE_CHAT_PATH}/${selectedMessage.key}`
+                `${LOUNGE_CHAT}/${selectedMessage.key}`
               )
             );
             selectedMessage.element.remove();
