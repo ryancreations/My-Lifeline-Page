@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Videos • My Lifeline</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
     :root {
       --primary: #00bcd4;
@@ -19,6 +22,7 @@
       --shadow: rgba(0, 0, 0, 0.12);
       --nav-bg: rgba(135, 206, 235, 0.97);
     }
+
     [data-theme="dark"] {
       --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
       --card: #2c3e50;
@@ -31,11 +35,13 @@
       --accent: #ff79c6;
       --nav-bg: rgba(26, 38, 57, 0.97);
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Quicksand', sans-serif;
       background: var(--bg-light);
@@ -43,10 +49,13 @@
       min-height: 100vh;
       transition: background 0.5s ease;
     }
+
     .hidden {
       display: none !important;
     }
+
     /* LOGIN */
+
     #loginScreen {
       min-height: 100vh;
       display: flex;
@@ -54,6 +63,7 @@
       justify-content: center;
       padding: 25px;
     }
+
     .login-box {
       width: 100%;
       max-width: 430px;
@@ -63,15 +73,18 @@
       text-align: center;
       box-shadow: 0 20px 50px var(--shadow);
     }
+
     .login-box h1 {
       color: var(--primary);
       font-size: 2.4rem;
       margin-bottom: 8px;
     }
+
     .login-box p {
       color: var(--muted);
       margin-bottom: 22px;
     }
+
     .login-box input {
       width: 100%;
       padding: 14px 16px;
@@ -83,6 +96,7 @@
       font-size: 1rem;
       outline: none;
     }
+
     .login-button {
       width: 100%;
       margin-top: 14px;
@@ -95,7 +109,9 @@
       font-size: 1.05rem;
       cursor: pointer;
     }
+
     /* NAV */
+
     nav {
       position: fixed;
       top: 0;
@@ -110,6 +126,7 @@
       justify-content: space-between;
       box-shadow: 0 6px 20px var(--shadow);
     }
+
     .logo {
       display: flex;
       align-items: center;
@@ -117,15 +134,18 @@
       font-size: 1.5rem;
       font-weight: 700;
     }
+
     .nav-menu {
       display: flex;
       gap: 10px;
       align-items: center;
       flex-wrap: wrap;
     }
+
     .nav-menu.hidden {
       display: none;
     }
+
     .nav-btn {
       background: white;
       color: var(--primary);
@@ -136,13 +156,16 @@
       cursor: pointer;
       box-shadow: 0 4px 12px var(--shadow);
     }
+
     [data-theme="dark"] .nav-btn {
       background: #3b5065;
       color: #dff8ff;
     }
+
     .dropdown {
       position: relative;
     }
+
     .dropdown-content {
       display: none;
       position: absolute;
@@ -155,9 +178,11 @@
       padding: 8px 0;
       z-index: 1001;
     }
+
     .dropdown:hover .dropdown-content {
       display: block;
     }
+
     .dropdown-content a {
       display: block;
       padding: 11px 18px;
@@ -165,29 +190,36 @@
       text-decoration: none;
       font-weight: 500;
     }
+
     .dropdown-content a:hover {
-      background: rgba(0, 188, 212, 0.12);
+      background: rgba(0,188,212,0.12);
     }
+
     .nav-right {
       display: flex;
       gap: 8px;
       align-items: center;
     }
+
     .lock-btn {
       background: #e74c3c !important;
       color: white !important;
     }
+
     .logout-btn {
       background: #ff6b6b !important;
       color: white !important;
     }
+
     .hamburger {
       display: none;
       font-size: 1.5rem;
       cursor: pointer;
       padding: 6px 10px;
     }
+
     /* LOCKDOWN */
+
     #lockdown {
       display: none;
       position: fixed;
@@ -201,10 +233,12 @@
       text-align: center;
       padding: 30px;
     }
+
     #lockdown h1 {
       font-size: 2.8rem;
       margin-bottom: 12px;
     }
+
     #unlockKey {
       padding: 14px 22px;
       width: 90%;
@@ -215,6 +249,7 @@
       text-align: center;
       margin: 16px 0;
     }
+
     .unlock-btn {
       padding: 12px 36px;
       background: #27ae60;
@@ -224,7 +259,9 @@
       font-weight: 700;
       cursor: pointer;
     }
-    /* FLOATING BESTIE */
+
+    /* FLOATING BUTTON */
+
     .floating-bestie {
       position: fixed;
       right: 22px;
@@ -239,14 +276,17 @@
       font-size: 2rem;
       cursor: pointer;
       z-index: 900;
-      box-shadow: 0 8px 25px rgba(255, 159, 243, 0.5);
+      box-shadow: 0 8px 25px rgba(255,159,243,0.5);
     }
-    /* MAIN */
+
     main {
       max-width: 1050px;
       margin: 0 auto;
       padding: 110px 20px 60px;
     }
+
+    /* HERO */
+
     .hero {
       background: linear-gradient(135deg, #00bcd4, #a8e6cf);
       color: white;
@@ -254,12 +294,16 @@
       border-radius: 28px;
       text-align: center;
       margin-bottom: 28px;
-      box-shadow: 0 12px 35px rgba(0, 188, 212, 0.3);
+      box-shadow: 0 12px 35px rgba(0,188,212,0.3);
     }
+
     .hero h1 {
       font-size: 2.4rem;
       margin-bottom: 8px;
     }
+
+    /* SECTIONS */
+
     .section {
       background: var(--card);
       padding: 26px;
@@ -267,20 +311,24 @@
       margin-bottom: 22px;
       box-shadow: 0 8px 25px var(--shadow);
     }
+
     .section-title {
       display: flex;
       align-items: center;
       gap: 10px;
       margin-bottom: 6px;
     }
+
     .section-title h2 {
       font-size: 1.45rem;
     }
+
     .section-description {
       color: var(--muted);
       margin-bottom: 16px;
       line-height: 1.5;
     }
+
     .action-btn {
       border: none;
       padding: 12px 20px;
@@ -291,57 +339,17 @@
       cursor: pointer;
       font-family: inherit;
     }
+
     .action-btn.secondary {
       background: #ff6b9d;
     }
-    /* WEBSITE LAUNCHER */
-    .website-input-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+
+    .action-btn.dark {
+      background: #34495e;
     }
-    .website-input {
-      flex: 1;
-      min-width: 220px;
-      padding: 13px 15px;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      background: var(--box);
-      color: var(--text);
-      font-family: inherit;
-      font-size: 1rem;
-      outline: none;
-    }
-    .website-input:focus {
-      border-color: var(--primary);
-    }
-    .quick-sites {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 16px;
-    }
-    .quick-site {
-      border: 1px solid var(--border);
-      background: var(--box);
-      color: var(--text);
-      padding: 13px 10px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 700;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-    .quick-site:hover {
-      transform: translateY(-2px);
-      background: rgba(0, 188, 212, 0.12);
-    }
-    .website-note {
-      margin-top: 12px;
-      font-size: 0.88rem;
-      color: var(--muted);
-    }
-    /* VIDEOS */
+
+    /* VIDEO */
+
     .video-card {
       background: var(--box);
       border: 1px solid var(--border);
@@ -350,18 +358,21 @@
       margin-top: 14px;
       position: relative;
     }
+
     .video-card h3 {
       margin-bottom: 12px;
       padding-right: 36px;
     }
+
     .video-wrapper {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
       border-radius: 14px;
       overflow: hidden;
       background: #111;
     }
+
     .video-wrapper iframe {
       position: absolute;
       inset: 0;
@@ -369,12 +380,28 @@
       height: 100%;
       border: none;
     }
-    /* STREAMING */
+
+    .delete-video-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* LINK GRID */
+
     .link-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
+
     .comfort-link {
       background: var(--box);
       border: 1px solid var(--border);
@@ -385,12 +412,15 @@
       text-align: center;
       font-weight: 700;
     }
+
     .comfort-link span {
       display: block;
       font-size: 1.6rem;
       margin-bottom: 4px;
     }
-    /* BROWSER OVERLAY */
+
+    /* BROWSER */
+
     #browser-screen {
       display: none;
       position: fixed;
@@ -399,51 +429,148 @@
       z-index: 3000;
       flex-direction: column;
     }
+
     #browser-header {
-      min-height: 52px;
+      min-height: 58px;
       background: #1c1c1e;
       color: white;
       display: flex;
       align-items: center;
-      padding: 0 16px;
-      gap: 10px;
+      padding: 8px 12px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
+
     #browser-title {
-      flex: 1;
-      font-weight: 600;
-      overflow: hidden;
+      font-weight: 700;
       white-space: nowrap;
-      text-overflow: ellipsis;
     }
-    #browser-container {
+
+    #browser-address {
       flex: 1;
-      width: 100%;
-      background: #000;
-    }
-    .browser-btn {
-      padding: 7px 14px;
-      border-radius: 8px;
+      min-width: 180px;
+      padding: 10px 14px;
+      border-radius: 10px;
       border: none;
+      outline: none;
+      background: #2c2c2e;
       color: white;
-      font-weight: 600;
-      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
     }
-    .browser-new {
+
+    .browser-control {
+      border: none;
+      border-radius: 9px;
+      padding: 9px 12px;
+      cursor: pointer;
+      color: white;
+      font-weight: 700;
+      font-family: inherit;
+    }
+
+    .browser-go {
       background: #007aff;
     }
+
+    .browser-new {
+      background: #5856d6;
+    }
+
+    .browser-external {
+      background: #34c759;
+    }
+
     .browser-close {
       background: #ff3b30;
     }
+
+    #browser-status {
+      min-height: 30px;
+      background: #252525;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      padding: 5px 14px;
+      font-size: 12px;
+    }
+
+    #browser-container {
+      flex: 1;
+      width: 100%;
+      background: white;
+      position: relative;
+    }
+
+    #browser-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    #browser-loading {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      color: white;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 2;
+      text-align: center;
+      padding: 30px;
+    }
+
+    #browser-loading .spinner {
+      width: 42px;
+      height: 42px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* BROWSER HELP */
+
+    .browser-help {
+      background: var(--box);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 16px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .browser-help strong {
+      color: var(--text);
+    }
+
+    /* FOOTER */
+
     footer {
       text-align: center;
       padding: 28px;
       color: var(--muted);
     }
+
     /* MOBILE */
+
     @media (max-width: 900px) {
+
       .nav-menu {
         display: none;
       }
+
       .nav-menu:not(.hidden) {
         display: flex;
         flex-direction: column;
@@ -455,153 +582,293 @@
         padding: 14px;
         box-shadow: 0 10px 30px var(--shadow);
       }
+
       .hamburger {
         display: block;
       }
+
       .link-grid {
         grid-template-columns: 1fr;
       }
-      .quick-sites {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 550px) {
-      nav {
-        padding: 12px 10px;
-      }
-      .logo {
-        font-size: 1.15rem;
-      }
-      .logout-btn {
+
+      #browser-title {
         display: none;
       }
-      main {
-        padding-left: 12px;
-        padding-right: 12px;
+
+      #browser-header {
+        padding: 8px;
       }
-      .section {
-        padding: 20px;
-      }
-      .hero h1 {
-        font-size: 2rem;
-      }
-      .quick-sites {
-        grid-template-columns: 1fr 1fr;
+
+      .browser-control {
+        padding: 8px 9px;
       }
     }
   </style>
+
 </head>
+
 <body data-theme="light">
+
   <!-- LOGIN -->
+
   <div id="loginScreen">
     <div class="login-box">
-      <div style="font-size:3rem; margin-bottom:8px;">🎬</div>
-      <h1>My Lifeline</h1>
-      <p>Enter your personal key</p>
+
+```
+  <div style="font-size:3rem; margin-bottom:8px;">🎬</div>
+
+  <h1>My Lifeline</h1>
+
+  <p>Enter your personal key</p>
+
   <input
     type="text"
     id="username"
     placeholder="Username"
     autocomplete="username"
   >
+
   <input
     type="password"
     id="password"
     placeholder="Password"
     autocomplete="current-password"
   >
+
   <button class="login-button" onclick="checkLogin()">
     Enter Safe Space
   </button>
+
 </div>
+```
+
   </div>
+
   <!-- MAIN -->
+
   <div id="mainContent" class="hidden">
+
+```
 <!-- NAVIGATION -->
+
 <nav>
+
   <div class="logo">
     <span>🫂</span>
     My Lifeline
   </div>
+
   <div class="nav-menu" id="navMenu">
+
     <button class="nav-btn" onclick="navigateTo('index.html')">
       🏠 Dashboard
     </button>
+
     <div class="dropdown">
-      <button class="nav-btn">🛡️ Support</button>
+
+      <button class="nav-btn">
+        🛡️ Support
+      </button>
+
       <div class="dropdown-content">
-        <a href="emergency.html">🚨 Emergency</a>
-        <a href="bestie.html">🫂 AI Bestie</a>
-        <a href="onebreath.html">😮‍💨 Breathing</a>
+
+        <a href="emergency.html">
+          🚨 Emergency
+        </a>
+
+        <a href="bestie.html">
+          🫂 AI Bestie
+        </a>
+
+        <a href="onebreath.html">
+          😮‍💨 Breathing
+        </a>
+
       </div>
+
     </div>
+
+
     <div class="dropdown">
-      <button class="nav-btn">🧠 Tools</button>
+
+      <button class="nav-btn">
+        🧠 Tools
+      </button>
+
       <div class="dropdown-content">
-        <a href="mental.html">🧠 Mental Tools</a>
-        <a href="reflect.html">📝 Reflect</a>
-        <a href="reframe.html">💭 Reframe</a>
-        <a href="emotion-radar.html">📡 Emotion Radar</a>
-        <a href="selfcare.html">🧘 Selfcare</a>
-        <a href="selfcare-planner.html">📓 Planner</a>
+
+        <a href="mental.html">
+          🧠 Mental Tools
+        </a>
+
+        <a href="reflect.html">
+          📝 Reflect
+        </a>
+
+        <a href="reframe.html">
+          💭 Reframe
+        </a>
+
+        <a href="emotion-radar.html">
+          📡 Emotion Radar
+        </a>
+
+        <a href="selfcare.html">
+          🧘 Selfcare
+        </a>
+
+        <a href="selfcare-planner.html">
+          📓 Planner
+        </a>
+
       </div>
+
     </div>
+
+
     <div class="dropdown">
-      <button class="nav-btn">🌈 Comfort</button>
+
+      <button class="nav-btn">
+        🌈 Comfort
+      </button>
+
       <div class="dropdown-content">
-        <a href="music.html">🎵 Music</a>
-        <a href="lofiroom.html">🌙 Lofi Room</a>
-        <a href="videos.html">📺 Videos</a>
-        <a href="virtualpet.html">🐾 Virtual Pet</a>
+
+        <a href="music.html">
+          🎵 Music
+        </a>
+
+        <a href="lofiroom.html">
+          🌙 Lofi Room
+        </a>
+
+        <a href="videos.html">
+          📺 Videos
+        </a>
+
+        <a href="virtualpet.html">
+          🐾 Virtual Pet
+        </a>
+
       </div>
+
     </div>
+
+
     <div class="dropdown">
-      <button class="nav-btn">📖 Journal</button>
+
+      <button class="nav-btn">
+        📖 Journal
+      </button>
+
       <div class="dropdown-content">
-        <a href="letters.html">✉️ Letters</a>
-        <a href="goodthings.html">🌱 Good Things</a>
-        <a href="todayistayed.html">📌 Today I Stayed</a>
-        <a href="yourenough.html">💙 You're Enough</a>
+
+        <a href="letters.html">
+          ✉️ Letters
+        </a>
+
+        <a href="goodthings.html">
+          🌱 Good Things
+        </a>
+
+        <a href="todayistayed.html">
+          📌 Today I Stayed
+        </a>
+
+        <a href="yourenough.html">
+          💙 You're Enough
+        </a>
+
       </div>
+
     </div>
-    <button class="nav-btn" onclick="navigateTo('2048.html')">
+
+
+    <button
+      class="nav-btn"
+      onclick="navigateTo('2048.html')"
+    >
       🎮 2048
     </button>
-    <button class="nav-btn" onclick="navigateTo('chatroom.html')">
+
+
+    <button
+      class="nav-btn"
+      onclick="navigateTo('chatroom.html')"
+    >
       💬 Chat Room
     </button>
+
   </div>
+
+
   <div class="nav-right">
-    <button onclick="toggleDarkMode()" class="nav-btn">
+
+    <button
+      onclick="toggleDarkMode()"
+      class="nav-btn"
+      title="Toggle dark mode"
+    >
       🌗
     </button>
-    <button onclick="activateLockdown()" class="nav-btn lock-btn">
+
+    <button
+      onclick="activateLockdown()"
+      class="nav-btn lock-btn"
+      title="Lock page"
+    >
       🔒
     </button>
-    <button onclick="logout()" class="nav-btn logout-btn">
+
+    <button
+      onclick="logout()"
+      class="nav-btn logout-btn"
+    >
       Logout
     </button>
-    <span class="hamburger" onclick="toggleMobileMenu()">
+
+    <span
+      class="hamburger"
+      onclick="toggleMobileMenu()"
+    >
       ☰
     </span>
+
   </div>
+
 </nav>
+
+
 <!-- LOCKDOWN -->
+
 <div id="lockdown">
-  <h1>🛡️ Lockdown Active</h1>
+
+  <h1>
+    🛡️ Lockdown Active
+  </h1>
+
   <p>
     Everything hidden. You are safe.
   </p>
+
   <input
     id="unlockKey"
     type="password"
     placeholder="Enter key"
   >
-  <button class="unlock-btn" onclick="deactivateLockdown()">
+
+  <button
+    class="unlock-btn"
+    onclick="deactivateLockdown()"
+  >
     Return
   </button>
+
 </div>
+
+
 <!-- FLOATING BESTIE -->
+
 <div
   class="floating-bestie"
   onclick="location.href='bestie.html'"
@@ -609,128 +876,299 @@
 >
   🫂
 </div>
+
+
+<!-- PAGE CONTENT -->
+
 <main>
+
   <!-- HERO -->
+
   <section class="hero">
+
     <div style="font-size:2.6rem; margin-bottom:6px;">
       🌐
     </div>
+
     <h1>
       Videos + Browse Anything
     </h1>
+
     <p>
-      Watch comfort videos or open a shared cloud browser
+      Watch comfort videos or browse the web
     </p>
+
   </section>
+
+
   <!-- BROWSE ANYTHING -->
+
   <section class="section">
+
     <div class="section-title">
+
       <span style="font-size:1.7rem;">
         🌐
       </span>
+
       <h2>
         Browse Anything
       </h2>
+
     </div>
+
     <p class="section-description">
-      Enter a website below and open it in your shared browser.
-      You can use websites such as Google, YouTube, Wikipedia, and other normal websites.
+
+      Search the web or enter a website address below.
+      Some websites may block being displayed inside another page,
+      so an "Open in New Tab" option is also available.
+
     </p>
-    <div class="website-input-row">
+
+
+    <div
+      style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-bottom:10px;
+      "
+    >
+
       <input
         type="text"
-        id="websiteUrl"
-        class="website-input"
-        placeholder="Enter a website, e.g. google.com"
-        autocomplete="off"
-        onkeydown="handleWebsiteEnter(event)"
+        id="browserUrlInput"
+        placeholder="Search Google or enter a website..."
+        style="
+          flex:1;
+          min-width:220px;
+          padding:13px 15px;
+          border-radius:14px;
+          border:2px solid var(--border);
+          background:var(--box);
+          color:var(--text);
+          font-family:inherit;
+          font-size:1rem;
+          outline:none;
+        "
+        onkeydown="if(event.key === 'Enter') browseFromMainInput()"
       >
+
       <button
         class="action-btn"
-        onclick="openWebsite()"
+        onclick="browseFromMainInput()"
       >
-        🚀 Open Website
+        🔎 Browse
       </button>
+
     </div>
-    <div class="quick-sites">
+
+
+    <div
+      style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+      "
+    >
+
       <button
-        class="quick-site"
-        onclick="openWebsite('https://www.google.com')"
+        class="action-btn"
+        onclick="openBrowserWithUrl('https://www.google.com')"
       >
-        🔎 Google
+        🌎 Google
       </button>
+
       <button
-        class="quick-site"
-        onclick="openWebsite('https://www.youtube.com')"
+        class="action-btn"
+        onclick="openBrowserWithUrl('https://www.youtube.com')"
       >
         ▶️ YouTube
       </button>
+
       <button
-        class="quick-site"
-        onclick="openWebsite('https://www.wikipedia.org')"
+        class="action-btn secondary"
+        onclick="openExternalFromMainInput()"
       >
-        📚 Wikipedia
+        ↗️ Open New Tab
       </button>
-      <button
-        class="quick-site"
-        onclick="openWebsite('https://www.bing.com')"
-      >
-        🔍 Bing
-      </button>
+
     </div>
-    <p class="website-note">
-      💡 Tip: You can type either
-      <strong>google.com</strong>
-      or
-      <strong>https://google.com</strong>.
-    </p>
+
+
+    <div class="browser-help">
+
+      <strong>💡 How it works:</strong><br>
+
+      Enter a website or search phrase above.
+      The page will try to load it inside the Lifeline browser.
+      If a website refuses to be embedded, use
+      <strong>Open New Tab</strong> to open it normally.
+
+    </div>
+
   </section>
-  <!-- COMFORT TV -->
+
+
+  <!-- ADD CUSTOM VIDEO -->
+
   <section class="section">
+
     <div class="section-title">
+
+      <span style="font-size:1.7rem;">
+        ➕
+      </span>
+
+      <h2>
+        Add Your Own Video
+      </h2>
+
+    </div>
+
+    <p class="section-description">
+      Paste a direct video link such as an MP4 or Archive.org video.
+    </p>
+
+
+    <div
+      style="
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+      "
+    >
+
+      <input
+        type="text"
+        id="customTitle"
+        placeholder="Video title (optional)"
+        style="
+          padding:12px 14px;
+          border-radius:12px;
+          border:2px solid var(--border);
+          background:var(--box);
+          color:var(--text);
+        "
+      >
+
+
+      <div
+        style="
+          display:flex;
+          gap:10px;
+          flex-wrap:wrap;
+        "
+      >
+
+        <input
+          type="url"
+          id="customUrl"
+          placeholder="Paste video link..."
+          style="
+            flex:1;
+            min-width:180px;
+            padding:12px 14px;
+            border-radius:12px;
+            border:2px solid var(--border);
+            background:var(--box);
+            color:var(--text);
+          "
+        >
+
+        <button
+          class="action-btn"
+          onclick="addCustomVideo()"
+        >
+          ➕ Add Video
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div id="customVideos"></div>
+
+  </section>
+
+
+  <!-- COMFORT TV -->
+
+  <section class="section">
+
+    <div class="section-title">
+
       <span style="font-size:1.7rem;">
         🎞️
       </span>
+
       <h2>
         Comfort TV
       </h2>
+
     </div>
+
+
     <div class="video-card">
+
       <h3>
         🏎️ Dukes of Hazzard – Season 1-6
       </h3>
+
       <div class="video-wrapper">
+
         <iframe
           src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4"
           allowfullscreen
-          loading="lazy">
-        </iframe>
+          loading="lazy"
+        ></iframe>
+
       </div>
+
     </div>
+
+
     <div class="video-card">
+
       <h3>
         🏎️ Dukes of Hazzard – Season 7
       </h3>
+
       <div class="video-wrapper">
+
         <iframe
           src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4"
           allowfullscreen
-          loading="lazy">
-        </iframe>
+          loading="lazy"
+        ></iframe>
+
       </div>
+
     </div>
+
   </section>
+
+
   <!-- STREAMING -->
+
   <section class="section">
+
     <div class="section-title">
+
       <span style="font-size:1.7rem;">
         🍿
       </span>
+
       <h2>
         Streaming Services
       </h2>
+
     </div>
+
+
     <div class="link-grid">
+
       <a
         class="comfort-link"
         href="https://www.netflix.com"
@@ -740,6 +1178,8 @@
         <span>🔴</span>
         Netflix
       </a>
+
+
       <a
         class="comfort-link"
         href="https://www.hulu.com"
@@ -749,6 +1189,8 @@
         <span>🟢</span>
         Hulu
       </a>
+
+
       <a
         class="comfort-link"
         href="https://www.primevideo.com"
@@ -758,6 +1200,8 @@
         <span>🔵</span>
         Prime Video
       </a>
+
+
       <a
         class="comfort-link"
         href="https://www.tubitv.com"
@@ -767,6 +1211,8 @@
         <span>📺</span>
         Tubi
       </a>
+
+
       <a
         class="comfort-link"
         href="https://www.pluto.tv"
@@ -776,642 +1222,1007 @@
         <span>🪐</span>
         Pluto TV
       </a>
+
     </div>
+
   </section>
+
 </main>
+
+
 <footer>
   My Lifeline • Watch + Browse freely 💙
 </footer>
+```
+
   </div>
-  <!-- SHARED BROWSER OVERLAY -->
+
+  <!-- BROWSER OVERLAY -->
+
   <div id="browser-screen">
+
+```
 <div id="browser-header">
+
   <span id="browser-title">
-    Shared Browser
+    🌐 Lifeline Browser
   </span>
+
+
   <button
-    onclick="forceNewBrowser()"
-    class="browser-btn browser-new"
+    class="browser-control"
+    onclick="browserBack()"
+    title="Back"
   >
-    New Session
+    ◀
   </button>
+
+
   <button
-    onclick="closeSharedBrowser()"
-    class="browser-btn browser-close"
+    class="browser-control"
+    onclick="browserForward()"
+    title="Forward"
   >
-    Close
+    ▶
   </button>
+
+
+  <button
+    class="browser-control"
+    onclick="browserRefresh()"
+    title="Refresh"
+  >
+    🔄
+  </button>
+
+
+  <input
+    id="browser-address"
+    type="text"
+    placeholder="Search or enter website..."
+    onkeydown="if(event.key === 'Enter') browserNavigate()"
+  >
+
+
+  <button
+    class="browser-control browser-go"
+    onclick="browserNavigate()"
+  >
+    Go
+  </button>
+
+
+  <button
+    class="browser-control browser-new"
+    onclick="browserNewHome()"
+  >
+    🏠
+  </button>
+
+
+  <button
+    class="browser-control browser-external"
+    onclick="openCurrentExternal()"
+  >
+    ↗
+  </button>
+
+
+  <button
+    class="browser-control browser-close"
+    onclick="closeBrowser()"
+  >
+    ✕
+  </button>
+
 </div>
-<div id="browser-container"></div>
+
+
+<div id="browser-status">
+  Ready
+</div>
+
+
+<div id="browser-container">
+
+  <div id="browser-loading">
+
+    <div class="spinner"></div>
+
+    <div id="browser-loading-text">
+      Loading website...
+    </div>
+
   </div>
-  <!-- FIREBASE + HYPERBEAM -->
-  <script type="module">
-    /* =========================================
-       FIREBASE
-       ========================================= */
-    const firebaseConfig = {
-      apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
-      authDomain: "chatroomnew-739f4.firebaseapp.com",
-      databaseURL: "https://chatroomnew-739f4-default-rtdb.firebaseio.com",
-      projectId: "chatroomnew-739f4",
-      storageBucket: "chatroomnew-739f4.firebasestorage.app",
-      messagingSenderId: "552292977529",
-      appId: "1:552292977529:web:b04e2bc662668847ba7da8"
-    };
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      set,
-      get,
-      remove
-    } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-    import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    let hbClient = null;
-    /* =========================================
+
+
+  <iframe
+    id="browser-frame"
+    title="Lifeline Browser"
+    sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"
+    referrerpolicy="no-referrer"
+  ></iframe>
+
+</div>
+```
+
+  </div>
+
+  <!-- JAVASCRIPT -->
+
+  <script>
+
+    /* ============================
        THEME
-       ========================================= */
-    window.toggleDarkMode = () => {
+    ============================ */
+
+    window.toggleDarkMode = function() {
+
       const isDark =
-        document.documentElement.getAttribute("data-theme") === "dark";
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
       document.documentElement.setAttribute(
-        "data-theme",
-        isDark ? "light" : "dark"
+        'data-theme',
+        isDark ? 'light' : 'dark'
       );
+
       localStorage.setItem(
-        "lifeline-theme",
-        isDark ? "light" : "dark"
+        'lifeline-theme',
+        isDark ? 'light' : 'dark'
       );
+
     };
+
+
     if (
-      localStorage.getItem("lifeline-theme") === "dark"
+      localStorage.getItem('lifeline-theme') === 'dark'
     ) {
+
       document.documentElement.setAttribute(
-        "data-theme",
-        "dark"
+        'data-theme',
+        'dark'
       );
+
     }
-    /* =========================================
+
+
+    /* ============================
        NAVIGATION
-       ========================================= */
-    window.navigateTo = (page) => {
+    ============================ */
+
+    window.navigateTo = function(page) {
       location.href = page;
     };
-    window.toggleMobileMenu = () => {
+
+
+    window.toggleMobileMenu = function() {
+
       document
-        .getElementById("navMenu")
-        .classList.toggle("hidden");
+        .getElementById('navMenu')
+        .classList.toggle('hidden');
+
     };
-    /* =========================================
+
+
+    /* ============================
        LOCKDOWN
-       ========================================= */
-    window.activateLockdown = () => {
-      document.getElementById(
-        "lockdown"
-      ).style.display = "flex";
+    ============================ */
+
+    window.activateLockdown = function() {
+
+      document
+        .getElementById('lockdown')
+        .style.display = 'flex';
+
     };
-    window.deactivateLockdown = () => {
+
+
+    window.deactivateLockdown = function() {
+
       const key =
-        document.getElementById(
-          "unlockKey"
-        ).value.trim();
+        document
+          .getElementById('unlockKey')
+          .value
+          .trim();
+
       if (key.length > 0) {
-        document.getElementById(
-          "lockdown"
-        ).style.display = "none";
-        document.getElementById(
-          "unlockKey"
-        ).value = "";
+
+        document
+          .getElementById('lockdown')
+          .style.display = 'none';
+
+        document
+          .getElementById('unlockKey')
+          .value = '';
+
       }
+
     };
-    /* =========================================
+
+
+    /* ============================
        LOGIN
-       ========================================= */
-    window.checkLogin = () => {
+    ============================ */
+
+    window.checkLogin = function() {
+
       const user =
-        document.getElementById(
-          "username"
-        ).value.trim().toLowerCase();
+        document
+          .getElementById('username')
+          .value
+          .trim()
+          .toLowerCase();
+
       const pass =
-        document.getElementById(
-          "password"
-        ).value.trim();
+        document
+          .getElementById('password')
+          .value
+          .trim();
+
+
       const valid =
-        (user === "ryan" && pass === "ITSmf420") ||
-        (user === "guest" && pass === "guest") ||
-        (user === "visitor" && pass === "welcome") ||
-        (user === "friend" && pass === "lifeline") ||
-        (user === "nc" && pass === "boone");
+        (user === 'ryan' && pass === 'ITSmf420') ||
+        (user === 'guest' && pass === 'guest') ||
+        (user === 'visitor' && pass === 'welcome') ||
+        (user === 'friend' && pass === 'lifeline') ||
+        (user === 'nc' && pass === 'boone');
+
+
       if (valid) {
+
         localStorage.setItem(
-          "lifelineAuthenticated",
-          "true"
+          'lifelineAuthenticated',
+          'true'
         );
+
         document
-          .getElementById("loginScreen")
-          .classList.add("hidden");
+          .getElementById('loginScreen')
+          .classList.add('hidden');
+
         document
-          .getElementById("mainContent")
-          .classList.remove("hidden");
+          .getElementById('mainContent')
+          .classList.remove('hidden');
+
+        renderCustomVideos();
+
       } else {
+
         alert(
-          "Incorrect username or password."
+          'Incorrect username or password.'
         );
+
       }
+
     };
-    window.logout = () => {
+
+
+    window.logout = function() {
+
       localStorage.removeItem(
-        "lifelineAuthenticated"
+        'lifelineAuthenticated'
       );
+
       location.reload();
+
     };
+
+
     if (
       localStorage.getItem(
-        "lifelineAuthenticated"
-      ) === "true"
+        'lifelineAuthenticated'
+      ) === 'true'
     ) {
+
       document
-        .getElementById("loginScreen")
-        .classList.add("hidden");
+        .getElementById('loginScreen')
+        .classList.add('hidden');
+
       document
-        .getElementById("mainContent")
-        .classList.remove("hidden");
+        .getElementById('mainContent')
+        .classList.remove('hidden');
+
     }
-    /* =========================================
-       WEBSITE INPUT
-       ========================================= */
-    function normalizeWebsiteUrl(input) {
-      let url = input.trim();
-      if (!url) {
-        throw new Error(
-          "Please enter a website first."
-        );
-      }
-      /*
-       * If the user types something like:
-       *
-       * google.com
-       *
-       * automatically turn it into:
-       *
-       * https://google.com
-       */
-      if (
-        !url.startsWith("http://") &&
-        !url.startsWith("https://")
-      ) {
-        url = "https://" + url;
-      }
-      try {
-        const parsed = new URL(url);
-        /*
-         * Only allow normal web URLs.
-         */
-        if (
-          parsed.protocol !== "http:" &&
-          parsed.protocol !== "https:"
-        ) {
-          throw new Error();
-        }
-        return parsed.href;
-      } catch (error) {
-        throw new Error(
-          "That doesn't look like a valid website address."
-        );
-      }
-    }
-    window.handleWebsiteEnter = (event) => {
-      if (event.key === "Enter") {
-        openWebsite();
-      }
-    };
+
+
+    /* ============================
+       BROWSER
+    ============================ */
+
+    let browserHistory = [];
+
+    let browserHistoryIndex = -1;
+
+    let currentBrowserUrl = '';
+
+
     /*
-     * Open a website.
-     *
-     * If a URL was passed directly from a quick-site
-     * button, use that.
-     *
-     * Otherwise read the input box.
-     */
-    window.openWebsite = async (directUrl = null) => {
-      let rawUrl = directUrl;
-      if (!rawUrl) {
-        rawUrl =
-          document.getElementById(
-            "websiteUrl"
-          ).value;
+      This is a free proxy reader used as a fallback
+      for websites that permit proxy retrieval.
+
+      Websites that specifically block framing/proxies
+      can still be opened using the external button.
+    */
+
+    const FREE_PROXY =
+      'https://api.allorigins.win/raw?url=';
+
+
+    function normalizeUrl(value) {
+
+      value = value.trim();
+
+      if (!value) {
+        return 'https://www.google.com';
       }
-      let websiteUrl;
-      try {
-        websiteUrl =
-          normalizeWebsiteUrl(rawUrl);
-      } catch (error) {
-        alert(error.message);
+
+
+      /*
+        If the user typed a search phrase instead
+        of a URL, send it to Google.
+      */
+
+      if (
+        !value.includes('.') &&
+        !value.startsWith('http://') &&
+        !value.startsWith('https://')
+      ) {
+
+        return (
+          'https://www.google.com/search?q=' +
+          encodeURIComponent(value)
+        );
+
+      }
+
+
+      if (
+        !value.startsWith('http://') &&
+        !value.startsWith('https://')
+      ) {
+
+        value = 'https://' + value;
+
+      }
+
+
+      return value;
+
+    }
+
+
+    function showBrowserLoading(message) {
+
+      document
+        .getElementById('browser-loading-text')
+        .textContent = message;
+
+      document
+        .getElementById('browser-loading')
+        .style.display = 'flex';
+
+    }
+
+
+    function hideBrowserLoading() {
+
+      document
+        .getElementById('browser-loading')
+        .style.display = 'none';
+
+    }
+
+
+    function setBrowserStatus(message) {
+
+      document
+        .getElementById('browser-status')
+        .textContent = message;
+
+    }
+
+
+    function updateAddressBar(url) {
+
+      document
+        .getElementById('browser-address')
+        .value = url;
+
+    }
+
+
+    function addToBrowserHistory(url) {
+
+      if (
+        browserHistoryIndex >= 0 &&
+        browserHistory[browserHistoryIndex] === url
+      ) {
         return;
       }
-      /*
-       * Put the URL into the input box so the user
-       * can see what is currently open.
-       */
-      document.getElementById(
-        "websiteUrl"
-      ).value = websiteUrl;
-      /*
-       * Open the shared browser.
-       *
-       * We pass the requested URL along so the
-       * browser can navigate to it after loading.
-       */
-      await openSharedBrowser(
-        websiteUrl
+
+
+      browserHistory =
+        browserHistory.slice(
+          0,
+          browserHistoryIndex + 1
+        );
+
+
+      browserHistory.push(url);
+
+      browserHistoryIndex =
+        browserHistory.length - 1;
+
+    }
+
+
+    /*
+      Main browser opening function.
+    */
+
+    window.openBrowserWithUrl = function(url) {
+
+      url = normalizeUrl(url);
+
+      document
+        .getElementById('browser-screen')
+        .style.display = 'flex';
+
+      navigateBrowser(url, true);
+
+    };
+
+
+    function navigateBrowser(url, addHistory = true) {
+
+      url = normalizeUrl(url);
+
+      currentBrowserUrl = url;
+
+      updateAddressBar(url);
+
+      if (addHistory) {
+        addToBrowserHistory(url);
+      }
+
+
+      const frame =
+        document.getElementById(
+          'browser-frame'
+        );
+
+
+      showBrowserLoading(
+        'Loading website...'
       );
-    };
-    /* =========================================
-       HYPERBEAM SHARED BROWSER
-       ========================================= */
-    window.openSharedBrowser = async (
-      requestedUrl = null
-    ) => {
-      const browserScreen =
-        document.getElementById(
-          "browser-screen"
-        );
-      const container =
-        document.getElementById(
-          "browser-container"
-        );
-      const title =
-        document.getElementById(
-          "browser-title"
-        );
-      browserScreen.style.display =
-        "flex";
-      title.textContent =
-        requestedUrl
-          ? "Shared Browser • " + requestedUrl
-          : "Shared Browser";
-      container.innerHTML = `
-        <div style="
-          color:white;
-          height:100%;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          flex-direction:column;
-          gap:12px;
-          padding:20px;
-          text-align:center;
-        ">
-          <div style="font-size:18px;">
-            Looking for shared browser...
-          </div>
-          <div style="
-            font-size:14px;
-            opacity:.7;
-          ">
-            Please wait...
-          </div>
-        </div>
-      `;
-      try {
-        /*
-         * Check Firebase for an existing
-         * shared browser session.
-         */
-        const snapshot =
-          await get(
-            ref(
-              db,
-              "active-browser-session"
-            )
-          );
-        const existing =
-          snapshot.val();
-        if (
-          existing &&
-          existing.embed_url
-        ) {
-          await loadHyperbeam(
-            existing.embed_url,
-            existing.admin_token,
-            requestedUrl
-          );
-          return;
-        }
-        container.innerHTML = `
-          <div style="
-            color:white;
-            height:100%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            flex-direction:column;
-            gap:12px;
-            padding:20px;
-            text-align:center;
-          ">
-            <div style="font-size:18px;">
-              Starting shared browser...
-            </div>
-            <div style="
-              font-size:14px;
-              opacity:.7;
-            ">
-              This may take a few seconds.
-            </div>
-          </div>
-        `;
-        /*
-         * Create a new Hyperbeam browser session.
-         */
-        const response =
-          await fetch(
-            "/api/create-browser",
-            {
-              method: "POST"
-            }
-          );
-        if (!response.ok) {
-          const err =
-            await response
-              .json()
-              .catch(() => ({}));
-          throw new Error(
-            err.error ||
-            "Failed to create browser session."
-          );
-        }
-        const data =
-          await response.json();
-        if (
-          !data.embed_url ||
-          !data.admin_token
-        ) {
-          throw new Error(
-            "The browser server returned an incomplete session."
-          );
-        }
-        /*
-         * Save the shared session.
-         */
-        await set(
-          ref(
-            db,
-            "active-browser-session"
-          ),
-          {
-            embed_url:
-              data.embed_url,
-            admin_token:
-              data.admin_token,
-            session_id:
-              data.session_id || null,
-            createdAt:
-              Date.now(),
-            createdBy:
-              "Videos Page"
-          }
-        );
-        /*
-         * Load the browser.
-         */
-        await loadHyperbeam(
-          data.embed_url,
-          data.admin_token,
-          requestedUrl
-        );
-      } catch (err) {
-        console.error(
-          "Shared browser error:",
-          err
-        );
-        container.innerHTML = `
-          <div style="
-            color:white;
-            height:100%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            flex-direction:column;
-            gap:12px;
-            padding:30px;
-            text-align:center;
-          ">
-            <div style="
-              font-size:22px;
-              font-weight:700;
-            ">
-              ⚠️ Browser couldn't load
-            </div>
-            <div style="
-              font-size:14px;
-              opacity:.75;
-              max-width:600px;
-              line-height:1.5;
-            ">
-              ${escapeHtml(
-                err.message ||
-                "Unknown browser error."
-              )}
-            </div>
-            <button
-              onclick="openSharedBrowser()"
-              style="
-                margin-top:12px;
-                padding:11px 22px;
-                border-radius:9px;
-                border:none;
-                background:#007aff;
-                color:white;
-                font-weight:600;
-                cursor:pointer;
-              "
-            >
-              Try Again
-            </button>
-          </div>
-        `;
-      }
-    };
-    /* =========================================
-       LOAD HYPERBEAM
-       ========================================= */
-    async function loadHyperbeam(
-      embedUrl,
-      adminToken,
-      requestedUrl = null
-    ) {
-      const container =
-        document.getElementById(
-          "browser-container"
-        );
-      container.innerHTML = "";
-      try {
-        /*
-         * Start Hyperbeam.
-         */
-        hbClient =
-          await Hyperbeam(
-            container,
-            embedUrl,
-            {
-              adminToken
-            }
-          );
-        /*
-         * If a website was requested, navigate
-         * the browser to it after Hyperbeam loads.
-         */
-        if (requestedUrl) {
-          /*
-           * Hyperbeam versions expose different
-           * navigation APIs. Try the supported
-           * navigation methods without breaking
-           * the browser if one isn't available.
-           */
-          try {
-            if (
-              hbClient &&
-              typeof hbClient.goTo === "function"
-            ) {
-              await hbClient.goTo(
-                requestedUrl
-              );
-            } else if (
-              hbClient &&
-              typeof hbClient.navigate === "function"
-            ) {
-              await hbClient.navigate(
-                requestedUrl
-              );
-            } else if (
-              hbClient &&
-              typeof hbClient.navigateTo === "function"
-            ) {
-              await hbClient.navigateTo(
-                requestedUrl
-              );
-            }
-          } catch (navigationError) {
-            console.warn(
-              "Automatic browser navigation was unavailable:",
-              navigationError
-            );
-          }
-        }
-      } catch (err) {
-        console.error(
-          "Hyperbeam load error:",
-          err
-        );
-        container.innerHTML = `
-          <div style="
-            color:white;
-            padding:40px;
-            text-align:center;
-          ">
-            <div style="
-              font-size:20px;
-              margin-bottom:10px;
-            ">
-              ⚠️ Failed to load browser
-            </div>
-            <div style="
-              opacity:.7;
-              font-size:14px;
-            ">
-              ${escapeHtml(
-                err.message ||
-                "Permission was denied or the browser session could not be loaded."
-              )}
-            </div>
-          </div>
-        `;
-      }
-    }
-    /* =========================================
-       NEW BROWSER SESSION
-       ========================================= */
-    window.forceNewBrowser = async () => {
-      if (hbClient) {
-        try {
-          hbClient.destroy();
-        } catch (e) {
-          console.warn(e);
-        }
-        hbClient = null;
-      }
-      try {
-        await remove(
-          ref(
-            db,
-            "active-browser-session"
-          )
-        );
-      } catch (error) {
-        console.warn(
-          "Could not remove old browser session:",
-          error
-        );
-      }
+
+
+      setBrowserStatus(
+        'Loading: ' + url
+      );
+
+
       /*
-       * Start a fresh browser.
-       */
-      await openSharedBrowser();
-    };
-    /* =========================================
-       CLOSE BROWSER
-       ========================================= */
-    window.closeSharedBrowser = () => {
-      if (hbClient) {
-        try {
-          hbClient.destroy();
-        } catch (e) {
-          console.warn(e);
-        }
-        hbClient = null;
-      }
-      document.getElementById(
-        "browser-screen"
-      ).style.display = "none";
-      document.getElementById(
-        "browser-container"
-      ).innerHTML = "";
-    };
-    /* =========================================
-       ESCAPE HTML
-       ========================================= */
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+        First try the website directly.
+        This allows websites that permit iframes
+        to work normally.
+      */
+
+      frame.onload = function() {
+
+        hideBrowserLoading();
+
+        setBrowserStatus(
+          'Loaded: ' + currentBrowserUrl
+        );
+
+      };
+
+
+      frame.onerror = function() {
+
+        loadThroughProxy(url);
+
+      };
+
+
+      frame.src = url;
+
+
+      /*
+        Give blocked pages a chance to load.
+        If they remain blank, the user can use
+        Open New Tab.
+      */
+
+      setTimeout(function() {
+
+        hideBrowserLoading();
+
+      }, 8000);
+
     }
-    /* =========================================
-       KEYBOARD SHORTCUTS
-       ========================================= */
-    document.addEventListener(
-      "keydown",
-      (event) => {
-        /*
-         * Escape closes the shared browser.
-         */
-        if (
-          event.key === "Escape" &&
-          document.getElementById(
-            "browser-screen"
-          ).style.display === "flex"
-        ) {
-          closeSharedBrowser();
+
+
+    function loadThroughProxy(url) {
+
+      showBrowserLoading(
+        'Trying free web proxy...'
+      );
+
+
+      const proxyUrl =
+        FREE_PROXY +
+        encodeURIComponent(url);
+
+
+      const frame =
+        document.getElementById(
+          'browser-frame'
+        );
+
+
+      frame.onload = function() {
+
+        hideBrowserLoading();
+
+        setBrowserStatus(
+          'Loaded through free proxy'
+        );
+
+      };
+
+
+      frame.onerror = function() {
+
+        hideBrowserLoading();
+
+        setBrowserStatus(
+          'This website blocked the browser. Use ↗ to open it normally.'
+        );
+
+      };
+
+
+      frame.src = proxyUrl;
+
+
+      setTimeout(function() {
+
+        hideBrowserLoading();
+
+      }, 10000);
+
+    }
+
+
+    window.browserNavigate = function() {
+
+      const value =
+        document
+          .getElementById('browser-address')
+          .value;
+
+      navigateBrowser(
+        normalizeUrl(value),
+        true
+      );
+
+    };
+
+
+    window.browserBack = function() {
+
+      if (
+        browserHistoryIndex <= 0
+      ) {
+
+        setBrowserStatus(
+          'No previous page'
+        );
+
+        return;
+
+      }
+
+
+      browserHistoryIndex--;
+
+      const url =
+        browserHistory[
+          browserHistoryIndex
+        ];
+
+      navigateBrowser(
+        url,
+        false
+      );
+
+    };
+
+
+    window.browserForward = function() {
+
+      if (
+        browserHistoryIndex >=
+        browserHistory.length - 1
+      ) {
+
+        setBrowserStatus(
+          'No next page'
+        );
+
+        return;
+
+      }
+
+
+      browserHistoryIndex++;
+
+      const url =
+        browserHistory[
+          browserHistoryIndex
+        ];
+
+      navigateBrowser(
+        url,
+        false
+      );
+
+    };
+
+
+    window.browserRefresh = function() {
+
+      if (!currentBrowserUrl) {
+        return;
+      }
+
+      navigateBrowser(
+        currentBrowserUrl,
+        false
+      );
+
+    };
+
+
+    window.browserNewHome = function() {
+
+      navigateBrowser(
+        'https://www.google.com',
+        true
+      );
+
+    };
+
+
+    window.openCurrentExternal = function() {
+
+      if (!currentBrowserUrl) {
+
+        currentBrowserUrl =
+          'https://www.google.com';
+
+      }
+
+
+      window.open(
+        currentBrowserUrl,
+        '_blank',
+        'noopener,noreferrer'
+      );
+
+    };
+
+
+    window.closeBrowser = function() {
+
+      document
+        .getElementById('browser-screen')
+        .style.display = 'none';
+
+      document
+        .getElementById('browser-frame')
+        .src = 'about:blank';
+
+      currentBrowserUrl = '';
+
+      setBrowserStatus('Ready');
+
+    };
+
+
+    window.browseFromMainInput = function() {
+
+      const value =
+        document
+          .getElementById('browserUrlInput')
+          .value;
+
+      if (!value.trim()) {
+
+        openBrowserWithUrl(
+          'https://www.google.com'
+        );
+
+        return;
+
+      }
+
+
+      openBrowserWithUrl(value);
+
+    };
+
+
+    window.openExternalFromMainInput = function() {
+
+      const value =
+        document
+          .getElementById('browserUrlInput')
+          .value;
+
+      const url =
+        normalizeUrl(value);
+
+
+      window.open(
+        url,
+        '_blank',
+        'noopener,noreferrer'
+      );
+
+    };
+
+
+    /* ============================
+       CUSTOM VIDEOS
+    ============================ */
+
+    function getCustomVideos() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            'lifelineCustomVideos'
+          ) || '[]'
+        );
+
+      } catch (error) {
+
+        return [];
+
+      }
+
+    }
+
+
+    function saveCustomVideos(list) {
+
+      localStorage.setItem(
+        'lifelineCustomVideos',
+        JSON.stringify(list)
+      );
+
+    }
+
+
+    window.addCustomVideo = function() {
+
+      let title =
+        document
+          .getElementById('customTitle')
+          .value
+          .trim() ||
+        'Custom Video';
+
+
+      let url =
+        document
+          .getElementById('customUrl')
+          .value
+          .trim();
+
+
+      if (!url) {
+
+        alert(
+          'Paste a video link first.'
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !url.startsWith('http://') &&
+        !url.startsWith('https://')
+      ) {
+
+        url = 'https://' + url;
+
+      }
+
+
+      const list =
+        getCustomVideos();
+
+
+      list.unshift({
+
+        id: Date.now(),
+
+        title: title,
+
+        url: url
+
+      });
+
+
+      saveCustomVideos(list);
+
+
+      document
+        .getElementById('customTitle')
+        .value = '';
+
+
+      document
+        .getElementById('customUrl')
+        .value = '';
+
+
+      renderCustomVideos();
+
+    };
+
+
+    window.deleteCustomVideo = function(id) {
+
+      if (
+        !confirm(
+          'Remove this video?'
+        )
+      ) {
+        return;
+      }
+
+
+      const list =
+        getCustomVideos()
+          .filter(
+            video => video.id !== id
+          );
+
+
+      saveCustomVideos(list);
+
+      renderCustomVideos();
+
+    };
+
+
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement('div');
+
+      div.textContent = value;
+
+      return div.innerHTML;
+
+    }
+
+
+    function renderCustomVideos() {
+
+      const container =
+        document.getElementById(
+          'customVideos'
+        );
+
+
+      if (!container) {
+        return;
+      }
+
+
+      const list =
+        getCustomVideos();
+
+
+      container.innerHTML =
+        list.map(video => `
+
+          <div class="video-card">
+
+            <button
+              class="delete-video-btn"
+              onclick="deleteCustomVideo(${video.id})"
+              title="Delete video"
+            >
+              ×
+            </button>
+
+            <h3>
+              ${escapeHtml(video.title)}
+            </h3>
+
+            <div class="video-wrapper">
+
+              <iframe
+                src="${escapeHtml(video.url)}"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer"
+              ></iframe>
+
+            </div>
+
+          </div>
+
+        `).join('');
+
+    }
+
+
+    /* ============================
+       INITIALIZE
+    ============================ */
+
+    if (
+      localStorage.getItem(
+        'lifelineAuthenticated'
+      ) === 'true'
+    ) {
+
+      renderCustomVideos();
+
+    }
+
+
+    /*
+      Allow Enter key in login fields.
+    */
+
+    document
+      .getElementById('password')
+      .addEventListener(
+        'keydown',
+        function(event) {
+
+          if (event.key === 'Enter') {
+            checkLogin();
+          }
+
         }
+      );
+
+
+    /*
+      Escape closes the browser overlay.
+    */
+
+    document.addEventListener(
+      'keydown',
+      function(event) {
+
+        if (
+          event.key === 'Escape' &&
+          document
+            .getElementById('browser-screen')
+            .style.display === 'flex'
+        ) {
+
+          closeBrowser();
+
+        }
+
       }
     );
+
   </script>
+
 </body>
 </html>
