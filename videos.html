@@ -32,13 +32,12 @@
       --nav-bg: rgba(26, 38, 57, 0.97);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
     body {
       font-family: 'Quicksand', sans-serif;
       background: var(--bg-light);
       color: var(--text);
       min-height: 100vh;
-      transition: background 0.5s ease, color 0.3s ease;
+      transition: background 0.5s ease;
     }
     .hidden { display: none !important; }
 
@@ -58,35 +57,30 @@
       border-radius: 28px;
       text-align: center;
       box-shadow: 0 20px 50px var(--shadow);
-      border: 1px solid var(--border);
     }
-    .login-icon { font-size: 3.5rem; margin-bottom: 10px; }
-    .login-box h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 8px; }
-    .login-box p { color: var(--muted); margin-bottom: 25px; line-height: 1.5; }
+    .login-box h1 { color: var(--primary); font-size: 2.4rem; margin-bottom: 8px; }
+    .login-box p { color: var(--muted); margin-bottom: 22px; }
     .login-box input {
       width: 100%;
-      padding: 15px 17px;
+      padding: 14px 16px;
       margin: 7px 0;
       border: 2px solid var(--border);
       border-radius: 14px;
       background: var(--box);
       color: var(--text);
-      font-family: inherit;
       font-size: 1rem;
       outline: none;
     }
-    .login-box input:focus { border-color: var(--primary); }
     .login-button {
       width: 100%;
-      margin-top: 15px;
-      padding: 15px 25px;
+      margin-top: 14px;
+      padding: 14px;
       background: var(--primary);
       color: white;
       border: none;
       border-radius: 999px;
-      font-family: inherit;
-      font-size: 1.05rem;
       font-weight: 700;
+      font-size: 1.05rem;
       cursor: pointer;
     }
 
@@ -107,14 +101,13 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 1.55rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--text);
     }
     .nav-menu {
       display: flex;
-      align-items: center;
       gap: 10px;
+      align-items: center;
       flex-wrap: wrap;
     }
     .nav-menu.hidden { display: none; }
@@ -122,10 +115,8 @@
       background: white;
       color: var(--primary);
       border: none;
-      padding: 9px 16px;
+      padding: 9px 15px;
       border-radius: 30px;
-      font-family: inherit;
-      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
       box-shadow: 0 4px 12px var(--shadow);
@@ -137,7 +128,7 @@
       position: absolute;
       top: calc(100% + 8px);
       left: 0;
-      min-width: 225px;
+      min-width: 220px;
       background: var(--card);
       border-radius: 16px;
       box-shadow: 0 15px 35px var(--shadow);
@@ -147,22 +138,16 @@
     .dropdown:hover .dropdown-content { display: block; }
     .dropdown-content a {
       display: block;
-      padding: 12px 20px;
+      padding: 11px 18px;
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
     }
-    .dropdown-content a:hover { background: rgba(0, 188, 212, 0.12); }
-    .nav-right { display: flex; align-items: center; gap: 10px; }
-    .logout-btn { background: #ff6b6b !important; color: white !important; }
+    .dropdown-content a:hover { background: rgba(0,188,212,0.12); }
+    .nav-right { display: flex; gap: 8px; align-items: center; }
     .lock-btn { background: #e74c3c !important; color: white !important; }
-    .hamburger {
-      display: none;
-      font-size: 1.6rem;
-      cursor: pointer;
-      color: var(--text);
-      padding: 6px 10px;
-    }
+    .logout-btn { background: #ff6b6b !important; color: white !important; }
+    .hamburger { display: none; font-size: 1.5rem; cursor: pointer; padding: 6px 10px; }
 
     /* LOCKDOWN */
     #lockdown {
@@ -178,193 +163,80 @@
       text-align: center;
       padding: 30px;
     }
-    #lockdown h1 { font-size: 3.2rem; margin-bottom: 12px; }
+    #lockdown h1 { font-size: 2.8rem; margin-bottom: 12px; }
     #unlockKey {
-      padding: 16px 24px;
+      padding: 14px 22px;
       width: 90%;
-      max-width: 340px;
+      max-width: 320px;
       border-radius: 999px;
       border: none;
       font-size: 1.1rem;
       text-align: center;
-      margin: 18px 0;
+      margin: 16px 0;
     }
     .unlock-btn {
-      padding: 14px 40px;
-      font-size: 1.1rem;
+      padding: 12px 36px;
       background: #27ae60;
       color: white;
       border: none;
       border-radius: 999px;
-      cursor: pointer;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .floating-bestie {
       position: fixed;
-      right: 25px;
-      bottom: 25px;
-      width: 70px;
-      height: 70px;
+      right: 22px;
+      bottom: 22px;
+      width: 64px;
+      height: 64px;
       background: var(--accent);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2.2rem;
+      font-size: 2rem;
       cursor: pointer;
       z-index: 900;
-      box-shadow: 0 10px 30px rgba(255, 159, 243, 0.5);
-    }
-
-    #bestieModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.72);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .bestie-window {
-      width: 100%;
-      max-width: 850px;
-      height: 85vh;
-      background: var(--card);
-      border-radius: 22px;
-      overflow: hidden;
-    }
-    .bestie-header {
-      height: 60px;
-      padding: 12px 18px;
-      background: var(--nav-bg);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .close-bestie {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    .bestie-window iframe {
-      width: 100%;
-      height: calc(100% - 60px);
-      border: none;
+      box-shadow: 0 8px 25px rgba(255,159,243,0.5);
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1050px;
       margin: 0 auto;
-      padding: 115px 20px 70px;
+      padding: 110px 20px 60px;
     }
 
     .hero {
       background: linear-gradient(135deg, #00bcd4, #a8e6cf);
       color: white;
-      padding: 45px 30px;
-      border-radius: 30px;
+      padding: 42px 28px;
+      border-radius: 28px;
       text-align: center;
-      margin-bottom: 30px;
-      box-shadow: 0 15px 40px rgba(0,188,212,0.3);
+      margin-bottom: 28px;
+      box-shadow: 0 12px 35px rgba(0,188,212,0.3);
     }
-    .hero h1 { font-size: 2.5rem; margin-bottom: 8px; }
+    .hero h1 { font-size: 2.4rem; margin-bottom: 8px; }
 
     .section {
       background: var(--card);
-      padding: 28px;
-      border-radius: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 10px 30px var(--shadow);
+      padding: 26px;
+      border-radius: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 25px var(--shadow);
     }
     .section-title {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 8px;
+      gap: 10px;
+      margin-bottom: 6px;
     }
-    .section-title h2 { font-size: 1.5rem; }
+    .section-title h2 { font-size: 1.45rem; }
     .section-description {
       color: var(--muted);
+      margin-bottom: 16px;
       line-height: 1.5;
-      margin-bottom: 18px;
     }
-
-    /* ===== MINI BROWSER ===== */
-    .browser-bar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-    .browser-bar input {
-      flex: 1;
-      min-width: 200px;
-      padding: 13px 16px;
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      background: var(--box);
-      color: var(--text);
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-    }
-    .browser-bar input:focus { border-color: var(--primary); }
-    .browser-btn {
-      padding: 12px 18px;
-      border: none;
-      border-radius: 14px;
-      background: var(--primary);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-    }
-    .browser-btn.gray { background: #718096; }
-    .browser-frame-wrap {
-      width: 100%;
-      height: 65vh;
-      min-height: 420px;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 2px solid var(--border);
-      background: #111;
-      position: relative;
-    }
-    .browser-frame-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background: white;
-    }
-    .browser-note {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-top: 10px;
-    }
-    .recent-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-    .recent-chip {
-      background: var(--box);
-      border: 1px solid var(--border);
-      padding: 8px 14px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      max-width: 220px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .recent-chip:hover { border-color: var(--primary); color: var(--primary); }
 
     .action-btn {
       border: none;
@@ -372,18 +244,18 @@
       border-radius: 999px;
       background: var(--primary);
       color: white;
-      font-family: inherit;
       font-weight: 700;
       cursor: pointer;
+      font-family: inherit;
     }
     .action-btn.secondary { background: #ff6b9d; }
 
     .video-card {
       background: var(--box);
       border: 1px solid var(--border);
-      padding: 20px;
-      border-radius: 20px;
-      margin-top: 16px;
+      padding: 18px;
+      border-radius: 18px;
+      margin-top: 14px;
       position: relative;
     }
     .video-card h3 { margin-bottom: 12px; padding-right: 36px; }
@@ -391,7 +263,7 @@
       position: relative;
       width: 100%;
       aspect-ratio: 16/9;
-      border-radius: 16px;
+      border-radius: 14px;
       overflow: hidden;
       background: #111;
     }
@@ -404,13 +276,13 @@
     }
     .delete-video-btn {
       position: absolute;
-      top: 16px;
-      right: 16px;
+      top: 14px;
+      right: 14px;
       background: #ff6b6b;
       color: white;
       border: none;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -430,23 +302,47 @@
       text-align: center;
       font-weight: 700;
     }
-    .comfort-link span { display: block; font-size: 1.7rem; margin-bottom: 4px; }
+    .comfort-link span { display: block; font-size: 1.6rem; margin-bottom: 4px; }
+
+    /* Browser overlay */
+    #browser-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #111;
+      z-index: 3000;
+      flex-direction: column;
+    }
+    #browser-header {
+      height: 52px;
+      background: #1c1c1e;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 10px;
+    }
+    #browser-container {
+      flex: 1;
+      width: 100%;
+      background: #000;
+    }
 
     footer {
       text-align: center;
-      padding: 30px;
+      padding: 28px;
       color: var(--muted);
     }
 
-    @media (max-width: 1000px) {
+    @media (max-width: 900px) {
       .nav-menu { display: none; }
       .nav-menu:not(.hidden) {
         display: flex;
         flex-direction: column;
         position: absolute;
-        top: 72px; left: 0; right: 0;
+        top: 70px; left: 0; right: 0;
         background: var(--card);
-        padding: 15px;
+        padding: 14px;
         box-shadow: 0 10px 30px var(--shadow);
       }
       .hamburger { display: block; }
@@ -456,17 +352,19 @@
 </head>
 <body data-theme="light">
 
+  <!-- LOGIN -->
   <div id="loginScreen">
     <div class="login-box">
-      <div class="login-icon">🎬</div>
+      <div style="font-size:3rem; margin-bottom:8px;">🎬</div>
       <h1>My Lifeline</h1>
-      <p>Enter your personal key to access comfort tools.</p>
+      <p>Enter your personal key</p>
       <input type="text" id="username" placeholder="Username">
       <input type="password" id="password" placeholder="Password">
       <button class="login-button" onclick="checkLogin()">Enter Safe Space</button>
     </div>
   </div>
 
+  <!-- MAIN -->
   <div id="mainContent" class="hidden">
     <nav>
       <div class="logo"><span>🫂</span> My Lifeline</div>
@@ -527,67 +425,41 @@
       <button class="unlock-btn" onclick="deactivateLockdown()">Return</button>
     </div>
 
-    <div class="floating-bestie" onclick="openBestieModal()">🫂</div>
-
-    <div id="bestieModal">
-      <div class="bestie-window">
-        <div class="bestie-header">
-          <h3>🫂 Talking to Bestie...</h3>
-          <button class="close-bestie" onclick="closeBestieModal()">✕</button>
-        </div>
-        <iframe src="bestie.html"></iframe>
-      </div>
-    </div>
+    <div class="floating-bestie" onclick="location.href='bestie.html'">🫂</div>
 
     <main>
       <section class="hero">
-        <div style="font-size:2.8rem; margin-bottom:8px;">🌐</div>
-        <h1>Web Browser + Videos</h1>
-        <p>Search freely or watch comfort videos — your own mini Hyperbeam.</p>
+        <div style="font-size:2.6rem; margin-bottom:6px;">🌐</div>
+        <h1>Videos + Browse Anything</h1>
+        <p>Watch comfort videos or open a shared cloud browser</p>
       </section>
 
-      <!-- MINI BROWSER (PROXY VERSION) -->
+      <!-- BROWSE ANYTHING -->
       <section class="section">
         <div class="section-title">
-          <span style="font-size:1.8rem;">🌐</span>
-          <h2>Free Web Browser</h2>
+          <span style="font-size:1.7rem;">🌐</span>
+          <h2>Browse Anything</h2>
         </div>
         <p class="section-description">
-          Type any website or search term. Uses a proxy so more sites can load.
+          Open a shared cloud browser. Search the web, watch anything, or browse together with someone else.
         </p>
-
-        <div class="browser-bar">
-          <button class="browser-btn gray" onclick="browserBack()" title="Back">←</button>
-          <button class="browser-btn gray" onclick="browserForward()" title="Forward">→</button>
-          <button class="browser-btn gray" onclick="browserRefresh()" title="Refresh">↻</button>
-          <input type="text" id="browserUrl" placeholder="Search Google or type a website..." onkeydown="if(event.key==='Enter') loadBrowser()">
-          <button class="browser-btn" onclick="loadBrowser()">Go</button>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="action-btn" onclick="openSharedBrowser()">🚀 Open Shared Browser</button>
+          <button class="action-btn secondary" onclick="forceNewBrowser()">🔄 New Session</button>
         </div>
-
-        <div class="browser-frame-wrap">
-          <iframe id="browserFrame" src="about:blank" allowfullscreen></iframe>
-        </div>
-
-        <p class="browser-note">
-          Note: This uses a proxy. Most normal websites work. Heavy apps (Discord, some banks, Netflix) may still block or break.
-        </p>
-
-        <div class="recent-links" id="recentLinks"></div>
       </section>
 
       <!-- ADD CUSTOM VIDEO -->
       <section class="section">
         <div class="section-title">
-          <span style="font-size:1.8rem;">➕</span>
+          <span style="font-size:1.7rem;">➕</span>
           <h2>Add Your Own Video</h2>
         </div>
-        <p class="section-description">
-          Paste a direct video link (archive.org, mp4, etc.) and it will embed here.
-        </p>
+        <p class="section-description">Paste a direct video link (archive.org, mp4, etc.)</p>
         <div style="display:flex; flex-direction:column; gap:10px;">
-          <input type="text" id="customTitle" placeholder="Video title (optional)" style="padding:13px 16px; border-radius:14px; border:2px solid var(--border); background:var(--box); color:var(--text); font-size:1rem;">
+          <input type="text" id="customTitle" placeholder="Video title (optional)" style="padding:12px 14px; border-radius:12px; border:2px solid var(--border); background:var(--box); color:var(--text);">
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <input type="url" id="customUrl" placeholder="Paste video link here..." style="flex:1; min-width:200px; padding:13px 16px; border-radius:14px; border:2px solid var(--border); background:var(--box); color:var(--text); font-size:1rem;">
+            <input type="url" id="customUrl" placeholder="Paste video link..." style="flex:1; min-width:180px; padding:12px 14px; border-radius:12px; border:2px solid var(--border); background:var(--box); color:var(--text);">
             <button class="action-btn" onclick="addCustomVideo()">Execute</button>
           </div>
         </div>
@@ -597,7 +469,7 @@
       <!-- COMFORT TV -->
       <section class="section">
         <div class="section-title">
-          <span style="font-size:1.8rem;">🎞️</span>
+          <span style="font-size:1.7rem;">🎞️</span>
           <h2>Comfort TV</h2>
         </div>
         <div class="video-card">
@@ -617,7 +489,7 @@
       <!-- STREAMING -->
       <section class="section">
         <div class="section-title">
-          <span style="font-size:1.8rem;">🍿</span>
+          <span style="font-size:1.7rem;">🍿</span>
           <h2>Streaming Services</h2>
         </div>
         <div class="link-grid">
@@ -630,44 +502,63 @@
       </section>
     </main>
 
-    <footer>My Lifeline • Your own free browser + comfort space 💙</footer>
+    <footer>My Lifeline • Watch + Browse freely 💙</footer>
   </div>
 
-  <script>
+  <!-- HYPERBEAM OVERLAY -->
+  <div id="browser-screen">
+    <div id="browser-header">
+      <span style="flex:1; font-weight:600;">Shared Browser</span>
+      <button onclick="forceNewBrowser()" style="padding:7px 14px; border-radius:8px; border:none; background:#007aff; color:white; font-weight:600; cursor:pointer;">New Session</button>
+      <button onclick="closeSharedBrowser()" style="padding:7px 14px; border-radius:8px; border:none; background:#ff3b30; color:white; font-weight:600; cursor:pointer;">Close</button>
+    </div>
+    <div id="browser-container"></div>
+  </div>
+
+  <script type="module">
+    // Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCNDM2yeyVTWMU_pOQoUt6-uNOQAzHPkik",
+      authDomain: "chatroomnew-739f4.firebaseapp.com",
+      databaseURL: "https://chatroomnew-739f4-default-rtdb.firebaseio.com",
+      projectId: "chatroomnew-739f4",
+      storageBucket: "chatroomnew-739f4.firebasestorage.app",
+      messagingSenderId: "552292977529",
+      appId: "1:552292977529:web:b04e2bc662668847ba7da8"
+    };
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import Hyperbeam from "https://unpkg.com/@hyperbeam/web@latest/dist/index.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let hbClient = null;
+
     // Theme
-    function toggleDarkMode() {
+    window.toggleDarkMode = () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
       localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark');
-    }
+    };
     if (localStorage.getItem('lifeline-theme') === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    function navigateTo(page) { window.location.href = page; }
-    function toggleMobileMenu() {
-      document.getElementById('navMenu').classList.toggle('hidden');
-    }
+    window.navigateTo = (page) => location.href = page;
+    window.toggleMobileMenu = () => document.getElementById('navMenu').classList.toggle('hidden');
 
-    function activateLockdown() {
-      document.getElementById('lockdown').style.display = 'flex';
-    }
-    function deactivateLockdown() {
+    window.activateLockdown = () => document.getElementById('lockdown').style.display = 'flex';
+    window.deactivateLockdown = () => {
       const key = document.getElementById('unlockKey').value.trim();
       if (key.length > 0) {
         document.getElementById('lockdown').style.display = 'none';
         document.getElementById('unlockKey').value = '';
       }
-    }
+    };
 
-    function openBestieModal() {
-      document.getElementById('bestieModal').style.display = 'flex';
-    }
-    function closeBestieModal() {
-      document.getElementById('bestieModal').style.display = 'none';
-    }
-
-    function checkLogin() {
+    window.checkLogin = () => {
       const user = document.getElementById('username').value.trim().toLowerCase();
       const pass = document.getElementById('password').value.trim();
       const valid = (user === 'ryan' && pass === 'ITSmf420') ||
@@ -680,90 +571,94 @@
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
         renderCustomVideos();
-        renderRecent();
       } else {
         alert('Incorrect username or password.');
       }
-    }
-    function logout() {
+    };
+
+    window.logout = () => {
       localStorage.removeItem('lifelineAuthenticated');
       location.reload();
-    }
+    };
 
     if (localStorage.getItem('lifelineAuthenticated') === 'true') {
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('mainContent').classList.remove('hidden');
     }
 
-    // ========== MINI BROWSER (PROXY VERSION) ==========
-    let historyStack = [];
-    let historyIndex = -1;
+    // ========== HYPERBEAM ==========
+    window.openSharedBrowser = async () => {
+      document.getElementById('browser-screen').style.display = 'flex';
+      const container = document.getElementById('browser-container');
+      container.innerHTML = `
+        <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+          <div>Looking for shared browser...</div>
+        </div>`;
 
-    function loadBrowser() {
-      let raw = document.getElementById('browserUrl').value.trim();
-      if (!raw) return;
+      try {
+        const snapshot = await get(ref(db, 'active-browser-session'));
+        const existing = snapshot.val();
 
-      let target = raw;
+        if (existing && existing.embed_url) {
+          await loadHyperbeam(existing.embed_url, existing.admin_token);
+          return;
+        }
 
-      // If it looks like a search → Google
-      if (!raw.includes('.') || raw.includes(' ')) {
-        target = 'https://www.google.com/search?q=' + encodeURIComponent(raw);
-      } else if (!raw.startsWith('http://') && !raw.startsWith('https://')) {
-        target = 'https://' + raw;
+        container.innerHTML = `
+          <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+            <div>Starting shared browser...</div>
+            <div style="font-size:14px;opacity:0.7;">This may take a few seconds</div>
+          </div>`;
+
+        const response = await fetch('/api/create-browser', { method: 'POST' });
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || 'Failed to create session');
+        }
+
+        const data = await response.json();
+        await set(ref(db, 'active-browser-session'), {
+          embed_url: data.embed_url,
+          admin_token: data.admin_token,
+          session_id: data.session_id,
+          createdAt: Date.now(),
+          createdBy: 'Videos Page'
+        });
+
+        await loadHyperbeam(data.embed_url, data.admin_token);
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+          <div style="color:white;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;text-align:center;">
+            <div style="font-size:18px;">Failed to start browser</div>
+            <div style="font-size:14px;opacity:0.7;">${err.message}</div>
+            <button onclick="openSharedBrowser()" style="margin-top:16px;padding:10px 20px;border-radius:8px;border:none;background:#007aff;color:white;cursor:pointer;">Try Again</button>
+          </div>`;
       }
+    };
 
-      // Use our proxy
-      const proxyUrl = `/api/proxy?url=${encodeURIComponent(target)}`;
-
-      const frame = document.getElementById('browserFrame');
-      frame.src = proxyUrl;
-
-      document.getElementById('browserUrl').value = target;
-
-      // History
-      historyStack = historyStack.slice(0, historyIndex + 1);
-      historyStack.push(target);
-      historyIndex = historyStack.length - 1;
-
-      // Save recent
-      let recent = JSON.parse(localStorage.getItem('browserRecent') || '[]');
-      recent = recent.filter(r => r !== target);
-      recent.unshift(target);
-      recent = recent.slice(0, 8);
-      localStorage.setItem('browserRecent', JSON.stringify(recent));
-      renderRecent();
-    }
-
-    function browserBack() {
-      if (historyIndex > 0) {
-        historyIndex--;
-        const url = historyStack[historyIndex];
-        document.getElementById('browserFrame').src = `/api/proxy?url=${encodeURIComponent(url)}`;
-        document.getElementById('browserUrl').value = url;
+    async function loadHyperbeam(embedUrl, adminToken) {
+      const container = document.getElementById('browser-container');
+      container.innerHTML = '';
+      try {
+        hbClient = await Hyperbeam(container, embedUrl, { adminToken });
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `<div style="color:white;padding:40px;text-align:center;">Failed to load browser</div>`;
       }
     }
 
-    function browserForward() {
-      if (historyIndex < historyStack.length - 1) {
-        historyIndex++;
-        const url = historyStack[historyIndex];
-        document.getElementById('browserFrame').src = `/api/proxy?url=${encodeURIComponent(url)}`;
-        document.getElementById('browserUrl').value = url;
-      }
-    }
+    window.forceNewBrowser = async () => {
+      if (hbClient) { try { hbClient.destroy(); } catch(e) {} hbClient = null; }
+      await remove(ref(db, 'active-browser-session'));
+      openSharedBrowser();
+    };
 
-    function browserRefresh() {
-      const frame = document.getElementById('browserFrame');
-      frame.src = frame.src;
-    }
-
-    function renderRecent() {
-      const container = document.getElementById('recentLinks');
-      const recent = JSON.parse(localStorage.getItem('browserRecent') || '[]');
-      container.innerHTML = recent.map(url => 
-        `<div class="recent-chip" onclick="document.getElementById('browserUrl').value='${url}'; loadBrowser()">${url.replace('https://','').replace('http://','')}</div>`
-      ).join('');
-    }
+    window.closeSharedBrowser = () => {
+      if (hbClient) { try { hbClient.destroy(); } catch(e) {} hbClient = null; }
+      document.getElementById('browser-screen').style.display = 'none';
+      document.getElementById('browser-container').innerHTML = '';
+    };
 
     // Custom videos
     function getCustomVideos() {
@@ -772,24 +667,23 @@
     function saveCustomVideos(list) {
       localStorage.setItem('lifelineCustomVideos', JSON.stringify(list));
     }
-    function addCustomVideo() {
+    window.addCustomVideo = () => {
       let title = document.getElementById('customTitle').value.trim() || 'Custom Video';
       let url = document.getElementById('customUrl').value.trim();
       if (!url) return alert('Paste a link first');
       if (!url.startsWith('http')) url = 'https://' + url;
-
       const list = getCustomVideos();
       list.unshift({ id: Date.now(), title, url });
       saveCustomVideos(list);
       document.getElementById('customTitle').value = '';
       document.getElementById('customUrl').value = '';
       renderCustomVideos();
-    }
-    function deleteCustomVideo(id) {
+    };
+    window.deleteCustomVideo = (id) => {
       if (!confirm('Remove this video?')) return;
       saveCustomVideos(getCustomVideos().filter(v => v.id !== id));
       renderCustomVideos();
-    }
+    };
     function renderCustomVideos() {
       const container = document.getElementById('customVideos');
       const list = getCustomVideos();
@@ -804,10 +698,8 @@
       `).join('');
     }
 
-    // Start
     if (localStorage.getItem('lifelineAuthenticated') === 'true') {
       renderCustomVideos();
-      renderRecent();
     }
   </script>
 </body>
