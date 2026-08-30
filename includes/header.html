@@ -1,0 +1,102 @@
+<nav>
+  <div class="logo">
+    <span>🫂</span> My Lifeline
+  </div>
+
+  <div class="nav-menu" id="navMenu">
+    <button class="nav-btn" onclick="navigateTo('index.html')">🏠 Dashboard</button>
+
+    <div class="dropdown">
+      <button class="nav-btn">🛡️ Support</button>
+      <div class="dropdown-content">
+        <a href="emergency.html">🚨 Emergency</a>
+        <a href="bestie.html">🫂 AI Bestie</a>
+        <a href="onebreath.html">😮‍💨 Breathing</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="nav-btn">🧠 Tools</button>
+      <div class="dropdown-content">
+        <a href="mental.html">Mental Tools</a>
+        <a href="reflect.html">📝 Reflect</a>
+        <a href="reframe.html">💭 Reframe</a>
+        <a href="emotion-radar.html">📡 Emotion Radar</a>
+        <a href="selfcare.html">🧘 Selfcare</a>
+        <a href="selfcare-planner.html">📓 Planner</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="nav-btn">🌈 Comfort</button>
+      <div class="dropdown-content">
+        <a href="music.html">🎵 Music</a>
+        <a href="musicroom.html"> ~ Music Room</a>
+         <a href="visualizer.html"> ~~ Visualizer Music Room</a>
+        <a href="lofiroom.html">🌙 Lofi Room</a>
+        <a href="doodle.html"> ~ Doodle/Draw</a>
+        <a href="videos.html">📺 Videos</a>
+        <a href="virtualpet.html">🐾 Virtual Pet</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="nav-btn">📖 Journal</button>
+      <div class="dropdown-content">
+        <a href="letters.html">✉️ Letters</a>
+        <a href="goodthings.html">🌱 Good Things</a>
+        <a href="todayistayed.html">📌 Today I Stayed</a>
+        <a href="yourenough.html">💙 You're Enough</a>
+      </div>
+    </div>
+    
+    <div class="dropdown">
+      <button class="nav-btn">💬 Chat Room</button>
+      <div class="dropdown-content">
+        <a href="chatroom.html">💬 Chat Room</a>
+        <a href="lounge.html"> ~ Lounge</a>
+      </div>
+    </div>
+
+    
+    <button class="nav-btn" onclick="navigateTo('2048.html')">🎮 2048</button>
+  </div>
+
+  <div style="display:flex; gap:10px; align-items:center;">
+    <button id="header-toggle-theme" class="nav-btn" title="Toggle Theme">🌗</button>
+    <button id="header-lockdown" class="nav-btn" style="background:#e74c3c;color:white;">🔒</button>
+    <button id="header-logout" class="nav-btn" style="background:#ff6b6b;color:white;">Logout</button>
+    <span class="hamburger" id="header-hamburger" style="cursor:pointer">☰</span>
+  </div>
+</nav>
+
+<script>
+// Provide lightweight header helpers only if the page doesn't define them.
+if (typeof navigateTo === 'undefined') {
+  function navigateTo(page) { window.location.href = page; }
+}
+if (typeof toggleMobileMenu === 'undefined') {
+  function toggleMobileMenu(){
+    const menu = document.getElementById('navMenu');
+    if(menu) menu.classList.toggle('hidden');
+  }
+}
+// Small wiring for header buttons (won't override page-specific implementations)
+(function(){
+  const hb = document.getElementById('header-hamburger');
+  if(hb) hb.addEventListener('click', toggleMobileMenu);
+  const th = document.getElementById('header-toggle-theme');
+  if(th && typeof toggleDarkMode !== 'undefined') th.addEventListener('click', toggleDarkMode);
+  else if(th){ th.addEventListener('click', function(){
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    try{ localStorage.setItem('lifeline-theme', isDark ? 'light' : 'dark'); }catch(e){}
+  }); }
+  const ld = document.getElementById('header-lockdown');
+  if(ld && typeof activateLockdown !== 'undefined') ld.addEventListener('click', activateLockdown);
+  else if(ld){ ld.addEventListener('click', function(){ const el = document.getElementById('lockdown'); if(el) el.style.display='flex'; }); }
+  const lo = document.getElementById('header-logout');
+  if(lo && typeof logout !== 'undefined') lo.addEventListener('click', logout);
+  else if(lo){ lo.addEventListener('click', function(){ if(confirm('Leave your safe space?')){ try{ localStorage.clear(); }catch(e){} window.location.reload(); } }); }
+})();
+</script>
