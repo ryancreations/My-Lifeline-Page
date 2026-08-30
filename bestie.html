@@ -3,877 +3,702 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Bestie v4 • My Lifeline</title>
+<title>AI Bestie • My Lifeline</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{
---primary:#00bcd4;
---accent:#ff9ff3;
---background:
-linear-gradient(135deg,#fff8f0,#e0f7ff);
---card:#ffffff;
---text:#2c3e50;
---shadow:
-rgba(0,0,0,.15);
---bestie:#ff9ff3;
---user:#87ceeb;
+:root {
+    --primary: #00bcd4;
+    --accent: #ff9ff3;
+    --background: linear-gradient(135deg, #fff8f0, #e0f7ff);
+    --card: #ffffff;
+    --text: #2c3e50;
+    --shadow: rgba(0,0,0,.15);
+    --bestie: #ff9ff3;
+    --user: #87ceeb;
 }
-[data-theme="dark"]{
---primary:#4fc3f7;
---accent:#ff79c6;
---background:
-linear-gradient(135deg,#0f1c2e,#2c1e3a);
---card:#2c3e50;
---text:#e0f2f1;
---shadow:
-rgba(0,0,0,.45);
---bestie:#9b59b6;
---user:#2980b9;
+[data-theme="dark"] {
+    --primary: #4fc3f7;
+    --accent: #ff79c6;
+    --background: linear-gradient(135deg, #0f1c2e, #2c1e3a);
+    --card: #2c3e50;
+    --text: #e0f2f1;
+    --shadow: rgba(0,0,0,.45);
+    --bestie: #9b59b6;
+    --user: #2980b9;
 }
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-body{
-font-family:
-'Quicksand',
-sans-serif;
-background:
-var(--background);
-color:
-var(--text);
-min-height:100vh;
-transition:.5s;
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    transition: .5s;
 }
-nav{
-position:fixed;
-top:0;
-left:0;
-right:0;
-z-index:999;
-background:
-rgba(135,206,235,.95);
-padding:12px 20px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-box-shadow:
-0 8px 25px var(--shadow);
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: rgba(135,206,235,.95);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 25px var(--shadow);
 }
-[data-theme="dark"] nav{
-background:
-rgba(26,38,57,.95);
+[data-theme="dark"] nav {
+    background: rgba(26,38,57,.95);
 }
-.logo{
-font-size:1.5rem;
-font-weight:700;
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
 }
-.nav-btn{
-background:white;
-color:var(--primary);
-border:none;
-padding:10px 18px;
-border-radius:30px;
-font-weight:700;
-cursor:pointer;
-margin:3px;
+.nav-btn {
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 5px;
 }
-main{
-max-width:1000px;
-margin:auto;
-padding:
-100px 20px 60px;
+main {
+    max-width: 1000px;
+    margin: auto;
+    padding: 100px 20px 60px;
 }
-.hero{
-background:
-linear-gradient(
-135deg,
-var(--primary),
-#81d4fa
-);
-color:white;
-padding:50px 25px;
-border-radius:30px;
-text-align:center;
-box-shadow:
-0 15px 40px var(--shadow);
+.hero {
+    background: linear-gradient(135deg, var(--primary), #81d4fa);
+    color: white;
+    padding: 50px 25px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 0 15px 40px var(--shadow);
 }
-.hero h1{
-font-size:3rem;
+.hero h1 {
+    font-size: 3rem;
 }
-.hero p{
-margin-top:12px;
-font-size:1.2rem;
+.hero p {
+    margin-top: 12px;
+    font-size: 1.2rem;
 }
-.mode-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-margin-top:25px;
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 25px;
 }
-.mode{
-background:
-var(--card);
-color:
-var(--text);
-border:none;
-padding:18px;
-border-radius:22px;
-font-weight:700;
-cursor:pointer;
-box-shadow:
-0 10px 30px var(--shadow);
-transition:.3s;
+.mode {
+    background: var(--card);
+    color: var(--text);
+    border: none;
+    padding: 18px;
+    border-radius: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 30px var(--shadow);
+    transition: .3s;
 }
-.mode:hover{
-transform:
-translateY(-5px);
+.mode:hover {
+    transform: translateY(-5px);
 }
-.chat-card{
-margin-top:30px;
-background:
-var(--card);
-padding:25px;
-border-radius:30px;
-box-shadow:
-0 10px 35px var(--shadow);
+.mode.active {
+    outline: 3px solid var(--primary);
 }
-.chat-box{
-height:500px;
-overflow-y:auto;
-padding:10px;
+.chat-card {
+    margin-top: 30px;
+    background: var(--card);
+    padding: 25px;
+    border-radius: 30px;
+    box-shadow: 0 10px 35px var(--shadow);
 }
-.message{
-max-width:85%;
-padding:16px 20px;
-margin:15px 0;
-border-radius:25px;
-line-height:1.6;
-word-wrap:break-word;
+.chat-box {
+    height: 500px;
+    overflow-y: auto;
+    padding: 10px;
 }
-.bestie{
-background:
-var(--bestie);
-color:white;
+.message {
+    max-width: 85%;
+    padding: 16px 20px;
+    margin: 15px 0;
+    border-radius: 25px;
+    line-height: 1.6;
+    word-wrap: break-word;
 }
-.user{
-background:
-var(--user);
-color:white;
-margin-left:auto;
+.bestie {
+    background: var(--bestie);
+    color: white;
 }
-.typing{
-font-style:italic;
-opacity:.7;
+.user {
+    background: var(--user);
+    color: white;
+    margin-left: auto;
 }
-.input-area{
-display:flex;
-gap:10px;
-margin-top:15px;
+.typing {
+    font-style: italic;
+    opacity: .7;
 }
-#messageInput{
-flex:1;
-padding:16px;
-border-radius:30px;
-border:
-2px solid var(--primary);
-font-family:inherit;
-font-size:1rem;
-background:
-var(--card);
-color:
-var(--text);
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
-.send{
-background:
-var(--primary);
-color:white;
-border:none;
-padding:15px 30px;
-border-radius:30px;
-cursor:pointer;
-font-weight:bold;
+#messageInput {
+    flex: 1;
+    padding: 16px;
+    border-radius: 30px;
+    border: 2px solid var(--primary);
+    font-family: inherit;
+    font-size: 1rem;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
 }
-.memory{
-margin-top:25px;
-background:
-var(--card);
-padding:25px;
-border-radius:25px;
-box-shadow:
-0 10px 30px var(--shadow);
+.send {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
 }
-.memory h2{
-color:
-var(--primary);
+.send:disabled {
+    opacity: .6;
+    cursor: not-allowed;
 }
-@media(max-width:700px){
-.hero h1{
-font-size:2.2rem;
+.memory,
+.settings {
+    margin-top: 25px;
+    background: var(--card);
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px var(--shadow);
 }
-.input-area{
-flex-direction:column;
+.memory h2,
+.settings h2 {
+    color: var(--primary);
+    margin-bottom: 15px;
 }
-.chat-box{
-height:420px;
+.status {
+    margin-top: 12px;
+    text-align: center;
+    opacity: .7;
+    font-size: .9rem;
 }
-nav{
-flex-wrap:wrap;
-gap:10px;
+footer {
+    text-align: center;
+    padding: 40px;
+    opacity: .7;
 }
+@media(max-width:700px) {
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    .input-area {
+        flex-direction: column;
+    }
+    .chat-box {
+        height: 420px;
+    }
+    nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
 </style>
 </head>
 <body data-theme="light">
 <nav>
-<div class="logo">
-
-🫂 My Lifeline Bestie
-
-</div>
+    <div class="logo">
+        🫂 My Lifeline Bestie
+    </div>
 <div>
-
-🏠 Home
-
-</button>
-
-🌗
-
-</button>
+    <button class="nav-btn" onclick="location.href='index.html'">
+        🏠 Home
+    </button>
+    <button class="nav-btn" onclick="toggleTheme()">
+        🌗
+    </button>
 </div>
 </nav>
 <main>
 <section class="hero">
-<h1>
-🫂 AI Bestie
-</h1>
+    <h1>🫂 AI Bestie</h1>
 <p>
-Talk. Vent. Reflect. Breathe. You don't have to hold everything alone.
+    Talk. Vent. Reflect. Breathe. You don't have to hold everything alone.
 </p>
 </section>
 <section class="mode-grid">
-
-🫂 Vent
-
+<button class="mode active" data-mode="comfort" onclick="changeMode('comfort')">
+    💙 Comfort
 </button>
-
-💙 Comfort
-
+<button class="mode" data-mode="vent" onclick="changeMode('vent')">
+    🫂 Vent
 </button>
-
-🔥 Hype
-
+<button class="mode" data-mode="hype" onclick="changeMode('hype')">
+    🔥 Hype
 </button>
-
-🌙 Calm
-
+<button class="mode" data-mode="calm" onclick="changeMode('calm')">
+    🌙 Calm
 </button>
-
-🧠 Reflect
-
+<button class="mode" data-mode="reflect" onclick="changeMode('reflect')">
+    🧠 Reflect
 </button>
 </section>
 <section class="chat-card">
-<div id="chatBox"
-class="chat-box">
-<div class="message bestie">
-
-Hey 💙 I’m Bestie.
-
-Tell me what’s on your mind. You can vent, talk, or just hang out.
-
-</div>
+<div id="chatBox" class="chat-box">
+    <div class="message bestie">
+        Hey 💙 I'm Bestie.<br><br>
+        I'm here to listen. Tell me what's on your mind.
+    </div>
 </div>
 <div class="input-area">
-
-Send
-
-</button>
+    <input
+        id="messageInput"
+        type="text"
+        autocomplete="off"
+        placeholder="Talk to Bestie..."
+    >
+    <button id="sendButton" class="send" onclick="sendMessage()">
+        Send
+    </button>
 </div>
+<div id="status" class="status"></div>
 </section>
 <section class="memory">
-<h2>
-🧠 Bestie Memory
-</h2>
-<p id="memoryText">
-
-Learning about you…
-
-</p>
+<h2>🧠 Bestie Memory</h2>
+<div id="memoryText">
+    Messages: 0
+</div>
+</section>
+<section class="settings">
+<h2>⚙️ Bestie Settings</h2>
+<button class="nav-btn" onclick="clearChat()">
+    🗑 Clear Chat
+</button>
+<button class="nav-btn" onclick="exportBestie()">
+    💾 Backup
+</button>
+<button class="nav-btn" onclick="resetMemory()">
+    🧠 Reset Memory
+</button>
 </section>
 </main>
-<script>
-/* =====================================
-        BESTIE BRAIN ENGINE
-===================================== */
-/* ===============================
-THEME SYSTEM
-================================ */
-function toggleTheme(){
-let theme =
-document.body.dataset.theme;
-let newTheme =
-theme === "dark"
-?
-"light"
-:
-"dark";
-document.body.dataset.theme =
-newTheme;
-localStorage.setItem(
-"lifeline-theme",
-newTheme
-);
-}
-if(
-localStorage.getItem("lifeline-theme")
-){
-document.body.dataset.theme =
-localStorage.getItem("lifeline-theme");
-}
-/* ===============================
-MEMORY SYSTEM
-================================ */
-let bestieMemory =
-JSON.parse(
-localStorage.getItem("bestieMemoryV3")
-||
-"{}"
-);
-if(!bestieMemory.messages){
-bestieMemory.messages = 0;
-}
-function saveMemory(){
-localStorage.setItem(
-"bestieMemoryV3",
-JSON.stringify(bestieMemory)
-);
-showMemory();
-}
-function showMemory(){
-let box =
-document.getElementById(
-"memoryText"
-);
-if(!box)
-return;
-box.innerHTML = `
-Messages:
-<strong>
-${bestieMemory.messages}
-</strong>
-<br><br>
-${
-bestieMemory.name
-?
-"Name: " + escapeHTML(bestieMemory.name)
-:
-"Name not saved"
-}
-<br><br>
-${
-bestieMemory.likes
-?
-"Likes: " + escapeHTML(bestieMemory.likes)
-:
-"Learning favorites..."
-}
-`;
-}
-showMemory();
-/* ===============================
-BESTIE MODE
-================================ */
-let currentMode =
-"comfort";
-function changeMode(mode){
-currentMode = mode;
-addBestie(
-"✨ Switched to "
-+
-escapeHTML(mode)
-+
-" mode."
-);
-/* Save current mode */
-localStorage.setItem(
-"bestieCurrentMode",
-mode
-);
-}
-/* ===============================
-PERSONALITY SYSTEM
-================================ */
-let bestieProfile =
-JSON.parse(
-localStorage.getItem("bestieProfile")
-||
-"{}"
-);
-if(!bestieProfile.style){
-bestieProfile.style = "soft";
-}
-function setPersonality(style){
-bestieProfile.style =
-style;
-localStorage.setItem(
-"bestieProfile",
-JSON.stringify(bestieProfile)
-);
-addBestie(
-"✨ Bestie personality changed to "
-+
-escapeHTML(style)
-);
-}
-function personalityMenu(){
-let choice =
-prompt(
-"Choose Bestie style:\n\n"+
-"1 Soft 🫂\n"+
-"2 Funny 😂\n"+
-"3 Hype 🔥\n"+
-"4 Calm 🌙"
-);
-if(choice === "1")
-setPersonality("soft");
-if(choice === "2")
-setPersonality("funny");
-if(choice === "3")
-setPersonality("hype");
-if(choice === "4")
-setPersonality("calm");
-}
-/* ===============================
-LEARNING
-================================ */
-function learn(message){
-/*
-No keyword-triggered response system.
-The message can still be stored as normal
-memory information without changing the
-response based on individual words.
-*/
-let lower =
-message.toLowerCase();
-if(
-lower.startsWith("my name is ")
-){
-bestieMemory.name =
-message
-.substring(11)
-.trim();
-}
-if(
-lower.startsWith("i like ")
-){
-bestieMemory.likes =
-message;
-}
-bestieMemory.messages++;
-saveMemory();
-}
-/* ===============================
-LOCAL RESPONSE ENGINE
-================================ */
-/*
-This section intentionally does NOT inspect
-the message for emotion keywords or special
-phrases.
-Every normal message follows the same
-response path.
-*/
-const replies = {
-comfort:[
-"🫂 I'm listening. Tell me whatever you want to talk about.",
-"💙 I'm here with you. What's on your mind?",
-"You're allowed to take this one moment at a time. I'm listening."
-],
-vent:[
-"🫂 Go ahead and let it out. I'm listening.",
-"You can say what's bothering you. I'm here to listen.",
-"Sometimes getting things out can help. Tell me what happened."
-],
-hype:[
-"🔥 Okay Bestie, I'm listening! Tell me what's going on.",
-"🔥 I'm with you! Let's hear it.",
-"💙 You've got my attention. What's happening?"
-],
-calm:[
-"🌙 Take your time. There's no rush.",
-"😮‍💨 Slow down for a moment and tell me what's going on.",
-"🌙 I'm listening. One thought at a time."
-],
-reflect:[
-"🧠 Let's think it through together.",
-"🧠 Tell me more and we can unpack it together.",
-"💭 What part of this feels most important to you?"
-]
-};
-function createResponse(){
-let modeReplies =
-replies[currentMode]
-||
-replies.comfort;
-let answer =
-modeReplies[
-Math.floor(
-Math.random() *
-modeReplies.length
-)
-];
-return answer;
-}
-/* ===============================
-SAFE HTML HELPER
-================================ */
-function escapeHTML(text){
-return String(text)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-}
-/* ===============================
-CHAT FUNCTIONS
-================================ */
-function addBestie(text){
-let box =
-document.getElementById(
-"chatBox"
-);
-let div =
-document.createElement("div");
-div.className =
-"message bestie";
-div.innerHTML =
-text;
-box.appendChild(div);
-box.scrollTop =
-box.scrollHeight;
-}
-function addUser(text){
-let box =
-document.getElementById(
-"chatBox"
-);
-let div =
-document.createElement("div");
-div.className =
-"message user";
-div.textContent =
-text;
-box.appendChild(div);
-box.scrollTop =
-box.scrollHeight;
-}
-/* ===============================
-SEND MESSAGE
-================================ */
-function sendMessage(){
-let input =
-document.getElementById(
-"messageInput"
-);
-let message =
-input.value.trim();
-if(!message)
-return;
-addUser(message);
-input.value = "";
-learn(message);
-let typing =
-document.createElement("div");
-typing.className =
-"message bestie typing";
-typing.id =
-"typing";
-typing.textContent =
-"Bestie is thinking... 💙";
-document
-.getElementById("chatBox")
-.appendChild(typing);
-setTimeout(()=>{
-if(typing)
-typing.remove();
-addBestie(
-createResponse(message)
-);
-},700);
-}
-/* ===============================
-LIFELINE SUPPORT TOOLS
-================================ */
-function supportTools(){
-return `
-<div style="
-margin-top:15px;
-padding:18px;
-border-radius:20px;
-background:rgba(0,188,212,.15);
-">
-<h3>
-🫂 Try a Lifeline Tool
-</h3>
-<br>
-<button class="nav-btn"
-onclick="quickAction('Take a slow breath with me')">
-😮‍💨 Breathe
-</button>
-<button class="nav-btn"
-onclick="quickAction('Give me a distraction')">
-🎮 Distraction
-</button>
-<button class="nav-btn"
-onclick="quickAction('Help me journal')">
-📝 Journal
-</button>
-<button class="nav-btn"
-onclick="quickAction('Give me something positive')">
-💙 Positive Reminder
-</button>
-</div>
-`;
-}
-function quickAction(text){
-document.getElementById(
-"messageInput"
-).value = text;
-sendMessage();
-}
-/* ===============================
-GROUNDING SYSTEM
-================================ */
-const groundingIdeas = [
-"Look around and name a few things you can see.",
-"Take a sip of water if you can.",
-"Put on a song that helps you relax.",
-"Move to a different room or change your surroundings.",
-"Try relaxing your shoulders and unclenching your jaw.",
-"Hold something comfortable like a blanket or pillow."
-];
-function grounding(){
-return `
-😮‍💨 Quick reset:
-<br><br>
-${
-groundingIdeas[
-Math.floor(
-Math.random() *
-groundingIdeas.length
-)
-]
-}
-`;
-}
-/* ===============================
-POSITIVE ACTIONS
-================================ */
-const actions = [
-"🎵 Listen to a favorite song",
-"🐶 Spend time with a pet",
-"🎮 Play a game for a little while",
-"🚶 Take a short walk",
-"📝 Write what you're feeling down",
-"💧 Get some water",
-"📺 Watch a comfort show",
-"💬 Message someone you trust"
-];
-function actionSuggestion(){
-return `
-<div style="
-margin-top:15px;
-">
-<strong>
-Small things that might help right now:
-</strong>
-<br><br>
-${
-actions[
-Math.floor(
-Math.random() *
-actions.length
-)
-]
-}
-</div>
-`;
-}
-/* ===============================
-CHAT HISTORY
-================================ */
-let bestieHistory =
-JSON.parse(
-localStorage.getItem(
-"bestieHistoryV3"
-)
-||
-"[]"
-);
-function saveHistory(type,text){
-bestieHistory.push({
-type:type,
-text:text,
-date:
-new Date()
-.toLocaleString()
-});
-if(bestieHistory.length > 200){
-bestieHistory.shift();
-}
-localStorage.setItem(
-"bestieHistoryV3",
-JSON.stringify(bestieHistory)
-);
-}
-/* ===============================
-HISTORY WRAPPERS
-================================ */
-const originalAddBestie =
-addBestie;
-addBestie =
-function(text){
-originalAddBestie(text);
-saveHistory(
-"bestie",
-text
-);
-};
-const originalAddUser =
-addUser;
-addUser =
-function(text){
-originalAddUser(text);
-saveHistory(
-"user",
-text
-);
-};
-/* ===============================
-EXPORT BRAIN BACKUP
-================================ */
-function exportBestie(){
-let backup = {
-memory:
-localStorage.getItem(
-"bestieMemoryV3"
-),
-history:
-localStorage.getItem(
-"bestieHistoryV3"
-),
-profile:
-localStorage.getItem(
-"bestieProfile"
-),
-mode:
-localStorage.getItem(
-"bestieCurrentMode"
-)
-};
-let file =
-new Blob(
-[
-JSON.stringify(
-backup,
-null,
-2
-)
-],
-{
-type:"application/json"
-}
-);
-let link =
-document.createElement("a");
-link.href =
-URL.createObjectURL(file);
-link.download =
-"bestie-backup.json";
-link.click();
-URL.revokeObjectURL(
-link.href
-);
-}
-/* ===============================
-CLEAR HISTORY
-================================ */
-function clearHistory(){
-if(
-confirm(
-"Delete Bestie chat history?"
-)
-){
-localStorage.removeItem(
-"bestieHistoryV3"
-);
-location.reload();
-}
-}
-/* ===============================
-LOAD SAVED MODE
-================================ */
-let savedMode =
-localStorage.getItem(
-"bestieCurrentMode"
-);
-if(
-savedMode &&
-replies[savedMode]
-){
-currentMode =
-savedMode;
-}
-</script>
-<!-- ===============================
-BESTIE SETTINGS
-================================ -->
-<section style="
-max-width:800px;
-margin:40px auto;
-padding:25px;
-background:var(--card);
-border-radius:30px;
-box-shadow:0 10px 30px var(--shadow);
-text-align:center;
-">
-<h2>
-⚙️ Bestie Settings
-</h2>
-<br>
-
-🎭 Personality
-
-</button>
-
-💾 Backup
-
-</button>
-
-🗑 Clear Chat
-
-</button>
-<p>
-
-Your Bestie brain stays saved on this device.
-
-</p>
-</section>
-<footer style="
-text-align:center;
-padding:40px;
-opacity:.7;
-">
-
-🫂 My Lifeline • Bestie v4
-
-<br>
-
-A place to talk, reflect, and feel supported 💙
-
+<footer>
+    🫂 My Lifeline • AI Bestie
+    <br>
+    A place to talk, reflect, and feel supported 💙
 </footer>
+<script>
+/* =========================================
+   MY LIFELINE AI BESTIE
+========================================= */
+const API_ENDPOINT = "/api/bestie";
+let currentMode =
+    localStorage.getItem("bestieMode") || "comfort";
+let bestieMemory =
+    JSON.parse(
+        localStorage.getItem("bestieMemory")
+        || "{}"
+    );
+let chatHistory =
+    JSON.parse(
+        localStorage.getItem("bestieChatHistory")
+        || "[]"
+    );
+/* =========================================
+   THEME
+========================================= */
+function toggleTheme() {
+    const current =
+        document.body.dataset.theme;
+    const next =
+        current === "dark"
+        ? "light"
+        : "dark";
+    document.body.dataset.theme = next;
+    localStorage.setItem(
+        "lifeline-theme",
+        next
+    );
+}
+const savedTheme =
+    localStorage.getItem("lifeline-theme");
+if (savedTheme) {
+    document.body.dataset.theme =
+        savedTheme;
+}
+/* =========================================
+   MODE
+========================================= */
+function changeMode(mode) {
+    currentMode = mode;
+    localStorage.setItem(
+        "bestieMode",
+        mode
+    );
+    document
+        .querySelectorAll(".mode")
+        .forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.mode === mode
+            );
+        });
+    addBestie(
+        `✨ Bestie is now in ${mode} mode.`
+    );
+}
+/* =========================================
+   MEMORY
+========================================= */
+function saveMemory() {
+    localStorage.setItem(
+        "bestieMemory",
+        JSON.stringify(bestieMemory)
+    );
+    showMemory();
+}
+function showMemory() {
+    const box =
+        document.getElementById("memoryText");
+    const messages =
+        bestieMemory.messages || 0;
+    let text =
+        `Messages: <strong>${messages}</strong>`;
+    if (bestieMemory.name) {
+        text +=
+            `<br><br>Name: <strong>${
+                escapeHTML(bestieMemory.name)
+            }</strong>`;
+    }
+    if (bestieMemory.likes) {
+        text +=
+            `<br><br>Likes: <strong>${
+                escapeHTML(bestieMemory.likes)
+            }</strong>`;
+    }
+    box.innerHTML = text;
+}
+/* =========================================
+   SIMPLE MEMORY LEARNING
+========================================= */
+function learn(message) {
+    const lower =
+        message.toLowerCase();
+    const nameMatch =
+        message.match(
+            /my name is\s+(.+)/i
+        );
+    if (nameMatch) {
+        bestieMemory.name =
+            nameMatch[1]
+                .trim()
+                .slice(0, 80);
+    }
+    const likeMatch =
+        message.match(
+            /i (?:like|love)\s+(.+)/i
+        );
+    if (likeMatch) {
+        bestieMemory.likes =
+            likeMatch[1]
+                .trim()
+                .slice(0, 150);
+    }
+    bestieMemory.messages =
+        (bestieMemory.messages || 0) + 1;
+    saveMemory();
+}
+/* =========================================
+   CHAT HISTORY
+========================================= */
+function saveChatHistory() {
+    localStorage.setItem(
+        "bestieChatHistory",
+        JSON.stringify(chatHistory)
+    );
+}
+function recordMessage(role, text) {
+    chatHistory.push({
+        role,
+        text,
+        time: new Date().toISOString()
+    });
+    if (chatHistory.length > 100) {
+        chatHistory =
+            chatHistory.slice(-100);
+    }
+    saveChatHistory();
+}
+/* =========================================
+   DISPLAY
+========================================= */
+function addBestie(text) {
+    const box =
+        document.getElementById("chatBox");
+    const div =
+        document.createElement("div");
+    div.className =
+        "message bestie";
+    div.innerHTML =
+        formatResponse(text);
+    box.appendChild(div);
+    box.scrollTop =
+        box.scrollHeight;
+    recordMessage("assistant", text);
+}
+function addUser(text) {
+    const box =
+        document.getElementById("chatBox");
+    const div =
+        document.createElement("div");
+    div.className =
+        "message user";
+    div.textContent =
+        text;
+    box.appendChild(div);
+    box.scrollTop =
+        box.scrollHeight;
+    recordMessage("user", text);
+}
+function formatResponse(text) {
+    return escapeHTML(text)
+        .replace(/\n/g, "<br>");
+}
+function escapeHTML(text) {
+    const div =
+        document.createElement("div");
+    div.textContent =
+        String(text);
+    return div.innerHTML;
+}
+/* =========================================
+   AI REQUEST
+========================================= */
+async function askBestie(message) {
+    const recentMessages =
+        chatHistory
+            .slice(-12)
+            .map(item => ({
+                role:
+                    item.role === "assistant"
+                    ? "assistant"
+                    : "user",
+                content: item.text
+            }));
+    const response =
+        await fetch(API_ENDPOINT, {
+            method: "POST",
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+            body: JSON.stringify({
+                message,
+                mode:
+                    currentMode,
+                memory:
+                    bestieMemory,
+                history:
+                    recentMessages
+            })
+        });
+    if (!response.ok) {
+        throw new Error(
+            `AI request failed: ${response.status}`
+        );
+    }
+    const data =
+        await response.json();
+    if (!data.reply) {
+        throw new Error(
+            "The AI server returned no reply."
+        );
+    }
+    return data.reply;
+}
+/* =========================================
+   SEND MESSAGE
+========================================= */
+let isSending = false;
+async function sendMessage() {
+    if (isSending)
+        return;
+    const input =
+        document.getElementById(
+            "messageInput"
+        );
+    const button =
+        document.getElementById(
+            "sendButton"
+        );
+    const status =
+        document.getElementById(
+            "status"
+        );
+    const message =
+        input.value.trim();
+    if (!message)
+        return;
+    isSending = true;
+    input.value = "";
+    input.disabled = true;
+    button.disabled = true;
+    addUser(message);
+    learn(message);
+    const typing =
+        document.createElement("div");
+    typing.className =
+        "message bestie typing";
+    typing.textContent =
+        "Bestie is thinking... 💙";
+    document
+        .getElementById("chatBox")
+        .appendChild(typing);
+    document
+        .getElementById("chatBox")
+        .scrollTop =
+            document
+                .getElementById("chatBox")
+                .scrollHeight;
+    status.textContent =
+        "Connecting to Bestie...";
+    try {
+        const reply =
+            await askBestie(message);
+        typing.remove();
+        addBestie(reply);
+        status.textContent = "";
+    } catch (error) {
+        console.error(error);
+        typing.remove();
+        addBestie(
+            "I'm having trouble connecting to my AI right now. 💙 Please try again in a moment."
+        );
+        status.textContent =
+            "AI connection unavailable.";
+    } finally {
+        isSending = false;
+        input.disabled = false;
+        button.disabled = false;
+        input.focus();
+    }
+}
+/* =========================================
+   ENTER KEY
+========================================= */
+document
+    .getElementById("messageInput")
+    .addEventListener(
+        "keydown",
+        event => {
+            if (
+                event.key === "Enter"
+                && !event.shiftKey
+            ) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+    );
+/* =========================================
+   CLEAR CHAT
+========================================= */
+function clearChat() {
+    if (
+        !confirm(
+            "Clear your Bestie chat history?"
+        )
+    ) {
+        return;
+    }
+    chatHistory = [];
+    localStorage.removeItem(
+        "bestieChatHistory"
+    );
+    document
+        .getElementById("chatBox")
+        .innerHTML = `
+        <div class="message bestie">
+            Chat cleared 💙 I'm still here.
+        </div>
+        `;
+}
+/* =========================================
+   RESET MEMORY
+========================================= */
+function resetMemory() {
+    if (
+        !confirm(
+            "Reset Bestie's saved memory?"
+        )
+    ) {
+        return;
+    }
+    bestieMemory = {};
+    localStorage.removeItem(
+        "bestieMemory"
+    );
+    showMemory();
+}
+/* =========================================
+   BACKUP
+========================================= */
+function exportBestie() {
+    const backup = {
+        memory:
+            bestieMemory,
+        history:
+            chatHistory,
+        mode:
+            currentMode,
+        exported:
+            new Date().toISOString()
+    };
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    backup,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
+    const url =
+        URL.createObjectURL(blob);
+    const link =
+        document.createElement("a");
+    link.href = url;
+    link.download =
+        "my-lifeline-bestie-backup.json";
+    link.click();
+    URL.revokeObjectURL(url);
+}
+/* =========================================
+   INITIALIZE
+========================================= */
+document
+    .querySelectorAll(".mode")
+    .forEach(button => {
+        button.classList.toggle(
+            "active",
+            button.dataset.mode === currentMode
+        );
+    });
+showMemory();
+</script>
 </body>
 </html>
