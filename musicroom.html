@@ -22,7 +22,7 @@
       --soft: rgba(0,188,212,0.08);
     }
 
-    [data-theme="dark"] {
+    html[data-theme="dark"] {
       --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
       --card: #2c3e50;
       --text: #e0f2f1;
@@ -40,6 +40,15 @@
       box-sizing: border-box;
     }
 
+    html {
+      min-height: 100%;
+      background: #fff8f0;
+    }
+
+    html[data-theme="dark"] {
+      background: #0f1c2e;
+    }
+
     body {
       font-family: 'Quicksand', sans-serif;
       background: var(--bg-light);
@@ -55,6 +64,7 @@
       right: 0;
       background: rgba(135, 206, 235, 0.97);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
       padding: 14px 20px;
       display: flex;
@@ -63,7 +73,7 @@
       box-shadow: 0 6px 20px var(--shadow);
     }
 
-    [data-theme="dark"] nav {
+    html[data-theme="dark"] nav {
       background: rgba(26, 38, 57, 0.97);
     }
 
@@ -147,6 +157,7 @@
       font-size: 1.8rem;
       cursor: pointer;
       padding: 8px;
+      color: var(--text);
     }
 
     main {
@@ -218,6 +229,10 @@
       font-size: 1rem;
       outline: none;
       margin-bottom: 18px;
+    }
+
+    .search::placeholder {
+      color: var(--muted);
     }
 
     .search:focus {
@@ -531,6 +546,7 @@
       border: none;
       font-size: 1.1rem;
       text-align: center;
+      outline: none;
     }
 
     .return-btn {
@@ -560,7 +576,7 @@
         box-shadow: 0 10px 20px var(--shadow);
       }
 
-      [data-theme="dark"] .nav-menu {
+      html[data-theme="dark"] .nav-menu {
         background: rgba(26,38,57,0.98);
       }
 
@@ -618,7 +634,7 @@
 
 </head>
 
-<body data-theme="light">
+<body>
 
   <!-- NAVIGATION -->
 
@@ -1001,10 +1017,17 @@
   </footer>
 
   <script>
-
     /* =========================
        THEME
     ========================= */
+
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
 
     function toggleDarkMode() {
       const isDark =
@@ -1012,13 +1035,16 @@
 
       const newTheme = isDark ? 'light' : 'dark';
 
-      document.documentElement.setAttribute('data-theme', newTheme);
-
+      applyTheme(newTheme);
       localStorage.setItem('lifeline-theme', newTheme);
     }
 
-    if (localStorage.getItem('lifeline-theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
+    const savedTheme = localStorage.getItem('lifeline-theme');
+
+    if (savedTheme === 'dark') {
+      applyTheme('dark');
+    } else {
+      applyTheme('light');
     }
 
     /* =========================
@@ -1039,6 +1065,9 @@
 
     function toggleMobileMenu() {
       const menu = document.getElementById('navMenu');
+
+      if (!menu) return;
+
       menu.classList.toggle('hidden');
     }
 
@@ -1047,16 +1076,29 @@
     ========================= */
 
     function activateLockdown() {
-      document.getElementById('lockdown').style.display = 'flex';
+      const lockdown =
+        document.getElementById('lockdown');
+
+      if (lockdown) {
+        lockdown.style.display = 'flex';
+      }
     }
 
     function deactivateLockdown() {
+      const input =
+        document.getElementById('unlockKey');
+
+      const lockdown =
+        document.getElementById('lockdown');
+
+      if (!input || !lockdown) return;
+
       const key =
-        document.getElementById('unlockKey').value.trim();
+        input.value.trim();
 
       if (key.length > 0) {
-        document.getElementById('lockdown').style.display = 'none';
-        document.getElementById('unlockKey').value = '';
+        lockdown.style.display = 'none';
+        input.value = '';
       }
     }
 
@@ -1077,18 +1119,27 @@
 
     const DB_NAME = 'LifelineMusicDB';
     const STORE_NAME = 'songs';
+    const DB_VERSION = 2;
 
     let songs = [];
     let currentSongIndex = -1;
     let shuffleEnabled = false;
     let repeatEnabled = false;
 
-    function openDB() {
+    /* =========================
+       OPEN DATABASE
+    ========================= */
 
+    function openDB() {
       return new Promise((resolve, reject) => {
 
+        if (!('indexedDB' in window)) {
+          reject(new Error('IndexedDB is not supported by this browser.'));
+          return;
+        }
+
         const request =
-          indexedDB.open(DB_NAME, 2);
+          indexedDB.open(DB_NAME, DB_VERSION);
 
         request.onupgradeneeded = function(event) {
 
@@ -1109,11 +1160,10 @@
         };
 
         request.onerror = function() {
-          reject(request.error);
+          reject(request.error || new Error('Unable to open music database.'));
         };
 
       });
-
     }
 
     /* =========================
@@ -1224,39 +1274,49 @@
         return;
       }
 
-      const db =
-        await openDB();
+      try {
 
-      await new Promise((resolve, reject) => {
+        const db =
+          await openDB();
 
-        const transaction =
-          db.transaction(STORE_NAME, 'readwrite');
+        await new Promise((resolve, reject) => {
 
-        const store =
-          transaction.objectStore(STORE_NAME);
+          const transaction =
+            db.transaction(STORE_NAME, 'readwrite');
 
-        const request =
-          store.delete(id);
+          const store =
+            transaction.objectStore(STORE_NAME);
 
-        request.onsuccess = resolve;
+          const request =
+            store.delete(id);
 
-        request.onerror = function() {
-          reject(request.error);
-        };
+          request.onsuccess = resolve;
 
-      });
+          request.onerror = function() {
+            reject(request.error);
+          };
 
-      if (
-        currentSongIndex >= 0 &&
-        songs[currentSongIndex]?.id === id
-      ) {
-        stopPlayer();
+        });
+
+        if (
+          currentSongIndex >= 0 &&
+          songs[currentSongIndex]?.id === id
+        ) {
+          stopPlayer();
+        }
+
+        songs =
+          await loadSongs();
+
+        renderSongs();
+
+      } catch (error) {
+
+        console.error('Could not delete song:', error);
+
+        alert('Unable to delete that song.');
+
       }
-
-      songs =
-        await loadSongs();
-
-      renderSongs();
 
     }
 
@@ -1277,35 +1337,48 @@
         return;
       }
 
-      const db =
-        await openDB();
+      try {
 
-      await new Promise((resolve, reject) => {
+        const db =
+          await openDB();
 
-        const transaction =
-          db.transaction(STORE_NAME, 'readwrite');
+        await new Promise((resolve, reject) => {
 
-        const store =
-          transaction.objectStore(STORE_NAME);
+          const transaction =
+            db.transaction(STORE_NAME, 'readwrite');
 
-        const request =
-          store.clear();
+          const store =
+            transaction.objectStore(STORE_NAME);
 
-        request.onsuccess = resolve;
+          const request =
+            store.clear();
 
-        request.onerror = function() {
-          reject(request.error);
-        };
+          request.onsuccess = resolve;
 
-      });
+          request.onerror = function() {
+            reject(request.error);
+          };
 
-      songs = [];
+        });
 
-      stopPlayer();
+        songs = [];
 
-      renderSongs();
+        stopPlayer();
 
-      alert('All saved songs have been cleared.');
+        renderSongs();
+
+        alert('All saved songs have been cleared.');
+
+      } catch (error) {
+
+        console.error(
+          'Could not clear songs:',
+          error
+        );
+
+        alert('Unable to clear the music library.');
+
+      }
 
     }
 
@@ -1314,6 +1387,10 @@
     ========================= */
 
     function formatSize(bytes) {
+
+      if (!Number.isFinite(bytes)) {
+        return 'Unknown size';
+      }
 
       if (bytes < 1024) {
         return bytes + ' B';
@@ -1325,9 +1402,15 @@
         ).toFixed(1) + ' KB';
       }
 
+      if (bytes < 1024 * 1024 * 1024) {
+        return (
+          bytes / (1024 * 1024)
+        ).toFixed(1) + ' MB';
+      }
+
       return (
-        bytes / (1024 * 1024)
-      ).toFixed(1) + ' MB';
+        bytes / (1024 * 1024 * 1024)
+      ).toFixed(1) + ' GB';
 
     }
 
@@ -1340,7 +1423,8 @@
       const div =
         document.createElement('div');
 
-      div.textContent = text;
+      div.textContent =
+        String(text ?? '');
 
       return div.innerHTML;
 
@@ -1361,12 +1445,14 @@
       const count =
         document.getElementById('songCount');
 
+      if (!list || !empty || !count) return;
+
       const search =
-        filter.trim().toLowerCase();
+        String(filter).trim().toLowerCase();
 
       const filteredSongs =
         songs.filter(song =>
-          song.name
+          String(song.name || '')
             .toLowerCase()
             .includes(search)
         );
@@ -1416,6 +1502,9 @@
 
         card.className = 'song-card';
 
+        const safeName =
+          escapeHTML(song.name);
+
         card.innerHTML = `
           <div class="song-icon">
             <i class="fa-solid fa-music"></i>
@@ -1424,8 +1513,8 @@
           <div class="song-info">
             <div
               class="song-name"
-              title="${escapeHTML(song.name)}">
-              ${escapeHTML(song.name)}
+              title="${safeName}">
+              ${safeName}
             </div>
 
             <div class="song-size">
@@ -1438,14 +1527,14 @@
             <button
               class="song-btn play-btn"
               title="Play song"
-              onclick="playSong(${song.id})">
+              onclick="playSong(${Number(song.id)})">
               <i class="fa-solid fa-play"></i>
             </button>
 
             <button
               class="song-btn delete-btn"
               title="Delete song"
-              onclick="deleteSong(${song.id})">
+              onclick="deleteSong(${Number(song.id)})">
               <i class="fa-solid fa-trash"></i>
             </button>
 
@@ -1485,19 +1574,40 @@
       const nowPlaying =
         document.getElementById('nowPlayingName');
 
-      if (player.src) {
-        URL.revokeObjectURL(player.src);
+      if (!player || !playerBox || !nowPlaying) {
+        return;
       }
 
-      player.src =
-        URL.createObjectURL(song.file);
+      if (player.src) {
+        try {
+          URL.revokeObjectURL(player.src);
+        } catch (error) {
+          console.warn('Could not revoke previous audio URL.', error);
+        }
+      }
 
-      nowPlaying.textContent =
-        song.name;
+      try {
 
-      playerBox.classList.add('active');
+        player.src =
+          URL.createObjectURL(song.file);
 
-      player.play().catch(() => {});
+        nowPlaying.textContent =
+          song.name;
+
+        playerBox.classList.add('active');
+
+        player.play().catch(() => {});
+
+      } catch (error) {
+
+        console.error(
+          'Could not play song:',
+          error
+        );
+
+        alert('This audio file could not be played by your browser.');
+
+      }
 
     }
 
@@ -1510,23 +1620,34 @@
       const player =
         document.getElementById('mainPlayer');
 
+      const playerBox =
+        document.getElementById('player');
+
+      const nowPlaying =
+        document.getElementById('nowPlayingName');
+
+      if (!player) return;
+
       player.pause();
 
       if (player.src) {
-        URL.revokeObjectURL(player.src);
+        try {
+          URL.revokeObjectURL(player.src);
+        } catch (error) {
+          console.warn('Could not revoke audio URL.', error);
+        }
       }
 
       player.removeAttribute('src');
-
       player.load();
 
-      document
-        .getElementById('player')
-        .classList.remove('active');
+      if (playerBox) {
+        playerBox.classList.remove('active');
+      }
 
-      document
-        .getElementById('nowPlayingName')
-        .textContent = 'Nothing';
+      if (nowPlaying) {
+        nowPlaying.textContent = 'Nothing';
+      }
 
       currentSongIndex = -1;
 
@@ -1611,12 +1732,15 @@
       shuffleEnabled =
         !shuffleEnabled;
 
-      document.getElementById(
-        'shuffleText'
-      ).textContent =
-        shuffleEnabled
-          ? 'Shuffle On'
-          : 'Shuffle Off';
+      const shuffleText =
+        document.getElementById('shuffleText');
+
+      if (shuffleText) {
+        shuffleText.textContent =
+          shuffleEnabled
+            ? 'Shuffle On'
+            : 'Shuffle Off';
+      }
 
     }
 
@@ -1629,145 +1753,183 @@
       repeatEnabled =
         !repeatEnabled;
 
-      document.getElementById(
-        'repeatText'
-      ).textContent =
-        repeatEnabled
-          ? 'Repeat On'
-          : 'Repeat Off';
+      const repeatText =
+        document.getElementById('repeatText');
+
+      if (repeatText) {
+        repeatText.textContent =
+          repeatEnabled
+            ? 'Repeat On'
+            : 'Repeat Off';
+      }
 
     }
 
     /* =========================
-       AUDIO ENDED
+       INITIALIZE PAGE EVENTS
     ========================= */
 
-    document
-      .getElementById('mainPlayer')
-      .addEventListener(
-        'ended',
-        function() {
+    function setupMusicRoom() {
 
-          if (repeatEnabled) {
+      const mainPlayer =
+        document.getElementById('mainPlayer');
 
-            this.currentTime = 0;
+      const audioUpload =
+        document.getElementById('audioUpload');
 
-            this.play().catch(() => {});
+      const songSearch =
+        document.getElementById('songSearch');
 
-            return;
+      if (mainPlayer) {
+
+        mainPlayer.addEventListener(
+          'ended',
+          function() {
+
+            if (repeatEnabled) {
+
+              this.currentTime = 0;
+
+              this.play().catch(() => {});
+
+              return;
+
+            }
+
+            nextSong();
 
           }
+        );
 
-          nextSong();
+      }
 
-        }
-      );
+      /* =========================
+         UPLOAD
+      ========================= */
 
-    /* =========================
-       UPLOAD
-    ========================= */
+      if (audioUpload) {
 
-    document
-      .getElementById('audioUpload')
-      .addEventListener(
-        'change',
-        async function(event) {
+        audioUpload.addEventListener(
+          'change',
+          async function(event) {
 
-          const files =
-            Array.from(event.target.files);
+            const files =
+              Array.from(event.target.files || []);
 
-          if (files.length === 0) return;
+            if (files.length === 0) return;
 
-          let added = 0;
+            let added = 0;
 
-          for (const file of files) {
+            for (const file of files) {
 
-            try {
+              try {
 
-              await saveSong(file);
+                await saveSong(file);
 
-              added++;
+                added++;
 
-            } catch (error) {
+              } catch (error) {
 
-              console.error(
-                'Could not save:',
-                file.name,
-                error
+                console.error(
+                  'Could not save:',
+                  file.name,
+                  error
+                );
+
+              }
+
+            }
+
+            songs =
+              await loadSongs();
+
+            renderSongs();
+
+            event.target.value = '';
+
+            if (added === 1) {
+
+              alert('Song added to your Music Room! 🎵');
+
+            } else if (added > 1) {
+
+              alert(
+                `${added} songs added to your Music Room! 🎵`
+              );
+
+            } else {
+
+              alert(
+                'No songs could be saved. Please try another audio file.'
               );
 
             }
 
           }
+        );
 
-          songs =
-            await loadSongs();
+      }
 
-          renderSongs();
+      /* =========================
+         SEARCH
+      ========================= */
 
-          event.target.value = '';
+      if (songSearch) {
 
-          if (added === 1) {
+        songSearch.addEventListener(
+          'input',
+          function(event) {
 
-            alert('Song added to your Music Room! 🎵');
-
-          } else if (added > 1) {
-
-            alert(
-              `${added} songs added to your Music Room! 🎵`
+            renderSongs(
+              event.target.value
             );
 
           }
+        );
 
-        }
-      );
+      }
 
-    /* =========================
-       SEARCH
-    ========================= */
+      /* =========================
+         ESCAPE LOCKDOWN
+      ========================= */
 
-    document
-      .getElementById('songSearch')
-      .addEventListener(
-        'input',
+      document.addEventListener(
+        'keydown',
         function(event) {
 
-          renderSongs(
-            event.target.value
-          );
+          if (event.key === 'Escape') {
 
-        }
-      );
+            const lockdown =
+              document.getElementById('lockdown');
 
-    /* =========================
-       ESCAPE LOCKDOWN
-    ========================= */
+            if (
+              lockdown &&
+              lockdown.style.display === 'flex'
+            ) {
+              lockdown.style.display = 'none';
 
-    document.addEventListener(
-      'keydown',
-      function(event) {
+              const input =
+                document.getElementById('unlockKey');
 
-        if (event.key === 'Escape') {
+              if (input) {
+                input.value = '';
+              }
+            }
 
-          const lockdown =
-            document.getElementById('lockdown');
-
-          if (
-            lockdown.style.display === 'flex'
-          ) {
-            lockdown.style.display = 'none';
           }
 
         }
+      );
 
-      }
-    );
+    }
 
     /* =========================
        INITIALIZE
     ========================= */
 
     async function initializeMusicRoom() {
+
+      setupMusicRoom();
 
       songs =
         await loadSongs();
@@ -1776,7 +1938,18 @@
 
     }
 
-    initializeMusicRoom();
+    if (document.readyState === 'loading') {
+
+      document.addEventListener(
+        'DOMContentLoaded',
+        initializeMusicRoom
+      );
+
+    } else {
+
+      initializeMusicRoom();
+
+    }
 
   </script>
 
