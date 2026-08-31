@@ -1,15 +1,31 @@
+```html
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Videos • My Lifeline</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+
 
   <style>
+
     :root {
       --primary: #00bcd4;
       --accent: #ff9ff3;
@@ -22,6 +38,7 @@
       --shadow: rgba(0, 0, 0, 0.12);
       --nav-bg: rgba(135, 206, 235, 0.97);
     }
+
 
     [data-theme="dark"] {
       --bg-light: linear-gradient(135deg, #0f1c2e 0%, #2c1e3a 100%);
@@ -36,11 +53,13 @@
       --nav-bg: rgba(26, 38, 57, 0.97);
     }
 
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
 
     body {
       font-family: 'Quicksand', sans-serif;
@@ -50,11 +69,15 @@
       transition: background 0.5s ease;
     }
 
+
     .hidden {
       display: none !important;
     }
 
-    /* LOGIN */
+
+    /* ============================
+       LOGIN
+    ============================ */
 
     #loginScreen {
       min-height: 100vh;
@@ -63,6 +86,7 @@
       justify-content: center;
       padding: 25px;
     }
+
 
     .login-box {
       width: 100%;
@@ -74,16 +98,19 @@
       box-shadow: 0 20px 50px var(--shadow);
     }
 
+
     .login-box h1 {
       color: var(--primary);
       font-size: 2.4rem;
       margin-bottom: 8px;
     }
 
+
     .login-box p {
       color: var(--muted);
       margin-bottom: 22px;
     }
+
 
     .login-box input {
       width: 100%;
@@ -96,6 +123,7 @@
       font-size: 1rem;
       outline: none;
     }
+
 
     .login-button {
       width: 100%;
@@ -110,7 +138,10 @@
       cursor: pointer;
     }
 
-    /* NAV */
+
+    /* ============================
+       NAV
+    ============================ */
 
     nav {
       position: fixed;
@@ -127,6 +158,7 @@
       box-shadow: 0 6px 20px var(--shadow);
     }
 
+
     .logo {
       display: flex;
       align-items: center;
@@ -135,6 +167,7 @@
       font-weight: 700;
     }
 
+
     .nav-menu {
       display: flex;
       gap: 10px;
@@ -142,9 +175,11 @@
       flex-wrap: wrap;
     }
 
+
     .nav-menu.hidden {
       display: none;
     }
+
 
     .nav-btn {
       background: white;
@@ -157,14 +192,17 @@
       box-shadow: 0 4px 12px var(--shadow);
     }
 
+
     [data-theme="dark"] .nav-btn {
       background: #3b5065;
       color: #dff8ff;
     }
 
+
     .dropdown {
       position: relative;
     }
+
 
     .dropdown-content {
       display: none;
@@ -179,9 +217,11 @@
       z-index: 1001;
     }
 
+
     .dropdown:hover .dropdown-content {
       display: block;
     }
+
 
     .dropdown-content a {
       display: block;
@@ -191,9 +231,11 @@
       font-weight: 500;
     }
 
+
     .dropdown-content a:hover {
       background: rgba(0,188,212,0.12);
     }
+
 
     .nav-right {
       display: flex;
@@ -201,15 +243,18 @@
       align-items: center;
     }
 
+
     .lock-btn {
       background: #e74c3c !important;
       color: white !important;
     }
 
+
     .logout-btn {
       background: #ff6b6b !important;
       color: white !important;
     }
+
 
     .hamburger {
       display: none;
@@ -218,7 +263,10 @@
       padding: 6px 10px;
     }
 
-    /* LOCKDOWN */
+
+    /* ============================
+       LOCKDOWN
+    ============================ */
 
     #lockdown {
       display: none;
@@ -234,10 +282,12 @@
       padding: 30px;
     }
 
+
     #lockdown h1 {
       font-size: 2.8rem;
       margin-bottom: 12px;
     }
+
 
     #unlockKey {
       padding: 14px 22px;
@@ -250,6 +300,7 @@
       margin: 16px 0;
     }
 
+
     .unlock-btn {
       padding: 12px 36px;
       background: #27ae60;
@@ -260,7 +311,10 @@
       cursor: pointer;
     }
 
-    /* FLOATING BUTTON */
+
+    /* ============================
+       FLOATING BUTTON
+    ============================ */
 
     .floating-bestie {
       position: fixed;
@@ -279,13 +333,17 @@
       box-shadow: 0 8px 25px rgba(255,159,243,0.5);
     }
 
+
     main {
       max-width: 1050px;
       margin: 0 auto;
       padding: 110px 20px 60px;
     }
 
-    /* HERO */
+
+    /* ============================
+       HERO
+    ============================ */
 
     .hero {
       background: linear-gradient(135deg, #00bcd4, #a8e6cf);
@@ -297,12 +355,16 @@
       box-shadow: 0 12px 35px rgba(0,188,212,0.3);
     }
 
+
     .hero h1 {
       font-size: 2.4rem;
       margin-bottom: 8px;
     }
 
-    /* SECTIONS */
+
+    /* ============================
+       SECTIONS
+    ============================ */
 
     .section {
       background: var(--card);
@@ -312,6 +374,7 @@
       box-shadow: 0 8px 25px var(--shadow);
     }
 
+
     .section-title {
       display: flex;
       align-items: center;
@@ -319,15 +382,18 @@
       margin-bottom: 6px;
     }
 
+
     .section-title h2 {
       font-size: 1.45rem;
     }
+
 
     .section-description {
       color: var(--muted);
       margin-bottom: 16px;
       line-height: 1.5;
     }
+
 
     .action-btn {
       border: none;
@@ -340,15 +406,20 @@
       font-family: inherit;
     }
 
+
     .action-btn.secondary {
       background: #ff6b9d;
     }
+
 
     .action-btn.dark {
       background: #34495e;
     }
 
-    /* VIDEO */
+
+    /* ============================
+       VIDEO
+    ============================ */
 
     .video-card {
       background: var(--box);
@@ -359,10 +430,12 @@
       position: relative;
     }
 
+
     .video-card h3 {
       margin-bottom: 12px;
       padding-right: 36px;
     }
+
 
     .video-wrapper {
       position: relative;
@@ -373,6 +446,7 @@
       background: #111;
     }
 
+
     .video-wrapper iframe {
       position: absolute;
       inset: 0;
@@ -380,6 +454,7 @@
       height: 100%;
       border: none;
     }
+
 
     .delete-video-btn {
       position: absolute;
@@ -394,13 +469,17 @@
       cursor: pointer;
     }
 
-    /* LINK GRID */
+
+    /* ============================
+       LINK GRID
+    ============================ */
 
     .link-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
+
 
     .comfort-link {
       background: var(--box);
@@ -413,13 +492,17 @@
       font-weight: 700;
     }
 
+
     .comfort-link span {
       display: block;
       font-size: 1.6rem;
       margin-bottom: 4px;
     }
 
-    /* BROWSER */
+
+    /* ============================
+       BROWSER
+    ============================ */
 
     #browser-screen {
       display: none;
@@ -429,6 +512,7 @@
       z-index: 3000;
       flex-direction: column;
     }
+
 
     #browser-header {
       min-height: 58px;
@@ -441,10 +525,12 @@
       flex-wrap: wrap;
     }
 
+
     #browser-title {
       font-weight: 700;
       white-space: nowrap;
     }
+
 
     #browser-address {
       flex: 1;
@@ -459,6 +545,7 @@
       font-size: 14px;
     }
 
+
     .browser-control {
       border: none;
       border-radius: 9px;
@@ -469,21 +556,26 @@
       font-family: inherit;
     }
 
+
     .browser-go {
       background: #007aff;
     }
+
 
     .browser-new {
       background: #5856d6;
     }
 
+
     .browser-external {
       background: #34c759;
     }
 
+
     .browser-close {
       background: #ff3b30;
     }
+
 
     #browser-status {
       min-height: 30px;
@@ -495,6 +587,7 @@
       font-size: 12px;
     }
 
+
     #browser-container {
       flex: 1;
       width: 100%;
@@ -502,12 +595,14 @@
       position: relative;
     }
 
+
     #browser-frame {
       width: 100%;
       height: 100%;
       border: none;
       background: white;
     }
+
 
     #browser-loading {
       position: absolute;
@@ -524,6 +619,7 @@
       padding: 30px;
     }
 
+
     #browser-loading .spinner {
       width: 42px;
       height: 42px;
@@ -533,13 +629,17 @@
       animation: spin 0.8s linear infinite;
     }
 
+
     @keyframes spin {
       to {
         transform: rotate(360deg);
       }
     }
 
-    /* BROWSER HELP */
+
+    /* ============================
+       BROWSER HELP
+    ============================ */
 
     .browser-help {
       background: var(--box);
@@ -551,11 +651,199 @@
       color: var(--muted);
     }
 
+
     .browser-help strong {
       color: var(--text);
     }
 
-    /* FOOTER */
+
+    /* ============================================================
+       CODE RUNNER
+    ============================================================ */
+
+    .code-runner {
+      margin-top: 16px;
+    }
+
+
+    .code-runner-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+
+    .code-language {
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      background: var(--box);
+      color: var(--text);
+      font-family: inherit;
+      font-weight: 600;
+      outline: none;
+    }
+
+
+    .code-input {
+      width: 100%;
+      min-height: 330px;
+      resize: vertical;
+      padding: 18px;
+      border-radius: 16px;
+      border: 2px solid var(--border);
+      background: #111827;
+      color: #e5f6ff;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      outline: none;
+      tab-size: 2;
+    }
+
+
+    .code-input:focus {
+      border-color: var(--primary);
+    }
+
+
+    .saved-code-section {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--box);
+      border: 1px solid var(--border);
+    }
+
+
+    .saved-code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+
+    .saved-code-header h3 {
+      margin: 0;
+    }
+
+
+    .saved-code-header span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+
+    .saved-code-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-top: 8px;
+    }
+
+
+    .saved-code-info {
+      min-width: 0;
+    }
+
+
+    .saved-code-title {
+      font-weight: 700;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+
+    .saved-code-type {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 3px;
+    }
+
+
+    .saved-code-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+
+    .saved-code-actions button {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+    }
+
+
+    .saved-load-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+
+    .saved-delete-btn {
+      background: #ff6b6b;
+      color: white;
+    }
+
+
+    .saved-code-empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 15px;
+    }
+
+
+    .code-output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      margin-bottom: 10px;
+    }
+
+
+    .code-output-header h3 {
+      margin: 0;
+    }
+
+
+    .code-preview-wrapper {
+      width: 100%;
+      height: 500px;
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+    }
+
+
+    #codePreview {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+
+    /* ============================
+       FOOTER
+    ============================ */
 
     footer {
       text-align: center;
@@ -563,13 +851,17 @@
       color: var(--muted);
     }
 
-    /* MOBILE */
+
+    /* ============================
+       MOBILE
+    ============================ */
 
     @media (max-width: 900px) {
 
       .nav-menu {
         display: none;
       }
+
 
       .nav-menu:not(.hidden) {
         display: flex;
@@ -583,788 +875,1123 @@
         box-shadow: 0 10px 30px var(--shadow);
       }
 
+
       .hamburger {
         display: block;
       }
+
 
       .link-grid {
         grid-template-columns: 1fr;
       }
 
+
       #browser-title {
         display: none;
       }
+
 
       #browser-header {
         padding: 8px;
       }
 
+
       .browser-control {
         padding: 8px 9px;
       }
+
     }
+
+
+    @media (max-width: 700px) {
+
+      .code-preview-wrapper {
+        height: 400px;
+      }
+
+
+      .code-input {
+        min-height: 250px;
+      }
+
+
+      .saved-code-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+
+      .saved-code-actions {
+        width: 100%;
+      }
+
+    }
+
   </style>
 
 </head>
 
+
 <body data-theme="light">
 
-  <!-- LOGIN -->
+
+  <!-- ============================================================
+       LOGIN
+  ============================================================ -->
 
   <div id="loginScreen">
+
     <div class="login-box">
-
-```
-  <div style="font-size:3rem; margin-bottom:8px;">🎬</div>
-
-  <h1>My Lifeline</h1>
-
-  <p>Enter your personal key</p>
-
-  <input
-    type="text"
-    id="username"
-    placeholder="Username"
-    autocomplete="username"
-  >
-
-  <input
-    type="password"
-    id="password"
-    placeholder="Password"
-    autocomplete="current-password"
-  >
-
-  <button class="login-button" onclick="checkLogin()">
-    Enter Safe Space
-  </button>
-
-</div>
-```
-
-  </div>
-
-  <!-- MAIN -->
-
-  <div id="mainContent" class="hidden">
-
-```
-<!-- NAVIGATION -->
-
-<nav>
-
-  <div class="logo">
-    <span>🫂</span>
-    My Lifeline
-  </div>
-
-  <div class="nav-menu" id="navMenu">
-
-    <button class="nav-btn" onclick="navigateTo('index.html')">
-      🏠 Dashboard
-    </button>
-
-    <div class="dropdown">
-
-      <button class="nav-btn">
-        🛡️ Support
-      </button>
-
-      <div class="dropdown-content">
-
-        <a href="emergency.html">
-          🚨 Emergency
-        </a>
-
-        <a href="bestie.html">
-          🫂 AI Bestie
-        </a>
-
-        <a href="onebreath.html">
-          😮‍💨 Breathing
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="dropdown">
-
-      <button class="nav-btn">
-        🧠 Tools
-      </button>
-
-      <div class="dropdown-content">
-
-        <a href="mental.html">
-          🧠 Mental Tools
-        </a>
-
-        <a href="reflect.html">
-          📝 Reflect
-        </a>
-
-        <a href="reframe.html">
-          💭 Reframe
-        </a>
-
-        <a href="emotion-radar.html">
-          📡 Emotion Radar
-        </a>
-
-        <a href="selfcare.html">
-          🧘 Selfcare
-        </a>
-
-        <a href="selfcare-planner.html">
-          📓 Planner
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="dropdown">
-
-      <button class="nav-btn">
-        🌈 Comfort
-      </button>
-
-      <div class="dropdown-content">
-
-        <a href="music.html">
-          🎵 Music
-        </a>
-
-        <a href="lofiroom.html">
-          🌙 Lofi Room
-        </a>
-
-        <a href="videos.html">
-          📺 Videos
-        </a>
-
-        <a href="virtualpet.html">
-          🐾 Virtual Pet
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="dropdown">
-
-      <button class="nav-btn">
-        📖 Journal
-      </button>
-
-      <div class="dropdown-content">
-
-        <a href="letters.html">
-          ✉️ Letters
-        </a>
-
-        <a href="goodthings.html">
-          🌱 Good Things
-        </a>
-
-        <a href="todayistayed.html">
-          📌 Today I Stayed
-        </a>
-
-        <a href="yourenough.html">
-          💙 You're Enough
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <button
-      class="nav-btn"
-      onclick="navigateTo('2048.html')"
-    >
-      🎮 2048
-    </button>
-
-
-    <button
-      class="nav-btn"
-      onclick="navigateTo('chatroom.html')"
-    >
-      💬 Chat Room
-    </button>
-
-  </div>
-
-
-  <div class="nav-right">
-
-    <button
-      onclick="toggleDarkMode()"
-      class="nav-btn"
-      title="Toggle dark mode"
-    >
-      🌗
-    </button>
-
-    <button
-      onclick="activateLockdown()"
-      class="nav-btn lock-btn"
-      title="Lock page"
-    >
-      🔒
-    </button>
-
-    <button
-      onclick="logout()"
-      class="nav-btn logout-btn"
-    >
-      Logout
-    </button>
-
-    <span
-      class="hamburger"
-      onclick="toggleMobileMenu()"
-    >
-      ☰
-    </span>
-
-  </div>
-
-</nav>
-
-
-<!-- LOCKDOWN -->
-
-<div id="lockdown">
-
-  <h1>
-    🛡️ Lockdown Active
-  </h1>
-
-  <p>
-    Everything hidden. You are safe.
-  </p>
-
-  <input
-    id="unlockKey"
-    type="password"
-    placeholder="Enter key"
-  >
-
-  <button
-    class="unlock-btn"
-    onclick="deactivateLockdown()"
-  >
-    Return
-  </button>
-
-</div>
-
-
-<!-- FLOATING BESTIE -->
-
-<div
-  class="floating-bestie"
-  onclick="location.href='bestie.html'"
-  title="AI Bestie"
->
-  🫂
-</div>
-
-
-<!-- PAGE CONTENT -->
-
-<main>
-
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <div style="font-size:2.6rem; margin-bottom:6px;">
-      🌐
-    </div>
-
-    <h1>
-      Videos + Browse Anything
-    </h1>
-
-    <p>
-      Watch comfort videos or browse the web
-    </p>
-
-  </section>
-
-
-  <!-- BROWSE ANYTHING -->
-
-  <section class="section">
-
-    <div class="section-title">
-
-      <span style="font-size:1.7rem;">
-        🌐
-      </span>
-
-      <h2>
-        Browse Anything
-      </h2>
-
-    </div>
-
-    <p class="section-description">
-
-      Search the web or enter a website address below.
-      Some websites may block being displayed inside another page,
-      so an "Open in New Tab" option is also available.
-
-    </p>
-
-
-    <div
-      style="
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        margin-bottom:10px;
-      "
-    >
-
-      <input
-        type="text"
-        id="browserUrlInput"
-        placeholder="Search Google or enter a website..."
-        style="
-          flex:1;
-          min-width:220px;
-          padding:13px 15px;
-          border-radius:14px;
-          border:2px solid var(--border);
-          background:var(--box);
-          color:var(--text);
-          font-family:inherit;
-          font-size:1rem;
-          outline:none;
-        "
-        onkeydown="if(event.key === 'Enter') browseFromMainInput()"
-      >
-
-      <button
-        class="action-btn"
-        onclick="browseFromMainInput()"
-      >
-        🔎 Browse
-      </button>
-
-    </div>
-
-
-    <div
-      style="
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-      "
-    >
-
-      <button
-        class="action-btn"
-        onclick="openBrowserWithUrl('https://www.google.com')"
-      >
-        🌎 Google
-      </button>
-
-      <button
-        class="action-btn"
-        onclick="openBrowserWithUrl('https://www.youtube.com')"
-      >
-        ▶️ YouTube
-      </button>
-
-      <button
-        class="action-btn secondary"
-        onclick="openExternalFromMainInput()"
-      >
-        ↗️ Open New Tab
-      </button>
-
-    </div>
-
-
-    <div class="browser-help">
-
-      <strong>💡 How it works:</strong><br>
-
-      Enter a website or search phrase above.
-      The page will try to load it inside the Lifeline browser.
-      If a website refuses to be embedded, use
-      <strong>Open New Tab</strong> to open it normally.
-
-    </div>
-
-  </section>
-
-
-  <!-- ADD CUSTOM VIDEO -->
-
-  <section class="section">
-
-    <div class="section-title">
-
-      <span style="font-size:1.7rem;">
-        ➕
-      </span>
-
-      <h2>
-        Add Your Own Video
-      </h2>
-
-    </div>
-
-    <p class="section-description">
-      Paste a direct video link such as an MP4 or Archive.org video.
-    </p>
-
-
-    <div
-      style="
-        display:flex;
-        flex-direction:column;
-        gap:10px;
-      "
-    >
-
-      <input
-        type="text"
-        id="customTitle"
-        placeholder="Video title (optional)"
-        style="
-          padding:12px 14px;
-          border-radius:12px;
-          border:2px solid var(--border);
-          background:var(--box);
-          color:var(--text);
-        "
-      >
-
 
       <div
         style="
-          display:flex;
-          gap:10px;
-          flex-wrap:wrap;
+          font-size:3rem;
+          margin-bottom:8px;
         "
       >
+        🎬
+      </div>
 
-        <input
-          type="url"
-          id="customUrl"
-          placeholder="Paste video link..."
-          style="
-            flex:1;
-            min-width:180px;
-            padding:12px 14px;
-            border-radius:12px;
-            border:2px solid var(--border);
-            background:var(--box);
-            color:var(--text);
-          "
-        >
+
+      <h1>
+        My Lifeline
+      </h1>
+
+
+      <p>
+        Enter your personal key
+      </p>
+
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        autocomplete="username"
+      >
+
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
+
+
+      <button
+        class="login-button"
+        onclick="checkLogin()"
+      >
+        Enter Safe Space
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ============================================================
+       MAIN
+  ============================================================ -->
+
+  <div
+    id="mainContent"
+    class="hidden"
+  >
+
+
+    <!-- ============================================================
+         NAVIGATION
+    ============================================================ -->
+
+    <nav>
+
+      <div class="logo">
+        <span>🫂</span>
+        My Lifeline
+      </div>
+
+
+      <div
+        class="nav-menu"
+        id="navMenu"
+      >
 
         <button
-          class="action-btn"
-          onclick="addCustomVideo()"
+          class="nav-btn"
+          onclick="navigateTo('index.html')"
         >
-          ➕ Add Video
+          🏠 Dashboard
+        </button>
+
+
+        <div class="dropdown">
+
+          <button class="nav-btn">
+            🛡️ Support
+          </button>
+
+
+          <div class="dropdown-content">
+
+            <a href="emergency.html">
+              🚨 Emergency
+            </a>
+
+
+            <a href="bestie.html">
+              🫂 AI Bestie
+            </a>
+
+
+            <a href="onebreath.html">
+              😮‍💨 Breathing
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+          <button class="nav-btn">
+            🧠 Tools
+          </button>
+
+
+          <div class="dropdown-content">
+
+            <a href="mental.html">
+              🧠 Mental Tools
+            </a>
+
+
+            <a href="reflect.html">
+              📝 Reflect
+            </a>
+
+
+            <a href="reframe.html">
+              💭 Reframe
+            </a>
+
+
+            <a href="emotion-radar.html">
+              📡 Emotion Radar
+            </a>
+
+
+            <a href="selfcare.html">
+              🧘 Selfcare
+            </a>
+
+
+            <a href="selfcare-planner.html">
+              📓 Planner
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+          <button class="nav-btn">
+            🌈 Comfort
+          </button>
+
+
+          <div class="dropdown-content">
+
+            <a href="music.html">
+              🎵 Music
+            </a>
+
+
+            <a href="lofiroom.html">
+              🌙 Lofi Room
+            </a>
+
+
+            <a href="videos.html">
+              📺 Videos
+            </a>
+
+
+            <a href="virtualpet.html">
+              🐾 Virtual Pet
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+          <button class="nav-btn">
+            📖 Journal
+          </button>
+
+
+          <div class="dropdown-content">
+
+            <a href="letters.html">
+              ✉️ Letters
+            </a>
+
+
+            <a href="goodthings.html">
+              🌱 Good Things
+            </a>
+
+
+            <a href="todayistayed.html">
+              📌 Today I Stayed
+            </a>
+
+
+            <a href="yourenough.html">
+              💙 You're Enough
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="nav-btn"
+          onclick="navigateTo('2048.html')"
+        >
+          🎮 2048
+        </button>
+
+
+        <button
+          class="nav-btn"
+          onclick="navigateTo('chatroom.html')"
+        >
+          💬 Chat Room
         </button>
 
       </div>
 
-    </div>
+
+      <div class="nav-right">
+
+        <button
+          onclick="toggleDarkMode()"
+          class="nav-btn"
+          title="Toggle dark mode"
+        >
+          🌗
+        </button>
 
 
-    <div id="customVideos"></div>
-
-  </section>
-
-
-  <!-- COMFORT TV -->
-
-  <section class="section">
-
-    <div class="section-title">
-
-      <span style="font-size:1.7rem;">
-        🎞️
-      </span>
-
-      <h2>
-        Comfort TV
-      </h2>
-
-    </div>
+        <button
+          onclick="activateLockdown()"
+          class="nav-btn lock-btn"
+          title="Lock page"
+        >
+          🔒
+        </button>
 
 
-    <div class="video-card">
+        <button
+          onclick="logout()"
+          class="nav-btn logout-btn"
+        >
+          Logout
+        </button>
 
-      <h3>
-        🏎️ Dukes of Hazzard – Season 1-6
-      </h3>
 
-      <div class="video-wrapper">
-
-        <iframe
-          src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
+        <span
+          class="hamburger"
+          onclick="toggleMobileMenu()"
+        >
+          ☰
+        </span>
 
       </div>
 
-    </div>
+    </nav>
 
 
-    <div class="video-card">
+    <!-- ============================================================
+         LOCKDOWN
+    ============================================================ -->
 
-      <h3>
-        🏎️ Dukes of Hazzard – Season 7
-      </h3>
+    <div id="lockdown">
 
-      <div class="video-wrapper">
-
-        <iframe
-          src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4"
-          allowfullscreen
-          loading="lazy"
-        ></iframe>
-
-      </div>
-
-    </div>
-
-  </section>
+      <h1>
+        🛡️ Lockdown Active
+      </h1>
 
 
-  <!-- STREAMING -->
+      <p>
+        Everything hidden. You are safe.
+      </p>
 
-  <section class="section">
 
-    <div class="section-title">
+      <input
+        id="unlockKey"
+        type="password"
+        placeholder="Enter key"
+      >
 
-      <span style="font-size:1.7rem;">
-        🍿
-      </span>
 
-      <h2>
-        Streaming Services
-      </h2>
+      <button
+        class="unlock-btn"
+        onclick="deactivateLockdown()"
+      >
+        Return
+      </button>
 
     </div>
 
 
-    <div class="link-grid">
+    <!-- ============================================================
+         FLOATING BESTIE
+    ============================================================ -->
 
-      <a
-        class="comfort-link"
-        href="https://www.netflix.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>🔴</span>
-        Netflix
-      </a>
-
-
-      <a
-        class="comfort-link"
-        href="https://www.hulu.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>🟢</span>
-        Hulu
-      </a>
-
-
-      <a
-        class="comfort-link"
-        href="https://www.primevideo.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>🔵</span>
-        Prime Video
-      </a>
-
-
-      <a
-        class="comfort-link"
-        href="https://www.tubitv.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>📺</span>
-        Tubi
-      </a>
-
-
-      <a
-        class="comfort-link"
-        href="https://www.pluto.tv"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>🪐</span>
-        Pluto TV
-      </a>
-
+    <div
+      class="floating-bestie"
+      onclick="location.href='bestie.html'"
+      title="AI Bestie"
+    >
+      🫂
     </div>
 
-  </section>
 
-</main>
+    <!-- ============================================================
+         PAGE CONTENT
+    ============================================================ -->
+
+    <main>
 
 
-<footer>
-  My Lifeline • Watch + Browse freely 💙
-</footer>
-```
+      <!-- HERO -->
+
+      <section class="hero">
+
+        <div
+          style="
+            font-size:2.6rem;
+            margin-bottom:6px;
+          "
+        >
+          🌐
+        </div>
+
+
+        <h1>
+          Videos + Browse Anything
+        </h1>
+
+
+        <p>
+          Watch comfort videos or browse the web
+        </p>
+
+      </section>
+
+
+      <!-- ========================================================
+           BROWSE ANYTHING
+      ======================================================== -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <span style="font-size:1.7rem;">
+            🌐
+          </span>
+
+
+          <h2>
+            Browse Anything
+          </h2>
+
+        </div>
+
+
+        <p class="section-description">
+
+          Search the web or enter a website address below.
+          Some websites may block being displayed inside another page,
+          so an "Open in New Tab" option is also available.
+
+        </p>
+
+
+        <div
+          style="
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+            margin-bottom:10px;
+          "
+        >
+
+          <input
+            type="text"
+            id="browserUrlInput"
+            placeholder="Search Google or enter a website..."
+            style="
+              flex:1;
+              min-width:220px;
+              padding:13px 15px;
+              border-radius:14px;
+              border:2px solid var(--border);
+              background:var(--box);
+              color:var(--text);
+              font-family:inherit;
+              font-size:1rem;
+              outline:none;
+            "
+            onkeydown="if(event.key === 'Enter') browseFromMainInput()"
+          >
+
+
+          <button
+            class="action-btn"
+            onclick="browseFromMainInput()"
+          >
+            🔎 Browse
+          </button>
+
+        </div>
+
+
+        <div
+          style="
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+          "
+        >
+
+          <button
+            class="action-btn"
+            onclick="openBrowserWithUrl('https://www.google.com')"
+          >
+            🌎 Google
+          </button>
+
+
+          <button
+            class="action-btn"
+            onclick="openBrowserWithUrl('https://www.youtube.com')"
+          >
+            ▶️ YouTube
+          </button>
+
+
+          <button
+            class="action-btn secondary"
+            onclick="openExternalFromMainInput()"
+          >
+            ↗️ Open New Tab
+          </button>
+
+        </div>
+
+
+        <div class="browser-help">
+
+          <strong>💡 How it works:</strong><br>
+
+          Enter a website or search phrase above.
+          The page will try to load it inside the Lifeline browser.
+          If a website refuses to be embedded, use
+          <strong>Open New Tab</strong> to open it normally.
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================================
+           ADD CUSTOM VIDEO
+      ======================================================== -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <span style="font-size:1.7rem;">
+            ➕
+          </span>
+
+
+          <h2>
+            Add Your Own Video
+          </h2>
+
+        </div>
+
+
+        <p class="section-description">
+          Paste a direct video link such as an MP4 or Archive.org video.
+        </p>
+
+
+        <div
+          style="
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+          "
+        >
+
+          <input
+            type="text"
+            id="customTitle"
+            placeholder="Video title (optional)"
+            style="
+              padding:12px 14px;
+              border-radius:12px;
+              border:2px solid var(--border);
+              background:var(--box);
+              color:var(--text);
+            "
+          >
+
+
+          <div
+            style="
+              display:flex;
+              gap:10px;
+              flex-wrap:wrap;
+            "
+          >
+
+            <input
+              type="url"
+              id="customUrl"
+              placeholder="Paste video link..."
+              style="
+                flex:1;
+                min-width:180px;
+                padding:12px 14px;
+                border-radius:12px;
+                border:2px solid var(--border);
+                background:var(--box);
+                color:var(--text);
+              "
+            >
+
+
+            <button
+              class="action-btn"
+              onclick="addCustomVideo()"
+            >
+              ➕ Add Video
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div id="customVideos"></div>
+
+      </section>
+
+
+      <!-- ========================================================
+           CODE RUNNER
+      ======================================================== -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <span style="font-size:1.7rem;">
+            💻
+          </span>
+
+
+          <h2>
+            Code Runner
+          </h2>
+
+        </div>
+
+
+        <p class="section-description">
+
+          Run HTML, CSS, JavaScript, iframe embeds, video embeds,
+          widgets, and other browser-based code. Saved code is
+          stored locally in this browser.
+
+        </p>
+
+
+        <div class="code-runner">
+
+
+          <!-- CODE TOOLBAR -->
+
+          <div class="code-runner-toolbar">
+
+            <select
+              id="codeLanguage"
+              class="code-language"
+            >
+
+              <option value="html">
+                HTML / Web
+              </option>
+
+              <option value="javascript">
+                JavaScript
+              </option>
+
+              <option value="embed">
+                Embed / iframe
+              </option>
+
+              <option value="text">
+                Plain Text
+              </option>
+
+            </select>
+
+
+            <button
+              class="action-btn"
+              onclick="runCode()"
+            >
+              ▶️ Run
+            </button>
+
+
+            <button
+              class="action-btn secondary"
+              onclick="clearCodeRunner()"
+            >
+              🗑️ Clear
+            </button>
+
+
+            <button
+              class="action-btn dark"
+              onclick="saveCodeRunner()"
+            >
+              💾 Save
+            </button>
+
+          </div>
+
+
+          <!-- CODE EDITOR -->
+
+          <textarea
+            id="codeInput"
+            class="code-input"
+            spellcheck="false"
+            placeholder="Paste HTML, CSS, JavaScript, an iframe embed, video embed, widget, etc. here...
+
+Example:
+
+<div style='padding:30px; text-align:center;'>
+  <h1>Hello!</h1>
+  <p>This is running inside the Code Runner.</p>
+</div>
+
+Or an iframe:
+
+<iframe
+  src='https://example.com'
+  width='100%'
+  height='500'
+  frameborder='0'
+  allowfullscreen>
+</iframe>"
+          ></textarea>
+
+
+          <!-- SAVED CODE -->
+
+          <div class="saved-code-section">
+
+            <div class="saved-code-header">
+
+              <h3>
+                💾 Saved Code
+              </h3>
+
+
+              <span>
+                Stored locally in this browser
+              </span>
+
+            </div>
+
+
+            <div id="savedCodeList">
+
+              <div class="saved-code-empty">
+                No saved code yet.
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PREVIEW HEADER -->
+
+          <div class="code-output-header">
+
+            <h3>
+              🖥️ Preview
+            </h3>
+
+
+            <button
+              class="browser-control browser-new"
+              onclick="openCodePreviewNewTab()"
+            >
+              ↗️ New Tab
+            </button>
+
+          </div>
+
+
+          <!-- PREVIEW -->
+
+          <div class="code-preview-wrapper">
+
+            <iframe
+              id="codePreview"
+              title="Code Runner Preview"
+              sandbox="
+                allow-forms
+                allow-modals
+                allow-popups
+                allow-popups-to-escape-sandbox
+                allow-presentation
+                allow-same-origin
+                allow-scripts
+              "
+              referrerpolicy="no-referrer"
+            ></iframe>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================================
+           COMFORT TV
+      ======================================================== -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <span style="font-size:1.7rem;">
+            🎞️
+          </span>
+
+
+          <h2>
+            Comfort TV
+          </h2>
+
+        </div>
+
+
+        <div class="video-card">
+
+          <h3>
+            🏎️ Dukes of Hazzard – Season 1-6
+          </h3>
+
+
+          <div class="video-wrapper">
+
+            <iframe
+              src="https://archive.org/details/bitchute_-_classictelevisionseries_2020/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg)/20200711+-+IMIohbw2D3pN+-+The+Dukes+Of+Hazzard+-+Season+4+-+Episode+1+(Mrs.+Daisy+Hogg).mp4"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+
+          </div>
+
+        </div>
+
+
+        <div class="video-card">
+
+          <h3>
+            🏎️ Dukes of Hazzard – Season 7
+          </h3>
+
+
+          <div class="video-wrapper">
+
+            <iframe
+              src="https://archive.org/details/bitchute_-_classictelevisionseries_2021/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke)/20210103+-+2ZpQKubDsGeL+-+The+Dukes+Of+Hazzard+-+Season+7+-+Episode+3+(Dr.+Jekyll+And+Mr.+Duke).mp4"
+              allowfullscreen
+              loading="lazy"
+            ></iframe>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================================================
+           STREAMING
+      ======================================================== -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <span style="font-size:1.7rem;">
+            🍿
+          </span>
+
+
+          <h2>
+            Streaming Services
+          </h2>
+
+        </div>
+
+
+        <div class="link-grid">
+
+
+          <a
+            class="comfort-link"
+            href="https://www.netflix.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔴</span>
+            Netflix
+          </a>
+
+
+          <a
+            class="comfort-link"
+            href="https://www.hulu.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🟢</span>
+            Hulu
+          </a>
+
+
+          <a
+            class="comfort-link"
+            href="https://www.primevideo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🔵</span>
+            Prime Video
+          </a>
+
+
+          <a
+            class="comfort-link"
+            href="https://www.tubitv.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>📺</span>
+            Tubi
+          </a>
+
+
+          <a
+            class="comfort-link"
+            href="https://www.pluto.tv"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>🪐</span>
+            Pluto TV
+          </a>
+
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <footer>
+      My Lifeline • Watch + Browse freely 💙
+    </footer>
+
 
   </div>
 
-  <!-- BROWSER OVERLAY -->
+
+  <!-- ============================================================
+       BROWSER OVERLAY
+  ============================================================ -->
 
   <div id="browser-screen">
 
-```
-<div id="browser-header">
 
-  <span id="browser-title">
-    🌐 Lifeline Browser
-  </span>
+    <div id="browser-header">
 
-
-  <button
-    class="browser-control"
-    onclick="browserBack()"
-    title="Back"
-  >
-    ◀
-  </button>
+      <span id="browser-title">
+        🌐 Lifeline Browser
+      </span>
 
 
-  <button
-    class="browser-control"
-    onclick="browserForward()"
-    title="Forward"
-  >
-    ▶
-  </button>
+      <button
+        class="browser-control"
+        onclick="browserBack()"
+        title="Back"
+      >
+        ◀
+      </button>
 
 
-  <button
-    class="browser-control"
-    onclick="browserRefresh()"
-    title="Refresh"
-  >
-    🔄
-  </button>
+      <button
+        class="browser-control"
+        onclick="browserForward()"
+        title="Forward"
+      >
+        ▶
+      </button>
 
 
-  <input
-    id="browser-address"
-    type="text"
-    placeholder="Search or enter website..."
-    onkeydown="if(event.key === 'Enter') browserNavigate()"
-  >
+      <button
+        class="browser-control"
+        onclick="browserRefresh()"
+        title="Refresh"
+      >
+        🔄
+      </button>
 
 
-  <button
-    class="browser-control browser-go"
-    onclick="browserNavigate()"
-  >
-    Go
-  </button>
+      <input
+        id="browser-address"
+        type="text"
+        placeholder="Search or enter website..."
+        onkeydown="if(event.key === 'Enter') browserNavigate()"
+      >
 
 
-  <button
-    class="browser-control browser-new"
-    onclick="browserNewHome()"
-  >
-    🏠
-  </button>
+      <button
+        class="browser-control browser-go"
+        onclick="browserNavigate()"
+      >
+        Go
+      </button>
 
 
-  <button
-    class="browser-control browser-external"
-    onclick="openCurrentExternal()"
-  >
-    ↗
-  </button>
+      <button
+        class="browser-control browser-new"
+        onclick="browserNewHome()"
+      >
+        🏠
+      </button>
 
 
-  <button
-    class="browser-control browser-close"
-    onclick="closeBrowser()"
-  >
-    ✕
-  </button>
-
-</div>
+      <button
+        class="browser-control browser-external"
+        onclick="openCurrentExternal()"
+      >
+        ↗
+      </button>
 
 
-<div id="browser-status">
-  Ready
-</div>
+      <button
+        class="browser-control browser-close"
+        onclick="closeBrowser()"
+      >
+        ✕
+      </button>
+
+    </div>
 
 
-<div id="browser-container">
+    <div id="browser-status">
+      Ready
+    </div>
 
-  <div id="browser-loading">
 
-    <div class="spinner"></div>
+    <div id="browser-container">
 
-    <div id="browser-loading-text">
-      Loading website...
+      <div id="browser-loading">
+
+        <div class="spinner"></div>
+
+
+        <div id="browser-loading-text">
+          Loading website...
+        </div>
+
+      </div>
+
+
+      <iframe
+        id="browser-frame"
+        title="Lifeline Browser"
+        sandbox="
+          allow-forms
+          allow-modals
+          allow-popups
+          allow-popups-to-escape-sandbox
+          allow-presentation
+          allow-same-origin
+          allow-scripts
+        "
+        referrerpolicy="no-referrer"
+      ></iframe>
+
     </div>
 
   </div>
 
 
-  <iframe
-    id="browser-frame"
-    title="Lifeline Browser"
-    sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts"
-    referrerpolicy="no-referrer"
-  ></iframe>
-
-</div>
-```
-
-  </div>
-
-  <!-- JAVASCRIPT -->
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
 
   <script>
 
-    /* ============================
+
+    /* ============================================================
        THEME
-    ============================ */
+    ============================================================ */
 
     window.toggleDarkMode = function() {
 
       const isDark =
-        document.documentElement.getAttribute('data-theme') === 'dark';
+        document.documentElement.getAttribute(
+          'data-theme'
+        ) === 'dark';
+
 
       document.documentElement.setAttribute(
         'data-theme',
         isDark ? 'light' : 'dark'
       );
+
 
       localStorage.setItem(
         'lifeline-theme',
@@ -1375,7 +2002,9 @@
 
 
     if (
-      localStorage.getItem('lifeline-theme') === 'dark'
+      localStorage.getItem(
+        'lifeline-theme'
+      ) === 'dark'
     ) {
 
       document.documentElement.setAttribute(
@@ -1386,12 +2015,14 @@
     }
 
 
-    /* ============================
+    /* ============================================================
        NAVIGATION
-    ============================ */
+    ============================================================ */
 
     window.navigateTo = function(page) {
+
       location.href = page;
+
     };
 
 
@@ -1404,9 +2035,9 @@
     };
 
 
-    /* ============================
+    /* ============================================================
        LOCKDOWN
-    ============================ */
+    ============================================================ */
 
     window.activateLockdown = function() {
 
@@ -1425,11 +2056,13 @@
           .value
           .trim();
 
+
       if (key.length > 0) {
 
         document
           .getElementById('lockdown')
           .style.display = 'none';
+
 
         document
           .getElementById('unlockKey')
@@ -1440,9 +2073,9 @@
     };
 
 
-    /* ============================
+    /* ============================================================
        LOGIN
-    ============================ */
+    ============================================================ */
 
     window.checkLogin = function() {
 
@@ -1453,12 +2086,17 @@
           .trim()
           .toLowerCase();
 
+
       const pass =
         document
           .getElementById('password')
           .value
           .trim();
 
+
+      /*
+        EXISTING LOGIN CREDENTIALS
+      */
 
       const valid =
         (user === 'ryan' && pass === 'ITSmf420') ||
@@ -1475,17 +2113,34 @@
           'true'
         );
 
+
         document
           .getElementById('loginScreen')
           .classList.add('hidden');
+
 
         document
           .getElementById('mainContent')
           .classList.remove('hidden');
 
+
+        /*
+          Restore saved videos.
+        */
+
         renderCustomVideos();
 
-      } else {
+
+        /*
+          Restore saved code.
+        */
+
+        renderSavedCode();
+
+      }
+
+
+      else {
 
         alert(
           'Incorrect username or password.'
@@ -1496,16 +2151,25 @@
     };
 
 
+    /* ============================================================
+       LOGOUT
+    ============================================================ */
+
     window.logout = function() {
 
       localStorage.removeItem(
         'lifelineAuthenticated'
       );
 
+
       location.reload();
 
     };
 
+
+    /* ============================================================
+       RESTORE LOGIN SESSION
+    ============================================================ */
 
     if (
       localStorage.getItem(
@@ -1517,6 +2181,7 @@
         .getElementById('loginScreen')
         .classList.add('hidden');
 
+
       document
         .getElementById('mainContent')
         .classList.remove('hidden');
@@ -1524,9 +2189,9 @@
     }
 
 
-    /* ============================
+    /* ============================================================
        BROWSER
-    ============================ */
+    ============================================================ */
 
     let browserHistory = [];
 
@@ -1534,14 +2199,6 @@
 
     let currentBrowserUrl = '';
 
-
-    /*
-      This is a free proxy reader used as a fallback
-      for websites that permit proxy retrieval.
-
-      Websites that specifically block framing/proxies
-      can still be opened using the external button.
-    */
 
     const FREE_PROXY =
       'https://api.allorigins.win/raw?url=';
@@ -1551,14 +2208,16 @@
 
       value = value.trim();
 
+
       if (!value) {
+
         return 'https://www.google.com';
+
       }
 
 
       /*
-        If the user typed a search phrase instead
-        of a URL, send it to Google.
+        Search phrase.
       */
 
       if (
@@ -1580,7 +2239,8 @@
         !value.startsWith('https://')
       ) {
 
-        value = 'https://' + value;
+        value =
+          'https://' + value;
 
       }
 
@@ -1595,6 +2255,7 @@
       document
         .getElementById('browser-loading-text')
         .textContent = message;
+
 
       document
         .getElementById('browser-loading')
@@ -1634,9 +2295,13 @@
 
       if (
         browserHistoryIndex >= 0 &&
-        browserHistory[browserHistoryIndex] === url
+        browserHistory[
+          browserHistoryIndex
+        ] === url
       ) {
+
         return;
+
       }
 
 
@@ -1649,39 +2314,52 @@
 
       browserHistory.push(url);
 
+
       browserHistoryIndex =
         browserHistory.length - 1;
 
     }
 
 
-    /*
-      Main browser opening function.
-    */
-
     window.openBrowserWithUrl = function(url) {
 
-      url = normalizeUrl(url);
+      url =
+        normalizeUrl(url);
+
 
       document
         .getElementById('browser-screen')
         .style.display = 'flex';
 
-      navigateBrowser(url, true);
+
+      navigateBrowser(
+        url,
+        true
+      );
 
     };
 
 
-    function navigateBrowser(url, addHistory = true) {
+    function navigateBrowser(
+      url,
+      addHistory = true
+    ) {
 
-      url = normalizeUrl(url);
+      url =
+        normalizeUrl(url);
 
-      currentBrowserUrl = url;
+
+      currentBrowserUrl =
+        url;
+
 
       updateAddressBar(url);
 
+
       if (addHistory) {
+
         addToBrowserHistory(url);
+
       }
 
 
@@ -1701,18 +2379,14 @@
       );
 
 
-      /*
-        First try the website directly.
-        This allows websites that permit iframes
-        to work normally.
-      */
-
       frame.onload = function() {
 
         hideBrowserLoading();
 
+
         setBrowserStatus(
-          'Loaded: ' + currentBrowserUrl
+          'Loaded: ' +
+          currentBrowserUrl
         );
 
       };
@@ -1728,17 +2402,14 @@
       frame.src = url;
 
 
-      /*
-        Give blocked pages a chance to load.
-        If they remain blank, the user can use
-        Open New Tab.
-      */
+      setTimeout(
+        function() {
 
-      setTimeout(function() {
+          hideBrowserLoading();
 
-        hideBrowserLoading();
-
-      }, 8000);
+        },
+        8000
+      );
 
     }
 
@@ -1765,6 +2436,7 @@
 
         hideBrowserLoading();
 
+
         setBrowserStatus(
           'Loaded through free proxy'
         );
@@ -1776,6 +2448,7 @@
 
         hideBrowserLoading();
 
+
         setBrowserStatus(
           'This website blocked the browser. Use ↗ to open it normally.'
         );
@@ -1783,14 +2456,18 @@
       };
 
 
-      frame.src = proxyUrl;
+      frame.src =
+        proxyUrl;
 
 
-      setTimeout(function() {
+      setTimeout(
+        function() {
 
-        hideBrowserLoading();
+          hideBrowserLoading();
 
-      }, 10000);
+        },
+        10000
+      );
 
     }
 
@@ -1799,8 +2476,11 @@
 
       const value =
         document
-          .getElementById('browser-address')
+          .getElementById(
+            'browser-address'
+          )
           .value;
+
 
       navigateBrowser(
         normalizeUrl(value),
@@ -1827,10 +2507,12 @@
 
       browserHistoryIndex--;
 
+
       const url =
         browserHistory[
           browserHistoryIndex
         ];
+
 
       navigateBrowser(
         url,
@@ -1858,10 +2540,12 @@
 
       browserHistoryIndex++;
 
+
       const url =
         browserHistory[
           browserHistoryIndex
         ];
+
 
       navigateBrowser(
         url,
@@ -1874,8 +2558,11 @@
     window.browserRefresh = function() {
 
       if (!currentBrowserUrl) {
+
         return;
+
       }
+
 
       navigateBrowser(
         currentBrowserUrl,
@@ -1917,16 +2604,25 @@
     window.closeBrowser = function() {
 
       document
-        .getElementById('browser-screen')
+        .getElementById(
+          'browser-screen'
+        )
         .style.display = 'none';
 
+
       document
-        .getElementById('browser-frame')
+        .getElementById(
+          'browser-frame'
+        )
         .src = 'about:blank';
+
 
       currentBrowserUrl = '';
 
-      setBrowserStatus('Ready');
+
+      setBrowserStatus(
+        'Ready'
+      );
 
     };
 
@@ -1935,8 +2631,11 @@
 
       const value =
         document
-          .getElementById('browserUrlInput')
+          .getElementById(
+            'browserUrlInput'
+          )
           .value;
+
 
       if (!value.trim()) {
 
@@ -1949,7 +2648,9 @@
       }
 
 
-      openBrowserWithUrl(value);
+      openBrowserWithUrl(
+        value
+      );
 
     };
 
@@ -1958,8 +2659,11 @@
 
       const value =
         document
-          .getElementById('browserUrlInput')
+          .getElementById(
+            'browserUrlInput'
+          )
           .value;
+
 
       const url =
         normalizeUrl(value);
@@ -1974,9 +2678,9 @@
     };
 
 
-    /* ============================
+    /* ============================================================
        CUSTOM VIDEOS
-    ============================ */
+    ============================================================ */
 
     function getCustomVideos() {
 
@@ -1988,7 +2692,9 @@
           ) || '[]'
         );
 
-      } catch (error) {
+      }
+
+      catch (error) {
 
         return [];
 
@@ -2011,7 +2717,9 @@
 
       let title =
         document
-          .getElementById('customTitle')
+          .getElementById(
+            'customTitle'
+          )
           .value
           .trim() ||
         'Custom Video';
@@ -2019,7 +2727,9 @@
 
       let url =
         document
-          .getElementById('customUrl')
+          .getElementById(
+            'customUrl'
+          )
           .value
           .trim();
 
@@ -2036,11 +2746,16 @@
 
 
       if (
-        !url.startsWith('http://') &&
-        !url.startsWith('https://')
+        !url.startsWith(
+          'http://'
+        ) &&
+        !url.startsWith(
+          'https://'
+        )
       ) {
 
-        url = 'https://' + url;
+        url =
+          'https://' + url;
 
       }
 
@@ -2060,16 +2775,22 @@
       });
 
 
-      saveCustomVideos(list);
+      saveCustomVideos(
+        list
+      );
 
 
       document
-        .getElementById('customTitle')
+        .getElementById(
+          'customTitle'
+        )
         .value = '';
 
 
       document
-        .getElementById('customUrl')
+        .getElementById(
+          'customUrl'
+        )
         .value = '';
 
 
@@ -2085,18 +2806,24 @@
           'Remove this video?'
         )
       ) {
+
         return;
+
       }
 
 
       const list =
         getCustomVideos()
           .filter(
-            video => video.id !== id
+            video =>
+              video.id !== id
           );
 
 
-      saveCustomVideos(list);
+      saveCustomVideos(
+        list
+      );
+
 
       renderCustomVideos();
 
@@ -2106,9 +2833,14 @@
     function escapeHtml(value) {
 
       const div =
-        document.createElement('div');
+        document.createElement(
+          'div'
+        );
 
-      div.textContent = value;
+
+      div.textContent =
+        value;
+
 
       return div.innerHTML;
 
@@ -2124,7 +2856,9 @@
 
 
       if (!container) {
+
         return;
+
       }
 
 
@@ -2133,43 +2867,879 @@
 
 
       container.innerHTML =
-        list.map(video => `
+        list.map(
+          video => `
 
-          <div class="video-card">
+            <div class="video-card">
 
-            <button
-              class="delete-video-btn"
-              onclick="deleteCustomVideo(${video.id})"
-              title="Delete video"
-            >
-              ×
-            </button>
+              <button
+                class="delete-video-btn"
+                onclick="deleteCustomVideo(${video.id})"
+                title="Delete video"
+              >
+                ×
+              </button>
 
-            <h3>
-              ${escapeHtml(video.title)}
-            </h3>
 
-            <div class="video-wrapper">
+              <h3>
+                ${escapeHtml(video.title)}
+              </h3>
 
-              <iframe
-                src="${escapeHtml(video.url)}"
-                allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer"
-              ></iframe>
+
+              <div class="video-wrapper">
+
+                <iframe
+                  src="${escapeHtml(video.url)}"
+                  allowfullscreen
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                ></iframe>
+
+              </div>
 
             </div>
 
-          </div>
-
-        `).join('');
+          `
+        ).join('');
 
     }
 
 
-    /* ============================
-       INITIALIZE
-    ============================ */
+    /* ============================================================
+       CODE RUNNER
+    ============================================================ */
+
+    function getSavedCode() {
+
+      try {
+
+        return JSON.parse(
+          localStorage.getItem(
+            'lifelineSavedCode'
+          ) || '[]'
+        );
+
+      }
+
+      catch (error) {
+
+        return [];
+
+      }
+
+    }
+
+
+    function saveSavedCode(list) {
+
+      localStorage.setItem(
+        'lifelineSavedCode',
+        JSON.stringify(list)
+      );
+
+    }
+
+
+    /* ============================================================
+       RUN CODE
+    ============================================================ */
+
+    window.runCode = function() {
+
+      const code =
+        document
+          .getElementById(
+            'codeInput'
+          )
+          .value;
+
+
+      const language =
+        document
+          .getElementById(
+            'codeLanguage'
+          )
+          .value;
+
+
+      const preview =
+        document
+          .getElementById(
+            'codePreview'
+          );
+
+
+      if (!code.trim()) {
+
+        alert(
+          'Paste some code into the Code Runner first.'
+        );
+
+        return;
+
+      }
+
+
+      let output =
+        code;
+
+
+      /*
+        HTML / Web
+      */
+
+      if (
+        language === 'html'
+      ) {
+
+        output =
+          code;
+
+      }
+
+
+      /*
+        EMBED / IFRAME
+      */
+
+      else if (
+        language === 'embed'
+      ) {
+
+        output = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<style>
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  overflow: auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${code}
+
+</body>
+
+</html>
+
+`;
+
+      }
+
+
+      /*
+        JAVASCRIPT
+      */
+
+      else if (
+        language === 'javascript'
+      ) {
+
+        output = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="output"></div>
+
+<script>
+
+try {
+
+${code}
+
+}
+
+catch (error) {
+
+  document
+    .getElementById('output')
+    .innerHTML =
+      '<pre style="color:red;white-space:pre-wrap;">' +
+      String(error) +
+      '</pre>';
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`;
+
+      }
+
+
+      /*
+        PLAIN TEXT
+      */
+
+      else if (
+        language === 'text'
+      ) {
+
+        output = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 25px;
+  white-space: pre-wrap;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${escapeCodeRunnerHtml(code)}
+
+</body>
+
+</html>
+
+`;
+
+      }
+
+
+      /*
+        Use a Blob so the preview
+        gets its own isolated document.
+      */
+
+      const blob =
+        new Blob(
+          [output],
+          {
+            type: 'text/html'
+          }
+        );
+
+
+      const blobUrl =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      preview.src =
+        blobUrl;
+
+
+      setTimeout(
+        function() {
+
+          URL.revokeObjectURL(
+            blobUrl
+          );
+
+        },
+        60000
+      );
+
+    };
+
+
+    /* ============================================================
+       CLEAR CODE RUNNER
+    ============================================================ */
+
+    window.clearCodeRunner = function() {
+
+      document
+        .getElementById(
+          'codeInput'
+        )
+        .value = '';
+
+
+      document
+        .getElementById(
+          'codePreview'
+        )
+        .srcdoc = '';
+
+
+      document
+        .getElementById(
+          'codePreview'
+        )
+        .src = 'about:blank';
+
+    };
+
+
+    /* ============================================================
+       ESCAPE CODE
+    ============================================================ */
+
+    function escapeCodeRunnerHtml(
+      value
+    ) {
+
+      const div =
+        document.createElement(
+          'div'
+        );
+
+
+      div.textContent =
+        value;
+
+
+      return div.innerHTML;
+
+    }
+
+
+    /* ============================================================
+       SAVE CODE
+    ============================================================ */
+
+    window.saveCodeRunner = function() {
+
+      const code =
+        document
+          .getElementById(
+            'codeInput'
+          )
+          .value
+          .trim();
+
+
+      const language =
+        document
+          .getElementById(
+            'codeLanguage'
+          )
+          .value;
+
+
+      if (!code) {
+
+        alert(
+          'Paste some code before saving it.'
+        );
+
+        return;
+
+      }
+
+
+      const title =
+        prompt(
+          'Give this code a name:',
+          'My Code'
+        );
+
+
+      if (title === null) {
+
+        return;
+
+      }
+
+
+      const cleanTitle =
+        title.trim() ||
+        'My Code';
+
+
+      const list =
+        getSavedCode();
+
+
+      list.unshift({
+
+        id: Date.now(),
+
+        title:
+          cleanTitle,
+
+        language:
+          language,
+
+        code:
+          code,
+
+        savedAt:
+          new Date().toISOString()
+
+      });
+
+
+      saveSavedCode(
+        list
+      );
+
+
+      renderSavedCode();
+
+
+      alert(
+        'Code saved to this browser.'
+      );
+
+    };
+
+
+    /* ============================================================
+       LOAD SAVED CODE
+    ============================================================ */
+
+    window.loadSavedCode = function(id) {
+
+      const list =
+        getSavedCode();
+
+
+      const item =
+        list.find(
+          code =>
+            code.id === id
+        );
+
+
+      if (!item) {
+
+        return;
+
+      }
+
+
+      document
+        .getElementById(
+          'codeInput'
+        )
+        .value =
+          item.code;
+
+
+      document
+        .getElementById(
+          'codeLanguage'
+        )
+        .value =
+          item.language;
+
+
+      runCode();
+
+
+      document
+        .getElementById(
+          'codeInput'
+        )
+        .scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+    };
+
+
+    /* ============================================================
+       DELETE SAVED CODE
+    ============================================================ */
+
+    window.deleteSavedCode = function(id) {
+
+      if (
+        !confirm(
+          'Delete this saved code?'
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const list =
+        getSavedCode()
+          .filter(
+            code =>
+              code.id !== id
+          );
+
+
+      saveSavedCode(
+        list
+      );
+
+
+      renderSavedCode();
+
+    };
+
+
+    /* ============================================================
+       RENDER SAVED CODE
+    ============================================================ */
+
+    function renderSavedCode() {
+
+      const container =
+        document
+          .getElementById(
+            'savedCodeList'
+          );
+
+
+      if (!container) {
+
+        return;
+
+      }
+
+
+      const list =
+        getSavedCode();
+
+
+      if (!list.length) {
+
+        container.innerHTML = `
+
+          <div class="saved-code-empty">
+            No saved code yet.
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        list.map(
+          item => `
+
+            <div class="saved-code-item">
+
+              <div class="saved-code-info">
+
+                <div class="saved-code-title">
+
+                  ${escapeCodeRunnerHtml(
+                    item.title
+                  )}
+
+                </div>
+
+
+                <div class="saved-code-type">
+
+                  ${escapeCodeRunnerHtml(
+                    item.language
+                  )}
+
+                </div>
+
+              </div>
+
+
+              <div class="saved-code-actions">
+
+                <button
+                  class="saved-load-btn"
+                  onclick="loadSavedCode(${item.id})"
+                >
+                  ▶️ Load
+                </button>
+
+
+                <button
+                  class="saved-delete-btn"
+                  onclick="deleteSavedCode(${item.id})"
+                >
+                  🗑️
+                </button>
+
+              </div>
+
+            </div>
+
+          `
+        ).join('');
+
+    }
+
+
+    /* ============================================================
+       OPEN CODE PREVIEW IN NEW TAB
+    ============================================================ */
+
+    window.openCodePreviewNewTab =
+      function() {
+
+        const code =
+          document
+            .getElementById(
+              'codeInput'
+            )
+            .value;
+
+
+        if (!code.trim()) {
+
+          alert(
+            'Run some code first.'
+          );
+
+          return;
+
+        }
+
+
+        const language =
+          document
+            .getElementById(
+              'codeLanguage'
+            )
+            .value;
+
+
+        let output =
+          code;
+
+
+        /*
+          JavaScript
+        */
+
+        if (
+          language === 'javascript'
+        ) {
+
+          output = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+</head>
+
+<body>
+
+<div id="output"></div>
+
+<script>
+
+try {
+
+${code}
+
+}
+
+catch(error) {
+
+  document.body.innerHTML +=
+    '<pre style="color:red;">' +
+    String(error) +
+    '</pre>';
+
+}
+
+<\/script>
+
+</body>
+
+</html>
+
+`;
+
+        }
+
+
+        /*
+          Embed
+        */
+
+        else if (
+          language === 'embed'
+        ) {
+
+          output = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<style>
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  overflow: auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${code}
+
+</body>
+
+</html>
+
+`;
+
+        }
+
+
+        /*
+          Plain text
+        */
+
+        else if (
+          language === 'text'
+        ) {
+
+          output = `
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+<pre style="
+white-space:pre-wrap;
+font-family:Arial,sans-serif;
+padding:25px;
+">${escapeCodeRunnerHtml(code)}</pre>
+
+</body>
+
+</html>
+
+`;
+
+        }
+
+
+        const newWindow =
+          window.open(
+            '',
+            '_blank'
+          );
+
+
+        if (!newWindow) {
+
+          alert(
+            'Your browser blocked the new tab. Please allow pop-ups for My Lifeline.'
+          );
+
+          return;
+
+        }
+
+
+        newWindow.document.open();
+
+        newWindow.document.write(
+          output
+        );
+
+        newWindow.document.close();
+
+      };
+
+
+    /* ============================================================
+       INITIALIZE SAVED CONTENT
+    ============================================================ */
 
     if (
       localStorage.getItem(
@@ -2179,30 +3749,38 @@
 
       renderCustomVideos();
 
+      renderSavedCode();
+
     }
 
 
-    /*
-      Allow Enter key in login fields.
-    */
+    /* ============================================================
+       LOGIN ENTER KEY
+    ============================================================ */
 
     document
-      .getElementById('password')
+      .getElementById(
+        'password'
+      )
       .addEventListener(
         'keydown',
         function(event) {
 
-          if (event.key === 'Enter') {
+          if (
+            event.key === 'Enter'
+          ) {
+
             checkLogin();
+
           }
 
         }
       );
 
 
-    /*
-      Escape closes the browser overlay.
-    */
+    /* ============================================================
+       ESCAPE CLOSES BROWSER
+    ============================================================ */
 
     document.addEventListener(
       'keydown',
@@ -2211,7 +3789,9 @@
         if (
           event.key === 'Escape' &&
           document
-            .getElementById('browser-screen')
+            .getElementById(
+              'browser-screen'
+            )
             .style.display === 'flex'
         ) {
 
@@ -2222,7 +3802,10 @@
       }
     );
 
+
   </script>
 
 </body>
+
 </html>
+```
